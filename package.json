@@ -1,0 +1,27 @@
+{
+  "name": "oraculo-v",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "scrapers/main.js",
+  "scripts": {
+    "start": "node scrapers/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodolphoborges/oraculo-v.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rodolphoborges/oraculo-v/issues"
+  },
+  "homepage": "https://github.com/rodolphoborges/oraculo-v#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.99.3",
+    "dotenv": "^17.3.1",
+    "puppeteer": "^24.40.0"
+  }
+}
