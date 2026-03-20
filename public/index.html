@@ -3,83 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORÁCULO V // AGENT INTELLIGENCE</title>
+    <title>ORACULO-V // TERMINAL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="bg-layer"></div>
-    <div class="scanline"></div>
-    
-    <div class="container">
+    <div class="terminal">
+        <div class="scanline"></div>
         <header>
-            <div class="header-main">
-                <span class="prefix">PROTOCOL // 05</span>
-                <h1>ORÁCULO <span class="highlight">V.</span></h1>
+            <pre class="ascii-logo">
+  _    _  _    _  _      
+ | |  | || |  | || |     
+ | |__| || |__| || |     
+ |  __  ||  __  || |     
+ | |  | || |  | || |____ 
+ |_|  |_||_|  |_||______|
+            </pre>
+            <div class="sys-info">
+                [ KINGDOM_PROTOCOL_v4.5.1 // ACTIVE ]<br>
+                [ REMOTE_API: TRACKER.GG_SECURE_LINK ]<br>
+                [ ENGINE: ORACULO-V_DEEPMIND_CORE ]
             </div>
-            <div class="header-divider"></div>
-            <p class="subtitle">VALORANT META ANALYSIS ENGINE</p>
+            <h1 class="val-header">PROTOCOL // <span class="highlight">ORACULO-V</span> <span class="blink">_</span></h1>
         </header>
 
-        <main>
-            <section class="search-box">
-                <div class="section-tag">// INPUT_DATA .</div>
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <label>PLAYER_TAG</label>
-                        <input type="text" id="playerTag" placeholder="OUSADIA#013" value="OUSADIA#013">
-                    </div>
-                    <div class="input-wrapper">
-                        <label>MATCH_ID</label>
-                        <input type="text" id="matchId" placeholder="UUID_CODE" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
-                    </div>
-                    <button id="analyzeBtn" class="val-btn">SCANNER PARTIDA</button>
-                </div>
-            </section>
-
-            <section id="loading" class="hidden">
-                <div class="loading-box">
-                    <div class="loader"></div>
-                    <p>ANALISANDO REGISTROS NO TRACKER-GG...</p>
-                </div>
-            </section>
-
-            <div id="results" class="hidden">
-                <div class="section-tag">// MATCH_OVERVIEW .</div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <label>AGENT // AGENTE</label>
-                        <div id="resAgent" class="value">--</div>
-                    </div>
-                    <div class="stat-card">
-                        <label>MAP // MAPA</label>
-                        <div id="resMap" class="value">--</div>
-                    </div>
-                    <div class="stat-card highlight-card">
-                        <label>PERFORMANCE VS META</label>
-                        <div id="resPerformance" class="value">--</div>
-                        <div id="resKdDetail" class="detail">K/D: 0 | Meta: 0</div>
-                    </div>
-                    <div class="stat-card">
-                        <label>COMBAT_STATS</label>
-                        <div id="resCombat" class="value">--</div>
-                    </div>
-                </div>
-
-                <div class="timeline-container">
-                    <div class="section-tag">// ROUND_BY_ROUND_SUMMARY .</div>
-                    <div id="roundTimeline" class="timeline"></div>
-                </div>
+        <section class="cmd-input">
+            <div class="input-line">
+                <span class="prompt">TAG@ORACULO:></span>
+                <input type="text" id="playerTag" placeholder="PLAYER#000" value="OUSADIA#013">
             </div>
-        </main>
+            <div class="input-line">
+                <span class="prompt">ID@ORACULO:></span>
+                <input type="text" id="matchId" placeholder="UUID_MATCH" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
+            </div>
+            <button id="analyzeBtn" class="terminal-btn">--RUN_EXECUTION--</button>
+        </section>
+
+        <div id="loading" class="hidden">
+            <p>> [ BUSCANDO DADOS REMOTOS... ]</p>
+            <p>> [ PROCESSANDO ARQUITETURA DA PARTIDA... ]</p>
+        </div>
+
+        <div id="results" class="hidden">
+            <div class="divider">============================================================</div>
+            <div class="output-header">MATCH ANALYSIS COMPLETED</div>
+            <div class="divider">============================================================</div>
+            
+            <div class="stats-output">
+                AGENT: <span id="resAgent">--</span><br>
+                MAP  : <span id="resMap">--</span><br>
+                META : <span id="resPerformance">--</span> (<span id="resKdDetail">--</span>)<br>
+                KPI  : <span id="resCombat">--</span>
+            </div>
+
+            <div class="divider">------------------------------------------------------------</div>
+            <div class="output-header">ROUND_LOGS_STREAM</div>
+            <div class="divider">------------------------------------------------------------</div>
+            
+            <div id="roundTimeline" class="timeline"></div>
+            
+            <div class="divider">============================================================</div>
+        </div>
 
         <footer>
-            <div class="footer-content">
-                <p>BASE_DATA: TRACKER.GG API // AI_LOGIC: DEEPMIND ANTIGRAVITY</p>
-                <p class="copyright">&copy; 2026 ORÁCULO V. ALL RIGHTS RESERVED.</p>
-            </div>
+            [ (C) 2026 DEEPMIND ANTIGRAVITY // NO_USER_INTERFACE_MODE_ENABLED ]
         </footer>
     </div>
 

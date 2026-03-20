@@ -6,7 +6,7 @@
   "adr": 68.8,
   "kd": 0.75,
   "meta_kd": 1.0,
-  "performance_vs_meta": "Abaixo da m�dia (75.0%)",
+  "performance_vs_meta": "Abaixo da média (75.0%)",
   "rounds": [
     {
       "round": 1,
@@ -21,7 +21,7 @@
       "score": 223,
       "kills": 1,
       "deaths": 1,
-      "pos": "Abate importante para abertura de espa�o.",
+      "pos": "Abate importante para abertura de espaço.",
       "neg": ""
     },
     {
@@ -29,7 +29,7 @@
       "score": 488,
       "kills": 2,
       "deaths": 0,
-      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
+      "pos": "Multi-kill (2 abates) garantindo vantagem numérica.",
       "neg": ""
     },
     {
@@ -54,7 +54,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     },
     {
       "round": 7,
@@ -62,7 +62,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     },
     {
       "round": 8,
@@ -70,7 +70,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     },
     {
       "round": 9,
@@ -78,7 +78,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     },
     {
       "round": 10,
@@ -86,7 +86,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     },
     {
       "round": 11,
@@ -94,7 +94,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     },
     {
       "round": 12,
@@ -102,7 +102,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     },
     {
       "round": 13,
@@ -110,7 +110,7 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "Baixa participação direta no round."
     }
   ]
 }
