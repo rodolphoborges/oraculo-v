@@ -1,201 +1,928 @@
 {
   "player": "mwzeraDaShopee#s2s2",
-  "agent": "Jett",
-  "map": "Fracture",
-  "acs": 282.1904761904762,
-  "adr": 189.85714285714286,
-  "kd": 1.4666666666666666,
-  "meta_kd": 1.0,
-  "performance_vs_meta": "ACIMA DA MÉDIA (146.7%)",
+  "agent": "Astra",
+  "map": "Haven",
+  "map_details": {
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2bee0dc9-4ffe-519b-1cbd-7fbe763a6047/displayicon.png",
+    "yMultiplier": -7.5e-05,
+    "xMultiplier": 7.5e-05,
+    "yScalarToAdd": 0.642728,
+    "xScalarToAdd": 1.09345
+  },
+  "acs": 244.41666666666666,
+  "adr": 148.25,
+  "kd": 1.4375,
+  "meta_kd": 1.03,
+  "performance_index": 139.6,
+  "performance_status": "ABOVE_BASELINE",
   "rounds": [
     {
       "round": 1,
-      "score": 530,
-      "kills": 2,
-      "deaths": 1,
-      "pos": "ECO FRAG",
-      "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 700)."
+      "pos": "Superioridade mecânica com Classic vs Killjoy (ASTRA).",
+      "neg": null,
+      "explanation": "Abate chave contra Chamber (Classic) aos 0:45. // Abate chave contra Killjoy (Classic) aos 1:16. // Abate realizado com equipamento inferior (Investimento: 150).",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "LiLo#LoL",
+          "killer_agent": "Astra",
+          "victim_agent": "Chamber",
+          "weapon": "Classic",
+          "time": "0:45",
+          "damage": 100,
+          "killer_pos": {
+            "x": -1342,
+            "y": -9264
+          },
+          "victim_pos": null,
+          "killer_radians": 2.2474737,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "BuiZin D CB300f#BR2",
+          "killer_agent": "Astra",
+          "victim_agent": "Killjoy",
+          "weapon": "Classic",
+          "time": "1:16",
+          "damage": 108,
+          "killer_pos": {
+            "x": -2573,
+            "y": -9566
+          },
+          "victim_pos": null,
+          "killer_radians": 1.814891,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 2,
-      "score": 733,
-      "kills": 3,
-      "deaths": 0,
-      "pos": "MULTI-KILL (3 ABATES)",
-      "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 3 TRADES EFICIENTES."
+      "pos": "Interrupção de avanço inimigo aos 1:01 com Bulldog (ASTRA).",
+      "neg": null,
+      "explanation": "Abate chave contra Tejo (Bulldog) aos 0:53. // Abate chave contra Phoenix (Bulldog) aos 1:01.",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "hunterXLP#HxH",
+          "killer_agent": "Astra",
+          "victim_agent": "Tejo",
+          "weapon": "Bulldog",
+          "time": "0:53",
+          "damage": 150,
+          "killer_pos": {
+            "x": 5714,
+            "y": -9121
+          },
+          "victim_pos": null,
+          "killer_radians": 0.5442756,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "fabbdias#9081",
+          "killer_agent": "Astra",
+          "victim_agent": "Phoenix",
+          "weapon": "Bulldog",
+          "time": "1:01",
+          "damage": 216,
+          "killer_pos": {
+            "x": 5276,
+            "y": -8898
+          },
+          "victim_pos": null,
+          "killer_radians": 5.531247,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 3,
-      "score": 1083,
-      "kills": 4,
-      "deaths": 0,
-      "pos": "MULTI-KILL (4 ABATES)",
-      "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 4 TRADES EFICIENTES."
+      "pos": "Domínio de espaço com Bomb contra Astra (ASTRA).",
+      "neg": null,
+      "explanation": "Abate chave contra Phoenix (Outlaw) aos 1:03. // Abate chave contra Astra (Bomb) aos 1:06.",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "fabbdias#9081",
+          "killer_agent": "Astra",
+          "victim_agent": "Phoenix",
+          "weapon": "Outlaw",
+          "time": "1:03",
+          "damage": 280,
+          "killer_pos": {
+            "x": 5497,
+            "y": -10736
+          },
+          "victim_pos": null,
+          "killer_radians": 1.4765524,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Astra",
+          "victim_agent": "Astra",
+          "weapon": "Bomb",
+          "time": "1:06",
+          "damage": 1054,
+          "killer_pos": null,
+          "victim_pos": null,
+          "killer_radians": 0,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 4,
-      "score": 405,
-      "kills": 1,
-      "deaths": 1,
-      "pos": "ABATE CRÍTICO",
-      "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+      "pos": null,
+      "neg": "Neutralizado por Tejo (Vandal) em momento desfavorável aos 1:26 (ASTRA).",
+      "explanation": "Neutralizado por Tejo (Vandal) aos 1:26.",
+      "tactical_events": [
+        {
+          "killer": "hunterXLP#HxH",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Tejo",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "1:26",
+          "damage": 160,
+          "killer_pos": {
+            "x": -704,
+            "y": -8274
+          },
+          "victim_pos": null,
+          "killer_radians": 3.1570284,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 5,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "pos": "Eliminação crucial de Tejo com Bucky aos 0:27 (ASTRA).",
+      "neg": null,
+      "explanation": "Abate chave contra Tejo (Bucky) aos 0:27. // Abate realizado com equipamento inferior (Investimento: 1400).",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "hunterXLP#HxH",
+          "killer_agent": "Astra",
+          "victim_agent": "Tejo",
+          "weapon": "Bucky",
+          "time": "0:27",
+          "damage": 165,
+          "killer_pos": {
+            "x": 1744,
+            "y": -9930
+          },
+          "victim_pos": null,
+          "killer_radians": 2.7724786,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 6,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "pos": "Domínio de espaço com Vandal contra Phoenix (ASTRA).",
+      "neg": "Eliminação isolada aos 1:05 sem apoio próximo (ASTRA).",
+      "explanation": "Neutralizado por Killjoy (Marshal) aos 1:05. // Abate chave contra Phoenix (Vandal) aos 0:58.",
+      "tactical_events": [
+        {
+          "killer": "BuiZin D CB300f#BR2",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Killjoy",
+          "victim_agent": "Astra",
+          "weapon": "Marshal",
+          "time": "1:05",
+          "damage": 202,
+          "killer_pos": {
+            "x": -3143,
+            "y": -8059
+          },
+          "victim_pos": null,
+          "killer_radians": 6.2133894,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "fabbdias#9081",
+          "killer_agent": "Astra",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "0:58",
+          "damage": 160,
+          "killer_pos": {
+            "x": 1227,
+            "y": -9713
+          },
+          "victim_pos": null,
+          "killer_radians": 3.052526,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 7,
-      "score": 458,
-      "kills": 2,
-      "deaths": 1,
-      "pos": "ECO FRAG",
-      "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1800)."
+      "pos": "Domínio de espaço com Vandal contra Tejo (ASTRA).",
+      "neg": "Pego fora de posição em área disputada aos 1:22 (ASTRA).",
+      "explanation": "Neutralizado por Phoenix (Vandal) aos 1:22. // Abate chave contra Killjoy (Vandal) aos 1:10. // Abate chave contra Tejo (Vandal) aos 1:14.",
+      "tactical_events": [
+        {
+          "killer": "fabbdias#9081",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "1:22",
+          "damage": 182,
+          "killer_pos": {
+            "x": 4557,
+            "y": -9694
+          },
+          "victim_pos": null,
+          "killer_radians": 2.8432333,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "BuiZin D CB300f#BR2",
+          "killer_agent": "Astra",
+          "victim_agent": "Killjoy",
+          "weapon": "Vandal",
+          "time": "1:10",
+          "damage": 200,
+          "killer_pos": {
+            "x": 1142,
+            "y": -8824
+          },
+          "victim_pos": null,
+          "killer_radians": 0.77609843,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "hunterXLP#HxH",
+          "killer_agent": "Astra",
+          "victim_agent": "Tejo",
+          "weapon": "Vandal",
+          "time": "1:14",
+          "damage": 180,
+          "killer_pos": {
+            "x": 1197,
+            "y": -8482
+          },
+          "victim_pos": null,
+          "killer_radians": 5.890678,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 8,
-      "score": 260,
-      "kills": 1,
-      "deaths": 0,
-      "pos": "ABATE CRÍTICO",
-      "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+      "pos": null,
+      "neg": "Derrota em duelo direto contra Raze (Dano: 160 // ASTRA).",
+      "explanation": "Neutralizado por Raze (Vandal) aos 0:25. // Eliminado sem causar impacto significativo (0 de dano).",
+      "tactical_events": [
+        {
+          "killer": "F3L1X S2#1313",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Raze",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "0:25",
+          "damage": 160,
+          "killer_pos": {
+            "x": -1646,
+            "y": -8854
+          },
+          "victim_pos": null,
+          "killer_radians": 4.9719195,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 9,
-      "score": 40,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (40 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "pos": "Eliminação crucial de Tejo com Phantom aos 0:42 (ASTRA).",
+      "neg": "Neutralizado por Phoenix (Vandal) em momento desfavorável aos 1:47 (ASTRA).",
+      "explanation": "Neutralizado por Phoenix (Vandal) aos 1:47. // Abate chave contra Chamber (Phantom) aos 0:05. // Abate chave contra Tejo (Phantom) aos 0:42.",
+      "tactical_events": [
+        {
+          "killer": "fabbdias#9081",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "1:47",
+          "damage": 193,
+          "killer_pos": {
+            "x": -3581,
+            "y": -9509
+          },
+          "victim_pos": null,
+          "killer_radians": 5.9265347,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "LiLo#LoL",
+          "killer_agent": "Astra",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:05",
+          "damage": 163,
+          "killer_pos": {
+            "x": 3781,
+            "y": -8275
+          },
+          "victim_pos": null,
+          "killer_radians": 1.7901555,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "hunterXLP#HxH",
+          "killer_agent": "Astra",
+          "victim_agent": "Tejo",
+          "weapon": "Phantom",
+          "time": "0:42",
+          "damage": 167,
+          "killer_pos": {
+            "x": 7010,
+            "y": -8551
+          },
+          "victim_pos": null,
+          "killer_radians": 2.0052006,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 10,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "pos": "Abate de abertura decisivo contra Raze aos 0:22 (ASTRA).",
+      "neg": "Eliminação isolada aos 0:31 sem apoio próximo (ASTRA).",
+      "explanation": "Neutralizado por Phoenix (Operator) aos 0:31. // Abate chave contra Raze (Bucky) aos 0:22. // Abate realizado com equipamento inferior (Investimento: 1250).",
+      "tactical_events": [
+        {
+          "killer": "fabbdias#9081",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Astra",
+          "weapon": "Operator",
+          "time": "0:31",
+          "damage": 190,
+          "killer_pos": {
+            "x": 3306,
+            "y": -8316
+          },
+          "victim_pos": null,
+          "killer_radians": 0.07660317,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "F3L1X S2#1313",
+          "killer_agent": "Astra",
+          "victim_agent": "Raze",
+          "weapon": "Bucky",
+          "time": "0:22",
+          "damage": 160,
+          "killer_pos": {
+            "x": 5560,
+            "y": -8681
+          },
+          "victim_pos": null,
+          "killer_radians": 5.9505033,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 11,
-      "score": 400,
-      "kills": 1,
-      "deaths": 1,
-      "pos": "ABATE CRÍTICO",
-      "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+      "pos": null,
+      "neg": "Neutralizado por Tejo (Guided Salvo) em momento desfavorável aos 1:24 (ASTRA).",
+      "explanation": "Neutralizado por Tejo (Guided Salvo) aos 1:24.",
+      "tactical_events": [
+        {
+          "killer": "hunterXLP#HxH",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Tejo",
+          "victim_agent": "Astra",
+          "weapon": "Guided Salvo",
+          "time": "1:24",
+          "damage": 160,
+          "killer_pos": {
+            "x": -1257,
+            "y": -5657
+          },
+          "victim_pos": null,
+          "killer_radians": 3.3766751,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 12,
-      "score": 447,
-      "kills": 2,
-      "deaths": 0,
-      "pos": "MULTI-KILL (2 ABATES)",
-      "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
+      "pos": "Eliminação crucial de Tejo com Vandal aos 1:41 (ASTRA).",
+      "neg": null,
+      "explanation": "Abate chave contra Tejo (Vandal) aos 1:41. // Abate realizado com equipamento inferior (Investimento: 2250).",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "hunterXLP#HxH",
+          "killer_agent": "Astra",
+          "victim_agent": "Tejo",
+          "weapon": "Vandal",
+          "time": "1:41",
+          "damage": 165,
+          "killer_pos": {
+            "x": 4074,
+            "y": -11031
+          },
+          "victim_pos": null,
+          "killer_radians": 0.42577553,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 13,
-      "score": 243,
-      "kills": 1,
-      "deaths": 1,
-      "pos": "ECO FRAG",
-      "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 800)."
+      "pos": null,
+      "neg": "Derrota em duelo direto contra Killjoy (Dano: 104 // ASTRA).",
+      "explanation": "Neutralizado por Killjoy (Classic) aos 0:28. // Eliminado sem causar impacto significativo (0 de dano).",
+      "tactical_events": [
+        {
+          "killer": "BuiZin D CB300f#BR2",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Killjoy",
+          "victim_agent": "Astra",
+          "weapon": "Classic",
+          "time": "0:28",
+          "damage": 104,
+          "killer_pos": {
+            "x": -1142,
+            "y": -9361
+          },
+          "victim_pos": null,
+          "killer_radians": 2.5302055,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 14,
-      "score": 30,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (30 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "pos": null,
+      "neg": "Derrota em duelo direto contra Tejo (Dano: 104 // ASTRA).",
+      "explanation": "Neutralizado por Tejo (Spectre) aos 0:17.",
+      "tactical_events": [
+        {
+          "killer": "hunterXLP#HxH",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Tejo",
+          "victim_agent": "Astra",
+          "weapon": "Spectre",
+          "time": "0:17",
+          "damage": 104,
+          "killer_pos": {
+            "x": -1454,
+            "y": -8244
+          },
+          "victim_pos": null,
+          "killer_radians": 6.161809,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 15,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "pos": "Abate de abertura decisivo contra Phoenix aos 0:17 (ASTRA).",
+      "neg": "Pego fora de posição em área disputada aos 0:50 (ASTRA).",
+      "explanation": "Neutralizado por Killjoy (Outlaw) aos 0:50. // Abate chave contra Phoenix (Phantom) aos 0:17. // Executou a instalação da Spike sob pressão.",
+      "tactical_events": [
+        {
+          "killer": "BuiZin D CB300f#BR2",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Killjoy",
+          "victim_agent": "Astra",
+          "weapon": "Outlaw",
+          "time": "0:50",
+          "damage": 280,
+          "killer_pos": {
+            "x": 6990,
+            "y": -10475
+          },
+          "victim_pos": null,
+          "killer_radians": 2.1831422,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "fabbdias#9081",
+          "killer_agent": "Astra",
+          "victim_agent": "Phoenix",
+          "weapon": "Phantom",
+          "time": "0:17",
+          "damage": 195,
+          "killer_pos": {
+            "x": 4419,
+            "y": -8036
+          },
+          "victim_pos": null,
+          "killer_radians": 6.080604,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 16,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "BAIXA PRESENÇA",
-      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND."
+      "pos": "Abate de abertura decisivo contra Chamber aos 0:28 (ASTRA).",
+      "neg": null,
+      "explanation": "Abate chave contra Chamber (Bulldog) aos 0:28.",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "LiLo#LoL",
+          "killer_agent": "Astra",
+          "victim_agent": "Chamber",
+          "weapon": "Bulldog",
+          "time": "0:28",
+          "damage": 165,
+          "killer_pos": {
+            "x": 1897,
+            "y": -7855
+          },
+          "victim_pos": null,
+          "killer_radians": 4.182207,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 17,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "pos": null,
+      "neg": "Pego fora de posição em área disputada aos 0:41 (ASTRA).",
+      "explanation": "Neutralizado por Chamber (Vandal) aos 0:41. // Eliminado sem causar impacto significativo (40 de dano).",
+      "tactical_events": [
+        {
+          "killer": "LiLo#LoL",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Chamber",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "0:41",
+          "damage": 160,
+          "killer_pos": {
+            "x": 6589,
+            "y": -7072
+          },
+          "victim_pos": null,
+          "killer_radians": 4.758792,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 18,
-      "score": 478,
-      "kills": 2,
-      "deaths": 0,
-      "pos": "MULTI-KILL (2 ABATES)",
-      "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
+      "pos": null,
+      "neg": "Eliminação isolada aos 0:07 sem apoio próximo (ASTRA).",
+      "explanation": "Neutralizado por Phoenix (Vandal) aos 0:07.",
+      "tactical_events": [
+        {
+          "killer": "fabbdias#9081",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "0:07",
+          "damage": 160,
+          "killer_pos": {
+            "x": -167,
+            "y": -6799
+          },
+          "victim_pos": null,
+          "killer_radians": 0.8811761,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 19,
-      "score": 270,
-      "kills": 1,
-      "deaths": 1,
-      "pos": "ABATE CRÍTICO",
-      "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+      "pos": "Superioridade mecânica com Vandal vs Chamber (ASTRA).",
+      "neg": "Dificuldade em conter Phoenix (Vandal) aos 1:01 (ASTRA).",
+      "explanation": "Neutralizado por Phoenix (Vandal) aos 1:01. // Abate chave contra Raze (Stinger) aos 0:36. // Abate chave contra Tejo (Vandal) aos 0:43. // Abate chave contra Chamber (Vandal) aos 0:44. // Abate realizado com equipamento inferior (Investimento: 2250).",
+      "tactical_events": [
+        {
+          "killer": "fabbdias#9081",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "1:01",
+          "damage": 200,
+          "killer_pos": {
+            "x": -3381,
+            "y": -9339
+          },
+          "victim_pos": null,
+          "killer_radians": 0.8885584,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "F3L1X S2#1313",
+          "killer_agent": "Astra",
+          "victim_agent": "Raze",
+          "weapon": "Stinger",
+          "time": "0:36",
+          "damage": 151,
+          "killer_pos": {
+            "x": -1885,
+            "y": -5249
+          },
+          "victim_pos": null,
+          "killer_radians": 0.6240426,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "hunterXLP#HxH",
+          "killer_agent": "Astra",
+          "victim_agent": "Tejo",
+          "weapon": "Vandal",
+          "time": "0:43",
+          "damage": 238,
+          "killer_pos": {
+            "x": -955,
+            "y": -5048
+          },
+          "victim_pos": null,
+          "killer_radians": 3.5387979,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "LiLo#LoL",
+          "killer_agent": "Astra",
+          "victim_agent": "Chamber",
+          "weapon": "Vandal",
+          "time": "0:44",
+          "damage": 160,
+          "killer_pos": {
+            "x": -955,
+            "y": -5048
+          },
+          "victim_pos": null,
+          "killer_radians": 3.3987262,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 20,
-      "score": 255,
-      "kills": 1,
-      "deaths": 1,
-      "pos": "ABATE CRÍTICO",
-      "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+      "pos": "Abate de abertura decisivo contra Phoenix aos 0:36 (ASTRA).",
+      "neg": "Dificuldade em conter Tejo (Odin) aos 1:32 (ASTRA).",
+      "explanation": "Abate chave contra Phoenix (Vandal) aos 0:36. // Neutralizado por Tejo (Odin) aos 1:32. // Executou a instalação da Spike sob pressão.",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "fabbdias#9081",
+          "killer_agent": "Astra",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "0:36",
+          "damage": 151,
+          "killer_pos": {
+            "x": 6864,
+            "y": -8659
+          },
+          "victim_pos": null,
+          "killer_radians": 4.645469,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "hunterXLP#HxH",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Tejo",
+          "victim_agent": "Astra",
+          "weapon": "Odin",
+          "time": "1:32",
+          "damage": 164,
+          "killer_pos": {
+            "x": 1576,
+            "y": -9057
+          },
+          "victim_pos": null,
+          "killer_radians": 1.4475985,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 21,
-      "score": 294,
-      "kills": 1,
-      "deaths": 1,
-      "pos": "ABATE CRÍTICO",
-      "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+      "pos": "INSTALADOR DA SPIKE",
+      "neg": null,
+      "explanation": "Executou a instalação da Spike sob pressão.",
+      "tactical_events": []
+    },
+    {
+      "round": 22,
+      "pos": "Interrupção de avanço inimigo aos 0:42 com Vandal (ASTRA).",
+      "neg": null,
+      "explanation": "Abate chave contra Tejo (Vandal) aos 0:13. // Abate chave contra Chamber (Vandal) aos 0:26. // Abate chave contra Raze (Vandal) aos 0:42.",
+      "tactical_events": [
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "hunterXLP#HxH",
+          "killer_agent": "Astra",
+          "victim_agent": "Tejo",
+          "weapon": "Vandal",
+          "time": "0:13",
+          "damage": 160,
+          "killer_pos": {
+            "x": 376,
+            "y": -7664
+          },
+          "victim_pos": null,
+          "killer_radians": 3.7213416,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "LiLo#LoL",
+          "killer_agent": "Astra",
+          "victim_agent": "Chamber",
+          "weapon": "Vandal",
+          "time": "0:26",
+          "damage": 160,
+          "killer_pos": {
+            "x": -278,
+            "y": -7347
+          },
+          "victim_pos": null,
+          "killer_radians": 4.8807435,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "F3L1X S2#1313",
+          "killer_agent": "Astra",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "0:42",
+          "damage": 160,
+          "killer_pos": {
+            "x": 102,
+            "y": -6111
+          },
+          "victim_pos": null,
+          "killer_radians": 5.77956,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 23,
+      "pos": "Superioridade mecânica com Vandal vs Raze (ASTRA).",
+      "neg": "Derrota em duelo direto contra Chamber (Dano: 160 // ASTRA).",
+      "explanation": "Neutralizado por Chamber (Vandal) aos 1:29. // Abate chave contra Raze (Vandal) aos 1:29.",
+      "tactical_events": [
+        {
+          "killer": "LiLo#LoL",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Chamber",
+          "victim_agent": "Astra",
+          "weapon": "Vandal",
+          "time": "1:29",
+          "damage": 160,
+          "killer_pos": {
+            "x": 6798,
+            "y": -9030
+          },
+          "victim_pos": null,
+          "killer_radians": 1.6500839,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "mwzeraDaShopee#s2s2",
+          "victim": "F3L1X S2#1313",
+          "killer_agent": "Astra",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "1:29",
+          "damage": 216,
+          "killer_pos": {
+            "x": 6617,
+            "y": -6966
+          },
+          "victim_pos": null,
+          "killer_radians": 4.7631063,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 24,
+      "pos": null,
+      "neg": "Pego fora de posição em área disputada aos 0:41 (ASTRA).",
+      "explanation": "Neutralizado por Tejo (Armageddon) aos 0:41. // Eliminado sem causar impacto significativo (0 de dano).",
+      "tactical_events": [
+        {
+          "killer": "hunterXLP#HxH",
+          "victim": "mwzeraDaShopee#s2s2",
+          "killer_agent": "Tejo",
+          "victim_agent": "Astra",
+          "weapon": "Armageddon",
+          "time": "0:41",
+          "damage": 180,
+          "killer_pos": {
+            "x": -2382,
+            "y": -8432
+          },
+          "victim_pos": null,
+          "killer_radians": 1.752669,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     }
   ]
 }
