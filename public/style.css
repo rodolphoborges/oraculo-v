@@ -181,18 +181,27 @@ input {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    opacity: 0.4;
-    filter: grayscale(1) brightness(0.8) contrast(1.2) invert(0.1);
+    opacity: 0.6;
+    filter: grayscale(0.5) brightness(0.9) contrast(1.3) invert(0.1);
 }
 
 .map-point {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px currentColor;
+    box-shadow: 0 0 15px currentColor;
     z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.map-point.player {
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 0 20px currentColor, 0 0 30px rgba(0, 255, 65, 0.4);
+    z-index: 20;
+    animation: pulse 1.5s infinite;
 }
 
 .map-point.killer { background-color: var(--term-green); color: var(--term-green); }

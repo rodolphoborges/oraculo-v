@@ -1,0 +1,759 @@
+{
+  "player": "m4sna#chama",
+  "agent": "Raze",
+  "map": "Bind",
+  "map_details": {
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2c9d57ec-4431-9c5e-2939-8f9ef6dd5cba/displayicon.png",
+    "yMultiplier": -5.9e-05,
+    "xMultiplier": 5.9e-05,
+    "yScalarToAdd": 0.967566,
+    "xScalarToAdd": 0.576941
+  },
+  "acs": 248.3913043478261,
+  "adr": 170.2608695652174,
+  "kd": 1.5833333333333333,
+  "meta_kd": 1.04,
+  "performance_index": 152.2,
+  "performance_status": "ABOVE_BASELINE",
+  "rounds": [
+    {
+      "round": 1,
+      "pos": null,
+      "neg": "Neutralizado por Clove (Ghost) em momento desfavorável aos 0:19 (RAZE).",
+      "explanation": "Neutralizado por Clove (Ghost) aos 0:19.",
+      "tactical_events": [
+        {
+          "killer": "Vrontz#Ten",
+          "victim": "m4sna#chama",
+          "killer_agent": "Clove",
+          "victim_agent": "Raze",
+          "weapon": "Ghost",
+          "time": "0:19",
+          "damage": 120,
+          "killer_pos": {
+            "x": 9040,
+            "y": 3171
+          },
+          "victim_pos": null,
+          "killer_radians": 0.061934475,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "pos": null,
+      "neg": "Dificuldade em conter Clove (Spectre) aos 0:35 (RAZE).",
+      "explanation": "Neutralizado por Clove (Spectre) aos 0:35.",
+      "tactical_events": [
+        {
+          "killer": "Vrontz#Ten",
+          "victim": "m4sna#chama",
+          "killer_agent": "Clove",
+          "victim_agent": "Raze",
+          "weapon": "Spectre",
+          "time": "0:35",
+          "damage": 108,
+          "killer_pos": {
+            "x": 11360,
+            "y": -3969
+          },
+          "victim_pos": null,
+          "killer_radians": 5.0500565,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "pos": null,
+      "neg": "Neutralizado por Clove (Vandal) em momento desfavorável aos 0:32 (RAZE).",
+      "explanation": "Neutralizado por Clove (Vandal) aos 0:32. // Eliminado sem causar impacto significativo (35 de dano).",
+      "tactical_events": [
+        {
+          "killer": "Vrontz#Ten",
+          "victim": "m4sna#chama",
+          "killer_agent": "Clove",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "0:32",
+          "damage": 139,
+          "killer_pos": {
+            "x": 10646,
+            "y": 536
+          },
+          "victim_pos": null,
+          "killer_radians": 1.0691847,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "pos": "Superioridade mecânica com Judge vs Miks (RAZE).",
+      "neg": "Derrota em duelo direto contra Chamber (Dano: 240 // RAZE).",
+      "explanation": "Neutralizado por Chamber (Vandal) aos 0:10. // Abate chave contra Miks (Judge) aos 0:06.",
+      "tactical_events": [
+        {
+          "killer": "Tegoz0 Nakara#007",
+          "victim": "m4sna#chama",
+          "killer_agent": "Chamber",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "0:10",
+          "damage": 240,
+          "killer_pos": {
+            "x": 9057,
+            "y": -4004
+          },
+          "victim_pos": null,
+          "killer_radians": 3.3865502,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "ultrk V2#ukV2",
+          "killer_agent": "Raze",
+          "victim_agent": "Miks",
+          "weapon": "Judge",
+          "time": "0:06",
+          "damage": 153,
+          "killer_pos": {
+            "x": 8309,
+            "y": -4236
+          },
+          "victim_pos": null,
+          "killer_radians": 0.44993573,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "pos": null,
+      "neg": "Derrota em duelo direto contra Raze (Dano: 160 // RAZE).",
+      "explanation": "Neutralizado por Raze (Vandal) aos 0:40. // Eliminado sem causar impacto significativo (5 de dano).",
+      "tactical_events": [
+        {
+          "killer": "pdstz#1234",
+          "victim": "m4sna#chama",
+          "killer_agent": "Raze",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "0:40",
+          "damage": 160,
+          "killer_pos": {
+            "x": 11489,
+            "y": -3855
+          },
+          "victim_pos": null,
+          "killer_radians": 6.1713963,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "pos": null,
+      "neg": "Pego fora de posição em área disputada aos 0:09 (RAZE).",
+      "explanation": "Neutralizado por Raze (Vandal) aos 0:09.",
+      "tactical_events": [
+        {
+          "killer": "pdstz#1234",
+          "victim": "m4sna#chama",
+          "killer_agent": "Raze",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "0:09",
+          "damage": 200,
+          "killer_pos": {
+            "x": 10350,
+            "y": 2300
+          },
+          "victim_pos": null,
+          "killer_radians": 0.14227672,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "pos": "DESARMADOR DA SPIKE",
+      "neg": null,
+      "explanation": "Desarmou a Spike garantindo a vitória no round.",
+      "tactical_events": []
+    },
+    {
+      "round": 8,
+      "pos": null,
+      "neg": "Derrota em duelo direto contra Raze (Dano: 160 // RAZE).",
+      "explanation": "Neutralizado por Raze (Phantom) aos 0:13.",
+      "tactical_events": [
+        {
+          "killer": "pdstz#1234",
+          "victim": "m4sna#chama",
+          "killer_agent": "Raze",
+          "victim_agent": "Raze",
+          "weapon": "Phantom",
+          "time": "0:13",
+          "damage": 160,
+          "killer_pos": {
+            "x": 9379,
+            "y": -4063
+          },
+          "victim_pos": null,
+          "killer_radians": 5.6986427,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 9,
+      "pos": "Eliminação crucial de Chamber com Phantom aos 0:33 (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Miks (Phantom) aos 0:29. // Abate chave contra Chamber (Phantom) aos 0:33.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "ultrk V2#ukV2",
+          "killer_agent": "Raze",
+          "victim_agent": "Miks",
+          "weapon": "Phantom",
+          "time": "0:29",
+          "damage": 183,
+          "killer_pos": {
+            "x": 10493,
+            "y": -17
+          },
+          "victim_pos": null,
+          "killer_radians": 2.2241762,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:33",
+          "damage": 156,
+          "killer_pos": {
+            "x": 10416,
+            "y": 232
+          },
+          "victim_pos": null,
+          "killer_radians": 2.5360537,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 10,
+      "pos": "Eliminação crucial de Chamber com Phantom aos 0:45 (RAZE).",
+      "neg": "Eliminação isolada aos 0:46 sem apoio próximo (RAZE).",
+      "explanation": "Abate chave contra Chamber (Phantom) aos 0:45. // Neutralizado por Raze (Phantom) aos 0:46.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:45",
+          "damage": 210,
+          "killer_pos": {
+            "x": 11841,
+            "y": 564
+          },
+          "victim_pos": null,
+          "killer_radians": 1.8885221,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "pdstz#1234",
+          "victim": "m4sna#chama",
+          "killer_agent": "Raze",
+          "victim_agent": "Raze",
+          "weapon": "Phantom",
+          "time": "0:46",
+          "damage": 159,
+          "killer_pos": {
+            "x": 11368,
+            "y": 1613
+          },
+          "victim_pos": null,
+          "killer_radians": 5.1264677,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 11,
+      "pos": "Superioridade mecânica com Phantom vs Skye (RAZE).",
+      "neg": "Pego fora de posição em área disputada aos 1:17 (RAZE).",
+      "explanation": "Neutralizado por Clove (Vandal) aos 1:17. // Abate chave contra Raze (Phantom) aos 0:09. // Abate chave contra Chamber (Phantom) aos 0:33. // Abate chave contra Skye (Phantom) aos 1:06.",
+      "tactical_events": [
+        {
+          "killer": "Vrontz#Ten",
+          "victim": "m4sna#chama",
+          "killer_agent": "Clove",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "1:17",
+          "damage": 160,
+          "killer_pos": {
+            "x": 10928,
+            "y": -7090
+          },
+          "victim_pos": null,
+          "killer_radians": 1.5837393,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "pdstz#1234",
+          "killer_agent": "Raze",
+          "victim_agent": "Raze",
+          "weapon": "Phantom",
+          "time": "0:09",
+          "damage": 156,
+          "killer_pos": {
+            "x": 10794,
+            "y": 1490
+          },
+          "victim_pos": null,
+          "killer_radians": 3.3666084,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:33",
+          "damage": 179,
+          "killer_pos": {
+            "x": 11355,
+            "y": 1839
+          },
+          "victim_pos": null,
+          "killer_radians": 2.4550405,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "Pinguçu22#2222",
+          "killer_agent": "Raze",
+          "victim_agent": "Skye",
+          "weapon": "Phantom",
+          "time": "1:06",
+          "damage": 175,
+          "killer_pos": {
+            "x": 11389,
+            "y": -5714
+          },
+          "victim_pos": null,
+          "killer_radians": 1.7832527,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 12,
+      "pos": null,
+      "neg": "Eliminação isolada aos 0:23 sem apoio próximo (RAZE).",
+      "explanation": "Neutralizado por Miks (Vandal) aos 0:23.",
+      "tactical_events": [
+        {
+          "killer": "ultrk V2#ukV2",
+          "victim": "m4sna#chama",
+          "killer_agent": "Miks",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "0:23",
+          "damage": 160,
+          "killer_pos": {
+            "x": 11121,
+            "y": 3559
+          },
+          "victim_pos": null,
+          "killer_radians": 4.7020345,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 13,
+      "pos": "Eliminação crucial de Chamber com Shorty aos 0:45 (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Clove (Shorty) aos 0:10. // Abate chave contra Chamber (Shorty) aos 0:45. // Abate realizado com equipamento inferior (Investimento: 700).",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Vrontz#Ten",
+          "killer_agent": "Raze",
+          "victim_agent": "Clove",
+          "weapon": "Shorty",
+          "time": "0:10",
+          "damage": 108,
+          "killer_pos": {
+            "x": 10263,
+            "y": 91
+          },
+          "victim_pos": null,
+          "killer_radians": 6.1259522,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Shorty",
+          "time": "0:45",
+          "damage": 110,
+          "killer_pos": {
+            "x": 11150,
+            "y": 592
+          },
+          "victim_pos": null,
+          "killer_radians": 4.0027313,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "pos": "Interrupção de avanço inimigo aos 0:48 com Phantom (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Chamber (Phantom) aos 0:48. // Executou a instalação da Spike sob pressão.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:48",
+          "damage": 156,
+          "killer_pos": {
+            "x": 11542,
+            "y": 838
+          },
+          "victim_pos": null,
+          "killer_radians": 5.7352667,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 15,
+      "pos": "Superioridade mecânica com Phantom vs Skye (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Miks (Phantom) aos 0:08. // Abate chave contra Skye (Phantom) aos 0:58.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "ultrk V2#ukV2",
+          "killer_agent": "Raze",
+          "victim_agent": "Miks",
+          "weapon": "Phantom",
+          "time": "0:08",
+          "damage": 133,
+          "killer_pos": {
+            "x": 10016,
+            "y": 655
+          },
+          "victim_pos": null,
+          "killer_radians": 4.6602335,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "Pinguçu22#2222",
+          "killer_agent": "Raze",
+          "victim_agent": "Skye",
+          "weapon": "Phantom",
+          "time": "0:58",
+          "damage": 144,
+          "killer_pos": {
+            "x": 10149,
+            "y": 480
+          },
+          "victim_pos": null,
+          "killer_radians": 1.6595755,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 16,
+      "pos": "Interrupção de avanço inimigo aos 0:54 com Phantom (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Clove (Phantom) aos 0:47. // Abate chave contra Chamber (Phantom) aos 0:54.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Vrontz#Ten",
+          "killer_agent": "Raze",
+          "victim_agent": "Clove",
+          "weapon": "Phantom",
+          "time": "0:47",
+          "damage": 175,
+          "killer_pos": {
+            "x": 8613,
+            "y": -2991
+          },
+          "victim_pos": null,
+          "killer_radians": 3.1311424,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:54",
+          "damage": 156,
+          "killer_pos": {
+            "x": 8374,
+            "y": -3005
+          },
+          "victim_pos": null,
+          "killer_radians": 0.76862025,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 17,
+      "pos": null,
+      "neg": null,
+      "explanation": "Round de baixa atividade direta registrada.",
+      "tactical_events": []
+    },
+    {
+      "round": 18,
+      "pos": "Interrupção de avanço inimigo aos 0:37 com Phantom (RAZE).",
+      "neg": "Pego fora de posição em área disputada aos 1:05 (RAZE).",
+      "explanation": "Abate chave contra Chamber (Phantom) aos 0:37. // Neutralizado por Miks (Bandit) aos 1:05.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:37",
+          "damage": 207,
+          "killer_pos": {
+            "x": 8154,
+            "y": -2570
+          },
+          "victim_pos": null,
+          "killer_radians": 5.438058,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "ultrk V2#ukV2",
+          "victim": "m4sna#chama",
+          "killer_agent": "Miks",
+          "victim_agent": "Raze",
+          "weapon": "Bandit",
+          "time": "1:05",
+          "damage": 167,
+          "killer_pos": {
+            "x": 10519,
+            "y": -5464
+          },
+          "victim_pos": null,
+          "killer_radians": 1.8794141,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 19,
+      "pos": null,
+      "neg": "Pego fora de posição em área disputada aos 0:11 (RAZE).",
+      "explanation": "Neutralizado por Miks (Phantom) aos 0:11. // Eliminado sem causar impacto significativo (35 de dano).",
+      "tactical_events": [
+        {
+          "killer": "ultrk V2#ukV2",
+          "victim": "m4sna#chama",
+          "killer_agent": "Miks",
+          "victim_agent": "Raze",
+          "weapon": "Phantom",
+          "time": "0:11",
+          "damage": 280,
+          "killer_pos": {
+            "x": 10457,
+            "y": 526
+          },
+          "victim_pos": null,
+          "killer_radians": 3.0011375,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 20,
+      "pos": "Domínio de espaço com Phantom contra Clove (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Clove (Phantom) aos 0:58.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Vrontz#Ten",
+          "killer_agent": "Raze",
+          "victim_agent": "Clove",
+          "weapon": "Phantom",
+          "time": "0:58",
+          "damage": 262,
+          "killer_pos": {
+            "x": 10376,
+            "y": 264
+          },
+          "victim_pos": null,
+          "killer_radians": 1.9400064,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 21,
+      "pos": "Abate de abertura decisivo contra Chamber aos 0:29 (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Chamber (Phantom) aos 0:29.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Tegoz0 Nakara#007",
+          "killer_agent": "Raze",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:29",
+          "damage": 267,
+          "killer_pos": {
+            "x": 10628,
+            "y": -46
+          },
+          "victim_pos": null,
+          "killer_radians": 1.360545,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 22,
+      "pos": "Eliminação crucial de Clove com Phantom aos 1:02 (RAZE).",
+      "neg": null,
+      "explanation": "Abate chave contra Skye (Phantom) aos 0:48. // Abate chave contra Clove (Phantom) aos 1:02.",
+      "tactical_events": [
+        {
+          "killer": "m4sna#chama",
+          "victim": "Pinguçu22#2222",
+          "killer_agent": "Raze",
+          "victim_agent": "Skye",
+          "weapon": "Phantom",
+          "time": "0:48",
+          "damage": 140,
+          "killer_pos": {
+            "x": 7115,
+            "y": -6410
+          },
+          "victim_pos": null,
+          "killer_radians": 1.6023388,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "m4sna#chama",
+          "victim": "Vrontz#Ten",
+          "killer_agent": "Raze",
+          "victim_agent": "Clove",
+          "weapon": "Phantom",
+          "time": "1:02",
+          "damage": 189,
+          "killer_pos": {
+            "x": 9657,
+            "y": -5629
+          },
+          "victim_pos": null,
+          "killer_radians": 0.63065785,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 23,
+      "pos": null,
+      "neg": null,
+      "explanation": "Round de baixa atividade direta registrada.",
+      "tactical_events": []
+    }
+  ]
+}
