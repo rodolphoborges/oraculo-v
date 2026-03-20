@@ -1,0 +1,116 @@
+{
+  "player": "ALEGRIA#021",
+  "agent": "Omen",
+  "map": "Bind",
+  "acs": 142.2,
+  "adr": 68.8,
+  "kd": 0.75,
+  "meta_kd": 1.0,
+  "performance_vs_meta": "Abaixo da m�dia (75.0%)",
+  "rounds": [
+    {
+      "round": 1,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 2,
+      "score": 223,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "Abate importante para abertura de espa�o.",
+      "neg": ""
+    },
+    {
+      "round": 3,
+      "score": 488,
+      "kills": 2,
+      "deaths": 0,
+      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
+      "neg": ""
+    },
+    {
+      "round": 4,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 5,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 6,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 7,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 8,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 9,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 10,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 11,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 12,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 13,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    }
+  ]
+}
