@@ -7,12 +7,12 @@ async function delay(ms) {
 
 async function scrapeBlogIndex(page) {
   return await page.evaluate(() => {
-    // Busca todos os cards de blog que começam com /blog/
+    // Busca todos os cards de blog (Vuetify a.v-card)
     const cards = Array.from(document.querySelectorAll('a.v-card[href^="/blog/"]'));
     return cards.map(card => ({
-      title: card.querySelector('.v-card-item div:first-child')?.innerText.trim(),
+      title: card.querySelector('.v-list-item-title')?.innerText.trim(),
       url: card.href,
-      description: card.querySelector('div:last-child')?.innerText.trim()
+      description: card.querySelector('.v-card-subtitle')?.innerText.trim()
     }));
   });
 }
