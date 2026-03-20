@@ -6,7 +6,8 @@
   "main": "scrapers/main.js",
   "scripts": {
     "start": "node scrapers/main.js",
-    "test": "node tests/test-scraper.js"
+    "test": "node tests/test-scraper.js",
+    "blog": "node scrapers/blog.js"
   },
   "repository": {
     "type": "git",

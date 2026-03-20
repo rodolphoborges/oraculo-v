@@ -1,8 +1,8 @@
 import puppeteer from 'puppeteer';
 import { supabase } from '../lib/supabase.js';
 
-const ranks = ['iron', 'bronze', 'silver', 'gold', 'platinum', 'diamond', 'ascendant', 'immortal', 'radiant', 'ALL'];
-const maps = ['bind', 'breeze', 'fracture', 'haven', 'lotus', 'pearl', 'split', 'ALL'];
+const ranks = ['ALL'];
+const maps = ['ALL'];
 const tables = ['agents', 'duos', 'comps'];
 
 async function delay(ms) {
