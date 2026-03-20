@@ -65,10 +65,23 @@ function renderResults(data) {
         const item = document.createElement('div');
         item.className = 'round-item';
         
+        const agents = ["Astra", "Breach", "Brimstone", "Chamber", "Cypher", "Deadlock", "Fade", "Gekko", "Harbor", "Iso", "Jett", "KAY/O", "Killjoy", "Neon", "Omen", "Phoenix", "Raze", "Reyna", "Sage", "Skye", "Sova", "Tejo", "Viper", "Vyse", "Yoru"];
+        const highlightAgents = (text) => {
+            let highlighted = text;
+            agents.forEach(agent => {
+                const regex = new RegExp(`\\b${agent}\\b`, 'gi');
+                highlighted = highlighted.replace(regex, `<b>$&</b>`);
+            });
+            return highlighted;
+        };
+
         let feedbackContent = '';
-        if (r.pos) feedbackContent += `<div class="feedback-line pos">[OK] ${r.pos.toUpperCase()}</div>`;
-        if (r.neg) feedbackContent += `<div class="feedback-line neg">[!!] ${r.neg.toUpperCase()}</div>`;
+        if (r.pos) feedbackContent += `<div class="feedback-line pos">[OK] ${highlightAgents(r.pos.toUpperCase())}</div>`;
+        if (r.neg) feedbackContent += `<div class="feedback-line neg">[!!] ${highlightAgents(r.neg.toUpperCase())}</div>`;
         if (!r.pos && !r.neg) feedbackContent += `<div class="feedback-line neutral">[--] SEM EVENTOS REGISTRADOS</div>`;
+
+        // Renderização do Mapa Tático ...
+        // (mantendo a lógica anterior)
 
         // Renderização do Mapa Tático se houver eventos
         let tacticalMapHtml = '';
@@ -85,12 +98,13 @@ function renderResults(data) {
                             if (ev.killer_pos) {
                                 const kx = (ev.killer_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
                                 const ky = (ev.killer_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                                const isPlayer = ev.is_player_killer;
                                 eventHtml += `
-                                    <div class="map-point killer" style="left: ${kx}%; top: ${ky}%">
+                                    <div class="map-point killer ${isPlayer ? 'player' : ''}" style="left: ${kx}%; top: ${ky}%">
                                         <div class="vision-cone" style="transform: rotate(${ev.killer_radians * (180 / Math.PI) - 90}deg)">
                                             <div class="aim-point"></div>
                                         </div>
-                                        <div class="map-label">${ev.is_player_killer ? `${ev.killer_agent.toUpperCase()} (VOCÊ)` : ev.killer_agent.toUpperCase()}</div>
+                                        <div class="map-label">${isPlayer ? `<b>${ev.killer_agent.toUpperCase()} (VOCÊ)</b>` : ev.killer_agent.toUpperCase()}</div>
                                     </div>
                                 `;
                             }
@@ -98,12 +112,13 @@ function renderResults(data) {
                             if (ev.victim_pos) {
                                 const vx = (ev.victim_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
                                 const vy = (ev.victim_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                                const isPlayer = ev.is_player_victim;
                                 eventHtml += `
-                                    <div class="map-point victim" style="left: ${vx}%; top: ${vy}%">
+                                    <div class="map-point victim ${isPlayer ? 'player' : ''}" style="left: ${vx}%; top: ${vy}%">
                                         <div class="vision-cone" style="transform: rotate(${ev.victim_radians * (180 / Math.PI) - 90}deg)">
                                             <div class="aim-point"></div>
                                         </div>
-                                        <div class="map-label">${ev.is_player_victim ? `${ev.victim_agent.toUpperCase()} (VOCÊ)` : ev.victim_agent.toUpperCase()}</div>
+                                        <div class="map-label">${isPlayer ? `<b>${ev.victim_agent.toUpperCase()} (VOCÊ)</b>` : ev.victim_agent.toUpperCase()}</div>
                                     </div>
                                 `;
                             }
@@ -126,7 +141,7 @@ function renderResults(data) {
             <div class="round-id">RD_${r.round.toString().padStart(2, '0')}${roundSubHeader}</div>
             <div class="feedback-list">
                 ${feedbackContent}
-                <div class="explanation-line">REGISTRO_DE_ANÁLISE: ${r.explanation.toUpperCase()}</div>
+                <div class="explanation-line">REGISTRO_DE_ANÁLISE: ${highlightAgents(r.explanation.toUpperCase())}</div>
             </div>
             ${tacticalMapHtml}
         `;
