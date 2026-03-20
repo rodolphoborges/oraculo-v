@@ -126,9 +126,8 @@ function renderResults(data) {
                         }
                         <span class="agent-initials" style="display:${iconUrl ? 'none' : 'flex'}">${initials}</span>
                         <div class="map-label">${tooltip}</div>
-                        <div class="vision-cone" style="transform:rotate(${deg}deg)">
-                            <div class="aim-point"></div>
-                        </div>
+                        <div class="vision-cone" style="transform:rotate(${deg}deg)"></div>
+                        <div class="aim-point" style="transform:translate(-50%,-50%) rotate(${deg}deg) translateY(-30px)"></div>
                     </div>
                 `;
             };
