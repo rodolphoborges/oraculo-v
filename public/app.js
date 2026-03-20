@@ -137,9 +137,11 @@ function renderResults(data) {
 
             tacticalMapHtml = `
                 <div class="tactical-container">
-                    <div class="round-id" style="margin-bottom:5px;">MAPA_TÁTICO // RD_${r.round}</div>
+                    <div class="round-id">RADAR_TÁTICO // RD_${r.round}</div>
                     <div class="tactical-map">
                         <img src="${mapInfo.imageUrl}" class="map-bg">
+                        <div class="radar-trail"></div>
+                        <div class="radar-sweep"></div>
                         ${r.tactical_events.map(ev =>
                             makeMarker(ev.killer_pos, ev.killer_radians, ev.killer_agent, 'killer', ev.is_player_killer) +
                             makeMarker(ev.victim_pos, ev.victim_radians, ev.victim_agent, 'victim', ev.is_player_victim)
@@ -148,8 +150,8 @@ function renderResults(data) {
                     <div class="map-legend">
                         <div class="map-legend-item"><div class="legend-dot killer"></div> MATADOR</div>
                         <div class="map-legend-item"><div class="legend-dot victim"></div> VÍTIMA</div>
-                        <div class="map-legend-item"><div class="legend-dot aim"></div> DIREÇÃO DA MIRA</div>
-                        <div class="map-legend-item" style="color:var(--term-dim);opacity:0.7">[ PASSE O MOUSE PARA VER O AGENTE ]</div>
+                        <div class="map-legend-item"><div class="legend-dot aim"></div> MIRA</div>
+                        <div class="map-legend-item" style="opacity:0.5">[ HOVER → AGENTE ]</div>
                     </div>
                 </div>
             `;
