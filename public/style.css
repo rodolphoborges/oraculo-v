@@ -185,66 +185,111 @@ input {
     filter: grayscale(0.5) brightness(0.9) contrast(1.3) invert(0.1);
 }
 
+/* ── Marcadores no mapa ──────────────────────── */
 .map-point {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px currentColor;
     z-index: 10;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    overflow: visible;     /* deixa cone e mira «vazar» */
 }
 
+/* Ícone do agente (portrait via valorant-api.com) */
+.map-point .agent-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    border: 1.5px solid currentColor;
+    box-shadow: 0 0 8px currentColor;
+    background: #0a0a0a;
+}
+
+.map-point.killer { color: var(--term-green); }
+.map-point.victim { color: var(--term-red); }
+
+/* Jogador analisado: anel pulsante */
 .map-point.player {
-    width: 14px;
-    height: 14px;
-    box-shadow: 0 0 20px currentColor, 0 0 30px rgba(0, 255, 65, 0.4);
     z-index: 20;
-    animation: pulse 1.5s infinite;
+}
+.map-point.player .agent-icon {
+    border-width: 2px;
+    box-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
+    animation: pulse 1.4s ease-in-out infinite;
 }
 
-.map-point.killer { background-color: var(--term-green); color: var(--term-green); }
-.map-point.victim { background-color: var(--term-red); color: var(--term-red); }
+/* Iniciais (fallback se ícone falhar) */
+.map-point .agent-initials {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    font-weight: bold;
+    color: currentColor;
+    background: rgba(0,0,0,0.7);
+    border-radius: 50%;
+    letter-spacing: -0.5px;
+}
 
+/* Tooltip minúsculo ao passar o mouse */
+.map-point .map-label {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.5rem;
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1px 4px;
+    border: 1px solid currentColor;
+    pointer-events: none;
+    z-index: 30;
+}
+.map-point:hover .map-label { display: block; }
+
+/* ── Cone de visão ───────────────────────────── */
 .vision-cone {
     position: absolute;
+    /* centrado no ponto */
     top: 50%;
     left: 50%;
-    width: 40px;
-    height: 40px;
-    background: conic-gradient(from -30deg, currentColor 0deg, transparent 60deg);
-    opacity: 0.3;
+    width: 36px;
+    height: 36px;
+    /* fan de 50° com gradient cónico */
+    background: conic-gradient(
+        from -25deg,
+        transparent 0deg,
+        currentColor 0deg,
+        currentColor 50deg,
+        transparent 50deg
+    );
+    opacity: 0.22;
     pointer-events: none;
-    transform-origin: top left;
+    transform-origin: top left;   /* rotação pivota no centro do ponto */
     z-index: 5;
-    /* O cone aponta inicialmente para "baixo" no sistema de coordenadas do browser */
-    /* Vamos ajustar a rotação no JS */
 }
 
+/* ── Ponto de mira (crosshair dot) ───────────── */
 .aim-point {
     position: absolute;
-    top: 100%; /* No final do cone */
+    /* fica na ponta do cone (deslocado ~26px no eixo do cone) */
+    top: 0;
     left: 50%;
     width: 3px;
     height: 3px;
-    background-color: var(--term-white);
+    background: #ff4655;
     border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 5px var(--term-white);
-    opacity: 0.8;
-}
-
-.map-label {
-    position: absolute;
-    font-size: 0.6rem;
-    white-space: nowrap;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    padding: 1px 4px;
-    border: 1px solid currentColor;
+    transform: translate(-50%, -50%) translateY(-26px);
+    box-shadow: 0 0 4px #ff4655, 0 0 8px rgba(255,70,85,0.6);
+    z-index: 15;
+    pointer-events: none;
 }
 
 .glossary-section {

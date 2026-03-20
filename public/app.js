@@ -4,6 +4,22 @@ const matchInp = document.getElementById('matchId');
 const loadingSec = document.getElementById('loading');
 const resultsSec = document.getElementById('results');
 
+// Cache de ícones dos agentes – carregado uma vez ao iniciar a página
+// Formato: { "jett": "uuid", "killjoy": "uuid", ... }
+let agentIconMap = {};
+(async () => {
+    try {
+        const res = await fetch('https://valorant-api.com/v1/agents?isPlayableCharacter=true');
+        const json = await res.json();
+        if (json.status === 200) {
+            json.data.forEach(a => {
+                const key = a.displayName.toLowerCase().replace(/[^a-z]/g, '');
+                agentIconMap[key] = a.uuid;
+            });
+        }
+    } catch (_) { /* falha silenciosa — usará iniciais */ }
+})();
+
 analyzeBtn.addEventListener('click', async () => {
     const player = playerInp.value.trim();
     const matchId = matchInp.value.trim();
@@ -80,51 +96,52 @@ function renderResults(data) {
         if (r.neg) feedbackContent += `<div class="feedback-line neg">[!!] ${highlightAgents(r.neg.toUpperCase())}</div>`;
         if (!r.pos && !r.neg) feedbackContent += `<div class="feedback-line neutral">[--] SEM EVENTOS REGISTRADOS</div>`;
 
-        // Renderização do Mapa Tático ...
-        // (mantendo a lógica anterior)
-
         // Renderização do Mapa Tático se houver eventos
         let tacticalMapHtml = '';
         if (r.tactical_events && r.tactical_events.length > 0 && data.map_details.xMultiplier) {
             const mapInfo = data.map_details;
+
+            // Helper: constrói o HTML de um marcador com ícone do agente
+            const makeMarker = (pos, radiansVal, agentName, role, isPlayer) => {
+                if (!pos) return '';
+                const mx = (pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
+                const my = (pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                const deg = radiansVal * (180 / Math.PI) - 90;
+
+                const agentSlug = agentName.toLowerCase().replace(/[^a-z]/g, '');
+                const uuid = agentIconMap[agentSlug];
+                const iconUrl = uuid
+                    ? `https://media.valorant-api.com/agents/${uuid}/displayiconsmall.png`
+                    : '';
+                const initials = agentName.slice(0, 2).toUpperCase();
+                const tooltip = isPlayer ? `${agentName.toUpperCase()} (VOCÊ)` : agentName.toUpperCase();
+
+                return `
+                    <div class="map-point ${role} ${isPlayer ? 'player' : ''}" style="left:${mx}%;top:${my}%">
+                        ${iconUrl
+                            ? `<img class="agent-icon" src="${iconUrl}"
+                                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                                 alt="${agentName}">`
+                            : ''
+                        }
+                        <span class="agent-initials" style="display:${iconUrl ? 'none' : 'flex'}">${initials}</span>
+                        <div class="map-label">${tooltip}</div>
+                        <div class="vision-cone" style="transform:rotate(${deg}deg)">
+                            <div class="aim-point"></div>
+                        </div>
+                    </div>
+                `;
+            };
+
             tacticalMapHtml = `
                 <div class="tactical-container">
-                    <div class="round-id" style="margin-bottom: 5px;">MAPA_TÁTICO // RD_${r.round}</div>
+                    <div class="round-id" style="margin-bottom:5px;">MAPA_TÁTICO // RD_${r.round}</div>
                     <div class="tactical-map">
                         <img src="${mapInfo.imageUrl}" class="map-bg">
-                        ${r.tactical_events.map(ev => {
-                            let eventHtml = '';
-                            
-                            if (ev.killer_pos) {
-                                const kx = (ev.killer_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
-                                const ky = (ev.killer_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
-                                const isPlayer = ev.is_player_killer;
-                                eventHtml += `
-                                    <div class="map-point killer ${isPlayer ? 'player' : ''}" style="left: ${kx}%; top: ${ky}%">
-                                        <div class="vision-cone" style="transform: rotate(${ev.killer_radians * (180 / Math.PI) - 90}deg)">
-                                            <div class="aim-point"></div>
-                                        </div>
-                                        <div class="map-label">${isPlayer ? `<b>${ev.killer_agent.toUpperCase()} (VOCÊ)</b>` : ev.killer_agent.toUpperCase()}</div>
-                                    </div>
-                                `;
-                            }
-                            
-                            if (ev.victim_pos) {
-                                const vx = (ev.victim_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
-                                const vy = (ev.victim_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
-                                const isPlayer = ev.is_player_victim;
-                                eventHtml += `
-                                    <div class="map-point victim ${isPlayer ? 'player' : ''}" style="left: ${vx}%; top: ${vy}%">
-                                        <div class="vision-cone" style="transform: rotate(${ev.victim_radians * (180 / Math.PI) - 90}deg)">
-                                            <div class="aim-point"></div>
-                                        </div>
-                                        <div class="map-label">${isPlayer ? `<b>${ev.victim_agent.toUpperCase()} (VOCÊ)</b>` : ev.victim_agent.toUpperCase()}</div>
-                                    </div>
-                                `;
-                            }
-                            
-                            return eventHtml;
-                        }).join('')}
+                        ${r.tactical_events.map(ev =>
+                            makeMarker(ev.killer_pos, ev.killer_radians, ev.killer_agent, 'killer', ev.is_player_killer) +
+                            makeMarker(ev.victim_pos, ev.victim_radians, ev.victim_agent, 'victim', ev.is_player_victim)
+                        ).join('')}
                     </div>
                 </div>
             `;
