@@ -8,7 +8,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   let matchJsonPath = inputPath;
 
   // 1. Verifica se o input é um Match ID (UUID)
-  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(inputPath);
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(inputPath);
   
   if (isUuid) {
     const matchesDir = './matches';
@@ -58,13 +58,16 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   // 5. Chama o script Python
   try {
     const cmd = `python /tmp/analyze_valorant.py --json "${matchJsonPath}" --player "${playerTag}" --target-kd ${targetKd}`;
-    const result = execSync(cmd, { encoding: 'utf8' });
+    const stdout = execSync(cmd, { 
+      encoding: 'utf8',
+      env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
+    });
     
-    const analysisResult = JSON.parse(result);
+    const analysisResult = JSON.parse(stdout);
     
     // Salva o relatório local
     const finalReportPath = `analysis_${playerTag.replace('#', '_')}.json`;
-    fs.writeFileSync(finalReportPath, result, 'utf8');
+    fs.writeFileSync(finalReportPath, stdout, 'utf8');
     
     return analysisResult;
   } catch (err) {
