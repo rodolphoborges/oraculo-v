@@ -6,15 +6,16 @@
   "adr": 117.44444444444444,
   "kd": 1.0,
   "meta_kd": 1.0,
-  "performance_vs_meta": "Acima da m�dia (100.0%)",
+  "performance_vs_meta": "ACIMA DA MÉDIA (100.0%)",
   "rounds": [
     {
       "round": 1,
       "score": 295,
       "kills": 1,
       "deaths": 0,
-      "pos": "Abate importante para abertura de espa�o.",
-      "neg": ""
+      "pos": "ECO FRAG",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 700)."
     },
     {
       "round": 2,
@@ -22,15 +23,17 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (22 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
     },
     {
       "round": 3,
       "score": 190,
       "kills": 1,
       "deaths": 1,
-      "pos": "Abate importante para abertura de espa�o.",
-      "neg": ""
+      "pos": "ECO FRAG",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1050)."
     },
     {
       "round": 4,
@@ -38,7 +41,8 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
     },
     {
       "round": 5,
@@ -46,7 +50,8 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "TRADE NEGATIVO",
+      "explanation": "ELIMINADO APÓS CAUSAR 72 DANO, MAS SEM FINALIZAR O ALVO."
     },
     {
       "round": 6,
@@ -54,31 +59,35 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
     },
     {
       "round": 7,
       "score": 431,
       "kills": 2,
       "deaths": 0,
-      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
-      "neg": ""
+      "pos": "CLUTCH DEFUSER",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES. // DESARMOU A SPIKE GARANTINDO O ROUND."
     },
     {
       "round": 8,
       "score": 542,
       "kills": 2,
       "deaths": 0,
-      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
-      "neg": ""
+      "pos": "MULTI-KILL (2 ABATES)",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
     },
     {
       "round": 9,
       "score": 410,
       "kills": 2,
       "deaths": 0,
-      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
-      "neg": ""
+      "pos": "MULTI-KILL (2 ABATES)",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
     },
     {
       "round": 10,
@@ -86,7 +95,8 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "TRADE NEGATIVO",
+      "explanation": "ELIMINADO APÓS CAUSAR 120 DANO, MAS SEM FINALIZAR O ALVO."
     },
     {
       "round": 11,
@@ -94,7 +104,8 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
     },
     {
       "round": 12,
@@ -102,15 +113,17 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "BAIXA PRESENÇA",
+      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND."
     },
     {
       "round": 13,
       "score": 188,
       "kills": 1,
       "deaths": 0,
-      "pos": "Abate importante para abertura de espa�o.",
-      "neg": ""
+      "pos": "ECO FRAG",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 800)."
     },
     {
       "round": 14,
@@ -118,15 +131,17 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (13 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
     },
     {
       "round": 15,
       "score": 331,
       "kills": 1,
       "deaths": 1,
-      "pos": "Abate importante para abertura de espa�o.",
-      "neg": ""
+      "pos": "ECO FRAG",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1400)."
     },
     {
       "round": 16,
@@ -134,7 +149,8 @@
       "kills": 0,
       "deaths": 1,
       "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
     },
     {
       "round": 17,
@@ -142,15 +158,17 @@
       "kills": 0,
       "deaths": 0,
       "pos": "",
-      "neg": "Baixa participa��o direta no round."
+      "neg": "BAIXA PRESENÇA",
+      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND."
     },
     {
       "round": 18,
       "score": 336,
       "kills": 1,
       "deaths": 1,
-      "pos": "Abate importante para abertura de espa�o.",
-      "neg": ""
+      "pos": "ABATE CRÍTICO",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
     }
   ]
 }
