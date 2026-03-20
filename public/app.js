@@ -55,16 +55,47 @@ function renderResults(data) {
         item.className = 'round-item';
         
         let feedbackContent = '';
-        if (r.pos) feedbackContent += `<div class="feedback-line pos">[>>] ${r.pos.toUpperCase()}</div>`;
+        if (r.pos) feedbackContent += `<div class="feedback-line pos">[OK] ${r.pos.toUpperCase()}</div>`;
         if (r.neg) feedbackContent += `<div class="feedback-line neg">[!!] ${r.neg.toUpperCase()}</div>`;
-        if (!r.pos && !r.neg) feedbackContent += `<div class="feedback-line neutral">[..] PASSIVE_ENGAGEMENT_DETECTED</div>`;
+        if (!r.pos && !r.neg) feedbackContent += `<div class="feedback-line neutral">[--] NO_DETECTION</div>`;
+
+        // Renderização do Mapa Tático se houver eventos
+        let tacticalMapHtml = '';
+        if (r.tactical_events && r.tactical_events.length > 0 && data.map_details.xMultiplier) {
+            const mapInfo = data.map_details;
+            tacticalMapHtml = `
+                <div class="tactical-container">
+                    <div class="round-id" style="margin-bottom: 5px;">TACTICAL_GRID // RD_${r.round}</div>
+                    <div class="tactical-map">
+                        <img src="${mapInfo.imageUrl}" class="map-bg">
+                        ${r.tactical_events.map(ev => {
+                            // FÓRMULA CORRIGIDA: Valorant Inverte X e Y para exibição no mini-mapa
+                            const kx = (ev.killer_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
+                            const ky = (ev.killer_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                            const vx = (ev.victim_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
+                            const vy = (ev.victim_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                            
+                            return `
+                                <div class="map-point killer" style="left: ${kx}%; top: ${ky}%">
+                                    <div class="map-label">${ev.is_player_killer ? 'YOU' : 'KILLER'}</div>
+                                </div>
+                                <div class="map-point victim" style="left: ${vx}%; top: ${vy}%">
+                                    <div class="map-label">${ev.is_player_victim ? 'YOU' : 'VICTIM'}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
 
         item.innerHTML = `
-            <div class="round-id">ROUND_IDENTIFIER::${r.round.toString().padStart(2, '0')}</div>
+            <div class="round-id">RD_${r.round.toString().padStart(2, '0')}</div>
             <div class="feedback-list">
                 ${feedbackContent}
-                <div class="explanation-line">LOG_REASONING: ${r.explanation.toUpperCase()}</div>
+                <div class="explanation-line">DATA_SOURCE: ${r.explanation.toUpperCase()}</div>
             </div>
+            ${tacticalMapHtml}
         `;
         timeline.appendChild(item);
     });
