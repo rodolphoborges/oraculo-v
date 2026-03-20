@@ -44,8 +44,8 @@ function renderResults(data) {
     document.getElementById('resAgent').textContent = data.agent;
     document.getElementById('resMap').textContent = data.map;
     document.getElementById('resPerformance').textContent = data.performance_vs_meta;
-    document.getElementById('resKdDetail').textContent = `K/D: ${data.kd.toFixed(2)} | Meta: ${data.meta_kd.toFixed(2)}`;
-    document.getElementById('resCombat').textContent = `${data.acs.toFixed(0)} / ${data.adr.toFixed(0)}`;
+    document.getElementById('resKdDetail').textContent = `K/D: ${data.kd.toFixed(2)} | BASE: ${data.meta_kd.toFixed(2)}`;
+    document.getElementById('resCombat').textContent = `${data.acs.toFixed(0)} ACS / ${data.adr.toFixed(0)} ADR`;
 
     const timeline = document.getElementById('roundTimeline');
     timeline.innerHTML = '';
@@ -55,13 +55,13 @@ function renderResults(data) {
         item.className = 'round-item';
         
         let feedbackContent = '';
-        if (r.pos) feedbackContent += `<div class="pos">🚀 ${r.pos}</div>`;
-        if (r.neg) feedbackContent += `<div class="neg">⚠️ ${r.neg}</div>`;
-        if (!r.pos && !r.neg) feedbackContent += `<div class="neutral">Round sem eventos críticos destacados.</div>`;
+        if (r.pos) feedbackContent += `<div class="pos">>> ${r.pos}</div>`;
+        if (r.neg) feedbackContent += `<div class="neg">>> ${r.neg}</div>`;
+        if (!r.pos && !r.neg) feedbackContent += `<div class="neutral">NO_CRITICAL_EVENTS_RECORDED</div>`;
 
         item.innerHTML = `
-            <div class="round-number">${r.round}</div>
-            <div class="round-feedback">
+            <div class="round-number">${r.round.toString().padStart(2, '0')}</div>
+            <div class="feedback-list">
                 ${feedbackContent}
             </div>
         `;
