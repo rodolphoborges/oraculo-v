@@ -47,6 +47,7 @@ function renderResults(data) {
     const perfColor = data.performance_status === 'ABOVE_BASELINE' ? 'var(--term-green)' : 'var(--term-red)';
     
     document.getElementById('resPerformance').innerHTML = `<span style="color: ${perfColor}">[ TAXA: ${data.performance_index}% // SITUAÇÃO: ${perfStatus} // RANKING: ${data.meta_category} ]</span>`;
+    document.getElementById('resEstimatedRank').innerHTML = `<span style="border: 1px solid var(--term-green); padding: 0 5px;">[ ${data.estimated_rank} ]</span>`;
     document.getElementById('resKdDetail').textContent = `K/D ATUAL: ${data.kd.toFixed(2)} // ALVO DO RANKING: ${data.target_kd.toFixed(2)}`;
     document.getElementById('resCombat').innerHTML = `<b>${data.acs.toFixed(0)}</b> PONTUAÇÃO (ACS) // <b>${data.adr.toFixed(0)}</b> DANO MÉDIO (ADR)`;
 
@@ -72,28 +73,35 @@ function renderResults(data) {
                     <div class="tactical-map">
                         <img src="${mapInfo.imageUrl}" class="map-bg">
                         ${r.tactical_events.map(ev => {
-                            if (!ev.killer_pos || !ev.victim_pos) return '';
-
-                            // FÓRMULA CORRIGIDA: Valorant Inverte X e Y para exibição no mini-mapa
-                            const kx = (ev.killer_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
-                            const ky = (ev.killer_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
-                            const vx = (ev.victim_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
-                            const vy = (ev.victim_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                            let eventHtml = '';
                             
-                            return `
-                                <div class="map-point killer" style="left: ${kx}%; top: ${ky}%">
-                                    <div class="vision-cone" style="transform: rotate(${ev.killer_radians * (180 / Math.PI) - 90}deg)">
-                                        <div class="aim-point"></div>
+                            if (ev.killer_pos) {
+                                const kx = (ev.killer_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
+                                const ky = (ev.killer_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                                eventHtml += `
+                                    <div class="map-point killer" style="left: ${kx}%; top: ${ky}%">
+                                        <div class="vision-cone" style="transform: rotate(${ev.killer_radians * (180 / Math.PI) - 90}deg)">
+                                            <div class="aim-point"></div>
+                                        </div>
+                                        <div class="map-label">${ev.is_player_killer ? `${ev.killer_agent.toUpperCase()} (VOCÊ)` : ev.killer_agent.toUpperCase()}</div>
                                     </div>
-                                    <div class="map-label">${ev.is_player_killer ? `${ev.killer_agent.toUpperCase()} (VOCÊ)` : ev.killer_agent.toUpperCase()}</div>
-                                </div>
-                                <div class="map-point victim" style="left: ${vx}%; top: ${vy}%">
-                                    <div class="vision-cone" style="transform: rotate(${ev.victim_radians * (180 / Math.PI) - 90}deg)">
-                                        <div class="aim-point"></div>
+                                `;
+                            }
+                            
+                            if (ev.victim_pos) {
+                                const vx = (ev.victim_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
+                                const vy = (ev.victim_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
+                                eventHtml += `
+                                    <div class="map-point victim" style="left: ${vx}%; top: ${vy}%">
+                                        <div class="vision-cone" style="transform: rotate(${ev.victim_radians * (180 / Math.PI) - 90}deg)">
+                                            <div class="aim-point"></div>
+                                        </div>
+                                        <div class="map-label">${ev.is_player_victim ? `${ev.victim_agent.toUpperCase()} (VOCÊ)` : ev.victim_agent.toUpperCase()}</div>
                                     </div>
-                                    <div class="map-label">${ev.is_player_victim ? `${ev.victim_agent.toUpperCase()} (VOCÊ)` : ev.victim_agent.toUpperCase()}</div>
-                                </div>
-                            `;
+                                `;
+                            }
+                            
+                            return eventHtml;
                         }).join('')}
                     </div>
                 </div>
