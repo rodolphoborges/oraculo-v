@@ -2,6 +2,13 @@
   "player": "OUSADIA#013",
   "agent": "Jett",
   "map": "Haven",
+  "map_details": {
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2bee0dc9-4ffe-519b-1cbd-7fbe763a6047/displayicon.png",
+    "yMultiplier": -7.5e-05,
+    "xMultiplier": 7.5e-05,
+    "yScalarToAdd": 0.642728,
+    "xScalarToAdd": 1.09345
+  },
   "acs": 163.77777777777777,
   "adr": 117.44444444444444,
   "kd": 1.0,
@@ -15,7 +22,23 @@
       "deaths": 0,
       "pos": "ECO FRAG",
       "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 700)."
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 700).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_pos": {
+            "x": 6767,
+            "y": -10523
+          },
+          "victim_pos": {
+            "x": 6525,
+            "y": -8645
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 2,
@@ -24,7 +47,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (22 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (22 DANO). POSSÍVEL FALHA DE POSICIONAMENTO.",
+      "tactical_events": [
+        {
+          "killer": "Mew#angel",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": -1316,
+            "y": -9865
+          },
+          "victim_pos": {
+            "x": -3608,
+            "y": -10102
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 3,
@@ -33,7 +72,37 @@
       "deaths": 1,
       "pos": "ECO FRAG",
       "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1050)."
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1050).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "W3B IS B4CK#083",
+          "killer_pos": {
+            "x": 4140,
+            "y": -8557
+          },
+          "victim_pos": {
+            "x": 4154,
+            "y": -8233
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "CoquinhaGelada#boga",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": 5944,
+            "y": -8121
+          },
+          "victim_pos": {
+            "x": 4264,
+            "y": -8184
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 4,
@@ -42,7 +111,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO.",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": -2758,
+            "y": -7782
+          },
+          "victim_pos": {
+            "x": -1950,
+            "y": -7860
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 5,
@@ -51,7 +136,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "TRADE NEGATIVO",
-      "explanation": "ELIMINADO APÓS CAUSAR 72 DANO, MAS SEM FINALIZAR O ALVO."
+      "explanation": "ELIMINADO APÓS CAUSAR 72 DANO, MAS SEM FINALIZAR O ALVO.",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": 6826,
+            "y": -7042
+          },
+          "victim_pos": {
+            "x": 6811,
+            "y": -10419
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 6,
@@ -60,7 +161,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO.",
+      "tactical_events": [
+        {
+          "killer": "Xupador2000#cuzao",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": -374,
+            "y": -9022
+          },
+          "victim_pos": {
+            "x": -556,
+            "y": -10834
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 7,
@@ -69,7 +186,37 @@
       "deaths": 0,
       "pos": "CLUTCH DEFUSER",
       "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES. // DESARMOU A SPIKE GARANTINDO O ROUND."
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES. // DESARMOU A SPIKE GARANTINDO O ROUND.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "CoquinhaGelada#boga",
+          "killer_pos": {
+            "x": 3291,
+            "y": -6062
+          },
+          "victim_pos": {
+            "x": 6073,
+            "y": -7088
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Mew#angel",
+          "killer_pos": {
+            "x": 6440,
+            "y": -7179
+          },
+          "victim_pos": {
+            "x": 7274,
+            "y": -9156
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 8,
@@ -78,7 +225,37 @@
       "deaths": 0,
       "pos": "MULTI-KILL (2 ABATES)",
       "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_pos": {
+            "x": -1644,
+            "y": -8019
+          },
+          "victim_pos": {
+            "x": -2563,
+            "y": -9220
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "OUSADIA#013",
+          "victim": "CoquinhaGelada#boga",
+          "killer_pos": {
+            "x": -313,
+            "y": -8908
+          },
+          "victim_pos": {
+            "x": -561,
+            "y": -9860
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 9,
@@ -87,7 +264,37 @@
       "deaths": 0,
       "pos": "MULTI-KILL (2 ABATES)",
       "neg": "",
-      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_pos": {
+            "x": 1722,
+            "y": -7596
+          },
+          "victim_pos": {
+            "x": 1354,
+            "y": -8156
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Xupador2000#cuzao",
+          "killer_pos": {
+            "x": 1328,
+            "y": -7632
+          },
+          "victim_pos": {
+            "x": 2045,
+            "y": -8410
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 10,
@@ -96,7 +303,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "TRADE NEGATIVO",
-      "explanation": "ELIMINADO APÓS CAUSAR 120 DANO, MAS SEM FINALIZAR O ALVO."
+      "explanation": "ELIMINADO APÓS CAUSAR 120 DANO, MAS SEM FINALIZAR O ALVO.",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": 6245,
+            "y": -6894
+          },
+          "victim_pos": {
+            "x": 4055,
+            "y": -6279
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 11,
@@ -105,7 +328,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO.",
+      "tactical_events": [
+        {
+          "killer": "W3B IS B4CK#083",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": -2656,
+            "y": -8870
+          },
+          "victim_pos": {
+            "x": -2383,
+            "y": -4659
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 12,
@@ -114,7 +353,8 @@
       "deaths": 0,
       "pos": "",
       "neg": "BAIXA PRESENÇA",
-      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND."
+      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND.",
+      "tactical_events": []
     },
     {
       "round": 13,
@@ -123,7 +363,23 @@
       "deaths": 0,
       "pos": "ECO FRAG",
       "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 800)."
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 800).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_pos": {
+            "x": 6143,
+            "y": -9610
+          },
+          "victim_pos": {
+            "x": 5207,
+            "y": -10656
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
     },
     {
       "round": 14,
@@ -132,7 +388,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (13 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (13 DANO). POSSÍVEL FALHA DE POSICIONAMENTO.",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": 5784,
+            "y": -9772
+          },
+          "victim_pos": {
+            "x": 6512,
+            "y": -10113
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 15,
@@ -141,7 +413,37 @@
       "deaths": 1,
       "pos": "ECO FRAG",
       "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1400)."
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1400).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Xupador2000#cuzao",
+          "killer_pos": {
+            "x": -2563,
+            "y": -7317
+          },
+          "victim_pos": {
+            "x": -2756,
+            "y": -7764
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "Mew#angel",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": -3491,
+            "y": -9171
+          },
+          "victim_pos": {
+            "x": -1691,
+            "y": -9028
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 16,
@@ -150,7 +452,23 @@
       "deaths": 1,
       "pos": "",
       "neg": "MORTE SEM TRADE",
-      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO.",
+      "tactical_events": [
+        {
+          "killer": "Mew#angel",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": 2642,
+            "y": -8523
+          },
+          "victim_pos": {
+            "x": 1834,
+            "y": -8455
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 17,
@@ -159,7 +477,8 @@
       "deaths": 0,
       "pos": "",
       "neg": "BAIXA PRESENÇA",
-      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND."
+      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND.",
+      "tactical_events": []
     },
     {
       "round": 18,
@@ -168,7 +487,37 @@
       "deaths": 1,
       "pos": "ABATE CRÍTICO",
       "neg": "",
-      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "CoquinhaGelada#boga",
+          "killer_pos": {
+            "x": -1949,
+            "y": -9155
+          },
+          "victim_pos": {
+            "x": -2995,
+            "y": -9172
+          },
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_pos": {
+            "x": -3657,
+            "y": -9122
+          },
+          "victim_pos": {
+            "x": -2115,
+            "y": -9103
+          },
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     }
   ]
 }

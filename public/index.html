@@ -13,32 +13,23 @@
     <div class="terminal">
         <div class="scanline"></div>
         <header>
-            <pre class="ascii-logo">
-  _    _  _    _  _      
- | |  | || |  | || |     
- | |__| || |__| || |     
- |  __  ||  __  || |     
- | |  | || |  | || |____ 
- |_|  |_||_|  |_||______|
-            </pre>
             <div class="sys-info">
-                [ KINGDOM_PROTOCOL_v4.5.1 // ACTIVE ]<br>
-                [ REMOTE_API: TRACKER.GG_SECURE_LINK ]<br>
-                [ ENGINE: ORACULO-V_DEEPMIND_CORE ]
+                [ ENGINE_v2.5 // CORE_ACTIVE ]<br>
+                [ UPLINK_STATUS: SECURE ]
             </div>
-            <h1 class="val-header">PROTOCOL // <span class="highlight">ORACULO-V</span> <span class="blink">_</span></h1>
+            <h1 class="val-header">ORACULO<span class="highlight">_V</span> <span class="blink">_</span></h1>
         </header>
 
         <section class="cmd-input">
             <div class="input-line">
-                <span class="prompt">TAG@ORACULO:></span>
+                <span class="prompt">TAG_INPUT:</span>
                 <input type="text" id="playerTag" placeholder="PLAYER#000" value="OUSADIA#013">
             </div>
             <div class="input-line">
-                <span class="prompt">ID@ORACULO:></span>
-                <input type="text" id="matchId" placeholder="UUID_MATCH" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
+                <span class="prompt">UID_INPUT:</span>
+                <input type="text" id="matchId" placeholder="MATCH_UUID" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
             </div>
-            <button id="analyzeBtn" class="terminal-btn">--RUN_EXECUTION--</button>
+            <button id="analyzeBtn" class="terminal-btn">[ EXEC_ANALYSIS ]</button>
         </section>
 
         <div id="loading" class="hidden">
@@ -48,18 +39,19 @@
 
         <div id="results" class="hidden">
             <div class="divider">============================================================</div>
-            <div class="output-header">MATCH ANALYSIS COMPLETED</div>
+            <div class="output-header">ANALYSIS_REPORT</div>
             <div class="divider">============================================================</div>
             
             <div class="stats-output">
-                AGENT: <span id="resAgent">--</span><br>
-                MAP  : <span id="resMap">--</span><br>
-                META : <span id="resPerformance">--</span> (<span id="resKdDetail">--</span>)<br>
-                KPI  : <span id="resCombat">--</span>
+                AGENT   : <span id="resAgent">--</span><br>
+                MAP     : <span id="resMap">--</span><br>
+                PERF    : <span id="resPerformance">--</span><br>
+                METRICS : <span id="resKdDetail">--</span><br>
+                COMBAT  : <span id="resCombat">--</span>
             </div>
 
             <div class="divider">------------------------------------------------------------</div>
-            <div class="output-header">ROUND_LOGS_STREAM</div>
+            <div class="output-header">TACTICAL_LOG_STREAM</div>
             <div class="divider">------------------------------------------------------------</div>
             
             <div id="roundTimeline" class="timeline"></div>

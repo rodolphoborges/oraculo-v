@@ -35,32 +35,25 @@ body {
 }
 
 .terminal {
-    max-width: 900px;
+    max-width: 850px;
     margin: 0 auto;
     position: relative;
 }
 
-.ascii-logo {
-    color: var(--term-red);
-    font-size: 8px;
-    line-height: 1;
-    margin-bottom: 2rem;
-    opacity: 0.8;
-}
-
 header {
     margin-bottom: 3rem;
-    border-left: 2px solid var(--term-red);
-    padding-left: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--term-dim);
 }
 
 .val-header {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--term-white);
+    font-weight: 700;
 }
 
 .val-header .highlight {
-    color: var(--term-red);
+    color: var(--term-green);
 }
 
 .blink {
@@ -123,8 +116,8 @@ input {
 .output-header {
     font-weight: bold;
     text-transform: uppercase;
-    color: var(--term-red);
-    letter-spacing: 1px;
+    color: var(--term-white);
+    letter-spacing: 2px;
 }
 
 .stats-output {
@@ -143,27 +136,77 @@ input {
 .round-item {
     margin-bottom: 2rem;
     border-left: 1px solid var(--term-dim);
-    padding-left: 1rem;
+    padding-left: 1.5rem;
 }
 
 .round-id {
-    color: var(--term-red);
+    color: var(--term-white);
     font-weight: bold;
     margin-bottom: 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    opacity: 0.8;
 }
 
 .feedback-line {
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .explanation-line {
     font-size: 0.8rem;
     color: var(--term-dim);
     margin-top: 0.5rem;
-    font-style: italic;
     padding-left: 1rem;
-    border-left: 1px dashed var(--term-dim);
+    border-left: 1px solid rgba(0, 255, 65, 0.2);
+}
+
+/* Tactical Map Styles */
+.tactical-container {
+    margin-top: 1.5rem;
+    border: 1px solid var(--term-dim);
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.tactical-map {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background: #0a0a0a;
+    margin: 10px 0;
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 65, 0.1);
+}
+
+.map-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.4;
+    filter: grayscale(1) brightness(0.8) contrast(1.2) invert(0.1);
+}
+
+.map-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px currentColor;
+    z-index: 10;
+}
+
+.map-point.killer { background-color: var(--term-green); color: var(--term-green); }
+.map-point.victim { background-color: var(--term-red); color: var(--term-red); }
+
+.map-label {
+    position: absolute;
+    font-size: 0.6rem;
+    color: var(--term-white);
+    background: rgba(0,0,0,0.7);
+    padding: 2px 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(5px, -15px);
 }
 
 .pos { color: var(--term-green); opacity: 0.9; }
