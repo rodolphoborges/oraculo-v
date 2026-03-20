@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oráculo V - Valorant Match Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <header>
+            <h1>ORÁCULO <span class="highlight">V</span></h1>
+            <p class="subtitle">Análise Tática & Meta-Evolution</p>
+        </header>
+
+        <main>
+            <section class="search-box">
+                <div class="input-group">
+                    <input type="text" id="playerTag" placeholder="PLAYER#TAG" value="OUSADIA#013">
+                    <input type="text" id="matchId" placeholder="Match ID (UUID)" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
+                    <button id="analyzeBtn">ANALISAR PARTIDA</button>
+                </div>
+            </section>
+
+            <section id="loading" class="hidden">
+                <div class="loader"></div>
+                <p>O Oráculo está processando os dados do Tracker-GG...</p>
+            </section>
+
+            <section id="results" class="hidden">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <label>Agente</label>
+                        <div id="resAgent" class="value">--</div>
+                    </div>
+                    <div class="stat-card">
+                        <label>Mapa</label>
+                        <div id="resMap" class="value">--</div>
+                    </div>
+                    <div class="stat-card highlight-card">
+                        <label>K/D vs Meta</label>
+                        <div id="resPerformance" class="value">--</div>
+                        <div id="resKdDetail" class="detail">K/D: 0 | Meta: 0</div>
+                    </div>
+                    <div class="stat-card">
+                        <label>ACS / ADR</label>
+                        <div id="resCombat" class="value">--</div>
+                    </div>
+                </div>
+
+                <div class="timeline-container">
+                    <h3>LINHA DO TEMPO DOS ROUNDS</h3>
+                    <div id="roundTimeline" class="timeline"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Oráculo V - Powered by Tracker-GG & DeepMind Agents</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
