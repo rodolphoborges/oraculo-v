@@ -18,7 +18,7 @@
   "rounds": [
     {
       "round": 1,
-      "pos": "Interrupção de avanço inimigo aos 0:23 com Ghost (JETT).",
+      "pos": "Domínio de espaço com Ghost contra Clove (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Ghost) aos 0:23. // Abate realizado com equipamento inferior (Investimento: 700).",
       "tactical_events": [
@@ -71,7 +71,7 @@
     {
       "round": 3,
       "pos": "Interrupção de avanço inimigo aos 0:15 com Ghost (JETT).",
-      "neg": "Pego fora de posição em área disputada aos 0:17 (JETT).",
+      "neg": "Neutralizado por Yoru (Phantom) em momento desfavorável aos 0:17 (JETT).",
       "explanation": "Abate chave contra Veto (Ghost) aos 0:15. // Neutralizado por Yoru (Phantom) aos 0:17. // Abate realizado com equipamento inferior (Investimento: 1050).",
       "tactical_events": [
         {
@@ -141,7 +141,7 @@
     {
       "round": 5,
       "pos": null,
-      "neg": "Derrota em duelo direto contra Clove (Dano: 240 // JETT).",
+      "neg": "Pego fora de posição em área disputada aos 0:19 (JETT).",
       "explanation": "Neutralizado por Clove (Vandal) aos 0:19.",
       "tactical_events": [
         {
@@ -167,7 +167,7 @@
     {
       "round": 6,
       "pos": null,
-      "neg": "Eliminação isolada aos 0:22 sem apoio próximo (JETT).",
+      "neg": "Dificuldade em conter Waylay (Vandal) aos 0:22 (JETT).",
       "explanation": "Neutralizado por Waylay (Vandal) aos 0:22. // Eliminado sem causar impacto significativo (0 de dano).",
       "tactical_events": [
         {
@@ -192,7 +192,7 @@
     },
     {
       "round": 7,
-      "pos": "Abate de abertura decisivo contra Jett aos 0:50 (JETT).",
+      "pos": "Domínio de espaço com Vandal contra Jett (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Yoru (Vandal) aos 0:42. // Abate chave contra Jett (Vandal) aos 0:50. // Desarmou a Spike garantindo a vitória no round.",
       "tactical_events": [
@@ -236,7 +236,7 @@
     },
     {
       "round": 8,
-      "pos": "Interrupção de avanço inimigo aos 0:26 com Vandal (JETT).",
+      "pos": "Superioridade mecânica com Vandal vs Yoru (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Vandal) aos 0:21. // Abate chave contra Yoru (Vandal) aos 0:26.",
       "tactical_events": [
@@ -280,7 +280,7 @@
     },
     {
       "round": 9,
-      "pos": "Interrupção de avanço inimigo aos 1:17 com Vandal (JETT).",
+      "pos": "Domínio de espaço com Vandal contra Waylay (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Vandal) aos 0:23. // Abate chave contra Waylay (Vandal) aos 1:17.",
       "tactical_events": [
@@ -325,7 +325,7 @@
     {
       "round": 10,
       "pos": null,
-      "neg": "Eliminação isolada aos 0:29 sem apoio próximo (JETT).",
+      "neg": "Neutralizado por Clove (Classic) em momento desfavorável aos 0:29 (JETT).",
       "explanation": "Neutralizado por Clove (Classic) aos 0:29.",
       "tactical_events": [
         {
@@ -383,7 +383,7 @@
     },
     {
       "round": 13,
-      "pos": "Abate de abertura decisivo contra Clove aos 0:38 (JETT).",
+      "pos": "Domínio de espaço com Frenzy contra Clove (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Frenzy) aos 0:38. // Abate realizado com equipamento inferior (Investimento: 800).",
       "tactical_events": [
@@ -410,7 +410,7 @@
     {
       "round": 14,
       "pos": null,
-      "neg": "Dificuldade em conter Clove (Sheriff) aos 0:24 (JETT).",
+      "neg": "Derrota em duelo direto contra Clove (Dano: 237 // JETT).",
       "explanation": "Neutralizado por Clove (Sheriff) aos 0:24. // Eliminado sem causar impacto significativo (13 de dano).",
       "tactical_events": [
         {
@@ -435,8 +435,8 @@
     },
     {
       "round": 15,
-      "pos": "Domínio de espaço com Bucky contra Waylay (JETT).",
-      "neg": "Pego fora de posição em área disputada aos 0:21 (JETT).",
+      "pos": "Interrupção de avanço inimigo aos 0:13 com Bucky (JETT).",
+      "neg": "Eliminação isolada aos 0:21 sem apoio próximo (JETT).",
       "explanation": "Abate chave contra Waylay (Bucky) aos 0:13. // Neutralizado por Jett (Vandal) aos 0:21. // Abate realizado com equipamento inferior (Investimento: 1400).",
       "tactical_events": [
         {
@@ -512,8 +512,8 @@
     },
     {
       "round": 18,
-      "pos": "Domínio de espaço com Stinger contra Yoru (JETT).",
-      "neg": "Dificuldade em conter Clove (Phantom) aos 0:22 (JETT).",
+      "pos": "Superioridade mecânica com Stinger vs Yoru (JETT).",
+      "neg": "Eliminação isolada aos 0:22 sem apoio próximo (JETT).",
       "explanation": "Abate chave contra Yoru (Stinger) aos 0:12. // Neutralizado por Clove (Phantom) aos 0:22.",
       "tactical_events": [
         {
