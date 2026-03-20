@@ -1,0 +1,201 @@
+{
+  "player": "mwzeraDaShopee#s2s2",
+  "agent": "Jett",
+  "map": "Fracture",
+  "acs": 282.1904761904762,
+  "adr": 189.85714285714286,
+  "kd": 1.4666666666666666,
+  "meta_kd": 1.0,
+  "performance_vs_meta": "ACIMA DA MÉDIA (146.7%)",
+  "rounds": [
+    {
+      "round": 1,
+      "score": 530,
+      "kills": 2,
+      "deaths": 1,
+      "pos": "ECO FRAG",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 700)."
+    },
+    {
+      "round": 2,
+      "score": 733,
+      "kills": 3,
+      "deaths": 0,
+      "pos": "MULTI-KILL (3 ABATES)",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 3 TRADES EFICIENTES."
+    },
+    {
+      "round": 3,
+      "score": 1083,
+      "kills": 4,
+      "deaths": 0,
+      "pos": "MULTI-KILL (4 ABATES)",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 4 TRADES EFICIENTES."
+    },
+    {
+      "round": 4,
+      "score": 405,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "ABATE CRÍTICO",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+    },
+    {
+      "round": 5,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+    },
+    {
+      "round": 6,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+    },
+    {
+      "round": 7,
+      "score": 458,
+      "kills": 2,
+      "deaths": 1,
+      "pos": "ECO FRAG",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 1800)."
+    },
+    {
+      "round": 8,
+      "score": 260,
+      "kills": 1,
+      "deaths": 0,
+      "pos": "ABATE CRÍTICO",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+    },
+    {
+      "round": 9,
+      "score": 40,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (40 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+    },
+    {
+      "round": 10,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+    },
+    {
+      "round": 11,
+      "score": 400,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "ABATE CRÍTICO",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+    },
+    {
+      "round": 12,
+      "score": 447,
+      "kills": 2,
+      "deaths": 0,
+      "pos": "MULTI-KILL (2 ABATES)",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
+    },
+    {
+      "round": 13,
+      "score": 243,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "ECO FRAG",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE. // CONSEGUIU ABATE COM EQUIPAMENTO INFERIOR (VALUE: 800)."
+    },
+    {
+      "round": 14,
+      "score": 30,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (30 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+    },
+    {
+      "round": 15,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+    },
+    {
+      "round": 16,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "BAIXA PRESENÇA",
+      "explanation": "POUCA INTERAÇÃO DIRETA OU DANO CAUSADO NESTE ROUND."
+    },
+    {
+      "round": 17,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "MORTE SEM TRADE",
+      "explanation": "ELIMINADO COM BAIXA PARTICIPAÇÃO (0 DANO). POSSÍVEL FALHA DE POSICIONAMENTO."
+    },
+    {
+      "round": 18,
+      "score": 478,
+      "kills": 2,
+      "deaths": 0,
+      "pos": "MULTI-KILL (2 ABATES)",
+      "neg": "",
+      "explanation": "GARANTIU VANTAGEM NUMÉRICA COM 2 TRADES EFICIENTES."
+    },
+    {
+      "round": 19,
+      "score": 270,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "ABATE CRÍTICO",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+    },
+    {
+      "round": 20,
+      "score": 255,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "ABATE CRÍTICO",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+    },
+    {
+      "round": 21,
+      "score": 294,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "ABATE CRÍTICO",
+      "neg": "",
+      "explanation": "CONTRIBUIU COM ELIMINAÇÃO CHAVE PARA O CONTROLE DO SITE."
+    }
+  ]
+}

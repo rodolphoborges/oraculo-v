@@ -43,8 +43,8 @@ analyzeBtn.addEventListener('click', async () => {
 function renderResults(data) {
     document.getElementById('resAgent').innerHTML = `<b>${data.agent.toUpperCase()}</b>`;
     document.getElementById('resMap').innerHTML = `<b>${data.map.toUpperCase()}</b>`;
-    document.getElementById('resPerformance').innerHTML = `<b>${data.performance_vs_meta.toUpperCase()}</b>`;
-    document.getElementById('resKdDetail').textContent = `K/D_ACTUAL: ${data.kd.toFixed(2)} // TARGET: ${data.meta_kd.toFixed(2)}`;
+    document.getElementById('resPerformance').innerHTML = `<b>${data.performance_vs_meta.toUpperCase()}</b> [${data.meta_category}]`;
+    document.getElementById('resKdDetail').textContent = `K/D_ACTUAL: ${data.kd.toFixed(2)} // META_TARGET: ${data.target_kd.toFixed(2)}`;
     document.getElementById('resCombat').innerHTML = `<b>${data.acs.toFixed(0)}</b> ACS // <b>${data.adr.toFixed(0)}</b> ADR`;
 
     const timeline = document.getElementById('roundTimeline');
