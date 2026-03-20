@@ -229,12 +229,24 @@ input {
 .map-label {
     position: absolute;
     font-size: 0.6rem;
-    color: var(--term-white);
-    background: rgba(0,0,0,0.7);
-    padding: 2px 4px;
     white-space: nowrap;
-    pointer-events: none;
-    transform: translate(5px, -15px);
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1px 4px;
+    border: 1px solid currentColor;
+}
+
+.glossary-section {
+    padding: 10px 0;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.glossary-line {
+    margin: 4px 0;
+    color: var(--term-white);
 }
 
 .pos { color: var(--term-green); opacity: 0.9; }
