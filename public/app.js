@@ -18,7 +18,14 @@ analyzeBtn.addEventListener('click', async () => {
     resultsSec.classList.add('hidden');
     analyzeBtn.disabled = true;
 
+    const loadingLines = loadingSec.querySelectorAll('p');
+    loadingLines[0].innerHTML = '> [ ACESSANDO_SATÉLITE_VSTATS... ] <span class="loading-cursor"></span>';
+    
     try {
+        setTimeout(() => {
+            loadingLines[1].innerHTML = '> [ DECRIPTANDO_DADOS_DE_PARTIDA... ] <span class="loading-cursor"></span>';
+        }, 800);
+
         const response = await fetch('/api/analyze', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -128,4 +135,15 @@ function renderResults(data) {
 
     resultsSec.classList.remove('hidden');
     resultsSec.scrollIntoView({ behavior: 'smooth' });
+
+    // Efeito de digitação suave para o cabeçalho do relatório
+    const header = document.querySelector('.terminal-header');
+    if (header) {
+        header.style.width = '0';
+        header.classList.add('typing');
+        setTimeout(() => {
+            header.style.width = 'auto';
+            header.style.borderRight = 'none';
+        }, 1500);
+    }
 }
