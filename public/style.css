@@ -167,6 +167,27 @@ input {
     background: rgba(0, 0, 0, 0.3);
 }
 
+/* Legenda abaixo do mapa */
+.map-legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 6px;
+    font-size: 0.55rem;
+    color: var(--term-dim);
+    letter-spacing: 0.5px;
+}
+.map-legend-item { display: flex; align-items: center; gap: 4px; }
+.legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    box-shadow: 0 0 5px currentColor;
+    flex-shrink: 0;
+}
+.legend-dot.killer { color: var(--term-green); background: var(--term-green); }
+.legend-dot.victim  { color: var(--term-red);   background: var(--term-red); }
+.legend-dot.aim     { width: 5px; height: 5px; color: #ece8e1; background: #ece8e1; box-shadow: 0 0 4px #ece8e1; }
+
 .tactical-map {
     position: relative;
     width: 300px;
@@ -255,24 +276,26 @@ input {
 .map-point:hover .map-label { display: block; }
 
 /* ── Cone de visão ───────────────────────────── */
+/* O cone é posicionado com top:50%;left:50% dentro do .map-point.
+   Isso coloca o seu canto superior-esquerdo exatamente no centro do ponto.
+   transform-origin:top left faz a rotação ocorrer a partir desse mesmo ponto.
+   O gradient cônico tem seu centro em 0% 0% para irradiar da origem correta. */
 .vision-cone {
     position: absolute;
-    /* centrado no ponto */
     top: 50%;
     left: 50%;
-    width: 36px;
-    height: 36px;
-    /* fan de 50° com gradient cónico */
+    width: 50px;
+    height: 50px;
     background: conic-gradient(
-        from -25deg,
+        at 0% 0%,
         transparent 0deg,
-        currentColor 0deg,
-        currentColor 50deg,
-        transparent 50deg
+        transparent 335deg,
+        currentColor 335deg,
+        currentColor 360deg
     );
-    opacity: 0.22;
+    opacity: 0.28;
     pointer-events: none;
-    transform-origin: top left;   /* rotação pivota no centro do ponto */
+    transform-origin: 0% 0%;  /* pivota exatamente no centro do .map-point */
     z-index: 5;
 }
 
@@ -285,12 +308,11 @@ input {
     left: 50%;
     width: 4px;
     height: 4px;
-    background: #ff4655;
+    background: #ece8e1;          /* branco — representa a MIRA, não um jogador */
     border-radius: 50%;
-    box-shadow: 0 0 5px #ff4655, 0 0 10px rgba(255,70,85,0.7);
+    box-shadow: 0 0 4px #ece8e1, 0 0 8px rgba(236,232,225,0.6);
     z-index: 15;
     pointer-events: none;
-    /* a animação de translate é aplicada via style inline no JS */
 }
 
 

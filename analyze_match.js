@@ -101,9 +101,9 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     analysisResult.target_kd = targetKd;
     analysisResult.estimated_rank = estimatedRank;
 
-    // Salva o relatório local
+    // Salva o relatório local enriquecido (com rank estimado e meta)
     const finalReportPath = `analysis_${playerTag.replace('#', '_')}.json`;
-    fs.writeFileSync(finalReportPath, stdout, 'utf8');
+    fs.writeFileSync(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
     
     return analysisResult;
   } catch (err) {

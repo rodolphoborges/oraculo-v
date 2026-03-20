@@ -77,19 +77,16 @@ function renderResults(data) {
     const timeline = document.getElementById('roundTimeline');
     timeline.innerHTML = '';
 
+    const agents = ["Astra","Breach","Brimstone","Chamber","Cypher","Deadlock","Fade","Gekko","Harbor","Iso","Jett","KAY/O","Killjoy","Neon","Omen","Phoenix","Raze","Reyna","Sage","Skye","Sova","Tejo","Viper","Vyse","Yoru"];
+    const highlightAgents = (text) => {
+        let h = text;
+        agents.forEach(a => { h = h.replace(new RegExp(`\\b${a}\\b`, 'gi'), `<b>$&</b>`); });
+        return h;
+    };
+
     data.rounds.forEach(r => {
         const item = document.createElement('div');
         item.className = 'round-item';
-        
-        const agents = ["Astra", "Breach", "Brimstone", "Chamber", "Cypher", "Deadlock", "Fade", "Gekko", "Harbor", "Iso", "Jett", "KAY/O", "Killjoy", "Neon", "Omen", "Phoenix", "Raze", "Reyna", "Sage", "Skye", "Sova", "Tejo", "Viper", "Vyse", "Yoru"];
-        const highlightAgents = (text) => {
-            let highlighted = text;
-            agents.forEach(agent => {
-                const regex = new RegExp(`\\b${agent}\\b`, 'gi');
-                highlighted = highlighted.replace(regex, `<b>$&</b>`);
-            });
-            return highlighted;
-        };
 
         let feedbackContent = '';
         if (r.pos) feedbackContent += `<div class="feedback-line pos">[OK] ${highlightAgents(r.pos.toUpperCase())}</div>`;
@@ -106,7 +103,6 @@ function renderResults(data) {
                 if (!pos) return '';
                 const mx = (pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
                 const my = (pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
-                const deg = radiansVal * (180 / Math.PI) - 90;
 
                 const agentSlug = agentName.toLowerCase().replace(/[^a-z]/g, '');
                 const uuid = agentIconMap[agentSlug];
@@ -115,6 +111,14 @@ function renderResults(data) {
                     : '';
                 const initials = agentName.slice(0, 2).toUpperCase();
                 const tooltip = isPlayer ? `${agentName.toUpperCase()} (VOCÊ)` : agentName.toUpperCase();
+
+                // Só renderiza cone e mira se o ângulo for válido
+                const hasAngle = (radiansVal !== null && radiansVal !== undefined && !isNaN(radiansVal));
+                const deg = hasAngle ? (radiansVal * (180 / Math.PI) - 90) : 0;
+                const coneHtml = hasAngle
+                    ? `<div class="vision-cone" style="transform:rotate(${deg}deg)"></div>
+                       <div class="aim-point" style="transform:translate(-50%,-50%) rotate(${deg}deg) translateY(-30px)"></div>`
+                    : '';
 
                 return `
                     <div class="map-point ${role} ${isPlayer ? 'player' : ''}" style="left:${mx}%;top:${my}%">
@@ -126,8 +130,7 @@ function renderResults(data) {
                         }
                         <span class="agent-initials" style="display:${iconUrl ? 'none' : 'flex'}">${initials}</span>
                         <div class="map-label">${tooltip}</div>
-                        <div class="vision-cone" style="transform:rotate(${deg}deg)"></div>
-                        <div class="aim-point" style="transform:translate(-50%,-50%) rotate(${deg}deg) translateY(-30px)"></div>
+                        ${coneHtml}
                     </div>
                 `;
             };
@@ -141,6 +144,12 @@ function renderResults(data) {
                             makeMarker(ev.killer_pos, ev.killer_radians, ev.killer_agent, 'killer', ev.is_player_killer) +
                             makeMarker(ev.victim_pos, ev.victim_radians, ev.victim_agent, 'victim', ev.is_player_victim)
                         ).join('')}
+                    </div>
+                    <div class="map-legend">
+                        <div class="map-legend-item"><div class="legend-dot killer"></div> MATADOR</div>
+                        <div class="map-legend-item"><div class="legend-dot victim"></div> VÍTIMA</div>
+                        <div class="map-legend-item"><div class="legend-dot aim"></div> DIREÇÃO DA MIRA</div>
+                        <div class="map-legend-item" style="color:var(--term-dim);opacity:0.7">[ PASSE O MOUSE PARA VER O AGENTE ]</div>
                     </div>
                 </div>
             `;
