@@ -18,7 +18,7 @@
   "rounds": [
     {
       "round": 1,
-      "pos": "Eliminação crucial de Clove com Ghost aos 0:23 (JETT).",
+      "pos": "Domínio de espaço com Ghost contra Clove (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Ghost) aos 0:23. // Abate realizado com equipamento inferior (Investimento: 700).",
       "tactical_events": [
@@ -34,9 +34,12 @@
             "x": 6767,
             "y": -10523
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 6525,
+            "y": -8645
+          },
           "killer_radians": 1.708567,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -45,7 +48,7 @@
     {
       "round": 2,
       "pos": null,
-      "neg": "Neutralizado por Jett (Spectre) em momento desfavorável aos 0:56 (JETT).",
+      "neg": "Eliminação isolada aos 0:56 sem apoio próximo (JETT).",
       "explanation": "Neutralizado por Jett (Spectre) aos 0:56. // Eliminado sem causar impacto significativo (22 de dano).",
       "tactical_events": [
         {
@@ -60,9 +63,12 @@
             "x": -1316,
             "y": -9865
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -3608,
+            "y": -10102
+          },
           "killer_radians": 3.2383294,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -70,8 +76,8 @@
     },
     {
       "round": 3,
-      "pos": "Interrupção de avanço inimigo aos 0:15 com Ghost (JETT).",
-      "neg": "Eliminação isolada aos 0:17 sem apoio próximo (JETT).",
+      "pos": "Domínio de espaço com Ghost contra Veto (JETT).",
+      "neg": "Dificuldade em conter Yoru (Phantom) aos 0:17 (JETT).",
       "explanation": "Abate chave contra Veto (Ghost) aos 0:15. // Neutralizado por Yoru (Phantom) aos 0:17. // Abate realizado com equipamento inferior (Investimento: 1050).",
       "tactical_events": [
         {
@@ -86,9 +92,12 @@
             "x": 4140,
             "y": -8557
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 4154,
+            "y": -8233
+          },
           "killer_radians": 1.4959189,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -104,9 +113,12 @@
             "x": 5944,
             "y": -8121
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 4264,
+            "y": -8184
+          },
           "killer_radians": 3.149742,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -115,7 +127,7 @@
     {
       "round": 4,
       "pos": null,
-      "neg": "Eliminação isolada aos 0:29 sem apoio próximo (JETT).",
+      "neg": "Pego fora de posição em área disputada aos 0:29 (JETT).",
       "explanation": "Neutralizado por Clove (Vandal) aos 0:29. // Eliminado sem causar impacto significativo (0 de dano).",
       "tactical_events": [
         {
@@ -130,9 +142,12 @@
             "x": -2758,
             "y": -7782
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -1950,
+            "y": -7860
+          },
           "killer_radians": 6.1813674,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -156,9 +171,12 @@
             "x": 6826,
             "y": -7042
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 6811,
+            "y": -10419
+          },
           "killer_radians": 4.6877494,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -167,7 +185,7 @@
     {
       "round": 6,
       "pos": null,
-      "neg": "Neutralizado por Waylay (Vandal) em momento desfavorável aos 0:22 (JETT).",
+      "neg": "Derrota em duelo direto contra Waylay (Dano: 160 // JETT).",
       "explanation": "Neutralizado por Waylay (Vandal) aos 0:22. // Eliminado sem causar impacto significativo (0 de dano).",
       "tactical_events": [
         {
@@ -182,9 +200,12 @@
             "x": -374,
             "y": -9022
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -556,
+            "y": -10834
+          },
           "killer_radians": 4.6158442,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -192,7 +213,7 @@
     },
     {
       "round": 7,
-      "pos": "Superioridade mecânica com Vandal vs Jett (JETT).",
+      "pos": "Eliminação crucial de Jett com Vandal aos 0:50 (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Yoru (Vandal) aos 0:42. // Abate chave contra Jett (Vandal) aos 0:50. // Desarmou a Spike garantindo a vitória no round.",
       "tactical_events": [
@@ -208,9 +229,12 @@
             "x": 3291,
             "y": -6062
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 6073,
+            "y": -7088
+          },
           "killer_radians": 5.9331503,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -226,9 +250,12 @@
             "x": 6440,
             "y": -7179
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 7274,
+            "y": -9156
+          },
           "killer_radians": 5.1138124,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -236,7 +263,7 @@
     },
     {
       "round": 8,
-      "pos": "Superioridade mecânica com Vandal vs Yoru (JETT).",
+      "pos": "Eliminação crucial de Yoru com Vandal aos 0:26 (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Vandal) aos 0:21. // Abate chave contra Yoru (Vandal) aos 0:26.",
       "tactical_events": [
@@ -252,9 +279,12 @@
             "x": -1644,
             "y": -8019
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -2563,
+            "y": -9220
+          },
           "killer_radians": 4.0578585,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -270,9 +300,12 @@
             "x": -313,
             "y": -8908
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -561,
+            "y": -9860
+          },
           "killer_radians": 4.458515,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -296,9 +329,12 @@
             "x": 1722,
             "y": -7596
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 1354,
+            "y": -8156
+          },
           "killer_radians": 4.1399264,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -314,9 +350,12 @@
             "x": 1328,
             "y": -7632
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 2045,
+            "y": -8410
+          },
           "killer_radians": 5.470751,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -340,9 +379,12 @@
             "x": 6245,
             "y": -6894
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 4055,
+            "y": -6279
+          },
           "killer_radians": 2.8658595,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -351,7 +393,7 @@
     {
       "round": 11,
       "pos": null,
-      "neg": "Eliminação isolada aos 0:23 sem apoio próximo (JETT).",
+      "neg": "Derrota em duelo direto contra Veto (Dano: 195 // JETT).",
       "explanation": "Neutralizado por Veto (Guardian) aos 0:23. // Eliminado sem causar impacto significativo (0 de dano).",
       "tactical_events": [
         {
@@ -366,9 +408,12 @@
             "x": -2656,
             "y": -8870
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -2383,
+            "y": -4659
+          },
           "killer_radians": 1.5045475,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -383,7 +428,7 @@
     },
     {
       "round": 13,
-      "pos": "Domínio de espaço com Frenzy contra Clove (JETT).",
+      "pos": "Eliminação crucial de Clove com Frenzy aos 0:38 (JETT).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Frenzy) aos 0:38. // Abate realizado com equipamento inferior (Investimento: 800).",
       "tactical_events": [
@@ -399,9 +444,12 @@
             "x": 6143,
             "y": -9610
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 5207,
+            "y": -10656
+          },
           "killer_radians": 3.9612179,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -410,7 +458,7 @@
     {
       "round": 14,
       "pos": null,
-      "neg": "Pego fora de posição em área disputada aos 0:24 (JETT).",
+      "neg": "Dificuldade em conter Clove (Sheriff) aos 0:24 (JETT).",
       "explanation": "Neutralizado por Clove (Sheriff) aos 0:24. // Eliminado sem causar impacto significativo (13 de dano).",
       "tactical_events": [
         {
@@ -425,9 +473,12 @@
             "x": 5784,
             "y": -9772
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 6512,
+            "y": -10113
+          },
           "killer_radians": 5.835071,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -435,7 +486,7 @@
     },
     {
       "round": 15,
-      "pos": "Eliminação crucial de Waylay com Bucky aos 0:13 (JETT).",
+      "pos": "Interrupção de avanço inimigo aos 0:13 com Bucky (JETT).",
       "neg": "Dificuldade em conter Jett (Vandal) aos 0:21 (JETT).",
       "explanation": "Abate chave contra Waylay (Bucky) aos 0:13. // Neutralizado por Jett (Vandal) aos 0:21. // Abate realizado com equipamento inferior (Investimento: 1400).",
       "tactical_events": [
@@ -451,9 +502,12 @@
             "x": -2563,
             "y": -7317
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -2756,
+            "y": -7764
+          },
           "killer_radians": 4.296009,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -469,9 +523,12 @@
             "x": -3491,
             "y": -9171
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -1691,
+            "y": -9028
+          },
           "killer_radians": 0.066440545,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -480,7 +537,7 @@
     {
       "round": 16,
       "pos": null,
-      "neg": "Eliminação isolada aos 0:28 sem apoio próximo (JETT).",
+      "neg": "Derrota em duelo direto contra Jett (Dano: 309 // JETT).",
       "explanation": "Neutralizado por Jett (Guardian) aos 0:28. // Eliminado sem causar impacto significativo (0 de dano).",
       "tactical_events": [
         {
@@ -495,9 +552,12 @@
             "x": 2642,
             "y": -8523
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": 1834,
+            "y": -8455
+          },
           "killer_radians": 3.0496497,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -512,8 +572,8 @@
     },
     {
       "round": 18,
-      "pos": "Abate de abertura decisivo contra Yoru aos 0:12 (JETT).",
-      "neg": "Derrota em duelo direto contra Clove (Dano: 156 // JETT).",
+      "pos": "Superioridade mecânica com Stinger vs Yoru (JETT).",
+      "neg": "Pego fora de posição em área disputada aos 0:22 (JETT).",
       "explanation": "Abate chave contra Yoru (Stinger) aos 0:12. // Neutralizado por Clove (Phantom) aos 0:22.",
       "tactical_events": [
         {
@@ -528,9 +588,12 @@
             "x": -1949,
             "y": -9155
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -2995,
+            "y": -9172
+          },
           "killer_radians": 3.157316,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -546,9 +609,12 @@
             "x": -3657,
             "y": -9122
           },
-          "victim_pos": null,
+          "victim_pos": {
+            "x": -2115,
+            "y": -9103
+          },
           "killer_radians": 0.04256797,
-          "victim_radians": 0,
+          "victim_radians": null,
           "is_player_killer": false,
           "is_player_victim": true
         }
