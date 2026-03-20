@@ -43,12 +43,12 @@ analyzeBtn.addEventListener('click', async () => {
 function renderResults(data) {
     document.getElementById('resAgent').innerHTML = `<b>${data.agent.toUpperCase()}</b>`;
     document.getElementById('resMap').innerHTML = `<b>${data.map.toUpperCase()}</b>`;
-    const perfStatus = data.performance_status;
-    const perfColor = perfStatus === 'ABOVE_BASELINE' ? 'var(--term-green)' : 'var(--term-red)';
+    const perfStatus = data.performance_status === 'ABOVE_BASELINE' ? 'ACIMA DA MÉDIA' : 'ABAIXO DA MÉDIA';
+    const perfColor = data.performance_status === 'ABOVE_BASELINE' ? 'var(--term-green)' : 'var(--term-red)';
     
-    document.getElementById('resPerformance').innerHTML = `<span style="color: ${perfColor}">[ RATIO: ${data.performance_index}% // STATUS: ${perfStatus} // META: ${data.meta_category} ]</span>`;
-    document.getElementById('resKdDetail').textContent = `K/D_ACTUAL: ${data.kd.toFixed(2)} // META_TARGET: ${data.target_kd.toFixed(2)}`;
-    document.getElementById('resCombat').innerHTML = `<b>${data.acs.toFixed(0)}</b> ACS // <b>${data.adr.toFixed(0)}</b> ADR`;
+    document.getElementById('resPerformance').innerHTML = `<span style="color: ${perfColor}">[ TAXA: ${data.performance_index}% // SITUAÇÃO: ${perfStatus} // RANKING: ${data.meta_category} ]</span>`;
+    document.getElementById('resKdDetail').textContent = `K/D ATUAL: ${data.kd.toFixed(2)} // ALVO DO RANKING: ${data.target_kd.toFixed(2)}`;
+    document.getElementById('resCombat').innerHTML = `<b>${data.acs.toFixed(0)}</b> PONTUAÇÃO (ACS) // <b>${data.adr.toFixed(0)}</b> DANO MÉDIO (ADR)`;
 
     const timeline = document.getElementById('roundTimeline');
     timeline.innerHTML = '';
@@ -60,7 +60,7 @@ function renderResults(data) {
         let feedbackContent = '';
         if (r.pos) feedbackContent += `<div class="feedback-line pos">[OK] ${r.pos.toUpperCase()}</div>`;
         if (r.neg) feedbackContent += `<div class="feedback-line neg">[!!] ${r.neg.toUpperCase()}</div>`;
-        if (!r.pos && !r.neg) feedbackContent += `<div class="feedback-line neutral">[--] NO_DETECTION</div>`;
+        if (!r.pos && !r.neg) feedbackContent += `<div class="feedback-line neutral">[--] SEM EVENTOS REGISTRADOS</div>`;
 
         // Renderização do Mapa Tático se houver eventos
         let tacticalMapHtml = '';
@@ -68,10 +68,12 @@ function renderResults(data) {
             const mapInfo = data.map_details;
             tacticalMapHtml = `
                 <div class="tactical-container">
-                    <div class="round-id" style="margin-bottom: 5px;">TACTICAL_GRID // RD_${r.round}</div>
+                    <div class="round-id" style="margin-bottom: 5px;">MAPA_TÁTICO // RD_${r.round}</div>
                     <div class="tactical-map">
                         <img src="${mapInfo.imageUrl}" class="map-bg">
                         ${r.tactical_events.map(ev => {
+                            if (!ev.killer_pos || !ev.victim_pos) return '';
+
                             // FÓRMULA CORRIGIDA: Valorant Inverte X e Y para exibição no mini-mapa
                             const kx = (ev.killer_pos.y * mapInfo.xMultiplier + mapInfo.xScalarToAdd) * 100;
                             const ky = (ev.killer_pos.x * mapInfo.yMultiplier + mapInfo.yScalarToAdd) * 100;
@@ -83,13 +85,13 @@ function renderResults(data) {
                                     <div class="vision-cone" style="transform: rotate(${ev.killer_radians * (180 / Math.PI) - 90}deg)">
                                         <div class="aim-point"></div>
                                     </div>
-                                    <div class="map-label">${ev.is_player_killer ? `${ev.killer_agent.toUpperCase()} (YOU)` : ev.killer_agent.toUpperCase()}</div>
+                                    <div class="map-label">${ev.is_player_killer ? `${ev.killer_agent.toUpperCase()} (VOCÊ)` : ev.killer_agent.toUpperCase()}</div>
                                 </div>
                                 <div class="map-point victim" style="left: ${vx}%; top: ${vy}%">
                                     <div class="vision-cone" style="transform: rotate(${ev.victim_radians * (180 / Math.PI) - 90}deg)">
                                         <div class="aim-point"></div>
                                     </div>
-                                    <div class="map-label">${ev.is_player_victim ? `${ev.victim_agent.toUpperCase()} (YOU)` : ev.victim_agent.toUpperCase()}</div>
+                                    <div class="map-label">${ev.is_player_victim ? `${ev.victim_agent.toUpperCase()} (VOCÊ)` : ev.victim_agent.toUpperCase()}</div>
                                 </div>
                             `;
                         }).join('')}
@@ -109,7 +111,7 @@ function renderResults(data) {
             <div class="round-id">RD_${r.round.toString().padStart(2, '0')}${roundSubHeader}</div>
             <div class="feedback-list">
                 ${feedbackContent}
-                <div class="explanation-line">ANALYSIS_LOG: ${r.explanation.toUpperCase()}</div>
+                <div class="explanation-line">REGISTRO_DE_ANÁLISE: ${r.explanation.toUpperCase()}</div>
             </div>
             ${tacticalMapHtml}
         `;

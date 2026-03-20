@@ -14,22 +14,21 @@
         <div class="scanline"></div>
         <header>
             <div class="sys-info">
-                [ SYSTEM_STABLE ]<br>
-                [ STORAGE_LINK: LOCAL ]
+                [ ORACULO-V // ESTADO: ATIVO ]
             </div>
             <h1 class="val-header">ORACULO<span class="highlight">_V</span> <span class="blink">_</span></h1>
         </header>
 
         <section class="cmd-input">
             <div class="input-line">
-                <span class="prompt">TAG_INPUT:</span>
+                <span class="prompt">JOGADOR:</span>
                 <input type="text" id="playerTag" placeholder="PLAYER#000" value="OUSADIA#013">
             </div>
             <div class="input-line">
-                <span class="prompt">UID_INPUT:</span>
-                <input type="text" id="matchId" placeholder="MATCH_UUID" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
+                <span class="prompt">ID_PARTIDA:</span>
+                <input type="text" id="matchId" placeholder="UUID_DA_PARTIDA" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
             </div>
-            <button id="analyzeBtn" class="terminal-btn">[ EXEC_ANALYSIS ]</button>
+            <button id="analyzeBtn" class="terminal-btn">[ INICIAR_ANÁLISE ]</button>
         </section>
 
         <div id="loading" class="hidden">
@@ -39,30 +38,30 @@
 
         <div id="results" class="hidden">
             <div class="divider">============================================================</div>
-            <div class="output-header">ANALYSIS_REPORT</div>
+            <div class="output-header">RELATÓRIO_DE_ANÁLISE</div>
             <div class="divider">============================================================</div>
             
             <div class="stats-output">
-                AGENT   : <span id="resAgent">--</span><br>
-                MAP     : <span id="resMap">--</span><br>
-                PERF    : <span id="resPerformance">--</span><br>
-                METRICS : <span id="resKdDetail">--</span><br>
-                COMBAT  : <span id="resCombat">--</span>
+                AGENTE    : <span id="resAgent">--</span><br>
+                MAPA      : <span id="resMap">--</span><br>
+                DESEMPENHO: <span id="resPerformance">--</span><br>
+                RANKING   : <span id="resKdDetail">--</span><br>
+                COMBATE   : <span id="resCombat">--</span>
             </div>
 
             <div class="divider">------------------------------------------------------------</div>
-            <div class="output-header">TACTICAL_LOG_STREAM</div>
+            <div class="output-header">REGISTRO_TÁTICO_DE_ROUNDS</div>
             <div class="divider">------------------------------------------------------------</div>
             
             <div id="roundTimeline" class="timeline"></div>
             
             <div class="divider">------------------------------------------------------------</div>
             <div class="glossary-section">
-                <div class="output-header">[ GLOSSARY_OF_METRICS ]</div>
-                <div class="glossary-line">- RATIO: Performance ratio vs Rank Baseline (100% = Average).</div>
-                <div class="glossary-line">- K/D_ACTUAL: Your Kill/Death ratio in this match.</div>
-                <div class="glossary-line">- META_TARGET: Target K/D for your Agent/Map at this Rank (via vStats).</div>
-                <div class="glossary-line">- ACS/ADR: Average Combat Score and Damage per Round.</div>
+                <div class="output-header">[ DICIONÁRIO DE MÉTRICAS ]</div>
+                <div class="glossary-line">- TAXA: Desempenho relativo ao Ranking (100% = Média).</div>
+                <div class="glossary-line">- ABATES/MORTES (K/D): Relação entre eliminações e mortes na partida.</div>
+                <div class="glossary-line">- ALVO DO RANKING: K/D esperado para seu Agente/Mapa no seu Ranking.</div>
+                <div class="glossary-line">- PONTUAÇÃO/DANO: Média de Pontuação (ACS) e Dano (ADR) por rodada.</div>
             </div>
 
             <div class="divider">============================================================</div>
