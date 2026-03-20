@@ -45,7 +45,7 @@
     {
       "round": 2,
       "pos": null,
-      "neg": "Dificuldade em conter Clove (Spectre) aos 0:35 (RAZE).",
+      "neg": "Eliminação isolada aos 0:35 sem apoio próximo (RAZE).",
       "explanation": "Neutralizado por Clove (Spectre) aos 0:35.",
       "tactical_events": [
         {
@@ -97,7 +97,7 @@
     {
       "round": 4,
       "pos": "Superioridade mecânica com Judge vs Miks (RAZE).",
-      "neg": "Derrota em duelo direto contra Chamber (Dano: 240 // RAZE).",
+      "neg": "Pego fora de posição em área disputada aos 0:10 (RAZE).",
       "explanation": "Neutralizado por Chamber (Vandal) aos 0:10. // Abate chave contra Miks (Judge) aos 0:06.",
       "tactical_events": [
         {
@@ -141,7 +141,7 @@
     {
       "round": 5,
       "pos": null,
-      "neg": "Derrota em duelo direto contra Raze (Dano: 160 // RAZE).",
+      "neg": "Eliminação isolada aos 0:40 sem apoio próximo (RAZE).",
       "explanation": "Neutralizado por Raze (Vandal) aos 0:40. // Eliminado sem causar impacto significativo (5 de dano).",
       "tactical_events": [
         {
@@ -200,7 +200,7 @@
     {
       "round": 8,
       "pos": null,
-      "neg": "Derrota em duelo direto contra Raze (Dano: 160 // RAZE).",
+      "neg": "Neutralizado por Raze (Phantom) em momento desfavorável aos 0:13 (RAZE).",
       "explanation": "Neutralizado por Raze (Phantom) aos 0:13.",
       "tactical_events": [
         {
@@ -225,7 +225,7 @@
     },
     {
       "round": 9,
-      "pos": "Eliminação crucial de Chamber com Phantom aos 0:33 (RAZE).",
+      "pos": "Superioridade mecânica com Phantom vs Chamber (RAZE).",
       "neg": null,
       "explanation": "Abate chave contra Miks (Phantom) aos 0:29. // Abate chave contra Chamber (Phantom) aos 0:33.",
       "tactical_events": [
@@ -269,8 +269,8 @@
     },
     {
       "round": 10,
-      "pos": "Eliminação crucial de Chamber com Phantom aos 0:45 (RAZE).",
-      "neg": "Eliminação isolada aos 0:46 sem apoio próximo (RAZE).",
+      "pos": "Abate de abertura decisivo contra Chamber aos 0:45 (RAZE).",
+      "neg": "Pego fora de posição em área disputada aos 0:46 (RAZE).",
       "explanation": "Abate chave contra Chamber (Phantom) aos 0:45. // Neutralizado por Raze (Phantom) aos 0:46.",
       "tactical_events": [
         {
@@ -313,8 +313,8 @@
     },
     {
       "round": 11,
-      "pos": "Superioridade mecânica com Phantom vs Skye (RAZE).",
-      "neg": "Pego fora de posição em área disputada aos 1:17 (RAZE).",
+      "pos": "Domínio de espaço com Phantom contra Skye (RAZE).",
+      "neg": "Eliminação isolada aos 1:17 sem apoio próximo (RAZE).",
       "explanation": "Neutralizado por Clove (Vandal) aos 1:17. // Abate chave contra Raze (Phantom) aos 0:09. // Abate chave contra Chamber (Phantom) aos 0:33. // Abate chave contra Skye (Phantom) aos 1:06.",
       "tactical_events": [
         {
@@ -419,7 +419,7 @@
     },
     {
       "round": 13,
-      "pos": "Eliminação crucial de Chamber com Shorty aos 0:45 (RAZE).",
+      "pos": "Interrupção de avanço inimigo aos 0:45 com Shorty (RAZE).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Shorty) aos 0:10. // Abate chave contra Chamber (Shorty) aos 0:45. // Abate realizado com equipamento inferior (Investimento: 700).",
       "tactical_events": [
@@ -489,7 +489,7 @@
     },
     {
       "round": 15,
-      "pos": "Superioridade mecânica com Phantom vs Skye (RAZE).",
+      "pos": "Domínio de espaço com Phantom contra Skye (RAZE).",
       "neg": null,
       "explanation": "Abate chave contra Miks (Phantom) aos 0:08. // Abate chave contra Skye (Phantom) aos 0:58.",
       "tactical_events": [
@@ -584,8 +584,8 @@
     },
     {
       "round": 18,
-      "pos": "Interrupção de avanço inimigo aos 0:37 com Phantom (RAZE).",
-      "neg": "Pego fora de posição em área disputada aos 1:05 (RAZE).",
+      "pos": "Domínio de espaço com Phantom contra Chamber (RAZE).",
+      "neg": "Eliminação isolada aos 1:05 sem apoio próximo (RAZE).",
       "explanation": "Abate chave contra Chamber (Phantom) aos 0:37. // Neutralizado por Miks (Bandit) aos 1:05.",
       "tactical_events": [
         {
@@ -654,7 +654,7 @@
     },
     {
       "round": 20,
-      "pos": "Domínio de espaço com Phantom contra Clove (RAZE).",
+      "pos": "Interrupção de avanço inimigo aos 0:58 com Phantom (RAZE).",
       "neg": null,
       "explanation": "Abate chave contra Clove (Phantom) aos 0:58.",
       "tactical_events": [
@@ -680,7 +680,7 @@
     },
     {
       "round": 21,
-      "pos": "Abate de abertura decisivo contra Chamber aos 0:29 (RAZE).",
+      "pos": "Interrupção de avanço inimigo aos 0:29 com Phantom (RAZE).",
       "neg": null,
       "explanation": "Abate chave contra Chamber (Phantom) aos 0:29.",
       "tactical_events": [
@@ -706,7 +706,7 @@
     },
     {
       "round": 22,
-      "pos": "Eliminação crucial de Clove com Phantom aos 1:02 (RAZE).",
+      "pos": "Interrupção de avanço inimigo aos 1:02 com Phantom (RAZE).",
       "neg": null,
       "explanation": "Abate chave contra Skye (Phantom) aos 0:48. // Abate chave contra Clove (Phantom) aos 1:02.",
       "tactical_events": [
