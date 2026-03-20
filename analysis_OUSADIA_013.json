@@ -1,0 +1,156 @@
+{
+  "player": "OUSADIA#013",
+  "agent": "Jett",
+  "map": "Haven",
+  "acs": 163.77777777777777,
+  "adr": 117.44444444444444,
+  "kd": 1.0,
+  "meta_kd": 1.0,
+  "performance_vs_meta": "Acima da m�dia (100.0%)",
+  "rounds": [
+    {
+      "round": 1,
+      "score": 295,
+      "kills": 1,
+      "deaths": 0,
+      "pos": "Abate importante para abertura de espa�o.",
+      "neg": ""
+    },
+    {
+      "round": 2,
+      "score": 22,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 3,
+      "score": 190,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "Abate importante para abertura de espa�o.",
+      "neg": ""
+    },
+    {
+      "round": 4,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 5,
+      "score": 70,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 6,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 7,
+      "score": 431,
+      "kills": 2,
+      "deaths": 0,
+      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
+      "neg": ""
+    },
+    {
+      "round": 8,
+      "score": 542,
+      "kills": 2,
+      "deaths": 0,
+      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
+      "neg": ""
+    },
+    {
+      "round": 9,
+      "score": 410,
+      "kills": 2,
+      "deaths": 0,
+      "pos": "Multi-kill (2 abates) garantindo vantagem num�rica.",
+      "neg": ""
+    },
+    {
+      "round": 10,
+      "score": 120,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 11,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 12,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 13,
+      "score": 188,
+      "kills": 1,
+      "deaths": 0,
+      "pos": "Abate importante para abertura de espa�o.",
+      "neg": ""
+    },
+    {
+      "round": 14,
+      "score": 13,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 15,
+      "score": 331,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "Abate importante para abertura de espa�o.",
+      "neg": ""
+    },
+    {
+      "round": 16,
+      "score": 0,
+      "kills": 0,
+      "deaths": 1,
+      "pos": "",
+      "neg": "Eliminado precocemente sem troca (Trade)."
+    },
+    {
+      "round": 17,
+      "score": 0,
+      "kills": 0,
+      "deaths": 0,
+      "pos": "",
+      "neg": "Baixa participa��o direta no round."
+    },
+    {
+      "round": 18,
+      "score": 336,
+      "kills": 1,
+      "deaths": 1,
+      "pos": "Abate importante para abertura de espa�o.",
+      "neg": ""
+    }
+  ]
+}
