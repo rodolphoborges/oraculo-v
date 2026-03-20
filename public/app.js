@@ -137,11 +137,9 @@ function renderResults(data) {
 
             tacticalMapHtml = `
                 <div class="tactical-container">
-                    <div class="round-id">RADAR_TÁTICO // RD_${r.round}</div>
+                    <div class="round-id">MAPA_TÁTICO // RD_${r.round}</div>
                     <div class="tactical-map">
                         <img src="${mapInfo.imageUrl}" class="map-bg">
-                        <div class="radar-trail"></div>
-                        <div class="radar-sweep"></div>
                         ${r.tactical_events.map(ev =>
                             makeMarker(ev.killer_pos, ev.killer_radians, ev.killer_agent, 'killer', ev.is_player_killer) +
                             makeMarker(ev.victim_pos, ev.victim_radians, ev.victim_agent, 'victim', ev.is_player_victim)
