@@ -83,13 +83,13 @@ function renderResults(data) {
                                     <div class="vision-cone" style="transform: rotate(${ev.killer_radians * (180 / Math.PI) - 90}deg)">
                                         <div class="aim-point"></div>
                                     </div>
-                                    <div class="map-label">${ev.is_player_killer ? 'YOU' : 'KILLER'}</div>
+                                    <div class="map-label">${ev.is_player_killer ? `${ev.killer_agent.toUpperCase()} (YOU)` : ev.killer_agent.toUpperCase()}</div>
                                 </div>
                                 <div class="map-point victim" style="left: ${vx}%; top: ${vy}%">
                                     <div class="vision-cone" style="transform: rotate(${ev.victim_radians * (180 / Math.PI) - 90}deg)">
                                         <div class="aim-point"></div>
                                     </div>
-                                    <div class="map-label">${ev.is_player_victim ? 'YOU' : 'VICTIM'}</div>
+                                    <div class="map-label">${ev.is_player_victim ? `${ev.victim_agent.toUpperCase()} (YOU)` : ev.victim_agent.toUpperCase()}</div>
                                 </div>
                             `;
                         }).join('')}
@@ -98,11 +98,18 @@ function renderResults(data) {
             `;
         }
 
+        // Extração de metadados do primeiro evento tático relevante
+        let roundSubHeader = '';
+        if (r.tactical_events && r.tactical_events.length > 0) {
+            const mainEvent = r.tactical_events[0];
+            roundSubHeader = ` // ${mainEvent.time} // ${mainEvent.weapon.toUpperCase()}`;
+        }
+
         item.innerHTML = `
-            <div class="round-id">RD_${r.round.toString().padStart(2, '0')}</div>
+            <div class="round-id">RD_${r.round.toString().padStart(2, '0')}${roundSubHeader}</div>
             <div class="feedback-list">
                 ${feedbackContent}
-                <div class="explanation-line">DATA_SOURCE: ${r.explanation.toUpperCase()}</div>
+                <div class="explanation-line">ANALYSIS_LOG: ${r.explanation.toUpperCase()}</div>
             </div>
             ${tacticalMapHtml}
         `;
