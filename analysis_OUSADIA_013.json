@@ -1,1 +1,558 @@
-{"error": "name 'deaths_count' is not defined"}
+{
+  "player": "OUSADIA#013",
+  "agent": "Jett",
+  "map": "Haven",
+  "map_details": {
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2bee0dc9-4ffe-519b-1cbd-7fbe763a6047/displayicon.png",
+    "yMultiplier": -7.5e-05,
+    "xMultiplier": 7.5e-05,
+    "yScalarToAdd": 0.642728,
+    "xScalarToAdd": 1.09345
+  },
+  "acs": 163.77777777777777,
+  "adr": 117.44444444444444,
+  "kd": 1.0,
+  "meta_kd": 1.08,
+  "performance_index": 92.6,
+  "performance_status": "BELOW_BASELINE",
+  "rounds": [
+    {
+      "round": 1,
+      "pos": "Abate de abertura decisivo contra Clove aos 0:23 (JETT).",
+      "neg": null,
+      "explanation": "Abate chave contra Clove (Ghost) aos 0:23. // Abate realizado com equipamento inferior (Investimento: 700).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_agent": "Jett",
+          "victim_agent": "Clove",
+          "weapon": "Ghost",
+          "time": "0:23",
+          "damage": 135,
+          "killer_pos": {
+            "x": 6767,
+            "y": -10523
+          },
+          "victim_pos": null,
+          "killer_radians": 1.708567,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "pos": null,
+      "neg": "Eliminação isolada aos 0:56 sem apoio próximo (JETT).",
+      "explanation": "Neutralizado por Jett (Spectre) aos 0:56. // Eliminado sem causar impacto significativo (22 de dano).",
+      "tactical_events": [
+        {
+          "killer": "Mew#angel",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Jett",
+          "victim_agent": "Jett",
+          "weapon": "Spectre",
+          "time": "0:56",
+          "damage": 161,
+          "killer_pos": {
+            "x": -1316,
+            "y": -9865
+          },
+          "victim_pos": null,
+          "killer_radians": 3.2383294,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "pos": "Domínio de espaço com Ghost contra Veto (JETT).",
+      "neg": "Derrota em duelo direto contra Yoru (Dano: 234 // JETT).",
+      "explanation": "Abate chave contra Veto (Ghost) aos 0:15. // Neutralizado por Yoru (Phantom) aos 0:17. // Abate realizado com equipamento inferior (Investimento: 1050).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "W3B IS B4CK#083",
+          "killer_agent": "Jett",
+          "victim_agent": "Veto",
+          "weapon": "Ghost",
+          "time": "0:15",
+          "damage": 245,
+          "killer_pos": {
+            "x": 4140,
+            "y": -8557
+          },
+          "victim_pos": null,
+          "killer_radians": 1.4959189,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "CoquinhaGelada#boga",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Yoru",
+          "victim_agent": "Jett",
+          "weapon": "Phantom",
+          "time": "0:17",
+          "damage": 234,
+          "killer_pos": {
+            "x": 5944,
+            "y": -8121
+          },
+          "victim_pos": null,
+          "killer_radians": 3.149742,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "pos": null,
+      "neg": "Neutralizado por Clove (Vandal) em momento desfavorável aos 0:29 (JETT).",
+      "explanation": "Neutralizado por Clove (Vandal) aos 0:29. // Eliminado sem causar impacto significativo (0 de dano).",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Clove",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:29",
+          "damage": 151,
+          "killer_pos": {
+            "x": -2758,
+            "y": -7782
+          },
+          "victim_pos": null,
+          "killer_radians": 6.1813674,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "pos": null,
+      "neg": "Eliminação isolada aos 0:19 sem apoio próximo (JETT).",
+      "explanation": "Neutralizado por Clove (Vandal) aos 0:19.",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Clove",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:19",
+          "damage": 240,
+          "killer_pos": {
+            "x": 6826,
+            "y": -7042
+          },
+          "victim_pos": null,
+          "killer_radians": 4.6877494,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "pos": null,
+      "neg": "Derrota em duelo direto contra Waylay (Dano: 160 // JETT).",
+      "explanation": "Neutralizado por Waylay (Vandal) aos 0:22. // Eliminado sem causar impacto significativo (0 de dano).",
+      "tactical_events": [
+        {
+          "killer": "Xupador2000#cuzao",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Waylay",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:22",
+          "damage": 160,
+          "killer_pos": {
+            "x": -374,
+            "y": -9022
+          },
+          "victim_pos": null,
+          "killer_radians": 4.6158442,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "pos": "Abate de abertura decisivo contra Jett aos 0:50 (JETT).",
+      "neg": null,
+      "explanation": "Abate chave contra Yoru (Vandal) aos 0:42. // Abate chave contra Jett (Vandal) aos 0:50. // Desarmou a Spike garantindo a vitória no round.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "CoquinhaGelada#boga",
+          "killer_agent": "Jett",
+          "victim_agent": "Yoru",
+          "weapon": "Vandal",
+          "time": "0:42",
+          "damage": 160,
+          "killer_pos": {
+            "x": 3291,
+            "y": -6062
+          },
+          "victim_pos": null,
+          "killer_radians": 5.9331503,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Mew#angel",
+          "killer_agent": "Jett",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:50",
+          "damage": 239,
+          "killer_pos": {
+            "x": 6440,
+            "y": -7179
+          },
+          "victim_pos": null,
+          "killer_radians": 5.1138124,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "pos": "Interrupção de avanço inimigo aos 0:26 com Vandal (JETT).",
+      "neg": null,
+      "explanation": "Abate chave contra Clove (Vandal) aos 0:21. // Abate chave contra Yoru (Vandal) aos 0:26.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_agent": "Jett",
+          "victim_agent": "Clove",
+          "weapon": "Vandal",
+          "time": "0:21",
+          "damage": 154,
+          "killer_pos": {
+            "x": -1644,
+            "y": -8019
+          },
+          "victim_pos": null,
+          "killer_radians": 4.0578585,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "OUSADIA#013",
+          "victim": "CoquinhaGelada#boga",
+          "killer_agent": "Jett",
+          "victim_agent": "Yoru",
+          "weapon": "Vandal",
+          "time": "0:26",
+          "damage": 200,
+          "killer_pos": {
+            "x": -313,
+            "y": -8908
+          },
+          "victim_pos": null,
+          "killer_radians": 4.458515,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 9,
+      "pos": "Superioridade mecânica com Vandal vs Waylay (JETT).",
+      "neg": null,
+      "explanation": "Abate chave contra Clove (Vandal) aos 0:23. // Abate chave contra Waylay (Vandal) aos 1:17.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_agent": "Jett",
+          "victim_agent": "Clove",
+          "weapon": "Vandal",
+          "time": "0:23",
+          "damage": 234,
+          "killer_pos": {
+            "x": 1722,
+            "y": -7596
+          },
+          "victim_pos": null,
+          "killer_radians": 4.1399264,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Xupador2000#cuzao",
+          "killer_agent": "Jett",
+          "victim_agent": "Waylay",
+          "weapon": "Vandal",
+          "time": "1:17",
+          "damage": 105,
+          "killer_pos": {
+            "x": 1328,
+            "y": -7632
+          },
+          "victim_pos": null,
+          "killer_radians": 5.470751,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 10,
+      "pos": null,
+      "neg": "Neutralizado por Clove (Classic) em momento desfavorável aos 0:29 (JETT).",
+      "explanation": "Neutralizado por Clove (Classic) aos 0:29.",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Clove",
+          "victim_agent": "Jett",
+          "weapon": "Classic",
+          "time": "0:29",
+          "damage": 152,
+          "killer_pos": {
+            "x": 6245,
+            "y": -6894
+          },
+          "victim_pos": null,
+          "killer_radians": 2.8658595,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 11,
+      "pos": null,
+      "neg": "Neutralizado por Veto (Guardian) em momento desfavorável aos 0:23 (JETT).",
+      "explanation": "Neutralizado por Veto (Guardian) aos 0:23. // Eliminado sem causar impacto significativo (0 de dano).",
+      "tactical_events": [
+        {
+          "killer": "W3B IS B4CK#083",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Veto",
+          "victim_agent": "Jett",
+          "weapon": "Guardian",
+          "time": "0:23",
+          "damage": 195,
+          "killer_pos": {
+            "x": -2656,
+            "y": -8870
+          },
+          "victim_pos": null,
+          "killer_radians": 1.5045475,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 12,
+      "pos": null,
+      "neg": null,
+      "explanation": "Round de baixa atividade direta registrada.",
+      "tactical_events": []
+    },
+    {
+      "round": 13,
+      "pos": "Abate de abertura decisivo contra Clove aos 0:38 (JETT).",
+      "neg": null,
+      "explanation": "Abate chave contra Clove (Frenzy) aos 0:38. // Abate realizado com equipamento inferior (Investimento: 800).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Erickluccsss ッ#BR01",
+          "killer_agent": "Jett",
+          "victim_agent": "Clove",
+          "weapon": "Frenzy",
+          "time": "0:38",
+          "damage": 239,
+          "killer_pos": {
+            "x": 6143,
+            "y": -9610
+          },
+          "victim_pos": null,
+          "killer_radians": 3.9612179,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "pos": null,
+      "neg": "Neutralizado por Clove (Sheriff) em momento desfavorável aos 0:24 (JETT).",
+      "explanation": "Neutralizado por Clove (Sheriff) aos 0:24. // Eliminado sem causar impacto significativo (13 de dano).",
+      "tactical_events": [
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Clove",
+          "victim_agent": "Jett",
+          "weapon": "Sheriff",
+          "time": "0:24",
+          "damage": 237,
+          "killer_pos": {
+            "x": 5784,
+            "y": -9772
+          },
+          "victim_pos": null,
+          "killer_radians": 5.835071,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 15,
+      "pos": "Abate de abertura decisivo contra Waylay aos 0:13 (JETT).",
+      "neg": "Eliminação isolada aos 0:21 sem apoio próximo (JETT).",
+      "explanation": "Abate chave contra Waylay (Bucky) aos 0:13. // Neutralizado por Jett (Vandal) aos 0:21. // Abate realizado com equipamento inferior (Investimento: 1400).",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "Xupador2000#cuzao",
+          "killer_agent": "Jett",
+          "victim_agent": "Waylay",
+          "weapon": "Bucky",
+          "time": "0:13",
+          "damage": 160,
+          "killer_pos": {
+            "x": -2563,
+            "y": -7317
+          },
+          "victim_pos": null,
+          "killer_radians": 4.296009,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "Mew#angel",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Jett",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:21",
+          "damage": 148,
+          "killer_pos": {
+            "x": -3491,
+            "y": -9171
+          },
+          "victim_pos": null,
+          "killer_radians": 0.066440545,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 16,
+      "pos": null,
+      "neg": "Eliminação isolada aos 0:28 sem apoio próximo (JETT).",
+      "explanation": "Neutralizado por Jett (Guardian) aos 0:28. // Eliminado sem causar impacto significativo (0 de dano).",
+      "tactical_events": [
+        {
+          "killer": "Mew#angel",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Jett",
+          "victim_agent": "Jett",
+          "weapon": "Guardian",
+          "time": "0:28",
+          "damage": 309,
+          "killer_pos": {
+            "x": 2642,
+            "y": -8523
+          },
+          "victim_pos": null,
+          "killer_radians": 3.0496497,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 17,
+      "pos": null,
+      "neg": null,
+      "explanation": "Round de baixa atividade direta registrada.",
+      "tactical_events": []
+    },
+    {
+      "round": 18,
+      "pos": "Eliminação crucial de Yoru com Stinger aos 0:12 (JETT).",
+      "neg": "Pego fora de posição em área disputada aos 0:22 (JETT).",
+      "explanation": "Abate chave contra Yoru (Stinger) aos 0:12. // Neutralizado por Clove (Phantom) aos 0:22.",
+      "tactical_events": [
+        {
+          "killer": "OUSADIA#013",
+          "victim": "CoquinhaGelada#boga",
+          "killer_agent": "Jett",
+          "victim_agent": "Yoru",
+          "weapon": "Stinger",
+          "time": "0:12",
+          "damage": 135,
+          "killer_pos": {
+            "x": -1949,
+            "y": -9155
+          },
+          "victim_pos": null,
+          "killer_radians": 3.157316,
+          "victim_radians": 0,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer": "Erickluccsss ッ#BR01",
+          "victim": "OUSADIA#013",
+          "killer_agent": "Clove",
+          "victim_agent": "Jett",
+          "weapon": "Phantom",
+          "time": "0:22",
+          "damage": 156,
+          "killer_pos": {
+            "x": -3657,
+            "y": -9122
+          },
+          "victim_pos": null,
+          "killer_radians": 0.04256797,
+          "victim_radians": 0,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    }
+  ]
+}
