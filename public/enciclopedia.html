@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORACULO-V // CONSTITUIÇÃO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .enciclopedia-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        .chapter {
+            margin-bottom: 50px;
+            border-left: 2px solid var(--term-green);
+            padding-left: 20px;
+        }
+        .chapter-title {
+            font-size: 1.4rem;
+            color: var(--term-green);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .rule-block {
+            background: rgba(0, 255, 65, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px dashed rgba(0, 255, 65, 0.3);
+        }
+        .rule-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            text-decoration: none;
+            color: var(--term-green);
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .back-link:hover {
+            background: var(--term-green);
+            color: #000;
+        }
+        .highlight-box {
+            border: 1px solid var(--term-green);
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="scanline"></div>
+        <div class="enciclopedia-container">
+            <a href="index.html" class="back-link">[ < VOLTAR_AO_TERMINAL ]</a>
+            
+            <header>
+                <div class="sys-info">[ DOCUMENTO_DE_REFERÊNCIA // CLASSIFICAÇÃO: PÚBLICA ]</div>
+                <h1 class="val-header">A <span class="highlight">CONSTITUIÇÃO</span> <span class="blink">_</span></h1>
+                <p style="margin-top: -10px; opacity: 0.7;">Princípios e Lógicas de Análise do Oráculo V</p>
+            </header>
+
+            <div class="divider">============================================================</div>
+
+            <!-- CAPÍTULO I -->
+            <div class="chapter">
+                <div class="chapter-title">Capítulo I: O Cálculo da Taxa</div>
+                <p>O coração do Oráculo V é a <strong>TAXA DE DESEMPENHO</strong>. Ela não avalia apenas números brutos, mas sim o seu impacto em relação às expectativas de mercado.</p>
+                <div class="rule-block">
+                    <span class="rule-title">FÓRMULA MESTRA:</span>
+                    <code>(K/D Real / K/D Alvo) * 100</code>
+                </div>
+                <p>O <strong>K/D Alvo</strong> é obtido em tempo real através da base de dados do <code>vStats.gg</code>, filtrando por:</p>
+                <ul>
+                    <li><strong>Agente:</strong> Cada boneco possui uma curva de eficiência diferente.</li>
+                    <li><strong>Mapa:</strong> O domínio tático varia conforme o cenário espacial.</li>
+                    <li><strong>Ranking:</strong> Comparamos você contra os melhores do seu próprio nível.</li>
+                </ul>
+            </div>
+
+            <!-- CAPÍTULO II -->
+            <div class="chapter">
+                <div class="chapter-title">Capítulo II: Anatomia do Round</div>
+                <p>Cada rodada é disseca para identificar eventos de alto impacto. Um round é classificado em três estados possíveis:</p>
+                
+                <div class="rule-block">
+                    <span class="rule-title" style="color: var(--term-green);">[OK] ROUND POSITIVO:</span>
+                    <ul>
+                        <li><strong>Abate de Abertura:</strong> Eliminação que cria vantagem numérica inicial.</li>
+                        <li><strong>Eficiência Econômica:</strong> Abates com armas inferiores (Eco/Pistola).</li>
+                        <li><strong>Objetivo:</strong> Instalação ou desarme bem-sucedido da Spike.</li>
+                        <li><strong>Múltiplos Abates:</strong> Eliminar 2 ou mais adversários em uma zona de conflito.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <span class="rule-title" style="color: var(--term-red);">[!!] ROUND NEGATIVO:</span>
+                    <ul>
+                        <li><strong>Eliminação Precoce:</strong> Morte rápida com zero abates e baixo dano.</li>
+                        <li><strong>Neutralização Isolada:</strong> Morte sem possibilidade de troca (Trade) pelos aliados.</li>
+                        <li><strong>Pego de Surpresa:</strong> Vítima de erros de posicionamento ou timing.</li>
+                    </ul>
+                </div>
+
+                <div class="rule-block">
+                    <span class="rule-title" style="color: #888;">[--] ROUND NEUTRO:</span>
+                    <p>Rodadas com baixa atividade direta. O jogador sobreviveu ou morreu sem eventos que alterassem drasticamente o equilíbrio da partida.</p>
+                </div>
+            </div>
+
+            <!-- CAPÍTULO III -->
+            <div class="chapter">
+                <div class="chapter-title">Capítulo III: Métricas de Elite</div>
+                <p>Para o Oráculo V, K/D é apenas uma parte da história. O verdadeiro valor é medido por:</p>
+                <div class="highlight-box">
+                    <strong>ACS (Pontuação de Combate):</strong> Peso de cada dano, abate e assistência. É o termômetro de agressividade.<br><br>
+                    <strong>ADR (Dano Médio):</strong> A consistência letal. Quanto de HP inimigo você remove efetivamente por round.
+                </div>
+            </div>
+
+            <!-- CAPÍTULO IV -->
+            <div class="chapter">
+                <div class="chapter-title">Capítulo IV: Princípios Éticos</div>
+                <ol>
+                    <li>A análise é puramente baseada em dados, sem viés emocional.</li>
+                    <li>O contexto é rei: Abates aos 0:10 valem mais do que "exit frags" irrelevantes.</li>
+                    <li>A economia dita a expectativa: Esperamos menos de um round de 'Classic' do que de um de 'Vandal'.</li>
+                </ol>
+            </div>
+
+            <div class="divider">============================================================</div>
+            
+            <footer>
+                [ FIM DO DOCUMENTO // VERSÃO 1.0.4 ]
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
