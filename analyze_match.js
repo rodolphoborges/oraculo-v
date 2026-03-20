@@ -62,7 +62,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   }
 
   const targetKd = finalMeta ? finalMeta.kd : 1.0;
-  const metaCategory = finalMeta ? `${rankTier.toUpperCase()} [vStats.gg]` : "BÁSICO [1.0]";
+  const metaCategory = finalMeta ? `${rankTier.toUpperCase()} // VSTATS` : 'BASELINE_AVG';
 
   // 6. Chama o script Python
   try {

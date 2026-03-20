@@ -13,7 +13,8 @@
   "adr": 117.44444444444444,
   "kd": 1.0,
   "meta_kd": 1.08,
-  "performance_vs_meta": "ABAIXO DA MÉDIA (92.6%)",
+  "performance_index": 92.6,
+  "performance_status": "BELOW_BASELINE",
   "rounds": [
     {
       "round": 1,
@@ -35,6 +36,8 @@
             "x": 6525,
             "y": -8645
           },
+          "killer_radians": 1.708567,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -60,6 +63,8 @@
             "x": -3608,
             "y": -10102
           },
+          "killer_radians": 3.2383294,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -85,6 +90,8 @@
             "x": 4154,
             "y": -8233
           },
+          "killer_radians": 1.4959189,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -99,6 +106,8 @@
             "x": 4264,
             "y": -8184
           },
+          "killer_radians": 3.149742,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -124,6 +133,8 @@
             "x": -1950,
             "y": -7860
           },
+          "killer_radians": 6.1813674,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -149,6 +160,8 @@
             "x": 6811,
             "y": -10419
           },
+          "killer_radians": 4.6877494,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -174,6 +187,8 @@
             "x": -556,
             "y": -10834
           },
+          "killer_radians": 4.6158442,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -199,6 +214,8 @@
             "x": 6073,
             "y": -7088
           },
+          "killer_radians": 5.9331503,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -213,6 +230,8 @@
             "x": 7274,
             "y": -9156
           },
+          "killer_radians": 5.1138124,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -238,6 +257,8 @@
             "x": -2563,
             "y": -9220
           },
+          "killer_radians": 4.0578585,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -252,6 +273,8 @@
             "x": -561,
             "y": -9860
           },
+          "killer_radians": 4.458515,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -277,6 +300,8 @@
             "x": 1354,
             "y": -8156
           },
+          "killer_radians": 4.1399264,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -291,6 +316,8 @@
             "x": 2045,
             "y": -8410
           },
+          "killer_radians": 5.470751,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -316,6 +343,8 @@
             "x": 4055,
             "y": -6279
           },
+          "killer_radians": 2.8658595,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -341,6 +370,8 @@
             "x": -2383,
             "y": -4659
           },
+          "killer_radians": 1.5045475,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -376,6 +407,8 @@
             "x": 5207,
             "y": -10656
           },
+          "killer_radians": 3.9612179,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -401,6 +434,8 @@
             "x": 6512,
             "y": -10113
           },
+          "killer_radians": 5.835071,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -426,6 +461,8 @@
             "x": -2756,
             "y": -7764
           },
+          "killer_radians": 4.296009,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -440,6 +477,8 @@
             "x": -1691,
             "y": -9028
           },
+          "killer_radians": 0.066440545,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -465,6 +504,8 @@
             "x": 1834,
             "y": -8455
           },
+          "killer_radians": 3.0496497,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -500,6 +541,8 @@
             "x": -2995,
             "y": -9172
           },
+          "killer_radians": 3.157316,
+          "victim_radians": 0,
           "is_player_killer": true,
           "is_player_victim": false
         },
@@ -514,6 +557,8 @@
             "x": -2115,
             "y": -9103
           },
+          "killer_radians": 0.04256797,
+          "victim_radians": 0,
           "is_player_killer": false,
           "is_player_victim": true
         }

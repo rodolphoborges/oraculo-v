@@ -43,7 +43,10 @@ analyzeBtn.addEventListener('click', async () => {
 function renderResults(data) {
     document.getElementById('resAgent').innerHTML = `<b>${data.agent.toUpperCase()}</b>`;
     document.getElementById('resMap').innerHTML = `<b>${data.map.toUpperCase()}</b>`;
-    document.getElementById('resPerformance').innerHTML = `<b>${data.performance_vs_meta.toUpperCase()}</b> [${data.meta_category}]`;
+    const perfStatus = data.performance_status;
+    const perfColor = perfStatus === 'ABOVE_BASELINE' ? 'var(--term-green)' : 'var(--term-red)';
+    
+    document.getElementById('resPerformance').innerHTML = `<span style="color: ${perfColor}">[ INDEX: ${data.performance_index}% // STATUS: ${perfStatus} // META: ${data.meta_category} ]</span>`;
     document.getElementById('resKdDetail').textContent = `K/D_ACTUAL: ${data.kd.toFixed(2)} // META_TARGET: ${data.target_kd.toFixed(2)}`;
     document.getElementById('resCombat').innerHTML = `<b>${data.acs.toFixed(0)}</b> ACS // <b>${data.adr.toFixed(0)}</b> ADR`;
 
@@ -77,9 +80,15 @@ function renderResults(data) {
                             
                             return `
                                 <div class="map-point killer" style="left: ${kx}%; top: ${ky}%">
+                                    <div class="vision-cone" style="transform: rotate(${ev.killer_radians * (180 / Math.PI) - 90}deg)">
+                                        <div class="aim-point"></div>
+                                    </div>
                                     <div class="map-label">${ev.is_player_killer ? 'YOU' : 'KILLER'}</div>
                                 </div>
                                 <div class="map-point victim" style="left: ${vx}%; top: ${vy}%">
+                                    <div class="vision-cone" style="transform: rotate(${ev.victim_radians * (180 / Math.PI) - 90}deg)">
+                                        <div class="aim-point"></div>
+                                    </div>
                                     <div class="map-label">${ev.is_player_victim ? 'YOU' : 'VICTIM'}</div>
                                 </div>
                             `;
