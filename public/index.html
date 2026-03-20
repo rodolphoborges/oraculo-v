@@ -3,64 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oráculo V - Valorant Match Analysis</title>
+    <title>ORÁCULO V // AGENT INTELLIGENCE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Big+Shoulders+Display:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="overlay"></div>
+    <div class="bg-layer"></div>
+    <div class="scanline"></div>
+    
     <div class="container">
         <header>
-            <h1>ORÁCULO <span class="highlight">V</span></h1>
-            <p class="subtitle">Análise Tática & Meta-Evolution</p>
+            <div class="header-main">
+                <span class="prefix">PROTOCOL // 05</span>
+                <h1>ORÁCULO <span class="highlight">V.</span></h1>
+            </div>
+            <div class="header-divider"></div>
+            <p class="subtitle">VALORANT META ANALYSIS ENGINE</p>
         </header>
 
         <main>
             <section class="search-box">
+                <div class="section-tag">// INPUT_DATA .</div>
                 <div class="input-group">
-                    <input type="text" id="playerTag" placeholder="PLAYER#TAG" value="OUSADIA#013">
-                    <input type="text" id="matchId" placeholder="Match ID (UUID)" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
-                    <button id="analyzeBtn">ANALISAR PARTIDA</button>
+                    <div class="input-wrapper">
+                        <label>PLAYER_TAG</label>
+                        <input type="text" id="playerTag" placeholder="OUSADIA#013" value="OUSADIA#013">
+                    </div>
+                    <div class="input-wrapper">
+                        <label>MATCH_ID</label>
+                        <input type="text" id="matchId" placeholder="UUID_CODE" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
+                    </div>
+                    <button id="analyzeBtn" class="val-btn">SCANNER PARTIDA</button>
                 </div>
             </section>
 
             <section id="loading" class="hidden">
-                <div class="loader"></div>
-                <p>O Oráculo está processando os dados do Tracker-GG...</p>
+                <div class="loading-box">
+                    <div class="loader"></div>
+                    <p>ANALISANDO REGISTROS NO TRACKER-GG...</p>
+                </div>
             </section>
 
-            <section id="results" class="hidden">
+            <div id="results" class="hidden">
+                <div class="section-tag">// MATCH_OVERVIEW .</div>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <label>Agente</label>
+                        <label>AGENT // AGENTE</label>
                         <div id="resAgent" class="value">--</div>
                     </div>
                     <div class="stat-card">
-                        <label>Mapa</label>
+                        <label>MAP // MAPA</label>
                         <div id="resMap" class="value">--</div>
                     </div>
                     <div class="stat-card highlight-card">
-                        <label>K/D vs Meta</label>
+                        <label>PERFORMANCE VS META</label>
                         <div id="resPerformance" class="value">--</div>
                         <div id="resKdDetail" class="detail">K/D: 0 | Meta: 0</div>
                     </div>
                     <div class="stat-card">
-                        <label>ACS / ADR</label>
+                        <label>COMBAT_STATS</label>
                         <div id="resCombat" class="value">--</div>
                     </div>
                 </div>
 
                 <div class="timeline-container">
-                    <h3>LINHA DO TEMPO DOS ROUNDS</h3>
+                    <div class="section-tag">// ROUND_BY_ROUND_SUMMARY .</div>
                     <div id="roundTimeline" class="timeline"></div>
                 </div>
-            </section>
+            </div>
         </main>
 
         <footer>
-            <p>&copy; 2026 Oráculo V - Powered by Tracker-GG & DeepMind Agents</p>
+            <div class="footer-content">
+                <p>BASE_DATA: TRACKER.GG API // AI_LOGIC: DEEPMIND ANTIGRAVITY</p>
+                <p class="copyright">&copy; 2026 ORÁCULO V. ALL RIGHTS RESERVED.</p>
+            </div>
         </footer>
     </div>
 
