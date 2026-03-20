@@ -6,28 +6,29 @@
     <title>ORACULO-V // TERMINAL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="terminal">
         <div class="scanline"></div>
+
         <header>
             <div class="sys-info">
-                [ ORACULO-V // ESTADO: ATIVO ]<br>
-                <a href="enciclopedia.html" style="color: var(--term-green); text-decoration: none;">[ VER_CONSTITUICAO ]</a>
+                [ ORACULO-V // ESTADO: ATIVO ] &nbsp;|&nbsp;
+                <a href="enciclopedia.html">[ CONSTITUIÇÃO ]</a>
             </div>
             <h1 class="val-header">ORACULO<span class="highlight">_V</span> <span class="blink">_</span></h1>
         </header>
 
         <section class="cmd-input">
             <div class="input-line">
-                <span class="prompt">JOGADOR:</span>
+                <span class="prompt">JOGADOR</span>
                 <input type="text" id="playerTag" placeholder="PLAYER#000" value="OUSADIA#013">
             </div>
             <div class="input-line">
-                <span class="prompt">ID_PARTIDA:</span>
-                <input type="text" id="matchId" placeholder="UUID_DA_PARTIDA" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
+                <span class="prompt">ID_PARTIDA</span>
+                <input type="text" id="matchId" placeholder="UUID-DA-PARTIDA" value="5525faf5-034e-4caf-b142-9d9bc8a3e897">
             </div>
             <button id="analyzeBtn" class="terminal-btn">[ INICIAR_ANÁLISE ]</button>
         </section>
@@ -38,41 +39,59 @@
         </div>
 
         <div id="results" class="hidden">
-            <div class="system-log">> [ ACESSO_AUTORIZADO: NÍVEL_CORP_4 ]</div>
+            <div class="system-log">> [ ACESSO_AUTORIZADO ]</div>
             <div class="system-log">> [ SINCRONIZANDO_METADADOS: 100% ]</div>
-            <div class="divider">============================================================</div>
+            <div class="divider">╔══════════════════════════════════════════════════════════╗</div>
             <div class="terminal-header">RELATÓRIO_DE_ANÁLISE_TÁTICA</div>
-            <div class="divider">============================================================</div>
-            
+            <div class="divider">╚══════════════════════════════════════════════════════════╝</div>
+
             <div class="stats-output">
-                AGENTE    : <span id="resAgent">--</span><br>
-                MAPA      : <span id="resMap">--</span><br>
-                DESEMPENHO: <span id="resPerformance">--</span><br>
-                NIVEL TECNICO: <span id="resEstimatedRank">--</span><br>
-                RANKING   : <span id="resKdDetail">--</span><br>
-                COMBATE   : <span id="resCombat">--</span>
+                <div class="stat-row">
+                    <span class="stat-label">AGENTE</span>
+                    <span class="stat-value" id="resAgent">--</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">MAPA</span>
+                    <span class="stat-value" id="resMap">--</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">DESEMPENHO</span>
+                    <span class="stat-value" id="resPerformance">--</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">NÍVEL TÉCNICO</span>
+                    <span class="stat-value" id="resEstimatedRank">--</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">ABATES / MORTES</span>
+                    <span class="stat-value" id="resKdDetail">--</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">PONTUAÇÃO / DANO</span>
+                    <span class="stat-value" id="resCombat">--</span>
+                </div>
             </div>
 
-            <div class="divider">------------------------------------------------------------</div>
+            <div class="divider">──────────────────────────────────────────────────────────</div>
             <div class="output-header">REGISTRO_TÁTICO_DE_ROUNDS</div>
-            <div class="divider">------------------------------------------------------------</div>
-            
+            <div class="divider">──────────────────────────────────────────────────────────</div>
+
             <div id="roundTimeline" class="timeline"></div>
-            
-            <div class="divider">------------------------------------------------------------</div>
+
+            <div class="divider">──────────────────────────────────────────────────────────</div>
             <div class="glossary-section">
                 <div class="output-header">[ DICIONÁRIO DE MÉTRICAS ]</div>
-                <div class="glossary-line">- TAXA: Desempenho relativo ao Ranking (100% = Média).</div>
-                <div class="glossary-line">- ABATES/MORTES (K/D): Relação entre eliminações e mortes na partida.</div>
-                <div class="glossary-line">- ALVO DO RANKING: K/D esperado para seu Agente/Mapa no seu Ranking.</div>
-                <div class="glossary-line">- PONTUAÇÃO/DANO: Média de Pontuação (ACS) e Dano (ADR) por rodada.</div>
+                <div class="glossary-line">TAXA — Desempenho relativo à média do seu Ranking (100% = média).</div>
+                <div class="glossary-line">ABATES/MORTES — Eliminações divididas por mortes no total da partida.</div>
+                <div class="glossary-line">ALVO DO RANKING — K/D esperado para seu Agente e Mapa no seu Ranking.</div>
+                <div class="glossary-line">PONTUAÇÃO/DANO — Média de ACS (pontuação) e ADR (dano) por rodada.</div>
             </div>
 
-            <div class="divider">============================================================</div>
+            <div class="divider">╔══════════════════════════════════════════════════════════╗</div>
         </div>
 
         <footer>
-            [ (C) 2026 DEEPMIND ANTIGRAVITY // NO_USER_INTERFACE_MODE_ENABLED ]
+            [ (C) 2026 DEEPMIND ANTIGRAVITY // TERMINAL_MODE ]
         </footer>
     </div>
 
