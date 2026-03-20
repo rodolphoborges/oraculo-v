@@ -31,31 +31,40 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     throw new Error(`Arquivo ${matchJsonPath} não encontrado.`);
   }
 
-  // 2. Carrega o JSON da partida
+  // 3. Carrega o JSON da partida
   const matchData = JSON.parse(fs.readFileSync(matchJsonPath, 'utf8'));
   
-  // 3. Identifica o agente do jogador na partida
-  const playerSegments = matchData.data.segments.filter(s => s.type === 'player');
-  const playerData = playerSegments.find(p => p.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
+  // 4. Identifica o agente, mapa e rank do jogador na partida
+  const mapDetected = matchData.data.metadata.mapName;
   
-  let agentName = playerData ? playerData.metadata.agentName : null;
+  const playerSummary = matchData.data.segments.find(s => s.type === 'player-summary' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
+  const playerRound = matchData.data.segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
   
-  if (!agentName) {
-    const playerRound = matchData.data.segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
-    agentName = playerRound ? playerRound.metadata.agentName : null;
-  }
+  const agentName = playerSummary ? playerSummary.metadata.agentName : (playerRound ? playerRound.metadata.agentName : null);
+  const rankDisplay = playerSummary?.stats?.rank?.displayValue || "ALL";
+  
+  // Normaliza o rank para o formato do vStats (ex: "Gold 2" -> "Gold")
+  // Mas por enquanto o scraper só pega "ALL", então mantemos flexível.
+  const rankTier = rankDisplay.split(' ')[0] || "ALL";
 
   if (!agentName) {
     throw new Error('Jogador não encontrado na partida.');
   }
 
-  const mapDetected = matchData.data.metadata.mapName;
+  // 5. Busca o Meta Baseline Real (vStats.gg via Supabase)
+  console.log(`Buscando Meta para: ${agentName} | Mapa: ${mapDetected} | Rank: ${rankTier}...`);
+  const meta = await getAgentMeta(agentName, mapDetected, rankTier);
+  
+  // Se não encontrar para o rank específico, tenta no global (ALL)
+  let finalMeta = meta;
+  if (!finalMeta) {
+    finalMeta = await getAgentMeta(agentName, 'ALL', 'ALL');
+  }
 
-  // 4. Busca o Meta Baseline
-  const meta = await getAgentMeta(agentName, mapName, rank);
-  const targetKd = meta ? meta.kd : 1.0;
+  const targetKd = finalMeta ? finalMeta.kd : 1.0;
+  const metaCategory = finalMeta ? `${rankTier.toUpperCase()} [vStats.gg]` : "BÁSICO [1.0]";
 
-  // 5. Chama o script Python
+  // 6. Chama o script Python
   try {
     const cmd = `python /tmp/analyze_valorant.py --json "${matchJsonPath}" --player "${playerTag}" --target-kd ${targetKd}`;
     const stdout = execSync(cmd, { 
@@ -65,6 +74,10 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     
     const analysisResult = JSON.parse(stdout);
     
+    // Adiciona informações de meta no resultado para o frontend
+    analysisResult.meta_category = metaCategory;
+    analysisResult.target_kd = targetKd;
+
     // Salva o relatório local
     const finalReportPath = `analysis_${playerTag.replace('#', '_')}.json`;
     fs.writeFileSync(finalReportPath, stdout, 'utf8');
