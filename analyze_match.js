@@ -1,4 +1,4 @@
-import { getAgentMeta } from './lib/meta_loader.js';
+import { getAgentMeta, getRankBaselines } from './lib/meta_loader.js';
 import { fetchMatchJson } from './lib/tracker_api.js';
 import { execSync } from 'child_process';
 import fs from 'fs';
@@ -64,7 +64,11 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   const targetKd = finalMeta ? finalMeta.kd : 1.0;
   const metaCategory = finalMeta ? `${rankTier.toUpperCase()} // VSTATS` : 'BASELINE_AVG';
 
-  // 6. Chama o script Python
+  // 6. Predição de Ranking (Adivinhe o Rank)
+  console.log(`Calculando Predição de Nível Técnico...`);
+  const baselines = await getRankBaselines(agentName, mapDetected);
+  
+  // 7. Chama o script Python
   try {
     const cmd = `python /tmp/analyze_valorant.py --json "${matchJsonPath}" --player "${playerTag}" --target-kd ${targetKd}`;
     const stdout = execSync(cmd, { 
@@ -74,9 +78,28 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     
     const analysisResult = JSON.parse(stdout);
     
-    // Adiciona informações de meta no resultado para o frontend
+    // Lógica de Predição Técnica
+    let estimatedRank = 'PRATA/BRONZE';
+    const actualKd = analysisResult.kd;
+    
+    console.log(`Debug Predicition - Baselines:`, baselines);
+    console.log(`Debug Predicition - Player K/D:`, actualKd);
+
+    // Ordena baselines por KD
+    const sortedBaselines = baselines.sort((a, b) => b.kd - a.kd);
+    for (const b of sortedBaselines) {
+      if (actualKd >= b.kd * 0.98) {
+        estimatedRank = b.rank;
+        break;
+      }
+    }
+    
+    console.log(`Debug Predicition - Final Estimated Rank:`, estimatedRank);
+
+    // Adiciona informações de meta e predição no resultado
     analysisResult.meta_category = metaCategory;
     analysisResult.target_kd = targetKd;
+    analysisResult.estimated_rank = estimatedRank;
 
     // Salva o relatório local
     const finalReportPath = `analysis_${playerTag.replace('#', '_')}.json`;
