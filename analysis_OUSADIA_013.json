@@ -1,1 +1,1 @@
-{"error": "cannot access local variable 'explanation' where it is not associated with a value"}
+{"error": "name 'deaths_count' is not defined"}
