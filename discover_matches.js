@@ -90,7 +90,7 @@ async function discover() {
     for (const mid of jointMatches) {
         const involvedTags = matchToTags[mid];
         
-        // Verificar se essa partida já foi analisada ou está na fila
+        // Verificar se essa partida já foi analisada ou está na fila (independente do status)
         const { data: existing } = await supabase
             .from('match_analysis_queue')
             .select('id')
@@ -98,7 +98,7 @@ async function discover() {
             .limit(1);
 
         if (existing && existing.length > 0) {
-            console.log(`⏭️ Partida ${mid} já registrada. Pulando.`);
+            console.log(`⏭️ Partida ${mid} já registrada no sistema. Pulando.`);
             continue;
         }
 
