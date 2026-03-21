@@ -35,20 +35,18 @@ body {
    Aparece ~a cada 8s, desloca levemente uma linha horizontal
    e pisca brevemente, imitando interferência de tubo de vácuo */
 @keyframes valve-glitch {
-    0%   { opacity: 1; clip-path: none; transform: none; }
-    92%  { opacity: 1; clip-path: none; transform: none; }
-    93%  { opacity: 0.85; clip-path: inset(30% 0 58% 0); transform: translateX(-3px); }
-    94%  { opacity: 1;    clip-path: none; transform: none; }
-    95%  { opacity: 0.9;  clip-path: inset(60% 0 20% 0); transform: translateX(2px); }
-    96%  { opacity: 1;    clip-path: none; transform: none; }
-    100% { opacity: 1; clip-path: none; transform: none; }
+    0%,  98%  { opacity: 1; clip-path: none; transform: none; filter: none; }
+    98.5%     { opacity: 0.9; clip-path: inset(35% 0 55% 0); transform: translateX(-2px); }
+    99%       { opacity: 1; clip-path: none; transform: none; }
+    99.5%     { opacity: 0.92; clip-path: inset(62% 0 22% 0); transform: translateX(1px); }
+    100%      { opacity: 1; clip-path: none; transform: none; }
 }
 
 .terminal {
     max-width: 880px;
     margin: 0 auto;
     position: relative;
-    animation: valve-glitch 8s steps(1) infinite;
+    animation: valve-glitch 60s steps(1) infinite;
 }
 
 /* Scanlines muito sutis */
@@ -237,40 +235,83 @@ input:focus { border-color: var(--red); }
     text-transform: uppercase;
 }
 
-/* ── Timeline ───────────────────────────────────────────── */
-.timeline { padding: 0.4rem 0; }
-
+/* ── Round collapsed / expanded ─────────────────────────── */
 .round-item {
-    margin-bottom: 1.6rem;
-    padding-left: 1.2rem;
+    margin-bottom: 0.4rem;
     border-left: 1px solid var(--grey-lo);
     position: relative;
+    cursor: pointer;
+    user-select: none;
 }
+
+/* Linha de resumo (sempre visível) */
+.round-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    color: var(--grey);
+    letter-spacing: 1px;
+    transition: color 0.1s;
+}
+.round-summary:hover { color: var(--white); }
+
+.round-summary .rd-num {
+    color: var(--white);
+    font-weight: bold;
+    letter-spacing: 2px;
+    min-width: 58px;
+}
+
+.round-summary .rd-outcome {
+    flex: 1;
+    font-size: 0.68rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.75;
+}
+
+.round-summary .rd-chevron {
+    color: var(--grey-lo);
+    font-size: 0.75rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.round-item.open .rd-chevron { transform: rotate(90deg); }
+.round-item.open { border-left-color: var(--red-dim); margin-bottom: 1.2rem; }
+
+/* Detalhe (colapsado por padrão) */
+.round-detail {
+    display: none;
+    padding: 4px 10px 8px 16px;
+    border-top: 1px solid var(--grey-lo);
+}
+.round-item.open .round-detail { display: block; }
 
 .round-id {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: bold;
-    letter-spacing: 2.5px;
-    color: var(--white);
-    margin-bottom: 3px;
-    opacity: 0.85;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 4px;
 }
-.round-id::before { content: '│ '; color: var(--grey-lo); }
 
 .feedback-line {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     margin-bottom: 2px;
-    padding-left: 1rem;
+    padding-left: 0.8rem;
 }
 .feedback-line::before { content: '│  '; color: var(--grey-lo); }
 
 .explanation-line {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: var(--grey);
     margin-top: 3px;
-    padding-left: 1rem;
-    opacity: 0.7;
-    letter-spacing: 0.2px;
+    padding-left: 0.8rem;
+    opacity: 0.65;
 }
 .explanation-line::before { content: '│  ╌╌ '; color: var(--grey-lo); }
 
@@ -312,13 +353,14 @@ footer {
     display: inline-block;
 }
 
-/* Glitch periódico apenas no minimapa */
+/* Glitch periódico apenas no minimapa — muito raro */
 @keyframes map-static {
-    0%, 89%  { opacity: 1; filter: none; }
-    90%      { opacity: 0.9; filter: brightness(1.3) hue-rotate(5deg); clip-path: inset(20% 0 70% 0); transform: translateX(2px); }
-    91%      { opacity: 1; filter: none; clip-path: none; transform: none; }
-    94%      { opacity: 0.85; filter: brightness(0.9); clip-path: inset(55% 0 30% 0); transform: translateX(-1px); }
-    95%      { opacity: 1; filter: none; clip-path: none; transform: none; }
+    0%, 97%  { opacity: 1; filter: none; clip-path: none; transform: none; }
+    97.5%    { opacity: 0.88; filter: brightness(1.2); clip-path: inset(25% 0 65% 0); transform: translateX(2px); }
+    98%      { opacity: 1; filter: none; clip-path: none; transform: none; }
+    99%      { opacity: 0.9; clip-path: inset(58% 0 28% 0); transform: translateX(-1px); }
+    99.5%    { opacity: 1; filter: none; clip-path: none; transform: none; }
+    100%     { opacity: 1; }
 }
 
 .tactical-map {
@@ -331,7 +373,7 @@ footer {
     overflow: hidden;
     border: 1.5px solid var(--grey-lo);
     box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 0 8px rgba(255,70,85,0.05);
-    animation: map-static 11s steps(1) infinite;
+    animation: map-static 90s steps(1) infinite;
 }
 
 /* Anéis de grade, muito discretos */
