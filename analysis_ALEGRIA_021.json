@@ -1,116 +1,677 @@
 {
   "player": "ALEGRIA#021",
   "agent": "Omen",
-  "map": "Bind",
-  "acs": 142.2,
-  "adr": 68.8,
-  "kd": 0.75,
-  "meta_kd": 1.0,
-  "performance_vs_meta": "Abaixo da média (75.0%)",
+  "map": "Lotus",
+  "map_details": {
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2fe4ed3a-450a-948b-6d6b-e89a78e680a9/displayicon.png",
+    "yMultiplier": -0.000072,
+    "xMultiplier": 0.000072,
+    "yScalarToAdd": 0.917752,
+    "xScalarToAdd": 0.454789
+  },
+  "acs": 181.9,
+  "adr": 143.6,
+  "kd": 0.8,
+  "meta_kd": 1,
+  "first_bloods": 1,
+  "conselho_kaio": "FOCO OPERACIONAL: Desempenho equilibrado. Mantenha a disciplina econômica e a comunicação tática via rádio.",
+  "performance_index": 80,
+  "performance_status": "BELOW_BASELINE",
   "rounds": [
     {
       "round": 1,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "pos": null,
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
     },
     {
       "round": 2,
-      "score": 223,
-      "kills": 1,
-      "deaths": 1,
-      "pos": "Abate importante para abertura de espaço.",
-      "neg": ""
+      "pos": null,
+      "neg": "Ficou isolado aos 0:50 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "0:50",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Bandit)",
+          "ms": 50884
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Bandit",
+          "time": "0:50",
+          "time_ms": 50884,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 3,
-      "score": 488,
-      "kills": 2,
-      "deaths": 0,
-      "pos": "Multi-kill (2 abates) garantindo vantagem numérica.",
-      "neg": ""
+      "pos": null,
+      "neg": "Tomou um sacode de Phoenix (Vandal) aos 0:49.",
+      "narrative": [
+        {
+          "time": "0:49",
+          "type": "neg",
+          "text": "Ficou no chão para Phoenix (Vandal)",
+          "ms": 49559
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:49",
+          "time_ms": 49559,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 4,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "pos": "Mandou Miks de arrasta com Vandal aos 0:27.",
+      "neg": "Tomou um sacode de Raze (Vandal) aos 0:51.",
+      "narrative": [
+        {
+          "time": "0:27",
+          "type": "pos",
+          "text": "Fez o frag no Miks (Vandal)",
+          "ms": 27524
+        },
+        {
+          "time": "PLAN",
+          "type": "pos",
+          "text": "Dominou o site e plantou a Spike",
+          "ms": 37111
+        },
+        {
+          "time": "0:51",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 51447
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "0:27",
+          "time_ms": 27524,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:51",
+          "time_ms": 51447,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 5,
-      "score": 0,
-      "kills": 0,
-      "deaths": 1,
-      "pos": "",
-      "neg": "Eliminado precocemente sem troca (Trade)."
+      "pos": "Aula de mira com Stinger pra cima de Phoenix.",
+      "neg": "Tomou um sacode de Raze (Vandal) aos 0:28.",
+      "narrative": [
+        {
+          "time": "ECO",
+          "type": "pos",
+          "text": "Fez o estrago no eco (Investimento: 2250)",
+          "ms": -1
+        },
+        {
+          "time": "0:22",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Stinger)",
+          "ms": 22427
+        },
+        {
+          "time": "0:28",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 28160
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Phoenix",
+          "weapon": "Stinger",
+          "time": "0:22",
+          "time_ms": 22427,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:28",
+          "time_ms": 28160,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 6,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": "Abriu o round deitando Miks aos 1:12.",
+      "neg": "Perdeu a troca direta contra Raze (Dano: 160).",
+      "narrative": [
+        {
+          "time": "PLAN",
+          "type": "pos",
+          "text": "Dominou o site e plantou a Spike",
+          "ms": 44771
+        },
+        {
+          "time": "1:04",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Vandal)",
+          "ms": 64371
+        },
+        {
+          "time": "1:09",
+          "type": "pos",
+          "text": "Fez o frag no Fade (Vandal)",
+          "ms": 69320
+        },
+        {
+          "time": "1:12",
+          "type": "pos",
+          "text": "Fez o frag no Miks (Vandal)",
+          "ms": 72488
+        },
+        {
+          "time": "1:14",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 74012
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "1:04",
+          "time_ms": 64371,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Fade",
+          "weapon": "Vandal",
+          "time": "1:09",
+          "time_ms": 69320,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "1:12",
+          "time_ms": 72488,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "1:14",
+          "time_ms": 74012,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 7,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": "Mandou Phoenix de arrasta com Vandal aos 0:38.",
+      "neg": "Ficou isolado aos 0:44 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "0:38",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Vandal)",
+          "ms": 38762
+        },
+        {
+          "time": "0:44",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 44978
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "0:38",
+          "time_ms": 38762,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:44",
+          "time_ms": 44978,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 8,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": "Abriu o round deitando Fade aos 1:06.",
+      "neg": "Tomou um sacode de Raze (Vandal) aos 1:35.",
+      "narrative": [
+        {
+          "time": "1:06",
+          "type": "pos",
+          "text": "Fez o frag no Fade (Bulldog)",
+          "ms": 66693
+        },
+        {
+          "time": "1:35",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 95716
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Fade",
+          "weapon": "Bulldog",
+          "time": "1:06",
+          "time_ms": 66693,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "1:35",
+          "time_ms": 95716,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 9,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": null,
+      "neg": "Tomou um sacode de Fade (Vandal) aos 0:39.",
+      "narrative": [
+        {
+          "time": "0:39",
+          "type": "neg",
+          "text": "Ficou no chão para Fade (Vandal)",
+          "ms": 39185
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Fade",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:39",
+          "time_ms": 39185,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 10,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": null,
+      "neg": "Foi de base pra Raze (Vandal) no contrapé aos 0:30.",
+      "narrative": [
+        {
+          "time": "0:30",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 30038
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:30",
+          "time_ms": 30038,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 11,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": "BOMB PLANTED",
+      "neg": "Perdeu a troca direta contra Miks (Dano: 200).",
+      "narrative": [
+        {
+          "time": "PLAN",
+          "type": "pos",
+          "text": "Dominou o site e plantou a Spike",
+          "ms": 28505
+        },
+        {
+          "time": "0:44",
+          "type": "neg",
+          "text": "Ficou no chão para Miks (Vandal)",
+          "ms": 44525
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Miks",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:44",
+          "time_ms": 44525,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 12,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Raze (Dano: 150).",
+      "narrative": [
+        {
+          "time": "0:35",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Operator)",
+          "ms": 35104
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Operator",
+          "time": "0:35",
+          "time_ms": 35104,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 13,
-      "score": 0,
-      "kills": 0,
-      "deaths": 0,
-      "pos": "",
-      "neg": "Baixa participação direta no round."
+      "pos": "Segurou o rush inimigo aos 0:26 com Ghost.",
+      "neg": "Tomou um sacode de Miks (Ghost) aos 1:30.",
+      "narrative": [
+        {
+          "time": "ECO",
+          "type": "pos",
+          "text": "Fez o estrago no eco (Investimento: 800)",
+          "ms": -1
+        },
+        {
+          "time": "0:26",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Ghost)",
+          "ms": 26510
+        },
+        {
+          "time": "1:30",
+          "type": "neg",
+          "text": "Ficou no chão para Miks (Ghost)",
+          "ms": 90998
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Phoenix",
+          "weapon": "Ghost",
+          "time": "0:26",
+          "time_ms": 26510,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Miks",
+          "victim_agent": "Omen",
+          "weapon": "Ghost",
+          "time": "1:30",
+          "time_ms": 90998,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "pos": null,
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
+    },
+    {
+      "round": 15,
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Raze (Dano: 140).",
+      "narrative": [
+        {
+          "time": "0:11",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Phantom)",
+          "ms": 11582
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Omen",
+          "weapon": "Phantom",
+          "time": "0:11",
+          "time_ms": 11582,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 16,
+      "pos": "Aula de mira com Phantom pra cima de Chamber.",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "0:29",
+          "type": "pos",
+          "text": "Fez o frag no Miks (Phantom)",
+          "ms": 29401
+        },
+        {
+          "time": "0:33",
+          "type": "pos",
+          "text": "Fez o frag no Chamber (Phantom)",
+          "ms": 33687
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Miks",
+          "weapon": "Phantom",
+          "time": "0:29",
+          "time_ms": 29401,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:33",
+          "time_ms": 33687,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 17,
+      "pos": null,
+      "neg": "Foi de base pra Miks (Vandal) no contrapé aos 0:52.",
+      "narrative": [
+        {
+          "time": "0:52",
+          "type": "neg",
+          "text": "Ficou no chão para Miks (Vandal)",
+          "ms": 52111
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Miks",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:52",
+          "time_ms": 52111,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 18,
+      "pos": "Amassou no domínio de espaço com Vandal contra Miks.",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "0:55",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Vandal)",
+          "ms": 55289
+        },
+        {
+          "time": "1:03",
+          "type": "pos",
+          "text": "Fez o frag no Miks (Vandal)",
+          "ms": 63110
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "0:55",
+          "time_ms": 55289,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "1:03",
+          "time_ms": 63110,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 19,
+      "pos": "CLUTCH DEFUSE",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "DEF",
+          "type": "pos",
+          "text": "Fez o clutch no defuse e garantiu o round",
+          "ms": 88351
+        }
+      ],
+      "tactical_events": []
+    },
+    {
+      "round": 20,
+      "pos": null,
+      "neg": "Foi de base pra Fade (Vandal) no contrapé aos 1:00.",
+      "narrative": [
+        {
+          "time": "1:00",
+          "type": "neg",
+          "text": "Ficou no chão para Fade (Vandal)",
+          "ms": 60614
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Fade",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "1:00",
+          "time_ms": 60614,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     }
-  ]
+  ],
+  "meta_category": "BASELINE_AVG",
+  "target_kd": 1,
+  "estimated_rank": "PRATA/BRONZE"
 }
