@@ -19,6 +19,8 @@ if (!HENRIK_API_KEY || HENRIK_API_KEY === 'your_henrik_api_key_v3') {
  * jogaram juntos, salvando na fila de análise.
  */
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 async function discover() {
     console.log("🔍 [RADAR] Iniciando varredura de partidas em conjunto...");
 
@@ -50,6 +52,12 @@ async function discover() {
                 headers: { 'Authorization': HENRIK_API_KEY }
             });
 
+            if (res.status === 429) {
+                console.warn(`⏳ Rate Limit Atingido (Status: 429). Pausando por 5 segundos...`);
+                await delay(5000);
+                continue; // Pula este e segue pro próximo após a pausa
+            }
+
             if (res.status !== 200) {
                 console.warn(`⚠️ Falha ao buscar ${p.riot_id} (Status: ${res.status})`);
                 continue;
@@ -70,6 +78,9 @@ async function discover() {
         } catch (err) {
             console.error(`🔥 Erro ao processar ${p.riot_id}:`, err.message);
         }
+
+        // Delay anti-ban para a API gratuita do Henrik (~1s entre requisições)
+        await delay(1200);
     }
 
     // 3. Filtrar partidas com INTERSEÇÃO (2+ jogadores cadastrados)
