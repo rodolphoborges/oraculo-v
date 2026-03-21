@@ -152,31 +152,31 @@ def analyze_match(json_data, target_player, target_kd=1.0):
             "tactical_events": tactical_events
         })
 
-    # --- DIRETRIZES TÁTICAS K.A.I.O. (Alinhamento Constitucional) ---
+    # --- DIRETRIZES TÁTICAS K.A.I.O. (Alinhamento Constitucional & Elucidativo) ---
     conselhos = []
     
     # 1. Artigo 1: O Dano é Absoluto (ADR)
-    if adr < 120:
-        conselhos.append("VIOLAÇÃO DO ARTIGO 1: ADR MUITO BAIXO. O DANO É ABSOLUTAMENTE ESSENCIAL. TU NÃO TÁ CAUSANDO NADA NO MAPA. ENTRA NO COMBATE E AJUDA O TIME.")
+    if adr < 125:
+        conselhos.append("VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V e na vStats, o DANO é a métrica absoluta de impacto. Sua presença no mapa não está gerando pressão real. Priorize trocas agressivas e trade-kills imediatos; se você não está causando dano, você está apenas assistindo o time perder.")
     elif adr > 165:
-        conselhos.append("CUMPRIMENTO DO ARTIGO 1: EFICIÊNCIA LETAL. ADR DE QUEM CARREGA O PROTOCOLO. O DANO FOI ABSOLUTO NESTA PARTIDA.")
+        conselhos.append("CUMPRIMENTO DO ARTIGO 1: EFICIÊNCIA LETAL IDENTIFICADA. Seu ADR está em nível de elite, garantindo que cada round seu resulte em impacto direto na economia inimiga. O Oráculo reconhece sua letalidade absoluta.")
 
     # 2. Artigo 2: Iniciativa e Reconhecimento (First Bloods)
     if first_kills_count >= 3:
-        conselhos.append("CUMPRIMENTO DO ARTIGO 2: TÁ REPRESENTANDO NA ABERTURA DE SITE. FIRST BLOODS GARANTIDOS. MANTÉM OS ESPAÇOS SOB CONTROLE.")
+        conselhos.append("CUMPRIMENTO DO ARTIGO 2: EXCELÊNCIA EM INICIATIVA. Você está garantindo a vantagem numérica logo no início. Continue abrindo o mapa e criando janelas de oportunidade para o time. Domínio de espaço é o primeiro passo para a vitória.")
     elif first_kills_count == 0 and adr < 130:
-        conselhos.append("VIOLAÇÃO DO ARTIGO 2: POSTURA PASSIVA DETECTADA. ZERO FIRST BLOODS E DANO BAIXO. O PROTOCOLO V NÃO ACEITA 'MEDINHO'. BOTA O ROSTO.")
+        conselhos.append("VIOLAÇÃO DO ARTIGO 2: POSTURA PASSIVA/HESITANTE. Zero First Bloods aliados a baixo dano indicam que você está jogando com 'medinho'. O Protocolo V exige predação. Se você não abrir o caminho ou trocar o primeiro frag, o reset operacional será inevitável.")
 
-    # 3. Artigo 3: Sinergia e Trocas (Trade Kills / Radio Limpo)
+    # 3. Artigo 3: Sinergia e Trocas (Trade Kills / Radio Limpo / Sinergia)
     deaths = stats['deaths']['value']
     if deaths > total_rounds * 0.85 and actual_kd < 0.85:
-        conselhos.append("VIOLAÇÃO DO ARTIGO 3: SINERGIA ZERO. MUITAS MORTES ISOLADAS SEM TRADE. JOGA JUNTO COM O TIME OU O RESET PSICOLÓGICO SERÁ INEVITÁVEL.")
+        conselhos.append("VIOLAÇÃO DO ARTIGO 3: COLAPSO DE SINERGIA. Muitas mortes sem trade (troca) sugerem que você está jogando isolado ou sem comunicação. No Protocolo V, jogar sozinho é um erro tático grave. Cole em um aliado, use o rádio e não deixe sua morte ser em vão.")
     elif actual_kd > 1.6 and adr < 135:
-        conselhos.append("ALERTA DE DESVIO: K/D BONITO MAS NÃO TÁ DANDO DANO (EXIT FRAGS?). VAI PRO COMBATE REAL E HONRA OS PREDADORES DO PROTOCOLO.")
+        conselhos.append("ALERTA DE DESVIO: SÍNDROME DE KDA. Seu K/D está alto, mas o ADR está baixo — isso cheira a 'Exit Frags' (matar quando o round já acabou). Honre os artigos: saia da zona de conforto, vá pro combate real e cause dano quando ele realmente importa.")
 
     # 4. Fallback Geral (Estado de Reset)
     if not conselhos:
-        conselhos.append("FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. DISCIPLINA MANTIDA. O ORÁCULO SEGUE MONITORANDO.")
+        conselhos.append("FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. Você manteve a disciplina e cumpriu sua função básica. O Oráculo segue monitorando sua evolução técnica. Mantenha a constância.")
 
     # Seleciona o conselho mais prioritário (ou o primeiro)
     conselho_final = conselhos[0]
