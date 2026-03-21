@@ -78,6 +78,14 @@ function renderResults(data) {
         `K/D: ${data.kd.toFixed(2)}  //  ALVO: ${data.target_kd.toFixed(2)}`;
     document.getElementById('resCombat').innerHTML =
         `<b>${data.acs.toFixed(0)}</b> ACS  //  <b>${data.adr.toFixed(0)}</b> ADR`;
+    
+    // ── Conselho Tático ──────────────────────────────────────
+    if (data.conselho_kaio) {
+        document.getElementById('resAdviceText').textContent = data.conselho_kaio.toUpperCase();
+        document.getElementById('resAdvice').classList.remove('hidden');
+    } else {
+        document.getElementById('resAdvice').classList.add('hidden');
+    }
 
     // ── Helpers ──────────────────────────────────────────────
     const AGENTS = ["Astra","Breach","Brimstone","Chamber","Cypher","Deadlock","Fade","Gekko","Harbor","Iso","Jett","KAY/O","Killjoy","Neon","Omen","Phoenix","Raze","Reyna","Sage","Skye","Sova","Tejo","Viper","Vyse","Yoru"];
