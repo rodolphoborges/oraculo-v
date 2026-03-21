@@ -5,6 +5,12 @@ import { createClient } from '@supabase/supabase-js';
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 const HENRIK_API_KEY = process.env.HENRIK_API_KEY;
 
+if (!HENRIK_API_KEY || HENRIK_API_KEY === 'your_henrik_api_key_v3') {
+    console.error("❌ ERRO: HENRIK_API_KEY não configurada no arquivo .env.");
+    console.error("Obtenha uma chave em https://henrikdev.xyz/dashboard e adicione ao seu arquivo .env");
+    process.exit(1);
+}
+
 /**
  * discover_matches.js
  * 
