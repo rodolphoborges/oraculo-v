@@ -4,8 +4,6 @@ const matchInp = document.getElementById('matchId');
 const loadingSec = document.getElementById('loading');
 const resultsSec = document.getElementById('results');
 
-// Cache de ícones dos agentes – carregado uma vez ao iniciar a página
-// Formato: { "jett": "uuid", "killjoy": "uuid", ... }
 let agentIconMap = {};
 (async () => {
     try {
@@ -17,49 +15,98 @@ let agentIconMap = {};
                 agentIconMap[key] = a.uuid;
             });
         }
-    } catch (_) { /* falha silenciosa — usará iniciais */ }
+    } catch (_) {}
 })();
 
-analyzeBtn.addEventListener('click', async () => {
-    const player = playerInp.value.trim();
-    const matchId = matchInp.value.trim();
+function addTerminalMessage(msg, type = 'info') {
+    const p = document.createElement('p');
+    p.innerHTML = `> [ ${msg} ] <span class="loading-cursor"></span>`;
+    if (type === 'error') p.style.color = 'var(--red)';
+    loadingSec.appendChild(p);
+    loadingSec.scrollTop = loadingSec.scrollHeight;
+}
 
-    if (!player || !matchId) {
-        alert('Por favor, preencha o Player Tag e o Match ID.');
-        return;
-    }
+async function startAnalysisFlow(player, matchId) {
+    if (!player || !matchId) return;
 
-    // Reset UI
     loadingSec.classList.remove('hidden');
     resultsSec.classList.add('hidden');
     analyzeBtn.disabled = true;
+    loadingSec.innerHTML = ''; // Limpa logs anteriores
 
-    const loadingLines = loadingSec.querySelectorAll('p');
-    loadingLines[0].innerHTML = '> [ ACESSANDO_SATÉLITE_VSTATS... ] <span class="loading-cursor"></span>';
-    
     try {
-        setTimeout(() => {
-            loadingLines[1].innerHTML = '> [ DECRIPTANDO_DADOS_DE_PARTIDA... ] <span class="loading-cursor"></span>';
-        }, 800);
-
-        const response = await fetch('/api/analyze', {
+        addTerminalMessage('ENFILEIRANDO_ANÁLISE_NA_NUVEM...');
+        const queueRes = await fetch('/api/queue', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ player, matchId })
         });
+        const queueData = await queueRes.json();
+        if (!queueRes.ok) throw new Error(queueData.error);
 
-        const data = await response.json();
+        addTerminalMessage('AGUARDANDO_PROCESSAMENTO_NA_FILA...');
 
-        if (response.ok) {
-            renderResults(data);
-        } else {
-            alert('Erro: ' + data.error);
+        const pollStatus = async () => {
+            const statusRes = await fetch(`/api/status/${matchId}?player=${encodeURIComponent(player)}`);
+            const statusData = await statusRes.json();
+            if (!statusRes.ok) throw new Error(statusData.error);
+
+            if (statusData.status === 'completed' && statusData.result) {
+                addTerminalMessage('ANÁLISE_CONCLUÍDA_COM_SUCESSO.');
+                renderResults(statusData.result);
+                return true;
+            } else if (statusData.status === 'failed') {
+                throw new Error(statusData.error || 'Falha no processamento.');
+            } else if (statusData.status === 'processing') {
+                // Evita duplicar a mensagem de processamento se já estiver lá
+                if (!loadingSec.innerText.includes('MOTOR_DE_ANÁLISE_EM_EXECUÇÃO')) {
+                    addTerminalMessage('MOTOR_DE_ANÁLISE_EM_EXECUÇÃO...');
+                }
+            }
+            return false;
+        };
+
+        const timer = setInterval(async () => {
+            try {
+                const finished = await pollStatus();
+                if (finished) {
+                    clearInterval(timer);
+                    loadingSec.classList.add('hidden');
+                    analyzeBtn.disabled = false;
+                }
+            } catch (err) {
+                clearInterval(timer);
+                addTerminalMessage('ERRO: ' + err.message, 'error');
+                analyzeBtn.disabled = false;
+            }
+        }, 3000);
+
+        // Primeira tentativa imediata
+        const finished = await pollStatus();
+        if (finished) {
+            loadingSec.classList.add('hidden');
+            analyzeBtn.disabled = false;
         }
+
     } catch (err) {
-        alert('Erro de conexão com o servidor.');
-    } finally {
-        loadingSec.classList.add('hidden');
+        addTerminalMessage('ERRO_AO_INICIAR: ' + err.message, 'error');
         analyzeBtn.disabled = false;
+    }
+}
+
+analyzeBtn.addEventListener('click', () => {
+    startAnalysisFlow(playerInp.value.trim(), matchInp.value.trim());
+});
+
+// Deep Links logic
+window.addEventListener('load', () => {
+    const params = new URLSearchParams(window.location.search);
+    const p = params.get('player');
+    const m = params.get('matchId');
+    if (p && m) {
+        playerInp.value = p;
+        matchInp.value = m;
+        startAnalysisFlow(p, m);
     }
 });
 

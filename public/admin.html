@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORACULO-V // ADMIN_CONSOLE</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            border: 2px solid var(--green-ok);
+            padding: 15px;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--green-ok);
+            margin-top: 10px;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+        .admin-table-container {
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+        }
+        th {
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--green-ok);
+            text-transform: uppercase;
+        }
+        .status-pill {
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+        .status-pending { color: #ffcc00; border-color: #ffcc00; }
+        .status-processing { color: #00ccff; border-color: #00ccff; }
+        .status-completed { color: var(--green-ok); border-color: var(--green-ok); }
+        .status-failed { color: var(--red); border-color: var(--red); }
+        
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--green-ok);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .nav-back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body class="terminal-mode">
+    <div class="scanline"></div>
+    
+    <div class="container" style="max-width: 1000px;">
+        <a href="index.html" class="nav-back">« VOLTAR_AO_DASHBOARD</a>
+        
+        <header class="main-header">
+            <h1 class="glitch-text" data-text="ORACULO-V // CONSOLE">ORACULO-V // CONSOLE</h1>
+            <p class="subtitle">> MONITORAMENTO_DE_FILA_EM_TEMPO_REAL</p>
+        </header>
+
+        <section class="admin-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-label">Total de Análises</div>
+                <div class="stat-value" id="statTotal">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Pendentes</div>
+                <div class="stat-value" id="statPending">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Falhas</div>
+                <div class="stat-value" id="statFailed" style="color: var(--red);">-</div>
+            </div>
+        </section>
+
+        <section class="admin-table-container">
+            <table id="jobsTable">
+                <thead>
+                    <tr>
+                        <th>ID_CONTRATO</th>
+                        <th>AGENTE_TAG</th>
+                        <th>MATCH_ID</th>
+                        <th>STATUS</th>
+                        <th>DATA_SOLICITAÇÃO</th>
+                    </tr>
+                </thead>
+                <tbody id="jobsList">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px;">AGUARDANDO_DADOS_DO_SERVIDOR...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer style="margin-top: 40px; opacity: 0.5; font-size: 0.7rem;">
+            [ SESSÃO_ADMINISTRATIVA_ATIVA ] // [ ATUALIZAÇÃO_AUTO: 10S ]
+        </footer>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

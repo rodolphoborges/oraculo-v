@@ -1,166 +1,102 @@
 {
   "player": "mwzeraDaShopee#s2s2",
-  "agent": "Sova",
-  "map": "Haven",
+  "agent": "Jett",
+  "map": "Lotus",
   "map_details": {
-    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2bee0dc9-4ffe-519b-1cbd-7fbe763a6047/displayicon.png",
-    "yMultiplier": -7.5e-05,
-    "xMultiplier": 7.5e-05,
-    "yScalarToAdd": 0.642728,
-    "xScalarToAdd": 1.09345
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2fe4ed3a-450a-948b-6d6b-e89a78e680a9/displayicon.png",
+    "yMultiplier": -0.000072,
+    "xMultiplier": 0.000072,
+    "yScalarToAdd": 0.917752,
+    "xScalarToAdd": 0.454789
   },
-  "acs": 194.7391304347826,
-  "adr": 120.04347826086956,
-  "kd": 1.0666666666666667,
-  "meta_kd": 0.97,
-  "performance_index": 110.0,
-  "performance_status": "ABOVE_BASELINE",
+  "acs": 224.05,
+  "adr": 138,
+  "kd": 0.8333333333333334,
+  "meta_kd": 1,
+  "first_bloods": 3,
+  "conselho_kaio": "OBJETIVO ADQUIRIDO: Alta taxa de First Bloods. Continue abrindo o mapa, mas mantenha o 'Reset Psicológico' para não entregar a vantagem numérica.",
+  "performance_index": 83.3,
+  "performance_status": "BELOW_BASELINE",
   "rounds": [
     {
       "round": 1,
-      "pos": "Superioridade mecânica com Classic vs Sova (SOVA).",
-      "neg": null,
-      "explanation": "Abate chave contra Sova (Classic) aos 0:41. // Desarmou a Spike garantindo a vitória no round. // Abate realizado com equipamento inferior (Investimento: 300).",
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Miks (Dano: 104).",
+      "narrative": [
+        {
+          "time": "0:19",
+          "type": "neg",
+          "text": "Ficou no chão para Miks (Classic)",
+          "ms": 19729
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "cherro#6086",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
+          "killer_agent": "Miks",
+          "victim_agent": "Jett",
           "weapon": "Classic",
-          "time": "0:41",
-          "damage": 104,
-          "killer_pos": {
-            "x": 6373,
-            "y": -7243
-          },
-          "victim_pos": {
-            "x": 7097,
-            "y": -7245
-          },
-          "killer_radians": 6.271297,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
+          "time": "0:19",
+          "time_ms": 19729,
+          "is_player_killer": false,
+          "is_player_victim": true
         }
       ]
     },
     {
       "round": 2,
-      "pos": "Domínio de espaço com Spectre contra Sova (SOVA).",
-      "neg": null,
-      "explanation": "Abate chave contra Sova (Spectre) aos 0:23.",
+      "pos": null,
+      "neg": "Tomou um sacode de Raze (Paint Shells) aos 0:04.",
+      "narrative": [
+        {
+          "time": "0:04",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Paint Shells)",
+          "ms": 4329
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "cherro#6086",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
-          "weapon": "Spectre",
-          "time": "0:23",
-          "damage": 110,
-          "killer_pos": {
-            "x": 1344,
-            "y": -6478
-          },
-          "victim_pos": {
-            "x": 1922,
-            "y": -8857
-          },
-          "killer_radians": 4.947855,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
+          "weapon": "Paint Shells",
+          "time": "0:04",
+          "time_ms": 4329,
+          "is_player_killer": false,
+          "is_player_victim": true
         }
       ]
     },
     {
       "round": 3,
-      "pos": "Interrupção de avanço inimigo aos 0:46 com Bulldog (SOVA).",
-      "neg": "Pego fora de posição em área disputada aos 0:50 (SOVA).",
-      "explanation": "Abate chave contra Omen (Bulldog) aos 0:24. // Abate chave contra Sova (Bulldog) aos 0:45. // Abate chave contra Sage (Bulldog) aos 0:46. // Neutralizado por Reyna (Vandal) aos 0:50.",
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Raze (Dano: 115).",
+      "narrative": [
+        {
+          "time": "0:14",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Bulldog)",
+          "ms": 14324
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "Umbreon#onze",
-          "killer_agent": "Sova",
-          "victim_agent": "Omen",
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
           "weapon": "Bulldog",
-          "time": "0:24",
-          "damage": 115,
-          "killer_pos": {
-            "x": 268,
-            "y": -8950
-          },
-          "victim_pos": {
-            "x": 3,
-            "y": -7791
-          },
-          "killer_radians": 1.7970585,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "cherro#6086",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
-          "weapon": "Bulldog",
-          "time": "0:45",
-          "damage": 196,
-          "killer_pos": {
-            "x": 1802,
-            "y": -8436
-          },
-          "victim_pos": {
-            "x": 1334,
-            "y": -8445
-          },
-          "killer_radians": 3.1903925,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "quielzera#Gst",
-          "killer_agent": "Sova",
-          "victim_agent": "Sage",
-          "weapon": "Bulldog",
-          "time": "0:46",
-          "damage": 175,
-          "killer_pos": {
-            "x": 1802,
-            "y": -8439
-          },
-          "victim_pos": {
-            "x": 1285,
-            "y": -8357
-          },
-          "killer_radians": 2.968253,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "dogboy#0724",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Reyna",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "0:50",
-          "damage": 165,
-          "killer_pos": {
-            "x": 605,
-            "y": -9824
-          },
-          "victim_pos": {
-            "x": 1330,
-            "y": -9017
-          },
-          "killer_radians": 0.8228848,
-          "victim_radians": null,
+          "time": "0:14",
+          "time_ms": 14324,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -168,99 +104,179 @@
     },
     {
       "round": 4,
-      "pos": null,
-      "neg": null,
-      "explanation": "Round de baixa atividade direta registrada.",
-      "tactical_events": []
+      "pos": "Mandou Chamber de arrasta com Phantom aos 0:24.",
+      "neg": "Tomou um sacode de Fade (Vandal) aos 0:50.",
+      "narrative": [
+        {
+          "time": "0:24",
+          "type": "pos",
+          "text": "Fez o frag no Chamber (Phantom)",
+          "ms": 24439
+        },
+        {
+          "time": "0:50",
+          "type": "neg",
+          "text": "Ficou no chão para Fade (Vandal)",
+          "ms": 50333
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Chamber",
+          "weapon": "Phantom",
+          "time": "0:24",
+          "time_ms": 24439,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Fade",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:50",
+          "time_ms": 50333,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 5,
       "pos": null,
-      "neg": null,
-      "explanation": "Round de baixa atividade direta registrada.",
-      "tactical_events": []
+      "neg": "Pego dormindo (fora de posição) aos 0:51.",
+      "narrative": [
+        {
+          "time": "0:51",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 51245
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:51",
+          "time_ms": 51245,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 6,
-      "pos": "Domínio de espaço com Phantom contra Omen (SOVA).",
-      "neg": "Derrota em duelo direto contra Sova (Dano: 160 // SOVA).",
-      "explanation": "Neutralizado por Sova (Vandal) aos 0:59. // Abate chave contra Omen (Phantom) aos 0:48.",
-      "tactical_events": [
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Raze (Dano: 160).",
+      "narrative": [
         {
-          "killer": "cherro#6086",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "0:59",
-          "damage": 160,
-          "killer_pos": {
-            "x": 1625,
-            "y": -8554
-          },
-          "victim_pos": {
-            "x": 1239,
-            "y": -8902
-          },
-          "killer_radians": 3.8617966,
-          "victim_radians": null,
-          "is_player_killer": false,
-          "is_player_victim": true
+          "time": "0:48",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 48479
         },
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "Umbreon#onze",
-          "killer_agent": "Sova",
-          "victim_agent": "Omen",
-          "weapon": "Phantom",
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (34 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
           "time": "0:48",
-          "damage": 175,
-          "killer_pos": {
-            "x": 965,
-            "y": -9815
-          },
-          "victim_pos": {
-            "x": 947,
-            "y": -8553
-          },
-          "killer_radians": 1.5830681,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
+          "time_ms": 48479,
+          "is_player_killer": false,
+          "is_player_victim": true
         }
       ]
     },
     {
       "round": 7,
-      "pos": null,
-      "neg": null,
-      "explanation": "Round de baixa atividade direta registrada.",
-      "tactical_events": []
+      "pos": "Amassou no domínio de espaço com Operator contra Miks.",
+      "neg": "Ficou isolado aos 0:36 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "ECO",
+          "type": "pos",
+          "text": "Fez o estrago no eco (Investimento: 2350)",
+          "ms": -1
+        },
+        {
+          "time": "PLAN",
+          "type": "pos",
+          "text": "Dominou o site e plantou a Spike",
+          "ms": 22491
+        },
+        {
+          "time": "0:34",
+          "type": "pos",
+          "text": "Fez o frag no Miks (Operator)",
+          "ms": 34888
+        },
+        {
+          "time": "0:36",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Showstopper)",
+          "ms": 36426
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Miks",
+          "weapon": "Operator",
+          "time": "0:34",
+          "time_ms": 34888,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
+          "weapon": "Showstopper",
+          "time": "0:36",
+          "time_ms": 36426,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 8,
       "pos": null,
-      "neg": "Eliminação isolada aos 0:32 sem apoio próximo (SOVA).",
-      "explanation": "Neutralizado por Reyna (Sheriff) aos 0:32. // Eliminado sem causar impacto significativo (38 de dano).",
+      "neg": "Tomou um sacode de Chamber (Operator) aos 0:02.",
+      "narrative": [
+        {
+          "time": "0:02",
+          "type": "neg",
+          "text": "Ficou no chão para Chamber (Operator)",
+          "ms": 2572
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "ms": 999999
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "dogboy#0724",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Reyna",
-          "victim_agent": "Sova",
-          "weapon": "Sheriff",
-          "time": "0:32",
-          "damage": 156,
-          "killer_pos": {
-            "x": 1652,
-            "y": -10750
-          },
-          "victim_pos": {
-            "x": 1248,
-            "y": -9020
-          },
-          "killer_radians": 1.7931277,
-          "victim_radians": null,
+          "killer_agent": "Chamber",
+          "victim_agent": "Jett",
+          "weapon": "Operator",
+          "time": "0:02",
+          "time_ms": 2572,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -268,78 +284,74 @@
     },
     {
       "round": 9,
-      "pos": "Interrupção de avanço inimigo aos 0:23 com Phantom (SOVA).",
-      "neg": "Dificuldade em conter Sova (Vandal) aos 0:35 (SOVA).",
-      "explanation": "Neutralizado por Sova (Vandal) aos 0:35. // Abate chave contra Reyna (Phantom) aos 0:23.",
-      "tactical_events": [
+      "pos": "Abriu o round deitando Chamber aos 0:26.",
+      "neg": "Pego dormindo (fora de posição) aos 0:36.",
+      "narrative": [
         {
-          "killer": "cherro#6086",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "0:35",
-          "damage": 160,
-          "killer_pos": {
-            "x": 6745,
-            "y": -7743
-          },
-          "victim_pos": {
-            "x": 6716,
-            "y": -9952
-          },
-          "killer_radians": 4.6954193,
-          "victim_radians": null,
-          "is_player_killer": false,
-          "is_player_victim": true
+          "time": "ECO",
+          "type": "pos",
+          "text": "Fez o estrago no eco (Investimento: 2400)",
+          "ms": -1
         },
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "dogboy#0724",
-          "killer_agent": "Sova",
-          "victim_agent": "Reyna",
-          "weapon": "Phantom",
-          "time": "0:23",
-          "damage": 206,
-          "killer_pos": {
-            "x": 6146,
-            "y": -9760
-          },
-          "victim_pos": {
-            "x": 7337,
-            "y": -9454
-          },
-          "killer_radians": 0.2257828,
-          "victim_radians": null,
+          "time": "0:26",
+          "type": "pos",
+          "text": "Fez o frag no Chamber (Bucky)",
+          "ms": 26400
+        },
+        {
+          "time": "0:36",
+          "type": "neg",
+          "text": "Ficou no chão para Miks (Vandal)",
+          "ms": 36633
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Chamber",
+          "weapon": "Bucky",
+          "time": "0:26",
+          "time_ms": 26400,
           "is_player_killer": true,
           "is_player_victim": false
+        },
+        {
+          "killer_agent": "Miks",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:36",
+          "time_ms": 36633,
+          "is_player_killer": false,
+          "is_player_victim": true
         }
       ]
     },
     {
       "round": 10,
       "pos": null,
-      "neg": "Dificuldade em conter Omen (Phantom) aos 0:36 (SOVA).",
-      "explanation": "Neutralizado por Omen (Phantom) aos 0:36. // Eliminado sem causar impacto significativo (39 de dano).",
+      "neg": "Ficou isolado aos 0:35 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "0:35",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Vandal)",
+          "ms": 35839
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (27 de dano)",
+          "ms": 999999
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "Umbreon#onze",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Omen",
-          "victim_agent": "Sova",
-          "weapon": "Phantom",
-          "time": "0:36",
-          "damage": 156,
-          "killer_pos": {
-            "x": 319,
-            "y": -5638
-          },
-          "victim_pos": {
-            "x": 1020,
-            "y": -6599
-          },
-          "killer_radians": 5.34995,
-          "victim_radians": null,
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:35",
+          "time_ms": 35839,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -347,78 +359,77 @@
     },
     {
       "round": 11,
-      "pos": "Superioridade mecânica com Phantom vs Reyna (SOVA).",
-      "neg": null,
-      "explanation": "Abate chave contra Jett (Phantom) aos 0:48. // Abate chave contra Reyna (Phantom) aos 1:02. // Desarmou a Spike garantindo a vitória no round.",
+      "pos": "Abriu o round deitando Phoenix aos 0:40.",
+      "neg": "Perdeu a troca direta contra Chamber (Dano: 159).",
+      "narrative": [
+        {
+          "time": "0:40",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Bulldog)",
+          "ms": 40216
+        },
+        {
+          "time": "0:42",
+          "type": "neg",
+          "text": "Ficou no chão para Chamber (Phantom)",
+          "ms": 42021
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "phelipetk#br1",
-          "killer_agent": "Sova",
-          "victim_agent": "Jett",
-          "weapon": "Phantom",
-          "time": "0:48",
-          "damage": 187,
-          "killer_pos": {
-            "x": 2325,
-            "y": -4765
-          },
-          "victim_pos": {
-            "x": 2887,
-            "y": -4907
-          },
-          "killer_radians": 6.0656476,
-          "victim_radians": null,
+          "killer_agent": "Jett",
+          "victim_agent": "Phoenix",
+          "weapon": "Bulldog",
+          "time": "0:40",
+          "time_ms": 40216,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "dogboy#0724",
-          "killer_agent": "Sova",
-          "victim_agent": "Reyna",
+          "killer_agent": "Chamber",
+          "victim_agent": "Jett",
           "weapon": "Phantom",
-          "time": "1:02",
-          "damage": 156,
-          "killer_pos": {
-            "x": 181,
-            "y": -7208
-          },
-          "victim_pos": {
-            "x": 654,
-            "y": -7707
-          },
-          "killer_radians": 5.4912677,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
+          "time": "0:42",
+          "time_ms": 42021,
+          "is_player_killer": false,
+          "is_player_victim": true
         }
       ]
     },
     {
       "round": 12,
-      "pos": null,
-      "neg": "Dificuldade em conter Reyna (Phantom) aos 0:19 (SOVA).",
-      "explanation": "Neutralizado por Reyna (Phantom) aos 0:19. // Eliminado sem causar impacto significativo (0 de dano).",
+      "pos": "Mandou Phoenix de arrasta com Spectre aos 0:03.",
+      "neg": "Ficou isolado aos 0:22 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "0:03",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Spectre)",
+          "ms": 3533
+        },
+        {
+          "time": "0:22",
+          "type": "neg",
+          "text": "Ficou no chão para Miks (Vandal)",
+          "ms": 22321
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "dogboy#0724",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Reyna",
-          "victim_agent": "Sova",
-          "weapon": "Phantom",
-          "time": "0:19",
-          "damage": 156,
-          "killer_pos": {
-            "x": 4972,
-            "y": -10755
-          },
-          "victim_pos": {
-            "x": 5461,
-            "y": -10307
-          },
-          "killer_radians": 0.737653,
-          "victim_radians": null,
+          "killer_agent": "Jett",
+          "victim_agent": "Phoenix",
+          "weapon": "Spectre",
+          "time": "0:03",
+          "time_ms": 3533,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Miks",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:22",
+          "time_ms": 22321,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -426,85 +437,107 @@
     },
     {
       "round": 13,
-      "pos": "Abate de abertura decisivo contra Reyna aos 0:31 (SOVA).",
-      "neg": null,
-      "explanation": "Abate chave contra Reyna (Ghost) aos 0:31. // Executou a instalação da Spike sob pressão. // Abate realizado com equipamento inferior (Investimento: 800).",
+      "pos": "Abriu o round deitando Fade aos 0:30.",
+      "neg": "Tomou um sacode de Raze (Ghost) aos 0:30.",
+      "narrative": [
+        {
+          "time": "ECO",
+          "type": "pos",
+          "text": "Fez o estrago no eco (Investimento: 700)",
+          "ms": -1
+        },
+        {
+          "time": "0:21",
+          "type": "pos",
+          "text": "Fez o frag no Chamber (Ghost)",
+          "ms": 21929
+        },
+        {
+          "time": "0:30",
+          "type": "pos",
+          "text": "Fez o frag no Fade (Ghost)",
+          "ms": 30730
+        },
+        {
+          "time": "0:30",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Ghost)",
+          "ms": 30934
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "dogboy#0724",
-          "killer_agent": "Sova",
-          "victim_agent": "Reyna",
+          "killer_agent": "Jett",
+          "victim_agent": "Chamber",
           "weapon": "Ghost",
-          "time": "0:31",
-          "damage": 165,
-          "killer_pos": {
-            "x": 3493,
-            "y": -6462
-          },
-          "victim_pos": {
-            "x": 2990,
-            "y": -6601
-          },
-          "killer_radians": 3.441486,
-          "victim_radians": null,
+          "time": "0:21",
+          "time_ms": 21929,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Fade",
+          "weapon": "Ghost",
+          "time": "0:30",
+          "time_ms": 30730,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
+          "weapon": "Ghost",
+          "time": "0:30",
+          "time_ms": 30934,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "pos": "Segurou o rush inimigo aos 0:51 com Bulldog.",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "0:51",
+          "type": "pos",
+          "text": "Fez o frag no Raze (Bulldog)",
+          "ms": 51812
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Raze",
+          "weapon": "Bulldog",
+          "time": "0:51",
+          "time_ms": 51812,
           "is_player_killer": true,
           "is_player_victim": false
         }
       ]
     },
     {
-      "round": 14,
-      "pos": "INSTALADOR DA SPIKE",
-      "neg": null,
-      "explanation": "Executou a instalação da Spike sob pressão.",
-      "tactical_events": []
-    },
-    {
       "round": 15,
-      "pos": "Eliminação crucial de Reyna com Bulldog aos 0:27 (SOVA).",
-      "neg": "Derrota em duelo direto contra Jett (Dano: 160 // SOVA).",
-      "explanation": "Abate chave contra Reyna (Bulldog) aos 0:27. // Neutralizado por Jett (Vandal) aos 0:33.",
+      "pos": null,
+      "neg": "Foi de base pra Fade (Vandal) no contrapé aos 0:13.",
+      "narrative": [
+        {
+          "time": "0:13",
+          "type": "neg",
+          "text": "Ficou no chão para Fade (Vandal)",
+          "ms": 13430
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "dogboy#0724",
-          "killer_agent": "Sova",
-          "victim_agent": "Reyna",
-          "weapon": "Bulldog",
-          "time": "0:27",
-          "damage": 219,
-          "killer_pos": {
-            "x": 7199,
-            "y": -9368
-          },
-          "victim_pos": {
-            "x": 6373,
-            "y": -9738
-          },
-          "killer_radians": 3.578969,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "phelipetk#br1",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Jett",
-          "victim_agent": "Sova",
+          "killer_agent": "Fade",
+          "victim_agent": "Jett",
           "weapon": "Vandal",
-          "time": "0:33",
-          "damage": 160,
-          "killer_pos": {
-            "x": 7055,
-            "y": -9467
-          },
-          "victim_pos": {
-            "x": 5300,
-            "y": -8904
-          },
-          "killer_radians": 2.828373,
-          "victim_radians": null,
+          "time": "0:13",
+          "time_ms": 13430,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -512,28 +545,53 @@
     },
     {
       "round": 16,
-      "pos": null,
-      "neg": "Derrota em duelo direto contra Reyna (Dano: 156 // SOVA).",
-      "explanation": "Neutralizado por Reyna (Phantom) aos 0:13. // Eliminado sem causar impacto significativo (0 de dano).",
+      "pos": "Abriu o round deitando Fade aos 0:19.",
+      "neg": "Perdeu a troca direta contra Chamber (Dano: 169).",
+      "narrative": [
+        {
+          "time": "0:17",
+          "type": "pos",
+          "text": "Fez o frag no Raze (Vandal)",
+          "ms": 17872
+        },
+        {
+          "time": "0:19",
+          "type": "pos",
+          "text": "Fez o frag no Fade (Vandal)",
+          "ms": 19814
+        },
+        {
+          "time": "0:24",
+          "type": "neg",
+          "text": "Ficou no chão para Chamber (Spectre)",
+          "ms": 24831
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "dogboy#0724",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Reyna",
-          "victim_agent": "Sova",
-          "weapon": "Phantom",
-          "time": "0:13",
-          "damage": 156,
-          "killer_pos": {
-            "x": -1480,
-            "y": -8083
-          },
-          "victim_pos": {
-            "x": -2093,
-            "y": -8175
-          },
-          "killer_radians": 3.3036194,
-          "victim_radians": null,
+          "killer_agent": "Jett",
+          "victim_agent": "Raze",
+          "weapon": "Vandal",
+          "time": "0:17",
+          "time_ms": 17872,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Fade",
+          "weapon": "Vandal",
+          "time": "0:19",
+          "time_ms": 19814,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Chamber",
+          "victim_agent": "Jett",
+          "weapon": "Spectre",
+          "time": "0:24",
+          "time_ms": 24831,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -541,28 +599,53 @@
     },
     {
       "round": 17,
-      "pos": null,
-      "neg": "Eliminação isolada aos 0:11 sem apoio próximo (SOVA).",
-      "explanation": "Neutralizado por Jett (Operator) aos 0:11. // Eliminado sem causar impacto significativo (22 de dano).",
+      "pos": "Amassou no domínio de espaço com Vandal contra Miks.",
+      "neg": "Foi de base pra Fade (Vandal) no contrapé aos 0:59.",
+      "narrative": [
+        {
+          "time": "0:49",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Vandal)",
+          "ms": 49637
+        },
+        {
+          "time": "0:52",
+          "type": "pos",
+          "text": "Fez o frag no Miks (Vandal)",
+          "ms": 52554
+        },
+        {
+          "time": "0:59",
+          "type": "neg",
+          "text": "Ficou no chão para Fade (Vandal)",
+          "ms": 59944
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "phelipetk#br1",
-          "victim": "mwzeraDaShopee#s2s2",
           "killer_agent": "Jett",
-          "victim_agent": "Sova",
-          "weapon": "Operator",
-          "time": "0:11",
-          "damage": 150,
-          "killer_pos": {
-            "x": -3645,
-            "y": -9082
-          },
-          "victim_pos": {
-            "x": 298,
-            "y": -7948
-          },
-          "killer_radians": 0.28225246,
-          "victim_radians": null,
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "0:49",
+          "time_ms": 49637,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "0:52",
+          "time_ms": 52554,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Fade",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:59",
+          "time_ms": 59944,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -570,28 +653,38 @@
     },
     {
       "round": 18,
-      "pos": null,
-      "neg": "Neutralizado por Sage (Vandal) em momento desfavorável aos 0:16 (SOVA).",
-      "explanation": "Neutralizado por Sage (Vandal) aos 0:16.",
+      "pos": "Amassou no domínio de espaço com Vandal contra Fade.",
+      "neg": "Foi de base pra Raze (Operator) no contrapé aos 0:31.",
+      "narrative": [
+        {
+          "time": "0:20",
+          "type": "pos",
+          "text": "Fez o frag no Fade (Vandal)",
+          "ms": 20626
+        },
+        {
+          "time": "0:31",
+          "type": "neg",
+          "text": "Ficou no chão para Raze (Operator)",
+          "ms": 31012
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "quielzera#Gst",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Sage",
-          "victim_agent": "Sova",
+          "killer_agent": "Jett",
+          "victim_agent": "Fade",
           "weapon": "Vandal",
-          "time": "0:16",
-          "damage": 160,
-          "killer_pos": {
-            "x": 7299,
-            "y": -9568
-          },
-          "victim_pos": {
-            "x": 6354,
-            "y": -7114
-          },
-          "killer_radians": 1.9346374,
-          "victim_radians": null,
+          "time": "0:20",
+          "time_ms": 20626,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Raze",
+          "victim_agent": "Jett",
+          "weapon": "Operator",
+          "time": "0:31",
+          "time_ms": 31012,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -599,253 +692,75 @@
     },
     {
       "round": 19,
-      "pos": "Eliminação crucial de Sage com Phantom aos 0:21 (SOVA).",
-      "neg": "Pego fora de posição em área disputada aos 0:21 (SOVA).",
-      "explanation": "Abate chave contra Sova (Phantom) aos 0:18. // Abate chave contra Sage (Phantom) aos 0:21. // Neutralizado por Jett (Blade Storm) aos 0:21.",
+      "pos": "Amassou no domínio de espaço com Vandal contra Fade.",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "1:00",
+          "type": "pos",
+          "text": "Fez o frag no Phoenix (Vandal)",
+          "ms": 60346
+        },
+        {
+          "time": "1:14",
+          "type": "pos",
+          "text": "Fez o frag no Fade (Vandal)",
+          "ms": 74938
+        }
+      ],
       "tactical_events": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "cherro#6086",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
-          "weapon": "Phantom",
-          "time": "0:18",
-          "damage": 256,
-          "killer_pos": {
-            "x": 6637,
-            "y": -8218
-          },
-          "victim_pos": {
-            "x": 6899,
-            "y": -10157
-          },
-          "killer_radians": 4.8442154,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "quielzera#Gst",
-          "killer_agent": "Sova",
-          "victim_agent": "Sage",
-          "weapon": "Phantom",
-          "time": "0:21",
-          "damage": 234,
-          "killer_pos": {
-            "x": 6742,
-            "y": -9075
-          },
-          "victim_pos": {
-            "x": 5550,
-            "y": -8848
-          },
-          "killer_radians": 2.9486945,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "phelipetk#br1",
-          "victim": "mwzeraDaShopee#s2s2",
           "killer_agent": "Jett",
-          "victim_agent": "Sova",
-          "weapon": "Blade Storm",
-          "time": "0:21",
-          "damage": 190,
-          "killer_pos": {
-            "x": 6284,
-            "y": -9796
-          },
-          "victim_pos": {
-            "x": 6742,
-            "y": -9075
-          },
-          "killer_radians": 1.0107975,
-          "victim_radians": null,
-          "is_player_killer": false,
-          "is_player_victim": true
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "1:00",
+          "time_ms": 60346,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Jett",
+          "victim_agent": "Fade",
+          "weapon": "Vandal",
+          "time": "1:14",
+          "time_ms": 74938,
+          "is_player_killer": true,
+          "is_player_victim": false
         }
       ]
     },
     {
       "round": 20,
-      "pos": "Domínio de espaço com Vandal contra Jett (SOVA).",
-      "neg": "Derrota em duelo direto contra Omen (Dano: 280 // SOVA).",
-      "explanation": "Abate chave contra Jett (Hunter's Fury) aos 0:19. // Abate chave contra Jett (Vandal) aos 0:45. // Neutralizado por Omen (Vandal) aos 1:10.",
-      "tactical_events": [
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Fade (Dano: 150).",
+      "narrative": [
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "phelipetk#br1",
-          "killer_agent": "Sova",
-          "victim_agent": "Jett",
-          "weapon": "Hunter's Fury",
-          "time": "0:19",
-          "damage": 355,
-          "killer_pos": {
-            "x": -1953,
-            "y": -6813
-          },
-          "victim_pos": {
-            "x": -1392,
-            "y": -9161
-          },
-          "killer_radians": 4.9102726,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
+          "time": "0:45",
+          "type": "neg",
+          "text": "Ficou no chão para Fade (Vandal)",
+          "ms": 45494
         },
         {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "phelipetk#br1",
-          "killer_agent": "Sova",
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (40 de dano)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Fade",
           "victim_agent": "Jett",
           "weapon": "Vandal",
           "time": "0:45",
-          "damage": 355,
-          "killer_pos": {
-            "x": -1989,
-            "y": -6422
-          },
-          "victim_pos": {
-            "x": -2842,
-            "y": -7331
-          },
-          "killer_radians": 3.9498088,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "Umbreon#onze",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Omen",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "1:10",
-          "damage": 280,
-          "killer_pos": {
-            "x": 939,
-            "y": -4703
-          },
-          "victim_pos": {
-            "x": -727,
-            "y": -4306
-          },
-          "killer_radians": 2.9005659,
-          "victim_radians": null,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 21,
-      "pos": null,
-      "neg": "Derrota em duelo direto contra Sova (Dano: 174 // SOVA).",
-      "explanation": "Neutralizado por Sova (Vandal) aos 0:41. // Eliminado sem causar impacto significativo (0 de dano).",
-      "tactical_events": [
-        {
-          "killer": "cherro#6086",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "0:41",
-          "damage": 174,
-          "killer_pos": {
-            "x": 2135,
-            "y": -8655
-          },
-          "victim_pos": {
-            "x": 1069,
-            "y": -7694
-          },
-          "killer_radians": 2.4145815,
-          "victim_radians": null,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 22,
-      "pos": "Superioridade mecânica com Vandal vs Sova (SOVA).",
-      "neg": "Pego fora de posição em área disputada aos 0:11 (SOVA).",
-      "explanation": "Abate chave contra Sova (Vandal) aos 0:10. // Neutralizado por Reyna (Phantom) aos 0:11.",
-      "tactical_events": [
-        {
-          "killer": "mwzeraDaShopee#s2s2",
-          "victim": "cherro#6086",
-          "killer_agent": "Sova",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "0:10",
-          "damage": 200,
-          "killer_pos": {
-            "x": 4181,
-            "y": -6230
-          },
-          "victim_pos": {
-            "x": 6955,
-            "y": -7424
-          },
-          "killer_radians": 5.876393,
-          "victim_radians": null,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer": "dogboy#0724",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Reyna",
-          "victim_agent": "Sova",
-          "weapon": "Phantom",
-          "time": "0:11",
-          "damage": 158,
-          "killer_pos": {
-            "x": 5150,
-            "y": -6624
-          },
-          "victim_pos": {
-            "x": 4256,
-            "y": -6121
-          },
-          "killer_radians": 2.6184094,
-          "victim_radians": null,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 23,
-      "pos": "INSTALADOR DA SPIKE",
-      "neg": "Dificuldade em conter Sage (Vandal) aos 0:32 (SOVA).",
-      "explanation": "Neutralizado por Sage (Vandal) aos 0:32. // Executou a instalação da Spike sob pressão.",
-      "tactical_events": [
-        {
-          "killer": "quielzera#Gst",
-          "victim": "mwzeraDaShopee#s2s2",
-          "killer_agent": "Sage",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "0:32",
-          "damage": 188,
-          "killer_pos": {
-            "x": -1182,
-            "y": -8164
-          },
-          "victim_pos": {
-            "x": -2229,
-            "y": -9098
-          },
-          "killer_radians": 3.8602626,
-          "victim_radians": null,
+          "time_ms": 45494,
           "is_player_killer": false,
           "is_player_victim": true
         }
       ]
     }
-  ]
+  ],
+  "meta_category": "BASELINE_AVG",
+  "target_kd": 1,
+  "estimated_rank": "PRATA/BRONZE"
 }
