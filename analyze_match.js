@@ -84,7 +84,8 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
         '--target-kd', targetKd.toString()
       ], { 
         encoding: 'utf8',
-        env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
+        env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
+        timeout: 5 * 60 * 1000 // 5 minutos de timeout
       });
       
       if (child.error) throw child.error;
