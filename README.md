@@ -13,6 +13,15 @@ O **Oráculo V** é um **Conselheiro Tático de Elite** de arquitetura assíncro
   - **Art. 3: Sinergia** (Trade Kills / Reset Psicológico)
 - **Cálculo de Impacto vStats**: Índice de performance ponderado: **60% ADR** / 40% K/D.
 
+## 🎞️ Léxico do Impacto
+
+Para os iniciados dO Protocolo V, estes não são apenas números. São o pulso da sua existência operacional:
+
+- **ADR** // *O Amasso*: O quanto você deitou o time inimigo em média por round. É o dano puro: se você não amassa, você não joga.
+- **ACS** // *O Sinal*: O quanto você apareceu no jogo. Pontuação média que reflete seu combate real, abates e impacto.
+- **K/D** // *A Conta*: Quantos adversários você levou antes de ir de base. O saldo entre kills e quedas.
+- **FB** // *O First*: Quem dita o ritmo do round. Quem abriu o mapa e garantiu a vantagem numérica pro time logo de cara.
+
 ## 📂 Estrutura do Projeto
 
 - `server.js`: API Express e Console Admin.
