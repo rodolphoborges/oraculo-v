@@ -70,7 +70,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   
   // 7. Chama o script Python
   try {
-    const pythonScript = path.join('C:', 'tmp', 'analyze_valorant.py');
+    const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
     const normalizedMatchPath = path.resolve(matchJsonPath);
     
     console.log(`Executando análise Python: ${pythonScript}`);

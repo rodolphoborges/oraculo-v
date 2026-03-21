@@ -13,12 +13,14 @@
   "adr": 117.44444444444444,
   "kd": 1,
   "meta_kd": 1.08,
+  "first_bloods": 1,
+  "conselho_kaio": "DIRETRIZ DE IMPACTO: Seu ADR está abaixo do limite tático. Priorize trocas agressivas e trade-kills. Lembre-se: Dano é a métrica absoluta da vStats.",
   "performance_index": 92.6,
   "performance_status": "BELOW_BASELINE",
   "rounds": [
     {
       "round": 1,
-      "pos": "Aula de mira com Ghost pra cima de Clove.",
+      "pos": "Mandou Clove de arrasta com Ghost aos 0:23.",
       "neg": null,
       "narrative": [
         {
@@ -78,7 +80,7 @@
     },
     {
       "round": 3,
-      "pos": "Abriu o round deitando Veto aos 0:15.",
+      "pos": "Amassou no domínio de espaço com Ghost contra Veto.",
       "neg": "Pego dormindo (fora de posição) aos 0:17.",
       "narrative": [
         {
@@ -124,7 +126,7 @@
     {
       "round": 4,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:29.",
+      "neg": "Tomou um sacode de Clove (Vandal) aos 0:29.",
       "narrative": [
         {
           "time": "0:29",
@@ -154,7 +156,7 @@
     {
       "round": 5,
       "pos": null,
-      "neg": "Foi de base pra Clove (Vandal) no contrapé aos 0:19.",
+      "neg": "Ficou isolado aos 0:19 e foi punido sem trade.",
       "narrative": [
         {
           "time": "0:19",
@@ -178,7 +180,7 @@
     {
       "round": 6,
       "pos": null,
-      "neg": "Tomou um sacode de Waylay (Vandal) aos 0:22.",
+      "neg": "Perdeu a troca direta contra Waylay (Dano: 160).",
       "narrative": [
         {
           "time": "0:22",
@@ -207,7 +209,7 @@
     },
     {
       "round": 7,
-      "pos": "Aula de mira com Vandal pra cima de Jett.",
+      "pos": "Amassou no domínio de espaço com Vandal contra Jett.",
       "neg": null,
       "narrative": [
         {
@@ -252,7 +254,7 @@
     },
     {
       "round": 8,
-      "pos": "Amassou no domínio de espaço com Vandal contra Yoru.",
+      "pos": "Mandou Yoru de arrasta com Vandal aos 0:26.",
       "neg": null,
       "narrative": [
         {
@@ -291,7 +293,7 @@
     },
     {
       "round": 9,
-      "pos": "Aula de mira com Vandal pra cima de Waylay.",
+      "pos": "Segurou o rush inimigo aos 1:17 com Vandal.",
       "neg": null,
       "narrative": [
         {
@@ -331,7 +333,7 @@
     {
       "round": 10,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Clove (Dano: 152).",
+      "neg": "Ficou isolado aos 0:29 e foi punido sem trade.",
       "narrative": [
         {
           "time": "0:29",
@@ -355,7 +357,7 @@
     {
       "round": 11,
       "pos": null,
-      "neg": "Foi de base pra Veto (Guardian) no contrapé aos 0:23.",
+      "neg": "Pego dormindo (fora de posição) aos 0:23.",
       "narrative": [
         {
           "time": "0:23",
@@ -391,7 +393,7 @@
     },
     {
       "round": 13,
-      "pos": "Aula de mira com Frenzy pra cima de Clove.",
+      "pos": "Amassou no domínio de espaço com Frenzy contra Clove.",
       "neg": null,
       "narrative": [
         {
@@ -422,7 +424,7 @@
     {
       "round": 14,
       "pos": null,
-      "neg": "Foi de base pra Clove (Sheriff) no contrapé aos 0:24.",
+      "neg": "Pego dormindo (fora de posição) aos 0:24.",
       "narrative": [
         {
           "time": "0:24",
@@ -452,7 +454,7 @@
     {
       "round": 15,
       "pos": "Mandou Waylay de arrasta com Bucky aos 0:13.",
-      "neg": "Perdeu a troca direta contra Jett (Dano: 148).",
+      "neg": "Ficou isolado aos 0:21 e foi punido sem trade.",
       "narrative": [
         {
           "time": "ECO",
@@ -497,7 +499,7 @@
     {
       "round": 16,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:28.",
+      "neg": "Tomou um sacode de Jett (Guardian) aos 0:28.",
       "narrative": [
         {
           "time": "0:28",
