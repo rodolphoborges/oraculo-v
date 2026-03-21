@@ -176,9 +176,8 @@ function renderResults(data) {
         timeline.appendChild(item);
     });
 
-    // ── Exibe ────────────────────────────────────�
-
-den');
+    // -- Exibe --------------------------------------------------
+    resultsSec.classList.remove('hidden');
     resultsSec.scrollIntoView({ behavior: 'smooth' });
 
     // Efeito de digitação suave para o cabeçalho do relatório
