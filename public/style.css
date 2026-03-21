@@ -597,3 +597,31 @@ footer {
     text-transform: uppercase;
     opacity: 0.85;
 }
+
+/* ── Advice Block ────────────────────────────────────────── */
+.advice-block {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(255, 70, 85, 0.03);
+    border: 1px solid var(--red-dim);
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+}
+
+.advice-header {
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 2px;
+    margin-bottom: 0.6rem;
+    font-weight: bold;
+}
+.advice-header::before { content: '🚨 '; }
+
+.advice-body {
+    font-size: 0.85rem;
+    color: var(--white);
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    border-left: 2px solid var(--red);
+    padding-left: 1rem;
+}
