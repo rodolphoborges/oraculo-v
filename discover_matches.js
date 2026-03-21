@@ -6,8 +6,9 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 const HENRIK_API_KEY = process.env.HENRIK_API_KEY;
 
 if (!HENRIK_API_KEY || HENRIK_API_KEY === 'your_henrik_api_key_v3') {
-    console.error("❌ ERRO: HENRIK_API_KEY não configurada no arquivo .env.");
-    console.error("Obtenha uma chave em https://henrikdev.xyz/dashboard e adicione ao seu arquivo .env");
+    console.error("❌ ERRO: HENRIK_API_KEY não configurada.");
+    console.error("Certifique-se de definir a chave no arquivo .env local ou nos Secrets do GitHub (CI/CD).");
+    console.error("Obtenha uma chave em: https://henrikdev.xyz/dashboard");
     process.exit(1);
 }
 
