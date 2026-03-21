@@ -1,25 +1,23 @@
-# ORÁCULO V // NÚCLEO_TÁTICO
+# ORÁCULO V // NÚCLEO_TÁTICO v2.0
 
-O **Oráculo V** evoluiu de uma simples pipeline de captura para um **Conselheiro Tático de Elite** para jogadores do O Protocolo V. Ele processa metadados do [vstats.gg](https://www.vstats.gg/) e do Tracker.gg para fornecer insights profundos e diretrizes de impacto.
+O **Oráculo V** evoluiu de uma simples pipeline de captura para um **Conselheiro Tático de Elite** de arquitetura assíncrona. Ele processa metadados do [vstats.gg](https://www.vstats.gg/) e do Tracker.gg para fornecer insights profundos sob a estética "Brutalista Terminal".
 
-## 🚨 Funcionalidades de Elite
+## 🚨 Funcionalidades de Elite (v2.0)
 
-- **Diretriz Tática K.A.I.O.**: Análise de ADR, K/D e First Bloods traduzida em ordens táticas imediatas baseadas na Constituição dO Protocolo V.
-- **Narrativa de Partida**: Transformação de logs frios em um registro cronológico de rounds com gírias brasileiras ("deitou", "foi de base", "pinou").
-- **Integração Telegram**: Comando `/analisar <MATCH_ID>` integrado ao Bot Protocolov para solicitações sob demanda.
-- **Radar de Partidas**: Identificação automática de jogos onde membros dO Protocolo jogaram juntos.
-- **Automação de Fila**: Sistema de processamento assíncrono via Supabase e GitHub Actions para processamento 100% gratuito e escalável.
+- **API Assíncrona & Fila**: Solicite análises via `/api/queue` e acompanhe o progresso em tempo real sem travamentos.
+- **Painel de Monitoramento (Console)**: Acesse `/admin.html` para visualizar estatísticas globais, jobs pendentes e abrir relatórios diretamente via Deep Links.
+- **Imersão Terminal (Organic CMD)**: Ao abrir links diretos, o sistema oculta a interface de entrada e simula a execução de um comando `analyze` no terminal.
+- **Diretriz Tática K.A.I.O. (BR)**: Análise de ADR, K/D e First Bloods localizada com gírias e terminologias reais do cenário brasileiro de Valorant ("Amassou", "Foi de base", "Trade").
+- **Integração Telegram**: Comando `/analisar <MATCH_ID>` integrado ao Bot Protocolov com notificações automáticas.
 
 ## 📂 Estrutura do Projeto
 
-- `analyze_valorant.py`: O cérebro da análise tática (Python).
-- `analyze_match.js`: Orquestrador de dados e integração Meta/Tracker.
-- `worker.js`: Processador autônomo da fila de análise.
-- `discover_matches.js`: Radar de descobertas de novos jogos.
-- `public/`: Interface "Terminal" com dashboard brutalista.
-- `scrapers/`: Scripts de coleta (Puppeteer/vStats).
-- `lib/`: Lógica compartilhada (Meta Loaders, API Trackers).
-- `.github/workflows/`: Automação de coleta semanal e worker horário.
+- `server.js`: Servidor Express com endpoints de API e Console Admin.
+- `worker.js`: Processador autônomo que consome a fila do Supabase.
+- `analyze_valorant.py`: O "cérebro" de análise tática (Python 3).
+- `analyze_match.js`: Orquestrador de dados e integrações Meta/Tracker.
+- `public/admin.html`: Painel de monitoramento e controle.
+- `public/app.js`: Interface principal com modo "Organic CMD".
 
 ## ⚙️ Configuração
 
@@ -39,18 +37,16 @@ O **Oráculo V** evoluiu de uma simples pipeline de captura para um **Conselheir
 3. **Banco de Dados**:
    Certifique-se de rodar os scripts SQL em `schemas/` e `setup_queue_table.sql` no Supabase SQL Editor.
 
-## 🤖 Como Usar
+## 🤖 Console de Operações (API)
 
-### Manual (CLI)
-```bash
-node analyze_match.js "PLAYER#TAG" "MATCH_UUID"
-```
-
-### Via Telegram
-Envie `/analisar <MATCH_UUID>` para o Bot Protocolov. O Oráculo entrará no radar de processamento e enviará o relatório quando pronto.
+| Rota | Método | Descrição |
+| --- | --- | --- |
+| `/api/queue` | POST | Envia jogador e matchId para a fila de processamento. |
+| `/api/status/:matchId` | GET | Retorna o status atual (pending, processing, completed). |
+| `/api/admin/stats` | GET | Retorna estatísticas de uso para o painel de controle. |
 
 ## ☁️ Automação
 O projeto roda **Workers horários** e **Scrapers semanais** via GitHub Actions, garantindo que o meta consolidado esteja sempre atualizado sem custos de infraestrutura.
 
 ---
-*(C) 2026 DEEPMIND ANTIGRAVITY // MODO_TERMINAL_ATIVO*
+*(C) 2026 DEEPMIND ANTIGRAVITY // PROTOCOLO_V_OPERACAO_MAXIMA*

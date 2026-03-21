@@ -52,7 +52,7 @@ def analyze_match(json_data, target_player, target_kd=1.0):
             if first_kill['attributes']['platformUserIdentifier'].upper() == player_target_upper:
                 first_kills_count += 1
 
-    # Templates de Mensagem Principal (Abrasileirado)
+    # Templates de Mensagem Principal (Abrasileirado & Valorant Style)
     POS_TEMPLATES = [
         "Mandou {victim_agent} de arrasta com {weapon} aos {time}.",
         "Amassou no domínio de espaço com {weapon} contra {victim_agent}.",
@@ -115,27 +115,27 @@ def analyze_match(json_data, target_player, target_kd=1.0):
                 
                 if event["is_player_killer"]:
                     pos_label = random.choice(POS_TEMPLATES).format(**ctx)
-                    narrative_events.append({"time": time_str, "type": "pos", "text": f"Fez o frag no {event['victim_agent']} ({weapon})", "ms": rt_ms})
+                    narrative_events.append({"time": time_str, "type": "pos", "text": f"Garantiu o frag no {event['victim_agent']} ({weapon})", "ms": rt_ms})
                 else:
                     neg_label = random.choice(NEG_TEMPLATES).format(**ctx)
-                    narrative_events.append({"time": time_str, "type": "neg", "text": f"Ficou no chão para {event['killer_agent']} ({weapon})", "ms": rt_ms})
+                    narrative_events.append({"time": time_str, "type": "neg", "text": f"Foi de base para {event['killer_agent']} ({weapon})", "ms": rt_ms})
 
         r_sum = round_summaries.get(r_num)
         if r_sum:
             if r_sum.get('plant') and r_sum['plant']['platformUserIdentifier'].upper() == player_target_upper:
                 pos_label = pos_label or "BOMB PLANTED"
-                narrative_events.append({"time": "PLAN", "type": "pos", "text": "Dominou o site e plantou a Spike", "ms": r_sum['plant'].get('roundTime', 0)})
+                narrative_events.append({"time": "PLAN", "type": "pos", "text": "Dominou o site e garantiu o plant", "ms": r_sum['plant'].get('roundTime', 0)})
             if r_sum.get('defuse') and r_sum['defuse']['platformUserIdentifier'].upper() == player_target_upper:
                 pos_label = pos_label or "CLUTCH DEFUSE"
-                narrative_events.append({"time": "DEF", "type": "pos", "text": "Fez o clutch no defuse e garantiu o round", "ms": r_sum['defuse'].get('roundTime', 0)})
+                narrative_events.append({"time": "DEF", "type": "pos", "text": "Clutch no defuse! Garantiu o round no detalhe", "ms": r_sum['defuse'].get('roundTime', 0)})
 
         if economy < 2500 and kills_count > 0:
             pos_label = pos_label or "ECOOU FORTE"
-            narrative_events.insert(0, {"time": "ECO", "type": "pos", "text": f"Fez o estrago no eco (Investimento: {economy})", "ms": -1})
+            narrative_events.insert(0, {"time": "ECO", "type": "pos", "text": f"Fez estrago no Round Eco (Gasto: ${economy})", "ms": -1})
 
         if deaths_count == 1 and kills_count == 0 and dmg < 50:
             neg_label = neg_label or "PINOU FEIO"
-            narrative_events.append({"time": "OUT", "type": "neg", "text": f"Morreu seco sem causar impacto ({int(dmg)} de dano)", "ms": 999999})
+            narrative_events.append({"time": "OUT", "type": "neg", "text": f"Morreu seco sem causar impacto ({int(dmg)} dmg)", "ms": 999999})
 
         # Ordenação final dos fatos
         narrative_events.sort(key=lambda x: x['ms'])
@@ -148,31 +148,31 @@ def analyze_match(json_data, target_player, target_kd=1.0):
             "tactical_events": tactical_events
         })
 
-    # --- Lógica de Conselho Tático K.A.I.O --- (Baseado na Constituição e vStats)
+    # --- DIRETRIZES TÁTICAS K.A.I.O. (Narrativa Localizada) ---
     conselhos = []
     
     # 1. Impacto de Dano (vStats Philosophy)
     if adr < 120:
-        conselhos.append("DIRETRIZ DE IMPACTO: Seu ADR está abaixo do limite tático. Priorize trocas agressivas e trade-kills. Lembre-se: Dano é a métrica absoluta da vStats.")
+        conselhos.append("DIRETRIZ_DANO: ADR MUITO BAIXO. TU NÃO TÁ CAUSANDO NADA NO MAPA. ENTRA MAIS NO COMBATE E AJUDA O TIME NAS TROCAS. O ORÁCULO EXIGE IMPACTO.")
     elif adr > 160:
-        conselhos.append("EFICIÊNCIA LETAL: ADR excepcional detectado. Você está cumprindo a função de batedor com excelência.")
+        conselhos.append("EFICIÊNCIA_LETAL: ADR DE QUEM CARREGA. TÁ AMASSANDO GERAL NO COMBATE. MANTÉM DITANDO O RITMO DO JOGO.")
 
     # 2. Iniciativa (First Bloods)
     if first_kills_count >= 3:
-        conselhos.append("OBJETIVO ADQUIRIDO: Alta taxa de First Bloods. Continue abrindo o mapa, mas mantenha o 'Reset Psicológico' para não entregar a vantagem numérica.")
+        conselhos.append("OBJETIVO_ADQUIRIDO: TÁ REPRESENTANDO NOS FIRST BLOODS. CONTINUA ABRINDO O MAPA, MAS CUIDADO PRA NÃO TROLLAR A VANTAGEM COM EXCESSO DE CONFIANÇA.")
     elif first_kills_count == 0 and adr < 130:
-        conselhos.append("INICIATIVA TÁTICA: Ausência de First Bloods. O Protocolo V exige agressividade controlada. Não seja o último a entrar no combate.")
+        conselhos.append("POSTURA_PASSIVA: ZERO FIRST BLOODS? O PROTOCOLO V NÃO ACEITA 'MEDINHO'. BOTA O ROSTO E AJUDA A ABRIR O SITE.")
 
     # 3. Sobrevivência e Tática (Rádio Limpo / Sinergia)
     deaths = stats['deaths']['value']
     if deaths > total_rounds * 0.9 and actual_kd < 0.8:
-        conselhos.append("RÁDIO LIMPO: Muitas mortes sem trade. Jogue mais próximo aos seus companheiros. Sinergia (SN) precede o mérito individual.")
+        conselhos.append("LOGÍSTICA_ISOLADA: MUITAS MORTES SEM TRADE. JOGA JUNTO COM O TIME, SINERGIA GANHA JOGO, INDIVIDUALIDADE SÓ GANHA FRAG.")
     elif actual_kd > 1.5 and adr < 130:
-        conselhos.append("POSTURA PASSIVA: K/D alto mas impacto de dano baixo. Você está sobrevivendo mas não está punindo o inimigo. Saia da zona de conforto.")
+        conselhos.append("SÍNDROME_DE_KDA: K/D BONITO MAS NÃO TÁ DANDO DANO. PARA DE JOGAR PELO EXIT FRAG E VAI PRO COMBATE REAL.")
 
     # 4. Fallback Geral
     if not conselhos:
-        conselhos.append("FOCO OPERACIONAL: Desempenho equilibrado. Mantenha a disciplina econômica e a comunicação tática via rádio.")
+        conselhos.append("FOCO_OPERACIONAL: JOGOU O FEIJÃO COM ARROZ. DESEMPENHO EQUILIBRADO. MANTÉM A DISCIPLINA QUE O RESULTADO VEM.")
 
     # Seleciona o conselho mais prioritário (ou o primeiro)
     conselho_final = conselhos[0]
@@ -185,6 +185,7 @@ def analyze_match(json_data, target_player, target_kd=1.0):
         "conselho_kaio": conselho_final,
         "performance_index": round(perf_idx, 1),
         "performance_status": "ABOVE_BASELINE" if actual_kd >= target_kd else "BELOW_BASELINE",
+        "total_rounds": total_rounds,
         "rounds": rounds_analysis
     }
 
