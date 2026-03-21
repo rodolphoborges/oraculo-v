@@ -1,4 +1,5 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ quiet: true });
 import { createClient } from '@supabase/supabase-js';
 // Node.js 18+ possui fetch nativo global
 

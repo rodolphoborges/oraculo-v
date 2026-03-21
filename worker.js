@@ -1,4 +1,5 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ quiet: true });
 import { createClient } from '@supabase/supabase-js';
 import { execSync } from 'child_process';
 import path from 'path';
@@ -146,6 +147,7 @@ async function processQueue() {
         console.log(`🚀 Iniciando análise: node analyze_match.js "${job.player_tag}" "${job.match_id}"`);
         const child = spawnSync('node', ['analyze_match.js', job.player_tag, job.match_id], { 
             encoding: 'utf-8',
+            env: { ...process.env, DOTENV_QUIET: 'true' },
             timeout: 10 * 60 * 1000 // 10 minutos de timeout
         });
         
@@ -154,11 +156,20 @@ async function processQueue() {
         
         // Filtrar a saída para pegar apenas o ÚLTIMO bloco JSON (o resultado real)
         const jsonBlocks = output.match(/\{[\s\S]*?\}/g);
-        if (!jsonBlocks) throw new Error("A saída do analisador não contém um JSON válido: " + output);
+        if (!jsonBlocks) {
+            // Se não houver JSON, o erro provavelmente está no terminal
+            const errorMsg = output.trim().split('\n').pop() || "Erro desconhecido na análise";
+            throw new Error(`O analisador falhou: ${errorMsg}`);
+        }
         
         // Pegamos o último bloco que parece ser o objeto de resposta
-        const lastJson = jsonBlocks[jsonBlocks.length - 1];
-        const result = JSON.parse(lastJson);
+        let result;
+        try {
+            const lastJson = jsonBlocks[jsonBlocks.length - 1];
+            result = JSON.parse(lastJson);
+        } catch (e) {
+            throw new Error("Falha ao processar o JSON de resultado do analisador.");
+        }
 
         if (result.error) throw new Error(result.error);
 

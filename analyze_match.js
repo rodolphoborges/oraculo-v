@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config({ quiet: true });
 import { getAgentMeta, getRankBaselines } from './lib/meta_loader.js';
 import { fetchMatchJson } from './lib/tracker_api.js';
 import { execSync } from 'child_process';
@@ -17,7 +19,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     matchJsonPath = path.join(matchesDir, `${inputPath}.json`);
     
     if (!fs.existsSync(matchJsonPath)) {
-      console.log(`Match ID detectado. Baixando dados para ${matchJsonPath}...`);
+      console.error(`Match ID detectado. Baixando dados para ${matchJsonPath}...`);
       try {
         const data = await fetchMatchJson(inputPath);
         fs.writeFileSync(matchJsonPath, JSON.stringify(data, null, 2));
@@ -52,7 +54,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   }
 
   // 5. Busca o Meta Baseline Real (vStats.gg via Supabase)
-  console.log(`Buscando Meta para: ${agentName} | Mapa: ${mapDetected} | Rank: ${rankTier}...`);
+  console.error(`Buscando Meta para: ${agentName} | Mapa: ${mapDetected} | Rank: ${rankTier}...`);
   const meta = await getAgentMeta(agentName, mapDetected, rankTier);
   
   // Se não encontrar para o rank específico, tenta no global (ALL)
@@ -65,7 +67,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   const metaCategory = finalMeta ? `${rankTier.toUpperCase()} // VSTATS` : 'BASELINE_AVG';
 
   // 6. Predição de Ranking (Adivinhe o Rank)
-  console.log(`Calculando Predição de Nível Técnico...`);
+  console.error(`Calculando Predição de Nível Técnico...`);
   const baselines = await getRankBaselines(agentName, mapDetected);
   
     // 7. Chama o script Python
@@ -73,7 +75,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
       const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
       const normalizedMatchPath = path.resolve(matchJsonPath);
       
-      console.log(`Executando análise Python: ${pythonScript}`);
+      console.error(`Executando análise Python: ${pythonScript}`);
       
       // Usamos spawnSync para evitar injeção de comandos via shell
       const { spawnSync } = await import('child_process');
@@ -118,7 +120,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
       }
     }
     
-    console.log(`Debug Predicition - Final Estimated Rank:`, estimatedRank);
+    console.error(`Debug Predicition - Final Estimated Rank:`, estimatedRank);
 
     // Adiciona informações de meta e predição no resultado
     analysisResult.meta_category = metaCategory;
@@ -142,14 +144,18 @@ if (process.argv[1] && process.argv[1].endsWith('analyze_match.js')) {
   const input = args[1];
 
   if (!input) {
-    console.log('Uso: node analyze_match.js <PLAYER#TAG> <MATCH_ID|JSON_PATH>');
+    console.error('Uso: node analyze_match.js <PLAYER#TAG> <MATCH_ID|JSON_PATH>');
     process.exit(1);
   }
 
   runAnalysis(player, input)
     .then(res => {
-      console.log('\n--- RESULTADO DA ANÁLISE ---');
+      // APENAS o JSON no stdout
       console.log(JSON.stringify(res, null, 2));
     })
-    .catch(err => console.error(err.message));
+    .catch(err => {
+      console.error(err.message);
+      // Se não quiser que o erro interrompa o worker de forma feia, podemos garantir um JSON de erro
+      // console.log(JSON.stringify({ error: err.message }));
+    });
 }
