@@ -129,17 +129,23 @@ function renderResults(data) {
                         <div class="map-legend-item"><div class="legend-dot killer"></div> MATADOR</div>
                         <div class="map-legend-item"><div class="legend-dot victim"></div> VÍTIMA</div>
                         <div class="map-legend-item"><div class="legend-dot aim"></div> MIRA</div>
-                        <div class="map-legend-item" style="opacity:0.4">[ HOVER → AGENTE ]</div>
+                        <div class="map-legend-item" style="opacity:0.4">[ HOVER — AGENTE ]</div>
                     </div>
                 </div>`;
         }
-        const feedHtml =
-            (r.pos ? `<div class="feedback-line pos">[OK] ${hi(r.pos.toUpperCase())}</div>` : '') +
-            (r.neg ? `<div class="feedback-line neg">[!!] ${hi(r.neg.toUpperCase())}</div>` : '') +
-            (!r.pos && !r.neg ? '<div class="feedback-line neutral">[--] SEM EVENTOS</div>' : '');
-        return feedHtml +
-            `<div class="explanation-line">${hi(r.explanation.toUpperCase())}</div>` +
-            mapHtml;
+
+        const narrativeHtml = r.narrative?.length ? `
+            <div class="narrative-timeline">
+                ${r.narrative.map(ev => `
+                    <div class="narrative-event ${ev.type}">
+                        <span class="event-time">${ev.time}</span>
+                        <span class="event-text">${hi(ev.text.toUpperCase())}</span>
+                    </div>
+                `).join('')}
+            </div>
+        ` : '<div class="explanation-line">ROUND DE BAIXA ATIVIDADE DIRETA.</div>';
+
+        return narrativeHtml + mapHtml;
     };
 
     // ── Accordion ────────────────────────────────────────────
