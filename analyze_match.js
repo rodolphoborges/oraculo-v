@@ -70,7 +70,14 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   
   // 7. Chama o script Python
   try {
-    const cmd = `python /tmp/analyze_valorant.py --json "${matchJsonPath}" --player "${playerTag}" --target-kd ${targetKd}`;
+    const pythonScript = path.join('C:', 'tmp', 'analyze_valorant.py');
+    const normalizedMatchPath = path.resolve(matchJsonPath);
+    
+    console.log(`Executando análise Python: ${pythonScript}`);
+    
+    // Usa aspas duplas para caminhos no Windows e garante que o comando seja seguro
+    const cmd = `python "${pythonScript}" --json "${normalizedMatchPath}" --player "${playerTag}" --target-kd ${targetKd}`;
+    
     const stdout = execSync(cmd, { 
       encoding: 'utf8',
       env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
@@ -112,7 +119,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
 }
 
 // CLI handling - Only run if main
-if (process.argv[1].endsWith('analyze_match.js')) {
+if (process.argv[1] && process.argv[1].endsWith('analyze_match.js')) {
   const args = process.argv.slice(2);
   const player = args[0] || 'OUSADIA#013';
   const input = args[1];
