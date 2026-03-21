@@ -7,7 +7,8 @@ O **Oráculo V** evoluiu de uma simples pipeline de captura para um **Conselheir
 - **API Assíncrona & Fila**: Solicite análises via `/api/queue` e acompanhe o progresso em tempo real sem travamentos.
 - **Painel de Monitoramento (Console)**: Acesse `/admin.html` para visualizar estatísticas globais, jobs pendentes e abrir relatórios diretamente via Deep Links.
 - **Imersão Terminal (Organic CMD)**: Ao abrir links diretos, o sistema oculta a interface de entrada e simula a execução de um comando `analyze` no terminal.
-- **Diretriz Tática K.A.I.O. (BR)**: Análise de ADR, K/D e First Bloods localizada com gírias e terminologias reais do cenário brasileiro de Valorant ("Amassou", "Foi de base", "Trade").
+- **Diretriz Tática K.A.I.O. (BR)**: Análise de ADR, K/D e First Bloods localizada com gírias reais e **Alinhamento Constitucional** (Artigos 1, 2 e 3).
+- **Cálculo de Performance (vStats)**: O índice de impacto prioriza o **ADR (60%)** em relação ao K/D, seguindo a filosofia de que "Dano é Absoluto".
 - **Integração Telegram**: Comando `/analisar <MATCH_ID>` integrado ao Bot Protocolov com notificações automáticas.
 
 ## 📂 Estrutura do Projeto
