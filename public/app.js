@@ -104,9 +104,23 @@ window.addEventListener('load', () => {
     const p = params.get('player');
     const m = params.get('matchId');
     if (p && m) {
+        // Modo Orgânico: Esconde inputs e simula comando digitado
+        const cmdInput = document.querySelector('.cmd-input');
+        if (cmdInput) cmdInput.style.display = 'none';
+
         playerInp.value = p;
         matchInp.value = m;
-        startAnalysisFlow(p, m);
+
+        // Limpa o terminal e mostra o comando como se tivesse sido digitado
+        loadingSec.innerHTML = '';
+        loadingSec.classList.remove('hidden');
+        
+        const cmdLog = document.createElement('p');
+        cmdLog.innerHTML = `<span style="color:var(--green-ok)">> analyze --player "${p}" --match ${m}</span>`;
+        loadingSec.appendChild(cmdLog);
+
+        // Inicia o fluxo com um pequeno atraso para parecer processamento
+        setTimeout(() => startAnalysisFlow(p, m), 1000);
     }
 });
 
