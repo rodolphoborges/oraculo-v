@@ -3,9 +3,13 @@ import sys
 import argparse
 import random
 
-# Garante que a saída seja sempre em UTF-8
-if sys.stdout.encoding != 'utf-8':
-    sys.stdout.reconfigure(encoding='utf-8')
+# Garante que a saída seja sempre em UTF-8 (compatível com múltiplas versões de Python)
+try:
+    if sys.stdout.encoding.lower() != 'utf-8':
+        if hasattr(sys.stdout, 'reconfigure'):
+            sys.stdout.reconfigure(encoding='utf-8')
+except:
+    pass
 
 def analyze_match(json_data, target_player, target_kd=1.0):
     data = json.loads(json_data)
@@ -148,36 +152,40 @@ def analyze_match(json_data, target_player, target_kd=1.0):
             "tactical_events": tactical_events
         })
 
-    # --- DIRETRIZES TÁTICAS K.A.I.O. (Narrativa Localizada) ---
+    # --- DIRETRIZES TÁTICAS K.A.I.O. (Alinhamento Constitucional) ---
     conselhos = []
     
-    # 1. Impacto de Dano (vStats Philosophy)
+    # 1. Artigo 1: O Dano é Absoluto (ADR)
     if adr < 120:
-        conselhos.append("DIRETRIZ_DANO: ADR MUITO BAIXO. TU NÃO TÁ CAUSANDO NADA NO MAPA. ENTRA MAIS NO COMBATE E AJUDA O TIME NAS TROCAS. O ORÁCULO EXIGE IMPACTO.")
-    elif adr > 160:
-        conselhos.append("EFICIÊNCIA_LETAL: ADR DE QUEM CARREGA. TÁ AMASSANDO GERAL NO COMBATE. MANTÉM DITANDO O RITMO DO JOGO.")
+        conselhos.append("VIOLAÇÃO DO ARTIGO 1: ADR MUITO BAIXO. O DANO É ABSOLUTAMENTE ESSENCIAL. TU NÃO TÁ CAUSANDO NADA NO MAPA. ENTRA NO COMBATE E AJUDA O TIME.")
+    elif adr > 165:
+        conselhos.append("CUMPRIMENTO DO ARTIGO 1: EFICIÊNCIA LETAL. ADR DE QUEM CARREGA O PROTOCOLO. O DANO FOI ABSOLUTO NESTA PARTIDA.")
 
-    # 2. Iniciativa (First Bloods)
+    # 2. Artigo 2: Iniciativa e Reconhecimento (First Bloods)
     if first_kills_count >= 3:
-        conselhos.append("OBJETIVO_ADQUIRIDO: TÁ REPRESENTANDO NOS FIRST BLOODS. CONTINUA ABRINDO O MAPA, MAS CUIDADO PRA NÃO TROLLAR A VANTAGEM COM EXCESSO DE CONFIANÇA.")
+        conselhos.append("CUMPRIMENTO DO ARTIGO 2: TÁ REPRESENTANDO NA ABERTURA DE SITE. FIRST BLOODS GARANTIDOS. MANTÉM OS ESPAÇOS SOB CONTROLE.")
     elif first_kills_count == 0 and adr < 130:
-        conselhos.append("POSTURA_PASSIVA: ZERO FIRST BLOODS? O PROTOCOLO V NÃO ACEITA 'MEDINHO'. BOTA O ROSTO E AJUDA A ABRIR O SITE.")
+        conselhos.append("VIOLAÇÃO DO ARTIGO 2: POSTURA PASSIVA DETECTADA. ZERO FIRST BLOODS E DANO BAIXO. O PROTOCOLO V NÃO ACEITA 'MEDINHO'. BOTA O ROSTO.")
 
-    # 3. Sobrevivência e Tática (Rádio Limpo / Sinergia)
+    # 3. Artigo 3: Sinergia e Trocas (Trade Kills / Radio Limpo)
     deaths = stats['deaths']['value']
-    if deaths > total_rounds * 0.9 and actual_kd < 0.8:
-        conselhos.append("LOGÍSTICA_ISOLADA: MUITAS MORTES SEM TRADE. JOGA JUNTO COM O TIME, SINERGIA GANHA JOGO, INDIVIDUALIDADE SÓ GANHA FRAG.")
-    elif actual_kd > 1.5 and adr < 130:
-        conselhos.append("SÍNDROME_DE_KDA: K/D BONITO MAS NÃO TÁ DANDO DANO. PARA DE JOGAR PELO EXIT FRAG E VAI PRO COMBATE REAL.")
+    if deaths > total_rounds * 0.85 and actual_kd < 0.85:
+        conselhos.append("VIOLAÇÃO DO ARTIGO 3: SINERGIA ZERO. MUITAS MORTES ISOLADAS SEM TRADE. JOGA JUNTO COM O TIME OU O RESET PSICOLÓGICO SERÁ INEVITÁVEL.")
+    elif actual_kd > 1.6 and adr < 135:
+        conselhos.append("ALERTA DE DESVIO: K/D BONITO MAS NÃO TÁ DANDO DANO (EXIT FRAGS?). VAI PRO COMBATE REAL E HONRA OS PREDADORES DO PROTOCOLO.")
 
-    # 4. Fallback Geral
+    # 4. Fallback Geral (Estado de Reset)
     if not conselhos:
-        conselhos.append("FOCO_OPERACIONAL: JOGOU O FEIJÃO COM ARROZ. DESEMPENHO EQUILIBRADO. MANTÉM A DISCIPLINA QUE O RESULTADO VEM.")
+        conselhos.append("FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. DISCIPLINA MANTIDA. O ORÁCULO SEGUE MONITORANDO.")
 
     # Seleciona o conselho mais prioritário (ou o primeiro)
     conselho_final = conselhos[0]
 
-    perf_idx = (actual_kd / target_kd) * 100 if target_kd > 0 else 100
+    # Cálculo de Performance Ponderado (vStats Style: Impacto > KDA)
+    # Peso: 40% K/D vs Meta, 60% ADR vs Baseline (135)
+    kd_perf = (actual_kd / target_kd) if target_kd > 0 else 1.0
+    adr_perf = (adr / 135.0) # Baseline médio de impacto
+    perf_idx = (kd_perf * 0.4 + adr_perf * 0.6) * 100
     return {
         "player": target_player, "agent": agent_name, "map": map_name, "map_details": map_details,
         "acs": acs, "adr": adr, "kd": actual_kd, "meta_kd": target_kd,

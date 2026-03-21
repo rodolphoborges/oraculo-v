@@ -83,8 +83,13 @@ app.get('/api/status/:matchId', async (req, res) => {
     if (job.status === 'completed') {
       const reportPath = `analysis_${job.player_tag.replace('#', '_')}.json`;
       if (fs.existsSync(reportPath)) {
-        const result = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-        return res.json({ status: 'completed', result });
+        try {
+          const result = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+          return res.json({ status: 'completed', result });
+        } catch (pErr) {
+          console.error(`[API] Erro ao ler JSON local (${reportPath}):`, pErr.message);
+          // Fallback para apenas o status do banco
+        }
       }
     }
 

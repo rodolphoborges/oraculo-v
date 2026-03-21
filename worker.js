@@ -40,12 +40,14 @@ async function processQueue() {
         }).eq('id', job.id);
 
         // 3. Executar o sistema de análise
-        // Aqui chamamos o motor existente (analyze_match.js) via subprocesso ou importando
-        // Para manter desacoplado e simples na Action, usamos a CLI:
-        const cmd = `node analyze_match.js "${job.player_tag}" "${job.match_id}"`;
-        console.log(`🚀 Executando: ${cmd}`);
+        // Usamos spawnSync para evitar injeção de comandos via shell
+        const { spawnSync } = await import('child_process');
+        console.log(`🚀 Iniciando análise: node analyze_match.js "${job.player_tag}" "${job.match_id}"`);
         
-        const output = execSync(cmd, { encoding: 'utf-8' });
+        const child = spawnSync('node', ['analyze_match.js', job.player_tag, job.match_id], { encoding: 'utf-8' });
+        
+        if (child.error) throw child.error;
+        const output = child.stdout;
         
         // Filtrar a saída para pegar apenas o ÚLTIMO bloco JSON (o resultado real)
         const jsonBlocks = output.match(/\{[\s\S]*?\}/g);
