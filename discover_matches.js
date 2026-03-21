@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { createClient } from '@supabase/supabase-js';
-import fetch from 'node-fetch';
+// Node.js 18+ possui fetch nativo global
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 const HENRIK_API_KEY = process.env.HENRIK_API_KEY;
