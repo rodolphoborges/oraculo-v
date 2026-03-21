@@ -68,34 +68,50 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   console.log(`Calculando Predição de Nível Técnico...`);
   const baselines = await getRankBaselines(agentName, mapDetected);
   
-  // 7. Chama o script Python
-  try {
-    const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
-    const normalizedMatchPath = path.resolve(matchJsonPath);
-    
-    console.log(`Executando análise Python: ${pythonScript}`);
-    
-    // Usa aspas duplas para caminhos no Windows e garante que o comando seja seguro
-    const cmd = `python "${pythonScript}" --json "${normalizedMatchPath}" --player "${playerTag}" --target-kd ${targetKd}`;
-    
-    const stdout = execSync(cmd, { 
-      encoding: 'utf8',
-      env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
-    });
+    // 7. Chama o script Python
+    try {
+      const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
+      const normalizedMatchPath = path.resolve(matchJsonPath);
+      
+      console.log(`Executando análise Python: ${pythonScript}`);
+      
+      // Usamos spawnSync para evitar injeção de comandos via shell
+      const { spawnSync } = await import('child_process');
+      const child = spawnSync('python', [
+        pythonScript, 
+        '--json', normalizedMatchPath, 
+        '--player', playerTag, 
+        '--target-kd', targetKd.toString()
+      ], { 
+        encoding: 'utf8',
+        env: { ...process.env, PYTHONIOENCODING: 'utf-8' }
+      });
+      
+      if (child.error) throw child.error;
+      const stdout = child.stdout;
+      const stderr = child.stderr;
+
+      if (stderr && !stdout) {
+          console.error("Python Stderr:", stderr);
+      }
     
     const analysisResult = JSON.parse(stdout);
     
-    // Lógica de Predição Técnica
+    // Lógica de Predição Técnica Ponderada (vStats Impact Factor)
     let estimatedRank = 'PRATA/BRONZE';
     const actualKd = analysisResult.kd;
+    const actualAdr = analysisResult.adr;
     
-    console.log(`Debug Predicition - Baselines:`, baselines);
-    console.log(`Debug Predicition - Player K/D:`, actualKd);
-
-    // Ordena baselines por KD
-    const sortedBaselines = baselines.sort((a, b) => b.kd - a.kd);
+    // Ordena baselines por um "Score de Impacto" (Simplesmente do maior rank pro menor)
+    const sortedBaselines = baselines.sort((a, b) => (b.kd + b.adr/100) - (a.kd + a.adr/100));
+    
     for (const b of sortedBaselines) {
-      if (actualKd >= b.kd * 0.98) {
+      // Cálculo de Ratio Ponderado: 40% KD, 60% ADR
+      const kdRatio = actualKd / b.kd;
+      const adrRatio = actualAdr / b.adr;
+      const combinedImpact = (kdRatio * 0.4) + (adrRatio * 0.6);
+      
+      if (combinedImpact >= 0.97) {
         estimatedRank = b.rank;
         break;
       }
