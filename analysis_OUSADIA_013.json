@@ -14,9 +14,10 @@
   "kd": 1,
   "meta_kd": 1,
   "first_bloods": 1,
-  "conselho_kaio": "DIRETRIZ DE IMPACTO: Seu ADR está abaixo do limite tático. Priorize trocas agressivas e trade-kills. Lembre-se: Dano é a métrica absoluta da vStats.",
-  "performance_index": 100,
+  "conselho_kaio": "VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V e na vStats, o DANO é a métrica absoluta de impacto. Sua presença no mapa não está gerando pressão real. Priorize trocas agressivas e trade-kills imediatos; se você não está causando dano, você está apenas assistindo o time perder.",
+  "performance_index": 92.2,
   "performance_status": "ABOVE_BASELINE",
+  "total_rounds": 18,
   "rounds": [
     {
       "round": 1,
@@ -26,13 +27,13 @@
         {
           "time": "ECO",
           "type": "pos",
-          "text": "Fez o estrago no eco (Investimento: 700)",
+          "text": "Fez estrago no Round Eco (Gasto: $700)",
           "ms": -1
         },
         {
           "time": "0:23",
           "type": "pos",
-          "text": "Fez o frag no Clove (Ghost)",
+          "text": "Garantiu o frag no Clove (Ghost)",
           "ms": 23353
         }
       ],
@@ -56,13 +57,13 @@
         {
           "time": "0:56",
           "type": "neg",
-          "text": "Ficou no chão para Jett (Spectre)",
+          "text": "Foi de base para Jett (Spectre)",
           "ms": 56754
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (22 de dano)",
+          "text": "Morreu seco sem causar impacto (22 dmg)",
           "ms": 999999
         }
       ],
@@ -86,19 +87,19 @@
         {
           "time": "ECO",
           "type": "pos",
-          "text": "Fez o estrago no eco (Investimento: 1050)",
+          "text": "Fez estrago no Round Eco (Gasto: $1050)",
           "ms": -1
         },
         {
           "time": "0:15",
           "type": "pos",
-          "text": "Fez o frag no Veto (Ghost)",
+          "text": "Garantiu o frag no Veto (Ghost)",
           "ms": 15637
         },
         {
           "time": "0:17",
           "type": "neg",
-          "text": "Ficou no chão para Yoru (Phantom)",
+          "text": "Foi de base para Yoru (Phantom)",
           "ms": 17724
         }
       ],
@@ -126,18 +127,18 @@
     {
       "round": 4,
       "pos": null,
-      "neg": "Ficou isolado aos 0:29 e foi punido sem trade.",
+      "neg": "Foi de base pra Clove (Vandal) no contrapé aos 0:29.",
       "narrative": [
         {
           "time": "0:29",
           "type": "neg",
-          "text": "Ficou no chão para Clove (Vandal)",
+          "text": "Foi de base para Clove (Vandal)",
           "ms": 29007
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
           "ms": 999999
         }
       ],
@@ -156,12 +157,12 @@
     {
       "round": 5,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:19.",
+      "neg": "Tomou um sacode de Clove (Vandal) aos 0:19.",
       "narrative": [
         {
           "time": "0:19",
           "type": "neg",
-          "text": "Ficou no chão para Clove (Vandal)",
+          "text": "Foi de base para Clove (Vandal)",
           "ms": 19511
         }
       ],
@@ -185,13 +186,13 @@
         {
           "time": "0:22",
           "type": "neg",
-          "text": "Ficou no chão para Waylay (Vandal)",
+          "text": "Foi de base para Waylay (Vandal)",
           "ms": 22899
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
           "ms": 999999
         }
       ],
@@ -209,25 +210,25 @@
     },
     {
       "round": 7,
-      "pos": "Aula de mira com Vandal pra cima de Jett.",
+      "pos": "Mandou Jett de arrasta com Vandal aos 0:50.",
       "neg": null,
       "narrative": [
         {
           "time": "0:42",
           "type": "pos",
-          "text": "Fez o frag no Yoru (Vandal)",
+          "text": "Garantiu o frag no Yoru (Vandal)",
           "ms": 42734
         },
         {
           "time": "0:50",
           "type": "pos",
-          "text": "Fez o frag no Jett (Vandal)",
+          "text": "Garantiu o frag no Jett (Vandal)",
           "ms": 50498
         },
         {
           "time": "DEF",
           "type": "pos",
-          "text": "Fez o clutch no defuse e garantiu o round",
+          "text": "Clutch no defuse! Garantiu o round no detalhe",
           "ms": 67506
         }
       ],
@@ -254,19 +255,19 @@
     },
     {
       "round": 8,
-      "pos": "Aula de mira com Vandal pra cima de Yoru.",
+      "pos": "Abriu o round deitando Yoru aos 0:26.",
       "neg": null,
       "narrative": [
         {
           "time": "0:21",
           "type": "pos",
-          "text": "Fez o frag no Clove (Vandal)",
+          "text": "Garantiu o frag no Clove (Vandal)",
           "ms": 21560
         },
         {
           "time": "0:26",
           "type": "pos",
-          "text": "Fez o frag no Yoru (Vandal)",
+          "text": "Garantiu o frag no Yoru (Vandal)",
           "ms": 26656
         }
       ],
@@ -293,19 +294,19 @@
     },
     {
       "round": 9,
-      "pos": "Segurou o rush inimigo aos 1:17 com Vandal.",
+      "pos": "Abriu o round deitando Waylay aos 1:17.",
       "neg": null,
       "narrative": [
         {
           "time": "0:23",
           "type": "pos",
-          "text": "Fez o frag no Clove (Vandal)",
+          "text": "Garantiu o frag no Clove (Vandal)",
           "ms": 23031
         },
         {
           "time": "1:17",
           "type": "pos",
-          "text": "Fez o frag no Waylay (Vandal)",
+          "text": "Garantiu o frag no Waylay (Vandal)",
           "ms": 77430
         }
       ],
@@ -333,12 +334,12 @@
     {
       "round": 10,
       "pos": null,
-      "neg": "Tomou um sacode de Clove (Classic) aos 0:29.",
+      "neg": "Ficou isolado aos 0:29 e foi punido sem trade.",
       "narrative": [
         {
           "time": "0:29",
           "type": "neg",
-          "text": "Ficou no chão para Clove (Classic)",
+          "text": "Foi de base para Clove (Classic)",
           "ms": 29916
         }
       ],
@@ -357,18 +358,18 @@
     {
       "round": 11,
       "pos": null,
-      "neg": "Tomou um sacode de Veto (Guardian) aos 0:23.",
+      "neg": "Pego dormindo (fora de posição) aos 0:23.",
       "narrative": [
         {
           "time": "0:23",
           "type": "neg",
-          "text": "Ficou no chão para Veto (Guardian)",
+          "text": "Foi de base para Veto (Guardian)",
           "ms": 23651
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
           "ms": 999999
         }
       ],
@@ -393,19 +394,19 @@
     },
     {
       "round": 13,
-      "pos": "Mandou Clove de arrasta com Frenzy aos 0:38.",
+      "pos": "Abriu o round deitando Clove aos 0:38.",
       "neg": null,
       "narrative": [
         {
           "time": "ECO",
           "type": "pos",
-          "text": "Fez o estrago no eco (Investimento: 800)",
+          "text": "Fez estrago no Round Eco (Gasto: $800)",
           "ms": -1
         },
         {
           "time": "0:38",
           "type": "pos",
-          "text": "Fez o frag no Clove (Frenzy)",
+          "text": "Garantiu o frag no Clove (Frenzy)",
           "ms": 38221
         }
       ],
@@ -424,18 +425,18 @@
     {
       "round": 14,
       "pos": null,
-      "neg": "Tomou um sacode de Clove (Sheriff) aos 0:24.",
+      "neg": "Pego dormindo (fora de posição) aos 0:24.",
       "narrative": [
         {
           "time": "0:24",
           "type": "neg",
-          "text": "Ficou no chão para Clove (Sheriff)",
+          "text": "Foi de base para Clove (Sheriff)",
           "ms": 24970
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (13 de dano)",
+          "text": "Morreu seco sem causar impacto (13 dmg)",
           "ms": 999999
         }
       ],
@@ -453,25 +454,25 @@
     },
     {
       "round": 15,
-      "pos": "Mandou Waylay de arrasta com Bucky aos 0:13.",
+      "pos": "Abriu o round deitando Waylay aos 0:13.",
       "neg": "Tomou um sacode de Jett (Vandal) aos 0:21.",
       "narrative": [
         {
           "time": "ECO",
           "type": "pos",
-          "text": "Fez o estrago no eco (Investimento: 1400)",
+          "text": "Fez estrago no Round Eco (Gasto: $1400)",
           "ms": -1
         },
         {
           "time": "0:13",
           "type": "pos",
-          "text": "Fez o frag no Waylay (Bucky)",
+          "text": "Garantiu o frag no Waylay (Bucky)",
           "ms": 13894
         },
         {
           "time": "0:21",
           "type": "neg",
-          "text": "Ficou no chão para Jett (Vandal)",
+          "text": "Foi de base para Jett (Vandal)",
           "ms": 21639
         }
       ],
@@ -499,18 +500,18 @@
     {
       "round": 16,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Jett (Dano: 309).",
+      "neg": "Pego dormindo (fora de posição) aos 0:28.",
       "narrative": [
         {
           "time": "0:28",
           "type": "neg",
-          "text": "Ficou no chão para Jett (Guardian)",
+          "text": "Foi de base para Jett (Guardian)",
           "ms": 28609
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
           "ms": 999999
         }
       ],
@@ -535,19 +536,19 @@
     },
     {
       "round": 18,
-      "pos": "Aula de mira com Stinger pra cima de Yoru.",
-      "neg": "Pego dormindo (fora de posição) aos 0:22.",
+      "pos": "Mandou Yoru de arrasta com Stinger aos 0:12.",
+      "neg": "Tomou um sacode de Clove (Phantom) aos 0:22.",
       "narrative": [
         {
           "time": "0:12",
           "type": "pos",
-          "text": "Fez o frag no Yoru (Stinger)",
+          "text": "Garantiu o frag no Yoru (Stinger)",
           "ms": 12083
         },
         {
           "time": "0:22",
           "type": "neg",
-          "text": "Ficou no chão para Clove (Phantom)",
+          "text": "Foi de base para Clove (Phantom)",
           "ms": 22311
         }
       ],
@@ -575,5 +576,5 @@
   ],
   "meta_category": "BASELINE_AVG",
   "target_kd": 1,
-  "estimated_rank": "OURO"
+  "estimated_rank": "PRATA/BRONZE"
 }
