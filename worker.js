@@ -1,8 +1,8 @@
-require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
-const { execSync } = require('child_process');
-const path = require('path');
-const fs = require('fs');
+import 'dotenv/config';
+import { createClient } from '@supabase/supabase-js';
+import { execSync } from 'child_process';
+import path from 'path';
+import fs from 'fs';
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
@@ -46,7 +46,14 @@ async function processQueue() {
         console.log(`🚀 Executando: ${cmd}`);
         
         const output = execSync(cmd, { encoding: 'utf-8' });
-        const result = JSON.parse(output);
+        
+        // Filtrar a saída para pegar apenas o ÚLTIMO bloco JSON (o resultado real)
+        const jsonBlocks = output.match(/\{[\s\S]*?\}/g);
+        if (!jsonBlocks) throw new Error("A saída do analisador não contém um JSON válido: " + output);
+        
+        // Pegamos o último bloco que parece ser o objeto de resposta
+        const lastJson = jsonBlocks[jsonBlocks.length - 1];
+        const result = JSON.parse(lastJson);
 
         if (result.error) throw new Error(result.error);
 

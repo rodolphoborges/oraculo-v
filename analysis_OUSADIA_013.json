@@ -12,13 +12,13 @@
   "acs": 163.77777777777777,
   "adr": 117.44444444444444,
   "kd": 1,
-  "meta_kd": 1.08,
-  "performance_index": 92.6,
-  "performance_status": "BELOW_BASELINE",
+  "meta_kd": 1,
+  "performance_index": 100,
+  "performance_status": "ABOVE_BASELINE",
   "rounds": [
     {
       "round": 1,
-      "pos": "Amassou no domínio de espaço com Ghost contra Clove.",
+      "pos": "Segurou o rush inimigo aos 0:23 com Ghost.",
       "neg": null,
       "narrative": [
         {
@@ -49,7 +49,7 @@
     {
       "round": 2,
       "pos": null,
-      "neg": "Ficou isolado aos 0:56 e foi punido sem trade.",
+      "neg": "Perdeu a troca direta contra Jett (Dano: 161).",
       "narrative": [
         {
           "time": "0:56",
@@ -78,7 +78,7 @@
     },
     {
       "round": 3,
-      "pos": "Amassou no domínio de espaço com Ghost contra Veto.",
+      "pos": "Mandou Veto de arrasta com Ghost aos 0:15.",
       "neg": "Tomou um sacode de Yoru (Phantom) aos 0:17.",
       "narrative": [
         {
@@ -124,7 +124,7 @@
     {
       "round": 4,
       "pos": null,
-      "neg": "Tomou um sacode de Clove (Vandal) aos 0:29.",
+      "neg": "Foi de base pra Clove (Vandal) no contrapé aos 0:29.",
       "narrative": [
         {
           "time": "0:29",
@@ -154,7 +154,7 @@
     {
       "round": 5,
       "pos": null,
-      "neg": "Foi de base pra Clove (Vandal) no contrapé aos 0:19.",
+      "neg": "Tomou um sacode de Clove (Vandal) aos 0:19.",
       "narrative": [
         {
           "time": "0:19",
@@ -178,7 +178,7 @@
     {
       "round": 6,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:22.",
+      "neg": "Tomou um sacode de Waylay (Vandal) aos 0:22.",
       "narrative": [
         {
           "time": "0:22",
@@ -207,7 +207,7 @@
     },
     {
       "round": 7,
-      "pos": "Aula de mira com Vandal pra cima de Jett.",
+      "pos": "Mandou Jett de arrasta com Vandal aos 0:50.",
       "neg": null,
       "narrative": [
         {
@@ -252,7 +252,7 @@
     },
     {
       "round": 8,
-      "pos": "Segurou o rush inimigo aos 0:26 com Vandal.",
+      "pos": "Amassou no domínio de espaço com Vandal contra Yoru.",
       "neg": null,
       "narrative": [
         {
@@ -291,7 +291,7 @@
     },
     {
       "round": 9,
-      "pos": "Segurou o rush inimigo aos 1:17 com Vandal.",
+      "pos": "Aula de mira com Vandal pra cima de Waylay.",
       "neg": null,
       "narrative": [
         {
@@ -331,7 +331,7 @@
     {
       "round": 10,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:29.",
+      "neg": "Tomou um sacode de Clove (Classic) aos 0:29.",
       "narrative": [
         {
           "time": "0:29",
@@ -355,7 +355,7 @@
     {
       "round": 11,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Veto (Dano: 195).",
+      "neg": "Tomou um sacode de Veto (Guardian) aos 0:23.",
       "narrative": [
         {
           "time": "0:23",
@@ -391,7 +391,7 @@
     },
     {
       "round": 13,
-      "pos": "Segurou o rush inimigo aos 0:38 com Frenzy.",
+      "pos": "Mandou Clove de arrasta com Frenzy aos 0:38.",
       "neg": null,
       "narrative": [
         {
@@ -422,7 +422,7 @@
     {
       "round": 14,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Clove (Dano: 237).",
+      "neg": "Ficou isolado aos 0:24 e foi punido sem trade.",
       "narrative": [
         {
           "time": "0:24",
@@ -451,7 +451,7 @@
     },
     {
       "round": 15,
-      "pos": "Aula de mira com Bucky pra cima de Waylay.",
+      "pos": "Mandou Waylay de arrasta com Bucky aos 0:13.",
       "neg": "Pego dormindo (fora de posição) aos 0:21.",
       "narrative": [
         {
@@ -497,7 +497,7 @@
     {
       "round": 16,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Jett (Dano: 309).",
+      "neg": "Foi de base pra Jett (Guardian) no contrapé aos 0:28.",
       "narrative": [
         {
           "time": "0:28",
@@ -571,7 +571,7 @@
       ]
     }
   ],
-  "meta_category": "PLATINUM // VSTATS",
-  "target_kd": 1.08,
+  "meta_category": "BASELINE_AVG",
+  "target_kd": 1,
   "estimated_rank": "OURO"
 }
