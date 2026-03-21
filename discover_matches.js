@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ quiet: true });
+dotenv.config({ path: '.env', override: true, quiet: true });
 import { createClient } from '@supabase/supabase-js';
 // Node.js 18+ possui fetch nativo global
 
@@ -24,7 +24,9 @@ if (!HENRIK_API_KEY || HENRIK_API_KEY === 'your_henrik_api_key_v3') {
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 async function discover() {
-    console.log("🔍 [RADAR] Iniciando varredura de partidas em conjunto...");
+    const url = process.env.SUPABASE_URL || 'AUSENTE';
+    const maskedUrl = url.replace(/(https?:\/\/).{4}/, "$1****");
+    console.log(`🔍 [RADAR] Iniciando varredura (Projeto: ${maskedUrl})...`);
 
     // 1. Buscar todos os jogadores ativos
     const { data: players, error: pError } = await supabase
