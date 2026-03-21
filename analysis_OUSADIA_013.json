@@ -12,15 +12,15 @@
   "acs": 163.77777777777777,
   "adr": 117.44444444444444,
   "kd": 1,
-  "meta_kd": 1.08,
+  "meta_kd": 1,
   "first_bloods": 1,
   "conselho_kaio": "DIRETRIZ DE IMPACTO: Seu ADR está abaixo do limite tático. Priorize trocas agressivas e trade-kills. Lembre-se: Dano é a métrica absoluta da vStats.",
-  "performance_index": 92.6,
-  "performance_status": "BELOW_BASELINE",
+  "performance_index": 100,
+  "performance_status": "ABOVE_BASELINE",
   "rounds": [
     {
       "round": 1,
-      "pos": "Mandou Clove de arrasta com Ghost aos 0:23.",
+      "pos": "Abriu o round deitando Clove aos 0:23.",
       "neg": null,
       "narrative": [
         {
@@ -51,7 +51,7 @@
     {
       "round": 2,
       "pos": null,
-      "neg": "Tomou um sacode de Jett (Spectre) aos 0:56.",
+      "neg": "Ficou isolado aos 0:56 e foi punido sem trade.",
       "narrative": [
         {
           "time": "0:56",
@@ -80,8 +80,8 @@
     },
     {
       "round": 3,
-      "pos": "Amassou no domínio de espaço com Ghost contra Veto.",
-      "neg": "Pego dormindo (fora de posição) aos 0:17.",
+      "pos": "Mandou Veto de arrasta com Ghost aos 0:15.",
+      "neg": "Tomou um sacode de Yoru (Phantom) aos 0:17.",
       "narrative": [
         {
           "time": "ECO",
@@ -126,7 +126,7 @@
     {
       "round": 4,
       "pos": null,
-      "neg": "Tomou um sacode de Clove (Vandal) aos 0:29.",
+      "neg": "Ficou isolado aos 0:29 e foi punido sem trade.",
       "narrative": [
         {
           "time": "0:29",
@@ -156,7 +156,7 @@
     {
       "round": 5,
       "pos": null,
-      "neg": "Ficou isolado aos 0:19 e foi punido sem trade.",
+      "neg": "Pego dormindo (fora de posição) aos 0:19.",
       "narrative": [
         {
           "time": "0:19",
@@ -180,7 +180,7 @@
     {
       "round": 6,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Waylay (Dano: 160).",
+      "neg": "Foi de base pra Waylay (Vandal) no contrapé aos 0:22.",
       "narrative": [
         {
           "time": "0:22",
@@ -209,7 +209,7 @@
     },
     {
       "round": 7,
-      "pos": "Amassou no domínio de espaço com Vandal contra Jett.",
+      "pos": "Aula de mira com Vandal pra cima de Jett.",
       "neg": null,
       "narrative": [
         {
@@ -254,7 +254,7 @@
     },
     {
       "round": 8,
-      "pos": "Mandou Yoru de arrasta com Vandal aos 0:26.",
+      "pos": "Aula de mira com Vandal pra cima de Yoru.",
       "neg": null,
       "narrative": [
         {
@@ -333,7 +333,7 @@
     {
       "round": 10,
       "pos": null,
-      "neg": "Ficou isolado aos 0:29 e foi punido sem trade.",
+      "neg": "Tomou um sacode de Clove (Classic) aos 0:29.",
       "narrative": [
         {
           "time": "0:29",
@@ -357,7 +357,7 @@
     {
       "round": 11,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:23.",
+      "neg": "Tomou um sacode de Veto (Guardian) aos 0:23.",
       "narrative": [
         {
           "time": "0:23",
@@ -393,7 +393,7 @@
     },
     {
       "round": 13,
-      "pos": "Amassou no domínio de espaço com Frenzy contra Clove.",
+      "pos": "Mandou Clove de arrasta com Frenzy aos 0:38.",
       "neg": null,
       "narrative": [
         {
@@ -424,7 +424,7 @@
     {
       "round": 14,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:24.",
+      "neg": "Tomou um sacode de Clove (Sheriff) aos 0:24.",
       "narrative": [
         {
           "time": "0:24",
@@ -454,7 +454,7 @@
     {
       "round": 15,
       "pos": "Mandou Waylay de arrasta com Bucky aos 0:13.",
-      "neg": "Ficou isolado aos 0:21 e foi punido sem trade.",
+      "neg": "Tomou um sacode de Jett (Vandal) aos 0:21.",
       "narrative": [
         {
           "time": "ECO",
@@ -499,7 +499,7 @@
     {
       "round": 16,
       "pos": null,
-      "neg": "Tomou um sacode de Jett (Guardian) aos 0:28.",
+      "neg": "Perdeu a troca direta contra Jett (Dano: 309).",
       "narrative": [
         {
           "time": "0:28",
@@ -535,8 +535,8 @@
     },
     {
       "round": 18,
-      "pos": "Mandou Yoru de arrasta com Stinger aos 0:12.",
-      "neg": "Tomou um sacode de Clove (Phantom) aos 0:22.",
+      "pos": "Aula de mira com Stinger pra cima de Yoru.",
+      "neg": "Pego dormindo (fora de posição) aos 0:22.",
       "narrative": [
         {
           "time": "0:12",
@@ -573,7 +573,7 @@
       ]
     }
   ],
-  "meta_category": "PLATINUM // VSTATS",
-  "target_kd": 1.08,
+  "meta_category": "BASELINE_AVG",
+  "target_kd": 1,
   "estimated_rank": "OURO"
 }
