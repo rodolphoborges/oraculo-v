@@ -552,3 +552,48 @@ footer {
 
 /* ── Utility ────────────────────────────────────────────── */
 .hidden { display: none !important; }
+/* ── Narrative Timeline ──────────────────────────────────── */
+.narrative-timeline {
+    margin: 8px 0 12px 10px;
+    padding-left: 12px;
+    border-left: 1px dashed var(--grey-lo);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.narrative-event {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 0.68rem;
+    position: relative;
+}
+
+.narrative-event::before {
+    content: '';
+    position: absolute;
+    left: -15.5px;
+    top: 6px;
+    width: 6px;
+    height: 6px;
+    background: var(--bg);
+    border: 1px solid var(--grey-lo);
+    border-radius: 50%;
+}
+
+.narrative-event.pos::before { border-color: var(--green-ok); }
+.narrative-event.neg::before { border-color: var(--red); }
+
+.event-time {
+    color: var(--grey);
+    font-weight: bold;
+    min-width: 35px;
+    letter-spacing: 0.5px;
+}
+
+.event-text {
+    color: var(--white);
+    text-transform: uppercase;
+    opacity: 0.85;
+}
