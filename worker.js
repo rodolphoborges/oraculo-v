@@ -72,9 +72,11 @@ async function processQueue() {
         if (child.error) throw child.error;
         const output = child.stdout;
         
-        // Filtrar a saída para pegar apenas o ÚLTIMO bloco JSON (o resultado real)
-        const jsonBlocks = output.match(/\{[\s\S]*?\}/g);
-        if (!jsonBlocks) {
+        // Localizar o objeto JSON completo (do primeiro { ao último })
+        const firstBrace = output.indexOf('{');
+        const lastBrace = output.lastIndexOf('}');
+        
+        if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
             // Se não houver JSON, o erro provavelmente está no terminal ou no motor Python
             const stderrMsg = child.stderr ? child.stderr.trim() : "";
             
@@ -86,13 +88,12 @@ async function processQueue() {
             throw new Error(`O analisador falhou: ${errorMsg}`);
         }
         
-        // Pegamos o último bloco que parece ser o objeto de resposta
         let result;
         try {
-            const lastJson = jsonBlocks[jsonBlocks.length - 1];
-            result = JSON.parse(lastJson);
+            const jsonText = output.substring(firstBrace, lastBrace + 1);
+            result = JSON.parse(jsonText);
         } catch (e) {
-            throw new Error("Falha ao processar o JSON de resultado do analisador.");
+            throw new Error("Falha ao processar o JSON de resultado do analisador (JSON malformado).");
         }
 
         if (result.error) throw new Error(result.error);
