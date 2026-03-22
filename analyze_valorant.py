@@ -75,10 +75,12 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     POS_TEMPLATES = [
         "Mandou {victim_agent} de arrasta com {weapon} aos {time}.",
         "Amassou no domínio de espaço com {weapon} contra {victim_agent}.",
-        "Abriu o round deitando {victim_agent} aos {time}.",
         "Aula de mira com {weapon} pra cima de {victim_agent}.",
         "Segurou o rush inimigo aos {time} with {weapon}."
     ]
+    
+    # Template exclusivo para First Blood (Abertura)
+    FB_TEMPLATE = "Abriu o round deitando {victim_agent} aos {time}."
     
     NEG_TEMPLATES = [
         "Foi de base pra {killer_agent} ({weapon}) no contrapé aos {time}.",
@@ -132,9 +134,15 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
                 tactical_events.append(event)
                 ctx = {"victim_agent": event["victim_agent"], "killer_agent": event["killer_agent"], "weapon": weapon, "time": time_str, "damage": damage}
                 
+                is_first_kill_of_round = (event["time_ms"] == round_kills[0]['metadata'].get('roundTime', 0)) if round_kills else False
+
                 if event["is_player_killer"]:
-                    pos_label = random.choice(POS_TEMPLATES).format(**ctx)
-                    narrative_events.append({"time": time_str, "type": "pos", "text": f"Garantiu o frag no {event['victim_agent']} ({weapon})", "ms": rt_ms})
+                    if is_first_kill_of_round:
+                        pos_label = FB_TEMPLATE.format(**ctx)
+                        narrative_events.append({"time": time_str, "type": "pos", "text": f"FIRST BLOOD no {event['victim_agent']} ({weapon})", "ms": rt_ms})
+                    else:
+                        pos_label = random.choice(POS_TEMPLATES).format(**ctx)
+                        narrative_events.append({"time": time_str, "type": "pos", "text": f"Garantiu o frag no {event['victim_agent']} ({weapon})", "ms": rt_ms})
                 else:
                     neg_label = random.choice(NEG_TEMPLATES).format(**ctx)
                     narrative_events.append({"time": time_str, "type": "neg", "text": f"Foi de base para {event['killer_agent']} ({weapon})", "ms": rt_ms})
@@ -234,6 +242,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     return {
         "player": target_player, "agent": agent_name, "map": map_name, "map_details": map_details,
         "acs": acs, "adr": adr, "kd": actual_kd, "performance_index": float(round(perf_idx, 1)),
+        "first_kills": first_kills_count,
         "holt": holt_next, "conselho_kaio": conselhos[0], "all_conselhos": conselhos,
         "total_rounds": total_rounds, "rounds": rounds_analysis
     }

@@ -137,6 +137,8 @@ function renderResults(data) {
         `<span style="border:1px solid var(--green-ok);padding:0 6px">[ ${data.estimated_rank} ]</span>`;
     document.getElementById('resKdDetail').textContent =
         `K/D: ${data.kd.toFixed(2)}  //  ALVO: ${data.target_kd.toFixed(2)}`;
+    document.getElementById('resFirstBloods').innerHTML =
+        `<b>${data.first_kills || 0}</b> FB (ABERTURAS)`;
     document.getElementById('resCombat').innerHTML =
         `<b>${data.acs.toFixed(0)}</b> ACS  //  <b>${data.adr.toFixed(0)}</b> ADR`;
     
