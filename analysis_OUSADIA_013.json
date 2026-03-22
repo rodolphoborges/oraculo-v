@@ -1,580 +1,866 @@
 {
-  "player": "OUSADIA#013",
-  "agent": "Jett",
-  "map": "Haven",
+  "player": "ousadia#013",
+  "agent": "Cypher",
+  "map": "Breeze",
   "map_details": {
-    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2bee0dc9-4ffe-519b-1cbd-7fbe763a6047/displayicon.png",
-    "yMultiplier": -0.000075,
-    "xMultiplier": 0.000075,
-    "yScalarToAdd": 0.642728,
-    "xScalarToAdd": 1.09345
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2fb9a4fd-47b8-4e7d-a969-74b4046ebd53/displayicon.png",
+    "yMultiplier": -0.00007,
+    "xMultiplier": 0.00007,
+    "yScalarToAdd": 0.833078,
+    "xScalarToAdd": 0.465123
   },
-  "acs": 163.77777777777777,
-  "adr": 117.44444444444444,
-  "kd": 1,
+  "acs": 9379,
+  "adr": 0,
+  "kd": 1.2916666666666667,
   "meta_kd": 1,
-  "first_bloods": 1,
+  "first_bloods": 0,
   "conselho_kaio": "VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V e na vStats, o DANO é a métrica absoluta de impacto. Sua presença no mapa não está gerando pressão real. Priorize trocas agressivas e trade-kills imediatos; se você não está causando dano, você está apenas assistindo o time perder.",
-  "performance_index": 92.2,
+  "performance_index": 51.7,
   "performance_status": "ABOVE_BASELINE",
-  "total_rounds": 18,
+  "total_rounds": 1,
   "rounds": [
     {
       "round": 1,
-      "pos": "Abriu o round deitando Clove aos 0:23.",
-      "neg": null,
+      "pos": "Mandou Omen de arrasta com Vandal aos 5:39.",
+      "neg": "Perdeu a troca direta contra Harbor (Dano: 0).",
       "narrative": [
         {
           "time": "ECO",
           "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $700)",
+          "text": "Fez estrago no Round Eco (Gasto: $0)",
           "ms": -1
         },
         {
-          "time": "0:23",
-          "type": "pos",
-          "text": "Garantiu o frag no Clove (Ghost)",
-          "ms": 23353
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Clove",
-          "weapon": "Ghost",
-          "time": "0:23",
-          "time_ms": 23353,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 2,
-      "pos": null,
-      "neg": "Tomou um sacode de Jett (Spectre) aos 0:56.",
-      "narrative": [
-        {
-          "time": "0:56",
+          "time": "0:05",
           "type": "neg",
-          "text": "Foi de base para Jett (Spectre)",
-          "ms": 56754
+          "text": "Foi de base para Viper (Vandal)",
+          "ms": 5917
         },
         {
-          "time": "OUT",
+          "time": "0:10",
+          "type": "pos",
+          "text": "Garantiu o frag no KAY/O (Sheriff)",
+          "ms": 10502
+        },
+        {
+          "time": "0:16",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (22 dmg)",
-          "ms": 999999
+          "text": "Foi de base para Sage (Vandal)",
+          "ms": 16935
+        },
+        {
+          "time": "0:25",
+          "type": "pos",
+          "text": "Garantiu o frag no Gekko (Sheriff)",
+          "ms": 25735
+        },
+        {
+          "time": "0:33",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Phantom)",
+          "ms": 33764
+        },
+        {
+          "time": "0:42",
+          "type": "pos",
+          "text": "Garantiu o frag no KAY/O (Sheriff)",
+          "ms": 42745
+        },
+        {
+          "time": "0:44",
+          "type": "pos",
+          "text": "Garantiu o frag no Gekko (Sheriff)",
+          "ms": 44186
+        },
+        {
+          "time": "0:48",
+          "type": "neg",
+          "text": "Foi de base para KAY/O (Vandal)",
+          "ms": 48645
+        },
+        {
+          "time": "0:52",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Phantom)",
+          "ms": 52881
+        },
+        {
+          "time": "1:09",
+          "type": "neg",
+          "text": "Foi de base para Viper (Vandal)",
+          "ms": 69738
+        },
+        {
+          "time": "1:13",
+          "type": "neg",
+          "text": "Foi de base para Gekko (Vandal)",
+          "ms": 73959
+        },
+        {
+          "time": "1:19",
+          "type": "pos",
+          "text": "Garantiu o frag no Yoru (Vandal)",
+          "ms": 79651
+        },
+        {
+          "time": "1:23",
+          "type": "neg",
+          "text": "Foi de base para Viper (Vandal)",
+          "ms": 83857
+        },
+        {
+          "time": "1:30",
+          "type": "pos",
+          "text": "Garantiu o frag no Harbor (Vandal)",
+          "ms": 90387
+        },
+        {
+          "time": "1:37",
+          "type": "pos",
+          "text": "Garantiu o frag no KAY/O (Vandal)",
+          "ms": 97889
+        },
+        {
+          "time": "1:43",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Phantom)",
+          "ms": 103628
+        },
+        {
+          "time": "1:55",
+          "type": "pos",
+          "text": "Garantiu o frag no KAY/O (Vandal)",
+          "ms": 115870
+        },
+        {
+          "time": "2:02",
+          "type": "neg",
+          "text": "Foi de base para KAY/O (Vandal)",
+          "ms": 122057
+        },
+        {
+          "time": "2:20",
+          "type": "pos",
+          "text": "Garantiu o frag no Phoenix (Vandal)",
+          "ms": 140040
+        },
+        {
+          "time": "2:25",
+          "type": "pos",
+          "text": "Garantiu o frag no Omen (Vandal)",
+          "ms": 145225
+        },
+        {
+          "time": "2:26",
+          "type": "pos",
+          "text": "Garantiu o frag no Phoenix (Vandal)",
+          "ms": 146991
+        },
+        {
+          "time": "2:27",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Phantom)",
+          "ms": 147965
+        },
+        {
+          "time": "2:36",
+          "type": "pos",
+          "text": "Garantiu o frag no Sova (Vandal)",
+          "ms": 156825
+        },
+        {
+          "time": "2:40",
+          "type": "neg",
+          "text": "Foi de base para Yoru (Vandal)",
+          "ms": 160124
+        },
+        {
+          "time": "2:46",
+          "type": "pos",
+          "text": "Garantiu o frag no Phoenix (Vandal)",
+          "ms": 166084
+        },
+        {
+          "time": "2:55",
+          "type": "pos",
+          "text": "Garantiu o frag no Sage (Vandal)",
+          "ms": 175611
+        },
+        {
+          "time": "2:59",
+          "type": "pos",
+          "text": "Garantiu o frag no Omen (Vandal)",
+          "ms": 179104
+        },
+        {
+          "time": "3:06",
+          "type": "pos",
+          "text": "Garantiu o frag no Gekko (Vandal)",
+          "ms": 186670
+        },
+        {
+          "time": "3:15",
+          "type": "pos",
+          "text": "Garantiu o frag no Sage (Vandal)",
+          "ms": 195518
+        },
+        {
+          "time": "3:18",
+          "type": "pos",
+          "text": "Garantiu o frag no Phoenix (Vandal)",
+          "ms": 198926
+        },
+        {
+          "time": "3:24",
+          "type": "pos",
+          "text": "Garantiu o frag no Sage (Vandal)",
+          "ms": 204505
+        },
+        {
+          "time": "3:34",
+          "type": "neg",
+          "text": "Foi de base para Sage (Vandal)",
+          "ms": 214115
+        },
+        {
+          "time": "3:38",
+          "type": "neg",
+          "text": "Foi de base para KAY/O (Vandal)",
+          "ms": 218738
+        },
+        {
+          "time": "3:43",
+          "type": "neg",
+          "text": "Foi de base para KAY/O (Vandal)",
+          "ms": 223844
+        },
+        {
+          "time": "3:50",
+          "type": "pos",
+          "text": "Garantiu o frag no Gekko (Vandal)",
+          "ms": 230216
+        },
+        {
+          "time": "3:51",
+          "type": "pos",
+          "text": "Garantiu o frag no Yoru (Vandal)",
+          "ms": 231621
+        },
+        {
+          "time": "3:55",
+          "type": "pos",
+          "text": "Garantiu o frag no Sova (Vandal)",
+          "ms": 235866
+        },
+        {
+          "time": "4:01",
+          "type": "pos",
+          "text": "Garantiu o frag no Omen (Vandal)",
+          "ms": 241255
+        },
+        {
+          "time": "4:10",
+          "type": "pos",
+          "text": "Garantiu o frag no Reyna (Vandal)",
+          "ms": 250162
+        },
+        {
+          "time": "4:13",
+          "type": "neg",
+          "text": "Foi de base para Gekko (Vandal)",
+          "ms": 253772
+        },
+        {
+          "time": "4:21",
+          "type": "neg",
+          "text": "Foi de base para KAY/O (Vandal)",
+          "ms": 261536
+        },
+        {
+          "time": "4:29",
+          "type": "neg",
+          "text": "Foi de base para Sage (Vandal)",
+          "ms": 269826
+        },
+        {
+          "time": "4:33",
+          "type": "pos",
+          "text": "Garantiu o frag no Yoru (Vandal)",
+          "ms": 273144
+        },
+        {
+          "time": "4:34",
+          "type": "pos",
+          "text": "Garantiu o frag no Sova (Vandal)",
+          "ms": 274393
+        },
+        {
+          "time": "4:36",
+          "type": "neg",
+          "text": "Foi de base para KAY/O (Vandal)",
+          "ms": 276556
+        },
+        {
+          "time": "4:43",
+          "type": "pos",
+          "text": "Garantiu o frag no Reyna (Vandal)",
+          "ms": 283870
+        },
+        {
+          "time": "4:46",
+          "type": "neg",
+          "text": "Foi de base para Yoru (Vandal)",
+          "ms": 286071
+        },
+        {
+          "time": "4:52",
+          "type": "pos",
+          "text": "Garantiu o frag no Sova (Vandal)",
+          "ms": 292178
+        },
+        {
+          "time": "4:54",
+          "type": "neg",
+          "text": "Foi de base para Phoenix (Phantom)",
+          "ms": 294804
+        },
+        {
+          "time": "5:10",
+          "type": "pos",
+          "text": "Garantiu o frag no Omen (Vandal)",
+          "ms": 310725
+        },
+        {
+          "time": "5:14",
+          "type": "neg",
+          "text": "Foi de base para Harbor (Vandal)",
+          "ms": 314111
+        },
+        {
+          "time": "5:18",
+          "type": "neg",
+          "text": "Foi de base para KAY/O (Vandal)",
+          "ms": 318210
+        },
+        {
+          "time": "5:31",
+          "type": "pos",
+          "text": "Garantiu o frag no Omen (Vandal)",
+          "ms": 331190
+        },
+        {
+          "time": "5:33",
+          "type": "neg",
+          "text": "Foi de base para Harbor (Vandal)",
+          "ms": 333144
+        },
+        {
+          "time": "5:39",
+          "type": "pos",
+          "text": "Garantiu o frag no Omen (Vandal)",
+          "ms": 339229
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Jett",
-          "victim_agent": "Jett",
-          "weapon": "Spectre",
-          "time": "0:56",
-          "time_ms": 56754,
+          "killer_agent": "Viper",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "0:05",
+          "time_ms": 5917,
           "is_player_killer": false,
           "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 3,
-      "pos": "Segurou o rush inimigo aos 0:15 com Ghost.",
-      "neg": "Perdeu a troca direta contra Yoru (Dano: 234).",
-      "narrative": [
-        {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $1050)",
-          "ms": -1
         },
         {
-          "time": "0:15",
-          "type": "pos",
-          "text": "Garantiu o frag no Veto (Ghost)",
-          "ms": 15637
+          "killer_agent": "Cypher",
+          "victim_agent": "KAY/O",
+          "weapon": "Sheriff",
+          "time": "0:10",
+          "time_ms": 10502,
+          "is_player_killer": true,
+          "is_player_victim": false
         },
         {
-          "time": "0:17",
-          "type": "neg",
-          "text": "Foi de base para Yoru (Phantom)",
-          "ms": 17724
-        }
-      ],
-      "tactical_events": [
+          "killer_agent": "Sage",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "0:16",
+          "time_ms": 16935,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
         {
-          "killer_agent": "Jett",
-          "victim_agent": "Veto",
-          "weapon": "Ghost",
-          "time": "0:15",
-          "time_ms": 15637,
+          "killer_agent": "Cypher",
+          "victim_agent": "Gekko",
+          "weapon": "Sheriff",
+          "time": "0:25",
+          "time_ms": 25735,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Cypher",
+          "weapon": "Phantom",
+          "time": "0:33",
+          "time_ms": 33764,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "KAY/O",
+          "weapon": "Sheriff",
+          "time": "0:42",
+          "time_ms": 42745,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Gekko",
+          "weapon": "Sheriff",
+          "time": "0:44",
+          "time_ms": 44186,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "KAY/O",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "0:48",
+          "time_ms": 48645,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Cypher",
+          "weapon": "Phantom",
+          "time": "0:52",
+          "time_ms": 52881,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Viper",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "1:09",
+          "time_ms": 69738,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Gekko",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "1:13",
+          "time_ms": 73959,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Yoru",
+          "weapon": "Vandal",
+          "time": "1:19",
+          "time_ms": 79651,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Viper",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "1:23",
+          "time_ms": 83857,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Harbor",
+          "weapon": "Vandal",
+          "time": "1:30",
+          "time_ms": 90387,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "KAY/O",
+          "weapon": "Vandal",
+          "time": "1:37",
+          "time_ms": 97889,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Cypher",
+          "weapon": "Phantom",
+          "time": "1:43",
+          "time_ms": 103628,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "KAY/O",
+          "weapon": "Vandal",
+          "time": "1:55",
+          "time_ms": 115870,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "KAY/O",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "2:02",
+          "time_ms": 122057,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "2:20",
+          "time_ms": 140040,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "2:25",
+          "time_ms": 145225,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "2:26",
+          "time_ms": 146991,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Cypher",
+          "weapon": "Phantom",
+          "time": "2:27",
+          "time_ms": 147965,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "2:36",
+          "time_ms": 156825,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
           "killer_agent": "Yoru",
-          "victim_agent": "Jett",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "2:40",
+          "time_ms": 160124,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "2:46",
+          "time_ms": 166084,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Sage",
+          "weapon": "Vandal",
+          "time": "2:55",
+          "time_ms": 175611,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "2:59",
+          "time_ms": 179104,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Gekko",
+          "weapon": "Vandal",
+          "time": "3:06",
+          "time_ms": 186670,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Sage",
+          "weapon": "Vandal",
+          "time": "3:15",
+          "time_ms": 195518,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "3:18",
+          "time_ms": 198926,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Sage",
+          "weapon": "Vandal",
+          "time": "3:24",
+          "time_ms": 204505,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Sage",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "3:34",
+          "time_ms": 214115,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "KAY/O",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "3:38",
+          "time_ms": 218738,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "KAY/O",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "3:43",
+          "time_ms": 223844,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Gekko",
+          "weapon": "Vandal",
+          "time": "3:50",
+          "time_ms": 230216,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Yoru",
+          "weapon": "Vandal",
+          "time": "3:51",
+          "time_ms": 231621,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "3:55",
+          "time_ms": 235866,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "4:01",
+          "time_ms": 241255,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Reyna",
+          "weapon": "Vandal",
+          "time": "4:10",
+          "time_ms": 250162,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Gekko",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "4:13",
+          "time_ms": 253772,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "KAY/O",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "4:21",
+          "time_ms": 261536,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Sage",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "4:29",
+          "time_ms": 269826,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Yoru",
+          "weapon": "Vandal",
+          "time": "4:33",
+          "time_ms": 273144,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "4:34",
+          "time_ms": 274393,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "KAY/O",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "4:36",
+          "time_ms": 276556,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Reyna",
+          "weapon": "Vandal",
+          "time": "4:43",
+          "time_ms": 283870,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Yoru",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "4:46",
+          "time_ms": 286071,
+          "is_player_killer": false,
+          "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "4:52",
+          "time_ms": 292178,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Cypher",
           "weapon": "Phantom",
-          "time": "0:17",
-          "time_ms": 17724,
+          "time": "4:54",
+          "time_ms": 294804,
           "is_player_killer": false,
           "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 4,
-      "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:29.",
-      "narrative": [
-        {
-          "time": "0:29",
-          "type": "neg",
-          "text": "Foi de base para Clove (Vandal)",
-          "ms": 29007
         },
         {
-          "time": "OUT",
-          "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 dmg)",
-          "ms": 999999
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Clove",
-          "victim_agent": "Jett",
+          "killer_agent": "Cypher",
+          "victim_agent": "Omen",
           "weapon": "Vandal",
-          "time": "0:29",
-          "time_ms": 29007,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 5,
-      "pos": null,
-      "neg": "Foi de base pra Clove (Vandal) no contrapé aos 0:19.",
-      "narrative": [
-        {
-          "time": "0:19",
-          "type": "neg",
-          "text": "Foi de base para Clove (Vandal)",
-          "ms": 19511
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Clove",
-          "victim_agent": "Jett",
-          "weapon": "Vandal",
-          "time": "0:19",
-          "time_ms": 19511,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 6,
-      "pos": null,
-      "neg": "Ficou isolado aos 0:22 e foi punido sem trade.",
-      "narrative": [
-        {
-          "time": "0:22",
-          "type": "neg",
-          "text": "Foi de base para Waylay (Vandal)",
-          "ms": 22899
-        },
-        {
-          "time": "OUT",
-          "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 dmg)",
-          "ms": 999999
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Waylay",
-          "victim_agent": "Jett",
-          "weapon": "Vandal",
-          "time": "0:22",
-          "time_ms": 22899,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 7,
-      "pos": "Aula de mira com Vandal pra cima de Jett.",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "0:42",
-          "type": "pos",
-          "text": "Garantiu o frag no Yoru (Vandal)",
-          "ms": 42734
-        },
-        {
-          "time": "0:50",
-          "type": "pos",
-          "text": "Garantiu o frag no Jett (Vandal)",
-          "ms": 50498
-        },
-        {
-          "time": "DEF",
-          "type": "pos",
-          "text": "Clutch no defuse! Garantiu o round no detalhe",
-          "ms": 67506
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Yoru",
-          "weapon": "Vandal",
-          "time": "0:42",
-          "time_ms": 42734,
+          "time": "5:10",
+          "time_ms": 310725,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Jett",
-          "victim_agent": "Jett",
+          "killer_agent": "Harbor",
+          "victim_agent": "Cypher",
           "weapon": "Vandal",
-          "time": "0:50",
-          "time_ms": 50498,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 8,
-      "pos": "Mandou Yoru de arrasta com Vandal aos 0:26.",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "0:21",
-          "type": "pos",
-          "text": "Garantiu o frag no Clove (Vandal)",
-          "ms": 21560
-        },
-        {
-          "time": "0:26",
-          "type": "pos",
-          "text": "Garantiu o frag no Yoru (Vandal)",
-          "ms": 26656
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Clove",
-          "weapon": "Vandal",
-          "time": "0:21",
-          "time_ms": 21560,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Yoru",
-          "weapon": "Vandal",
-          "time": "0:26",
-          "time_ms": 26656,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 9,
-      "pos": "Amassou no domínio de espaço com Vandal contra Waylay.",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "0:23",
-          "type": "pos",
-          "text": "Garantiu o frag no Clove (Vandal)",
-          "ms": 23031
-        },
-        {
-          "time": "1:17",
-          "type": "pos",
-          "text": "Garantiu o frag no Waylay (Vandal)",
-          "ms": 77430
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Clove",
-          "weapon": "Vandal",
-          "time": "0:23",
-          "time_ms": 23031,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Waylay",
-          "weapon": "Vandal",
-          "time": "1:17",
-          "time_ms": 77430,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 10,
-      "pos": null,
-      "neg": "Tomou um sacode de Clove (Classic) aos 0:29.",
-      "narrative": [
-        {
-          "time": "0:29",
-          "type": "neg",
-          "text": "Foi de base para Clove (Classic)",
-          "ms": 29916
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Clove",
-          "victim_agent": "Jett",
-          "weapon": "Classic",
-          "time": "0:29",
-          "time_ms": 29916,
+          "time": "5:14",
+          "time_ms": 314111,
           "is_player_killer": false,
           "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 11,
-      "pos": null,
-      "neg": "Ficou isolado aos 0:23 e foi punido sem trade.",
-      "narrative": [
-        {
-          "time": "0:23",
-          "type": "neg",
-          "text": "Foi de base para Veto (Guardian)",
-          "ms": 23651
         },
         {
-          "time": "OUT",
-          "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 dmg)",
-          "ms": 999999
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Veto",
-          "victim_agent": "Jett",
-          "weapon": "Guardian",
-          "time": "0:23",
-          "time_ms": 23651,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 12,
-      "pos": null,
-      "neg": null,
-      "narrative": [],
-      "tactical_events": []
-    },
-    {
-      "round": 13,
-      "pos": "Aula de mira com Frenzy pra cima de Clove.",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $800)",
-          "ms": -1
-        },
-        {
-          "time": "0:38",
-          "type": "pos",
-          "text": "Garantiu o frag no Clove (Frenzy)",
-          "ms": 38221
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Clove",
-          "weapon": "Frenzy",
-          "time": "0:38",
-          "time_ms": 38221,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 14,
-      "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:24.",
-      "narrative": [
-        {
-          "time": "0:24",
-          "type": "neg",
-          "text": "Foi de base para Clove (Sheriff)",
-          "ms": 24970
-        },
-        {
-          "time": "OUT",
-          "type": "neg",
-          "text": "Morreu seco sem causar impacto (13 dmg)",
-          "ms": 999999
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Clove",
-          "victim_agent": "Jett",
-          "weapon": "Sheriff",
-          "time": "0:24",
-          "time_ms": 24970,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 15,
-      "pos": "Segurou o rush inimigo aos 0:13 com Bucky.",
-      "neg": "Foi de base pra Jett (Vandal) no contrapé aos 0:21.",
-      "narrative": [
-        {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $1400)",
-          "ms": -1
-        },
-        {
-          "time": "0:13",
-          "type": "pos",
-          "text": "Garantiu o frag no Waylay (Bucky)",
-          "ms": 13894
-        },
-        {
-          "time": "0:21",
-          "type": "neg",
-          "text": "Foi de base para Jett (Vandal)",
-          "ms": 21639
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Waylay",
-          "weapon": "Bucky",
-          "time": "0:13",
-          "time_ms": 13894,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Jett",
+          "killer_agent": "KAY/O",
+          "victim_agent": "Cypher",
           "weapon": "Vandal",
-          "time": "0:21",
-          "time_ms": 21639,
+          "time": "5:18",
+          "time_ms": 318210,
           "is_player_killer": false,
           "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 16,
-      "pos": null,
-      "neg": "Tomou um sacode de Jett (Guardian) aos 0:28.",
-      "narrative": [
-        {
-          "time": "0:28",
-          "type": "neg",
-          "text": "Foi de base para Jett (Guardian)",
-          "ms": 28609
         },
         {
-          "time": "OUT",
-          "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 dmg)",
-          "ms": 999999
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Jett",
-          "weapon": "Guardian",
-          "time": "0:28",
-          "time_ms": 28609,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 17,
-      "pos": null,
-      "neg": null,
-      "narrative": [],
-      "tactical_events": []
-    },
-    {
-      "round": 18,
-      "pos": "Abriu o round deitando Yoru aos 0:12.",
-      "neg": "Foi de base pra Clove (Phantom) no contrapé aos 0:22.",
-      "narrative": [
-        {
-          "time": "0:12",
-          "type": "pos",
-          "text": "Garantiu o frag no Yoru (Stinger)",
-          "ms": 12083
-        },
-        {
-          "time": "0:22",
-          "type": "neg",
-          "text": "Foi de base para Clove (Phantom)",
-          "ms": 22311
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Jett",
-          "victim_agent": "Yoru",
-          "weapon": "Stinger",
-          "time": "0:12",
-          "time_ms": 12083,
+          "killer_agent": "Cypher",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "5:31",
+          "time_ms": 331190,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Clove",
-          "victim_agent": "Jett",
-          "weapon": "Phantom",
-          "time": "0:22",
-          "time_ms": 22311,
+          "killer_agent": "Harbor",
+          "victim_agent": "Cypher",
+          "weapon": "Vandal",
+          "time": "5:33",
+          "time_ms": 333144,
           "is_player_killer": false,
           "is_player_victim": true
+        },
+        {
+          "killer_agent": "Cypher",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "5:39",
+          "time_ms": 339229,
+          "is_player_killer": true,
+          "is_player_victim": false
         }
       ]
     }
   ],
-  "meta_category": "BASELINE_AVG",
+  "meta_category": "PLATINUM // VSTATS",
   "target_kd": 1,
   "estimated_rank": "PRATA/BRONZE"
 }

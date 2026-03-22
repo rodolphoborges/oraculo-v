@@ -30,7 +30,7 @@ async function updateStats() {
                 : '';
 
             row.innerHTML = `
-                <td><code>${job.id.split('-')[0]}...</code></td>
+                <td><code>${String(job.id).split('-')[0]}...</code></td>
                 <td><b>${job.agente_tag.toUpperCase()}</b></td>
                 <td><small>${job.match_id}</small></td>
                 <td><span class="status-pill ${statusClass}">${job.status}</span> ${openLink}</td>

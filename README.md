@@ -3,9 +3,13 @@
 O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v3.0, ele opera como um microserviço independente que monitora jogadores dO **Protocolo-V** e gerencia sua própria fila de tarefas sob a estética "Brutalista Terminal".
 
 > [!NOTE]
-> **[AI/LLM ENTRY POINT]**
-> Future AI agents should start by reviewing `lib/supabase.js` for the dual-database setup and `worker.js` for the main execution flow. 
-> Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`. 
+> **[AI/LLM ENTRY POINT - V3.0 UPDATED]**
+> Future AI agents should start by reviewing `lib/supabase.js` for dual-database setup, and `worker.js` which acts as a **continuous asynchronous daemon (while loop)** processing the queue.
+> 
+> **CRITICAL DB CONTEXT:** The primary queue table in Supabase (`match_analysis_queue`) specifically uses `agente_tag` (NOT `player_riot_id`). Keep this in mind to avoid RLS/Insert constraint errors.
+> 
+> Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`.
+> Integration and regression tests should be executed via `node run_e2e_test.js`.
 > Connectivity diagnostics can be run via `node check_tables_v2.js`.
 
 ## 🏗️ Arquitetura Multi-Base (Microserviços)
@@ -23,11 +27,18 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 
 ## 📂 Estrutura do Projeto
 
-- `discover_matches.js`: Radar que busca interseção de jogadores no vStats/Henrik API.
-- `worker.js`: Processador autônomo da fila de análise.
+- `discover_matches.js`: Radar que busca interseção de jogadores no vStats/Henrik API. Em caso de 429/404 da API, o erro é contornado silenciosamente.
+- `worker.js`: Processador em loop infinito autônomo da fila de análise.
 - `lib/supabase.js`: Core de conexão dual-database.
 - `check_tables_v2.js`: Diagnóstico de conectividade multi-base.
 - `analyze_valorant.py`: Motor de análise tática e narrativa em Python.
+- `run_e2e_test.js`: Bateria automatizada de testes locais de Ponta-a-Ponta.
+
+## 🌐 Endpoints da API (`server.js`)
+O sistema emite um painel admin e 3 rotas centrais:
+1. `POST /api/queue`: (Body: `{ player: "Nick#Tag" | "AUTO", matchId: "UUID" }`) - Enfileira uma partida. O modo `AUTO` expande a partida para todos os envolvidos no Protocolo V.
+2. `GET /api/status/:matchId?player=Nick#Tag`: Retorna o status atual de processamento e, se `'completed'`, anexa o JSON parcial do resultado.
+3. `GET /api/admin/stats`: Retorna as estatísticas do servidor para consumo do `admin.html`.
 
 ## ⚙️ Configuração
 
