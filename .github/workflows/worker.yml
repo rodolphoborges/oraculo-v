@@ -34,6 +34,9 @@ jobs:
       - name: Install Node Dependencies
         run: npm install
 
+      - name: Install Puppeteer Browsers
+        run: npx puppeteer browsers install chrome
+
       - name: Run Match Discovery
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
