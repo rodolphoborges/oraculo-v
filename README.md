@@ -6,7 +6,7 @@ O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura ass
 > **[AI/LLM ENTRY POINT - V3.0 UPDATED]**
 > Future AI agents should start by reviewing `lib/supabase.js` for dual-database setup, and `worker.js` which acts as a **continuous asynchronous daemon (while loop)** processing the queue.
 > 
-> **CRITICAL DB CONTEXT:** The primary queue table in Supabase (`match_analysis_queue`) specifically uses `agente_tag` (NOT `player_riot_id`). Keep this in mind to avoid RLS/Insert constraint errors.
+> **CRITICAL DB CONTEXT:** The primary queue table in Supabase (`match_analysis_queue`) specifically uses `agente_tag` (NOT `player_riot_id`) and `error_msg` (NOT `error_message`). Keep this in mind to avoid silent SQL update errors. The final JSON report output by the engine is saved into the `metadata.analysis` JSONB property.
 > 
 > Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`.
 > Integration and regression tests should be executed via `node run_e2e_test.js`.
@@ -21,8 +21,9 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 ## 🚨 Funcionalidades de Elite (v3.0)
 
 - **Radar Multi-Base**: Escaneia jogadores da base externa e cria tarefas na base local.
-- **Worker de Alta Performance**: Processamento paralelo de partidas via Puppeteer e Python.
-- **CI/CD Otimizado (GitHub Actions)**: Workflow acelerado com cache de binários e Node.js v22.
+- **Worker de Alta Performance**: Processamento assíncrono de partidas via Puppeteer e Python.
+- **Integração Serverless**: Relatórios JSON (`metadata.analysis`) acessíveis de forma estática pelo frontend diretamente no Supabase.
+- **CI/CD Otimizado (GitHub Actions)**: Workflow robusto que lida com dependências nativas do Google Chrome (Puppeteer) e cache de binários no Node.js v22.
 - **Diagnóstico Híbrido**: Verificação em tempo real da saúde das duas conexões de banco de dados.
 
 ## 📂 Estrutura do Projeto
