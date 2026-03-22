@@ -159,11 +159,17 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         # Ordenação final dos fatos
         narrative_events.sort(key=lambda x: x['ms'])
 
+        # Adiciona alias para compatibilidade com frontends antigos ou específicos (Protocolo V)
+        for i in range(len(narrative_events)):
+            narrative_events[i]["texto"] = narrative_events[i]["text"]
+            narrative_events[i]["tipo"] = narrative_events[i]["type"]
+
         rounds_analysis.append({
             "round": r_num,
             "pos": pos_label,
             "neg": neg_label,
             "narrative": narrative_events,
+            "eventos": narrative_events, # Alias para o Protocolo V
             "tactical_events": tactical_events
         })
 
