@@ -106,40 +106,43 @@ async function discover() {
     for (const mid of jointMatches) {
         const involvedTags = matchToTags[mid];
         
-        // Verificar se essa partida já foi analisada ou está na fila
-        const { data: existing, error: checkError } = await supabase
-            .from('match_analysis_queue')
-            .select('id')
-            .eq('match_id', mid);
+        // 4. Inserir na fila de análise para CADA jogador do grupo
+        console.log(`📥 Adicionando partida ${mid} à fila para ${involvedTags.length} agente(s).`);
+        
+        for (const tag of involvedTags) {
+            // Verificar se estE jogador específico já foi agendado para esta partida
+            const { data: existing, error: checkError } = await supabase
+                .from('match_analysis_queue')
+                .select('id')
+                .eq('match_id', mid)
+                .eq('agente_tag', tag);
 
-        if (checkError) {
-            console.error(`⚠️ Erro ao verificar duplicata para partida ${mid}:`, checkError.message);
-            continue; // Pula por segurança se não puder confirmar se é duplicata
-        }
-
-        if (existing && existing.length > 0) {
-            console.log(`⏭️ Partida ${mid} já registrada no sistema (${existing.length} entrada(s)). Pulando.`);
-            continue;
-        }
-
-        // 4. Inserir na fila de análise
-        console.log(`📥 Adicionando partida ${mid} à fila de análise.`);
-        const { error: insError } = await supabase.from('match_analysis_queue').insert([{
-            match_id: mid,
-            agente_tag: involvedTags[0], 
-            status: 'pending',
-            metadata: {
-                group: involvedTags,
-                count: involvedTags.length
+            if (checkError) {
+                console.error(`⚠️ Erro ao verificar duplicata para jogador ${tag} na partida ${mid}:`, checkError.message);
+                continue;
             }
-        }]);
 
-        if (insError) {
-            console.error(`❌ FALHA ao inserir partida ${mid}:`, insError.message);
-            console.error("Detalhes:", insError.details);
-            console.error("Dica:", insError.hint);
-        } else {
-            console.log(`✅ Partida ${mid} agendada.`);
+            if (existing && existing.length > 0) {
+                console.log(`⏭️ Jogador ${tag} já registrado para partida ${mid}. Pulando.`);
+                continue;
+            }
+
+            const { error: insError } = await supabase.from('match_analysis_queue').insert([{
+                match_id: mid,
+                agente_tag: tag, 
+                status: 'pending',
+                metadata: {
+                    group: involvedTags,
+                    count: involvedTags.length,
+                    discovered_by: 'radar'
+                }
+            }]);
+
+            if (insError) {
+                console.error(`❌ FALHA ao inserir jogador ${tag} na partida ${mid}:`, insError.message);
+            } else {
+                console.log(`✅ Jogador ${tag} agendado para partida ${mid}.`);
+            }
         }
     }
 
