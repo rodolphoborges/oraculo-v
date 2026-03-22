@@ -88,7 +88,7 @@ async function processQueue() {
                 console.log("❌ Nenhum agente do Protocolo V encontrado nesta partida.");
                 await supabase.from('match_analysis_queue').update({ 
                     status: 'failed',
-                    error_msg: "Nenhum agente registrado encontrado no JSON da partida"
+                    error_message: "Nenhum agente registrado encontrado no JSON da partida"
                 }).eq('id', job.id);
                 
                 if (job.chat_id) {
@@ -166,7 +166,9 @@ async function processQueue() {
         const jsonBlocks = output.match(/\{[\s\S]*?\}/g);
         if (!jsonBlocks) {
             // Se não houver JSON, o erro provavelmente está no terminal
-            const errorMsg = output.trim().split('\n').pop() || "Erro desconhecido na análise";
+            const stderrMsg = child.stderr ? child.stderr.trim() : "";
+            const stdoutMsg = output ? output.trim().split('\n').pop() : "";
+            const errorMsg = stderrMsg || stdoutMsg || "Erro desconhecido na análise";
             throw new Error(`O analisador falhou: ${errorMsg}`);
         }
         
@@ -219,7 +221,7 @@ async function processQueue() {
         console.error("❌ Erro no JOB:", err.message);
         await supabase.from('match_analysis_queue').update({ 
             status: 'failed',
-            error_msg: err.message
+            error_message: err.message
         }).eq('id', job.id);
         return true; // Continua a fila mesmo se um job falhar
     }
@@ -231,6 +233,11 @@ async function startWorker() {
     while (true) {
         const processed = await processQueue();
         if (!processed) {
+            // Se estiver rodando no GitHub Actions e a fila estiver vazia, encerra para não gastar minutos
+            if (process.env.GITHUB_ACTIONS === 'true') {
+                console.log("🏁 Fila vazia. Encerrando worker no GitHub Actions.");
+                process.exit(0);
+            }
             // Fila vazia, dorme 10 segundos
             await new Promise(res => setTimeout(res, 10000));
         } else {
