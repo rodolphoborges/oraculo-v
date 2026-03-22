@@ -1,3 +1,14 @@
+/**
+ * discover_matches.js
+ * 
+ * Radar script that performs the "Match Discovery" phase.
+ * It periodically scans the match history of players registered in Protocolo-V
+ * and identifies group matches (intersections) to queue for analysis in Oráculo-V.
+ * 
+ * Dependencies:
+ * - Henrik API (Valorant Data)
+ * - Supabase (Protocol & Oráculo databases)
+ */
 import { supabase, supabaseProtocol, getSupabaseConfig } from './lib/supabase.js';
 const HENRIK_API_KEY = process.env.HENRIK_API_KEY;
 

@@ -2,6 +2,12 @@
 
 O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v3.0, ele opera como um microserviço independente que monitora jogadores dO **Protocolo-V** e gerencia sua própria fila de tarefas sob a estética "Brutalista Terminal".
 
+> [!NOTE]
+> **[AI/LLM ENTRY POINT]**
+> Future AI agents should start by reviewing `lib/supabase.js` for the dual-database setup and `worker.js` for the main execution flow. 
+> Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`. 
+> Connectivity diagnostics can be run via `node check_tables_v2.js`.
+
 ## 🏗️ Arquitetura Multi-Base (Microserviços)
 
 O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
