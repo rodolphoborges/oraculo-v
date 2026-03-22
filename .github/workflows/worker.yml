@@ -35,7 +35,9 @@ jobs:
         run: npm install
 
       - name: Install Puppeteer Browsers
-        run: npx puppeteer browsers install chrome
+        run: |
+          chmod +x ./node_modules/.bin/puppeteer || true
+          npx puppeteer browsers install chrome
 
       - name: Run Match Discovery
         env:
