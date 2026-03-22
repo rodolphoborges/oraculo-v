@@ -57,7 +57,7 @@ async function discover() {
 
         try {
             console.log(`📡 Escaneando histórico: ${p.riot_id}...`);
-            const url = `https://api.henrikdev.xyz/valorant/v3/matches/br/${encodeURIComponent(name)}/${encodeURIComponent(tag)}?size=3`;
+            const url = `https://api.henrikdev.xyz/valorant/v3/matches/br/${encodeURIComponent(name)}/${encodeURIComponent(tag)}?size=10`;
             const res = await fetch(url, {
                 headers: { 'Authorization': HENRIK_API_KEY }
             });
@@ -89,34 +89,42 @@ async function discover() {
             console.error(`🔥 Erro ao processar ${p.riot_id}:`, err.message);
         }
 
-        // Delay anti-ban para a API gratuita do Henrik (~1s entre requisições)
-        await delay(1200);
+        // Delay anti-ban para a API gratuita do Henrik (~2s para ser seguro)
+        await delay(2000);
     }
 
     // 3. Filtrar partidas com INTERSEÇÃO (2+ jogadores cadastrados)
     const jointMatches = Object.keys(matchHistory).filter(mid => matchHistory[mid].size >= 2);
     console.log(`🎯 Encontradas ${jointMatches.length} partidas em grupo potenciais.`);
+    
+    if (jointMatches.length === 0) {
+        // Log extra para depurar por que 0 partidas foram encontradas
+        const totalDistinctMatches = Object.keys(matchHistory).length;
+        console.log(`ℹ️ Debug: Scaneadas ${totalDistinctMatches} partidas únicas, mas nenhuma teve 2+ jogadores do banco simultaneamente.`);
+    }
 
     for (const mid of jointMatches) {
         const involvedTags = matchToTags[mid];
         
-        // Verificar se essa partida já foi analisada ou está na fila (independente do status)
-        const { data: existing } = await supabase
+        // Verificar se essa partida já foi analisada ou está na fila
+        const { data: existing, error: checkError } = await supabase
             .from('match_analysis_queue')
             .select('id')
-            .eq('match_id', mid)
-            .limit(1);
+            .eq('match_id', mid);
+
+        if (checkError) {
+            console.error(`⚠️ Erro ao verificar duplicata para partida ${mid}:`, checkError.message);
+            continue; // Pula por segurança se não puder confirmar se é duplicata
+        }
 
         if (existing && existing.length > 0) {
-            console.log(`⏭️ Partida ${mid} já registrada no sistema. Pulando.`);
+            console.log(`⏭️ Partida ${mid} já registrada no sistema (${existing.length} entrada(s)). Pulando.`);
             continue;
         }
 
         // 4. Inserir na fila de análise
-        // Usamos a tag do primeiro jogador para a análise base (o script Python cuida do resto)
-        // Guardamos todos os envolvidos no metadata
         console.log(`📥 Adicionando partida ${mid} à fila de análise.`);
-        await supabase.from('match_analysis_queue').insert([{
+        const { error: insError } = await supabase.from('match_analysis_queue').insert([{
             match_id: mid,
             player_tag: involvedTags[0], 
             status: 'pending',
@@ -125,6 +133,14 @@ async function discover() {
                 count: involvedTags.length
             }
         }]);
+
+        if (insError) {
+            console.error(`❌ FALHA ao inserir partida ${mid}:`, insError.message);
+            console.error("Detalhes:", insError.details);
+            console.error("Dica:", insError.hint);
+        } else {
+            console.log(`✅ Partida ${mid} agendada.`);
+        }
     }
 
     console.log("✅ [RADAR] Varredura concluída.");
