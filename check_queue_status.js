@@ -24,7 +24,7 @@ async function checkQueue() {
 
   const { data: latest, error: latestError } = await supabase
     .from('match_analysis_queue')
-    .select('*')
+    .select('id, status, match_id, agente_tag, created_at, error_message')
     .order('created_at', { ascending: false })
     .limit(5);
 
@@ -33,8 +33,12 @@ async function checkQueue() {
     return;
   }
 
-  console.log('Latest 5 jobs:');
-  console.log(JSON.stringify(latest, null, 2));
+  console.log('--- Últimos 5 Jobs ---');
+  latest.forEach(job => {
+    const time = new Date(job.created_at).toLocaleString();
+    const error = job.error_message ? ` | Error: ${job.error_message.slice(0, 50)}...` : '';
+    console.log(`[${job.status.toUpperCase()}] ${job.agente_tag} (${job.match_id}) em ${time}${error}`);
+  });
 }
 
 checkQueue();
