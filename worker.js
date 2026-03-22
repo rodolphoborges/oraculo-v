@@ -2,7 +2,6 @@ import { supabase } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
-import fetch from 'node-fetch'; // Adicionado para compatibilidade se necessário, embora Node 18+ tenha nativo
 
 /**
  * worker.js 
