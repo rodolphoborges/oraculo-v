@@ -22,7 +22,7 @@
     {
       "round": 1,
       "pos": null,
-      "neg": "Foi de base pra Killjoy (Ghost) no contrapé aos 0:10.",
+      "neg": "Pego dormindo (fora de posição) aos 0:10.",
       "narrative": [
         {
           "time": "0:10",
@@ -52,7 +52,7 @@
     {
       "round": 2,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Killjoy (Dano: 123).",
+      "neg": "Pego dormindo (fora de posição) aos 0:41.",
       "narrative": [
         {
           "time": "0:41",
@@ -81,8 +81,8 @@
     },
     {
       "round": 3,
-      "pos": "Aula de mira com Spectre pra cima de Jett.",
-      "neg": "Ficou isolado aos 0:30 e foi punido sem trade.",
+      "pos": "Abriu o round deitando Jett aos 0:18.",
+      "neg": "Tomou um sacode de Sova (Guardian) aos 0:30.",
       "narrative": [
         {
           "time": "0:17",
@@ -135,7 +135,7 @@
     },
     {
       "round": 4,
-      "pos": "Aula de mira com Vandal pra cima de Killjoy.",
+      "pos": "Segurou o rush inimigo aos 0:41 com Vandal.",
       "neg": null,
       "narrative": [
         {
@@ -160,7 +160,7 @@
     {
       "round": 5,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:07.",
+      "neg": "Perdeu a troca direta contra Sova (Dano: 180).",
       "narrative": [
         {
           "time": "0:07",
@@ -190,7 +190,7 @@
     {
       "round": 6,
       "pos": null,
-      "neg": "Ficou isolado aos 0:38 e foi punido sem trade.",
+      "neg": "Tomou um sacode de Jett (Vandal) aos 0:38.",
       "narrative": [
         {
           "time": "0:38",
@@ -244,7 +244,7 @@
     {
       "round": 8,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:24.",
+      "neg": "Foi de base pra Astra (Vandal) no contrapé aos 0:24.",
       "narrative": [
         {
           "time": "0:24",
@@ -268,7 +268,7 @@
     {
       "round": 9,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Sova (Dano: 160).",
+      "neg": "Ficou isolado aos 0:10 e foi punido sem trade.",
       "narrative": [
         {
           "time": "0:10",
@@ -298,7 +298,7 @@
     {
       "round": 10,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Sova (Dano: 321).",
+      "neg": "Foi de base pra Sova (Vandal) no contrapé aos 0:29.",
       "narrative": [
         {
           "time": "0:29",
@@ -328,7 +328,7 @@
     {
       "round": 11,
       "pos": "Mandou Astra de arrasta com Vandal aos 0:31.",
-      "neg": "Perdeu a troca direta contra Killjoy (Dano: 178).",
+      "neg": "Tomou um sacode de Killjoy (Vandal) aos 0:36.",
       "narrative": [
         {
           "time": "0:31",
@@ -374,7 +374,7 @@
     {
       "round": 13,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:15.",
+      "neg": "Perdeu a troca direta contra Sova (Dano: 169).",
       "narrative": [
         {
           "time": "0:15",
@@ -404,7 +404,7 @@
     {
       "round": 14,
       "pos": null,
-      "neg": "Tomou um sacode de Jett (Spectre) aos 0:15.",
+      "neg": "Pego dormindo (fora de posição) aos 0:15.",
       "narrative": [
         {
           "time": "0:15",
@@ -427,7 +427,7 @@
     },
     {
       "round": 15,
-      "pos": "Amassou no domínio de espaço com Spectre contra Chamber.",
+      "pos": "Mandou Chamber de arrasta com Spectre aos 0:30.",
       "neg": null,
       "narrative": [
         {
