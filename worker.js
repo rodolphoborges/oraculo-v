@@ -1,4 +1,4 @@
-import { supabase } from './lib/supabase.js';
+import { supabase, supabaseProtocol } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
@@ -65,8 +65,8 @@ async function processQueue() {
                 
             console.log(`Pessoas na partida:`, playersInMatch.length > 0 ? playersInMatch.join(', ') : 'Nenhum encontrado');
 
-            // Buscar todos os jogadores registrados no banco
-            const { data: dbPlayers } = await supabase.from('players').select('riot_id');
+            // Buscar todos os jogadores registrados no banco (FONTE: PROTOCOLO)
+            const { data: dbPlayers } = await supabaseProtocol.from('players').select('riot_id');
             const registeredRiotIds = (dbPlayers || []).map(p => p.riot_id.toUpperCase());
 
             // Filtrar quem participou desta partida e está registrado no banco
