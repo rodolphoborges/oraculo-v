@@ -1,6 +1,6 @@
 {
   "player": "mwzeraDaShopee#s2s2",
-  "agent": "Astra",
+  "agent": "Sova",
   "map": "Haven",
   "map_details": {
     "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2bee0dc9-4ffe-519b-1cbd-7fbe763a6047/displayicon.png",
@@ -9,56 +9,47 @@
     "yScalarToAdd": 0.642728,
     "xScalarToAdd": 1.09345
   },
-  "acs": 244.41666666666666,
-  "adr": 148.25,
-  "kd": 1.4375,
-  "meta_kd": 1,
+  "acs": 194.7391304347826,
+  "adr": 120.04347826086956,
+  "kd": 1.0666666666666667,
+  "meta_kd": 0.97,
   "first_bloods": 1,
-  "conselho_kaio": "FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. Você manteve a disciplina e cumpriu sua função básica. O Oráculo segue monitorando sua evolução técnica. Mantenha a constância.",
-  "performance_index": 123.4,
+  "conselho_kaio": "VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V e na vStats, o DANO é a métrica absoluta de impacto. Sua presença no mapa não está gerando pressão real. Priorize trocas agressivas e trade-kills imediatos; se você não está causando dano, você está apenas assistindo o time perder.",
+  "performance_index": 97.3,
   "performance_status": "ABOVE_BASELINE",
-  "total_rounds": 24,
+  "total_rounds": 23,
   "rounds": [
     {
       "round": 1,
-      "pos": "Abriu o round deitando Killjoy aos 1:16.",
+      "pos": "Mandou Sova de arrasta com Classic aos 0:41.",
       "neg": null,
       "narrative": [
         {
           "time": "ECO",
           "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $150)",
+          "text": "Fez estrago no Round Eco (Gasto: $300)",
           "ms": -1
         },
         {
-          "time": "0:45",
+          "time": "0:41",
           "type": "pos",
-          "text": "Garantiu o frag no Chamber (Classic)",
-          "ms": 45903
+          "text": "Garantiu o frag no Sova (Classic)",
+          "ms": 41611
         },
         {
-          "time": "1:16",
+          "time": "DEF",
           "type": "pos",
-          "text": "Garantiu o frag no Killjoy (Classic)",
-          "ms": 76612
+          "text": "Clutch no defuse! Garantiu o round no detalhe",
+          "ms": 54385
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Chamber",
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
           "weapon": "Classic",
-          "time": "0:45",
-          "time_ms": 45903,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Killjoy",
-          "weapon": "Classic",
-          "time": "1:16",
-          "time_ms": 76612,
+          "time": "0:41",
+          "time_ms": 41611,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -66,38 +57,23 @@
     },
     {
       "round": 2,
-      "pos": "Aula de mira com Bulldog pra cima de Phoenix.",
+      "pos": "Aula de mira com Spectre pra cima de Sova.",
       "neg": null,
       "narrative": [
         {
-          "time": "0:53",
+          "time": "0:23",
           "type": "pos",
-          "text": "Garantiu o frag no Tejo (Bulldog)",
-          "ms": 53378
-        },
-        {
-          "time": "1:01",
-          "type": "pos",
-          "text": "Garantiu o frag no Phoenix (Bulldog)",
-          "ms": 61918
+          "text": "Garantiu o frag no Sova (Spectre)",
+          "ms": 23777
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Tejo",
-          "weapon": "Bulldog",
-          "time": "0:53",
-          "time_ms": 53378,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Phoenix",
-          "weapon": "Bulldog",
-          "time": "1:01",
-          "time_ms": 61918,
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
+          "weapon": "Spectre",
+          "time": "0:23",
+          "time_ms": 23777,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -105,39 +81,69 @@
     },
     {
       "round": 3,
-      "pos": "Segurou o rush inimigo aos 1:06 com Bomb.",
-      "neg": null,
+      "pos": "Segurou o rush inimigo aos 0:46 com Bulldog.",
+      "neg": "Ficou isolado aos 0:50 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "1:03",
+          "time": "0:24",
           "type": "pos",
-          "text": "Garantiu o frag no Phoenix (Outlaw)",
-          "ms": 63679
+          "text": "Garantiu o frag no Omen (Bulldog)",
+          "ms": 24571
         },
         {
-          "time": "1:06",
+          "time": "0:45",
           "type": "pos",
-          "text": "Garantiu o frag no Astra (Bomb)",
-          "ms": 66687
+          "text": "Garantiu o frag no Sova (Bulldog)",
+          "ms": 45577
+        },
+        {
+          "time": "0:46",
+          "type": "pos",
+          "text": "Garantiu o frag no Sage (Bulldog)",
+          "ms": 46272
+        },
+        {
+          "time": "0:50",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Vandal)",
+          "ms": 50327
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Phoenix",
-          "weapon": "Outlaw",
-          "time": "1:03",
-          "time_ms": 63679,
+          "killer_agent": "Sova",
+          "victim_agent": "Omen",
+          "weapon": "Bulldog",
+          "time": "0:24",
+          "time_ms": 24571,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Astra",
-          "weapon": "Bomb",
-          "time": "1:06",
-          "time_ms": 66687,
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
+          "weapon": "Bulldog",
+          "time": "0:45",
+          "time_ms": 45577,
           "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Sova",
+          "victim_agent": "Sage",
+          "weapon": "Bulldog",
+          "time": "0:46",
+          "time_ms": 46272,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "0:50",
+          "time_ms": 50327,
+          "is_player_killer": false,
           "is_player_victim": true
         }
       ]
@@ -145,91 +151,51 @@
     {
       "round": 4,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 1:26.",
-      "narrative": [
-        {
-          "time": "1:26",
-          "type": "neg",
-          "text": "Foi de base para Tejo (Vandal)",
-          "ms": 86900
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Tejo",
-          "victim_agent": "Astra",
-          "weapon": "Vandal",
-          "time": "1:26",
-          "time_ms": 86900,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
     },
     {
       "round": 5,
-      "pos": "Amassou no domínio de espaço com Bucky contra Tejo.",
+      "pos": null,
       "neg": null,
-      "narrative": [
-        {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $1400)",
-          "ms": -1
-        },
-        {
-          "time": "0:27",
-          "type": "pos",
-          "text": "Garantiu o frag no Tejo (Bucky)",
-          "ms": 27411
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Tejo",
-          "weapon": "Bucky",
-          "time": "0:27",
-          "time_ms": 27411,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
+      "narrative": [],
+      "tactical_events": []
     },
     {
       "round": 6,
-      "pos": "Mandou Phoenix de arrasta com Vandal aos 0:58.",
-      "neg": "Pego dormindo (fora de posição) aos 1:05.",
+      "pos": "Abriu o round deitando Omen aos 0:48.",
+      "neg": "Foi de base pra Sova (Vandal) no contrapé aos 0:59.",
       "narrative": [
         {
-          "time": "0:58",
+          "time": "0:48",
           "type": "pos",
-          "text": "Garantiu o frag no Phoenix (Vandal)",
-          "ms": 58153
+          "text": "Garantiu o frag no Omen (Phantom)",
+          "ms": 48960
         },
         {
-          "time": "1:05",
+          "time": "0:59",
           "type": "neg",
-          "text": "Foi de base para Killjoy (Marshal)",
-          "ms": 65582
+          "text": "Foi de base para Sova (Vandal)",
+          "ms": 59643
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Phoenix",
-          "weapon": "Vandal",
-          "time": "0:58",
-          "time_ms": 58153,
+          "killer_agent": "Sova",
+          "victim_agent": "Omen",
+          "weapon": "Phantom",
+          "time": "0:48",
+          "time_ms": 48960,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Killjoy",
-          "victim_agent": "Astra",
-          "weapon": "Marshal",
-          "time": "1:05",
-          "time_ms": 65582,
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "0:59",
+          "time_ms": 59643,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -237,83 +203,36 @@
     },
     {
       "round": 7,
-      "pos": "Amassou no domínio de espaço com Vandal contra Tejo.",
-      "neg": "Perdeu a troca direta contra Phoenix (Dano: 182).",
-      "narrative": [
-        {
-          "time": "1:10",
-          "type": "pos",
-          "text": "Garantiu o frag no Killjoy (Vandal)",
-          "ms": 70794
-        },
-        {
-          "time": "1:14",
-          "type": "pos",
-          "text": "Garantiu o frag no Tejo (Vandal)",
-          "ms": 74317
-        },
-        {
-          "time": "1:22",
-          "type": "neg",
-          "text": "Foi de base para Phoenix (Vandal)",
-          "ms": 82372
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Killjoy",
-          "weapon": "Vandal",
-          "time": "1:10",
-          "time_ms": 70794,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Tejo",
-          "weapon": "Vandal",
-          "time": "1:14",
-          "time_ms": 74317,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Phoenix",
-          "victim_agent": "Astra",
-          "weapon": "Vandal",
-          "time": "1:22",
-          "time_ms": 82372,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
+      "pos": null,
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
     },
     {
       "round": 8,
       "pos": null,
-      "neg": "Ficou isolado aos 0:25 e foi punido sem trade.",
+      "neg": "Foi de base pra Reyna (Sheriff) no contrapé aos 0:32.",
       "narrative": [
         {
-          "time": "0:25",
+          "time": "0:32",
           "type": "neg",
-          "text": "Foi de base para Raze (Vandal)",
-          "ms": 25749
+          "text": "Foi de base para Reyna (Sheriff)",
+          "ms": 32390
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 dmg)",
+          "text": "Morreu seco sem causar impacto (38 dmg)",
           "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Raze",
-          "victim_agent": "Astra",
-          "weapon": "Vandal",
-          "time": "0:25",
-          "time_ms": 25749,
+          "killer_agent": "Reyna",
+          "victim_agent": "Sova",
+          "weapon": "Sheriff",
+          "time": "0:32",
+          "time_ms": 32390,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -321,53 +240,38 @@
     },
     {
       "round": 9,
-      "pos": "Abriu o round deitando Tejo aos 0:42.",
-      "neg": "Pego dormindo (fora de posição) aos 1:47.",
+      "pos": "Amassou no domínio de espaço com Phantom contra Reyna.",
+      "neg": "Perdeu a troca direta contra Sova (Dano: 160).",
       "narrative": [
         {
-          "time": "0:05",
+          "time": "0:23",
           "type": "pos",
-          "text": "Garantiu o frag no Chamber (Phantom)",
-          "ms": 5702
+          "text": "Garantiu o frag no Reyna (Phantom)",
+          "ms": 23820
         },
         {
-          "time": "0:42",
-          "type": "pos",
-          "text": "Garantiu o frag no Tejo (Phantom)",
-          "ms": 42104
-        },
-        {
-          "time": "1:47",
+          "time": "0:35",
           "type": "neg",
-          "text": "Foi de base para Phoenix (Vandal)",
-          "ms": 107676
+          "text": "Foi de base para Sova (Vandal)",
+          "ms": 35156
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Chamber",
+          "killer_agent": "Sova",
+          "victim_agent": "Reyna",
           "weapon": "Phantom",
-          "time": "0:05",
-          "time_ms": 5702,
+          "time": "0:23",
+          "time_ms": 23820,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Tejo",
-          "weapon": "Phantom",
-          "time": "0:42",
-          "time_ms": 42104,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Phoenix",
-          "victim_agent": "Astra",
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
           "weapon": "Vandal",
-          "time": "1:47",
-          "time_ms": 107676,
+          "time": "0:35",
+          "time_ms": 35156,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -375,44 +279,29 @@
     },
     {
       "round": 10,
-      "pos": "Amassou no domínio de espaço com Bucky contra Raze.",
-      "neg": "Ficou isolado aos 0:31 e foi punido sem trade.",
+      "pos": null,
+      "neg": "Pego dormindo (fora de posição) aos 0:36.",
       "narrative": [
         {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $1250)",
-          "ms": -1
-        },
-        {
-          "time": "0:22",
-          "type": "pos",
-          "text": "Garantiu o frag no Raze (Bucky)",
-          "ms": 22723
-        },
-        {
-          "time": "0:31",
+          "time": "0:36",
           "type": "neg",
-          "text": "Foi de base para Phoenix (Operator)",
-          "ms": 31584
+          "text": "Foi de base para Omen (Phantom)",
+          "ms": 36978
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (39 dmg)",
+          "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Raze",
-          "weapon": "Bucky",
-          "time": "0:22",
-          "time_ms": 22723,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Phoenix",
-          "victim_agent": "Astra",
-          "weapon": "Operator",
-          "time": "0:31",
-          "time_ms": 31584,
+          "killer_agent": "Omen",
+          "victim_agent": "Sova",
+          "weapon": "Phantom",
+          "time": "0:36",
+          "time_ms": 36978,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -420,68 +309,59 @@
     },
     {
       "round": 11,
-      "pos": null,
-      "neg": "Perdeu a troca direta contra Tejo (Dano: 160).",
-      "narrative": [
-        {
-          "time": "1:24",
-          "type": "neg",
-          "text": "Foi de base para Tejo (Guided Salvo)",
-          "ms": 84832
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Tejo",
-          "victim_agent": "Astra",
-          "weapon": "Guided Salvo",
-          "time": "1:24",
-          "time_ms": 84832,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 12,
-      "pos": "Aula de mira com Vandal pra cima de Tejo.",
+      "pos": "Abriu o round deitando Reyna aos 1:02.",
       "neg": null,
       "narrative": [
         {
-          "time": "ECO",
+          "time": "0:48",
           "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $2250)",
-          "ms": -1
+          "text": "Garantiu o frag no Jett (Phantom)",
+          "ms": 48683
         },
         {
-          "time": "1:41",
+          "time": "1:02",
           "type": "pos",
-          "text": "Garantiu o frag no Tejo (Vandal)",
-          "ms": 101048
+          "text": "Garantiu o frag no Reyna (Phantom)",
+          "ms": 62361
+        },
+        {
+          "time": "DEF",
+          "type": "pos",
+          "text": "Clutch no defuse! Garantiu o round no detalhe",
+          "ms": 86274
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Tejo",
-          "weapon": "Vandal",
-          "time": "1:41",
-          "time_ms": 101048,
+          "killer_agent": "Sova",
+          "victim_agent": "Jett",
+          "weapon": "Phantom",
+          "time": "0:48",
+          "time_ms": 48683,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Sova",
+          "victim_agent": "Reyna",
+          "weapon": "Phantom",
+          "time": "1:02",
+          "time_ms": 62361,
           "is_player_killer": true,
           "is_player_victim": false
         }
       ]
     },
     {
-      "round": 13,
+      "round": 12,
       "pos": null,
-      "neg": "Tomou um sacode de Killjoy (Classic) aos 0:28.",
+      "neg": "Pego dormindo (fora de posição) aos 0:19.",
       "narrative": [
         {
-          "time": "0:28",
+          "time": "0:19",
           "type": "neg",
-          "text": "Foi de base para Killjoy (Classic)",
-          "ms": 28902
+          "text": "Foi de base para Reyna (Phantom)",
+          "ms": 19084
         },
         {
           "time": "OUT",
@@ -492,80 +372,100 @@
       ],
       "tactical_events": [
         {
-          "killer_agent": "Killjoy",
-          "victim_agent": "Astra",
-          "weapon": "Classic",
-          "time": "0:28",
-          "time_ms": 28902,
+          "killer_agent": "Reyna",
+          "victim_agent": "Sova",
+          "weapon": "Phantom",
+          "time": "0:19",
+          "time_ms": 19084,
           "is_player_killer": false,
           "is_player_victim": true
         }
       ]
     },
     {
-      "round": 14,
-      "pos": null,
-      "neg": "Perdeu a troca direta contra Tejo (Dano: 104).",
+      "round": 13,
+      "pos": "Aula de mira com Ghost pra cima de Reyna.",
+      "neg": null,
       "narrative": [
         {
-          "time": "0:17",
-          "type": "neg",
-          "text": "Foi de base para Tejo (Spectre)",
-          "ms": 17903
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Tejo",
-          "victim_agent": "Astra",
-          "weapon": "Spectre",
-          "time": "0:17",
-          "time_ms": 17903,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 15,
-      "pos": "Abriu o round deitando Phoenix aos 0:17.",
-      "neg": "Pego dormindo (fora de posição) aos 0:50.",
-      "narrative": [
-        {
-          "time": "0:17",
+          "time": "ECO",
           "type": "pos",
-          "text": "Garantiu o frag no Phoenix (Phantom)",
-          "ms": 17670
+          "text": "Fez estrago no Round Eco (Gasto: $800)",
+          "ms": -1
+        },
+        {
+          "time": "0:31",
+          "type": "pos",
+          "text": "Garantiu o frag no Reyna (Ghost)",
+          "ms": 31904
         },
         {
           "time": "PLAN",
           "type": "pos",
           "text": "Dominou o site e garantiu o plant",
-          "ms": 27182
-        },
-        {
-          "time": "0:50",
-          "type": "neg",
-          "text": "Foi de base para Killjoy (Outlaw)",
-          "ms": 50042
+          "ms": 48366
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Phoenix",
-          "weapon": "Phantom",
-          "time": "0:17",
-          "time_ms": 17670,
+          "killer_agent": "Sova",
+          "victim_agent": "Reyna",
+          "weapon": "Ghost",
+          "time": "0:31",
+          "time_ms": 31904,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "pos": "BOMB PLANTED",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "PLAN",
+          "type": "pos",
+          "text": "Dominou o site e garantiu o plant",
+          "ms": 34028
+        }
+      ],
+      "tactical_events": []
+    },
+    {
+      "round": 15,
+      "pos": "Abriu o round deitando Reyna aos 0:27.",
+      "neg": "Perdeu a troca direta contra Jett (Dano: 160).",
+      "narrative": [
+        {
+          "time": "0:27",
+          "type": "pos",
+          "text": "Garantiu o frag no Reyna (Bulldog)",
+          "ms": 27832
+        },
+        {
+          "time": "0:33",
+          "type": "neg",
+          "text": "Foi de base para Jett (Vandal)",
+          "ms": 33274
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Sova",
+          "victim_agent": "Reyna",
+          "weapon": "Bulldog",
+          "time": "0:27",
+          "time_ms": 27832,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Killjoy",
-          "victim_agent": "Astra",
-          "weapon": "Outlaw",
-          "time": "0:50",
-          "time_ms": 50042,
+          "killer_agent": "Jett",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "0:33",
+          "time_ms": 33274,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -573,53 +473,59 @@
     },
     {
       "round": 16,
-      "pos": "Abriu o round deitando Chamber aos 0:28.",
-      "neg": null,
+      "pos": null,
+      "neg": "Foi de base pra Reyna (Phantom) no contrapé aos 0:13.",
       "narrative": [
         {
-          "time": "0:28",
-          "type": "pos",
-          "text": "Garantiu o frag no Chamber (Bulldog)",
-          "ms": 28488
+          "time": "0:13",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Phantom)",
+          "ms": 13616
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
+          "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Chamber",
-          "weapon": "Bulldog",
-          "time": "0:28",
-          "time_ms": 28488,
-          "is_player_killer": true,
-          "is_player_victim": false
+          "killer_agent": "Reyna",
+          "victim_agent": "Sova",
+          "weapon": "Phantom",
+          "time": "0:13",
+          "time_ms": 13616,
+          "is_player_killer": false,
+          "is_player_victim": true
         }
       ]
     },
     {
       "round": 17,
       "pos": null,
-      "neg": "Tomou um sacode de Chamber (Vandal) aos 0:41.",
+      "neg": "Pego dormindo (fora de posição) aos 0:11.",
       "narrative": [
         {
-          "time": "0:41",
+          "time": "0:11",
           "type": "neg",
-          "text": "Foi de base para Chamber (Vandal)",
-          "ms": 41699
+          "text": "Foi de base para Jett (Operator)",
+          "ms": 11525
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (40 dmg)",
+          "text": "Morreu seco sem causar impacto (22 dmg)",
           "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Chamber",
-          "victim_agent": "Astra",
-          "weapon": "Vandal",
-          "time": "0:41",
-          "time_ms": 41699,
+          "killer_agent": "Jett",
+          "victim_agent": "Sova",
+          "weapon": "Operator",
+          "time": "0:11",
+          "time_ms": 11525,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -628,22 +534,22 @@
     {
       "round": 18,
       "pos": null,
-      "neg": "Ficou isolado aos 0:07 e foi punido sem trade.",
+      "neg": "Ficou isolado aos 0:16 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "0:07",
+          "time": "0:16",
           "type": "neg",
-          "text": "Foi de base para Phoenix (Vandal)",
-          "ms": 7095
+          "text": "Foi de base para Sage (Vandal)",
+          "ms": 16421
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Phoenix",
-          "victim_agent": "Astra",
+          "killer_agent": "Sage",
+          "victim_agent": "Sova",
           "weapon": "Vandal",
-          "time": "0:07",
-          "time_ms": 7095,
+          "time": "0:16",
+          "time_ms": 16421,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -651,74 +557,53 @@
     },
     {
       "round": 19,
-      "pos": "Amassou no domínio de espaço com Vandal contra Chamber.",
-      "neg": "Ficou isolado aos 1:01 e foi punido sem trade.",
+      "pos": "Amassou no domínio de espaço com Phantom contra Sage.",
+      "neg": "Ficou isolado aos 0:21 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "ECO",
+          "time": "0:18",
           "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $2250)",
-          "ms": -1
+          "text": "Garantiu o frag no Sova (Phantom)",
+          "ms": 18165
         },
         {
-          "time": "0:36",
+          "time": "0:21",
           "type": "pos",
-          "text": "Garantiu o frag no Raze (Stinger)",
-          "ms": 36894
+          "text": "Garantiu o frag no Sage (Phantom)",
+          "ms": 21028
         },
         {
-          "time": "0:43",
-          "type": "pos",
-          "text": "Garantiu o frag no Tejo (Vandal)",
-          "ms": 43216
-        },
-        {
-          "time": "0:44",
-          "type": "pos",
-          "text": "Garantiu o frag no Chamber (Vandal)",
-          "ms": 44036
-        },
-        {
-          "time": "1:01",
+          "time": "0:21",
           "type": "neg",
-          "text": "Foi de base para Phoenix (Vandal)",
-          "ms": 61654
+          "text": "Foi de base para Jett (Blade Storm)",
+          "ms": 21129
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Raze",
-          "weapon": "Stinger",
-          "time": "0:36",
-          "time_ms": 36894,
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
+          "weapon": "Phantom",
+          "time": "0:18",
+          "time_ms": 18165,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Tejo",
-          "weapon": "Vandal",
-          "time": "0:43",
-          "time_ms": 43216,
+          "killer_agent": "Sova",
+          "victim_agent": "Sage",
+          "weapon": "Phantom",
+          "time": "0:21",
+          "time_ms": 21028,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Chamber",
-          "weapon": "Vandal",
-          "time": "0:44",
-          "time_ms": 44036,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Phoenix",
-          "victim_agent": "Astra",
-          "weapon": "Vandal",
-          "time": "1:01",
-          "time_ms": 61654,
+          "killer_agent": "Jett",
+          "victim_agent": "Sova",
+          "weapon": "Blade Storm",
+          "time": "0:21",
+          "time_ms": 21129,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -726,44 +611,53 @@
     },
     {
       "round": 20,
-      "pos": "Abriu o round deitando Phoenix aos 0:36.",
-      "neg": "Ficou isolado aos 1:32 e foi punido sem trade.",
+      "pos": "Amassou no domínio de espaço com Vandal contra Jett.",
+      "neg": "Perdeu a troca direta contra Omen (Dano: 280).",
       "narrative": [
         {
-          "time": "0:36",
+          "time": "0:19",
           "type": "pos",
-          "text": "Garantiu o frag no Phoenix (Vandal)",
-          "ms": 36694
+          "text": "Garantiu o frag no Jett (Hunter's Fury)",
+          "ms": 19292
         },
         {
-          "time": "PLAN",
+          "time": "0:45",
           "type": "pos",
-          "text": "Dominou o site e garantiu o plant",
-          "ms": 44435
+          "text": "Garantiu o frag no Jett (Vandal)",
+          "ms": 45207
         },
         {
-          "time": "1:32",
+          "time": "1:10",
           "type": "neg",
-          "text": "Foi de base para Tejo (Odin)",
-          "ms": 92477
+          "text": "Foi de base para Omen (Vandal)",
+          "ms": 70544
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Astra",
-          "victim_agent": "Phoenix",
-          "weapon": "Vandal",
-          "time": "0:36",
-          "time_ms": 36694,
+          "killer_agent": "Sova",
+          "victim_agent": "Jett",
+          "weapon": "Hunter's Fury",
+          "time": "0:19",
+          "time_ms": 19292,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Tejo",
-          "victim_agent": "Astra",
-          "weapon": "Odin",
-          "time": "1:32",
-          "time_ms": 92477,
+          "killer_agent": "Sova",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:45",
+          "time_ms": 45207,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "1:10",
+          "time_ms": 70544,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -771,121 +665,14 @@
     },
     {
       "round": 21,
-      "pos": "BOMB PLANTED",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "PLAN",
-          "type": "pos",
-          "text": "Dominou o site e garantiu o plant",
-          "ms": 26628
-        }
-      ],
-      "tactical_events": []
-    },
-    {
-      "round": 22,
-      "pos": "Segurou o rush inimigo aos 0:42 com Vandal.",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "0:13",
-          "type": "pos",
-          "text": "Garantiu o frag no Tejo (Vandal)",
-          "ms": 13026
-        },
-        {
-          "time": "0:26",
-          "type": "pos",
-          "text": "Garantiu o frag no Chamber (Vandal)",
-          "ms": 26829
-        },
-        {
-          "time": "0:42",
-          "type": "pos",
-          "text": "Garantiu o frag no Raze (Vandal)",
-          "ms": 42670
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Tejo",
-          "weapon": "Vandal",
-          "time": "0:13",
-          "time_ms": 13026,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Chamber",
-          "weapon": "Vandal",
-          "time": "0:26",
-          "time_ms": 26829,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Raze",
-          "weapon": "Vandal",
-          "time": "0:42",
-          "time_ms": 42670,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 23,
-      "pos": "Mandou Raze de arrasta com Vandal aos 1:29.",
-      "neg": "Perdeu a troca direta contra Chamber (Dano: 160).",
-      "narrative": [
-        {
-          "time": "1:29",
-          "type": "pos",
-          "text": "Garantiu o frag no Raze (Vandal)",
-          "ms": 89394
-        },
-        {
-          "time": "1:29",
-          "type": "neg",
-          "text": "Foi de base para Chamber (Vandal)",
-          "ms": 89777
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Astra",
-          "victim_agent": "Raze",
-          "weapon": "Vandal",
-          "time": "1:29",
-          "time_ms": 89394,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Chamber",
-          "victim_agent": "Astra",
-          "weapon": "Vandal",
-          "time": "1:29",
-          "time_ms": 89777,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 24,
       "pos": null,
-      "neg": "Tomou um sacode de Tejo (Armageddon) aos 0:41.",
+      "neg": "Foi de base pra Sova (Vandal) no contrapé aos 0:41.",
       "narrative": [
         {
           "time": "0:41",
           "type": "neg",
-          "text": "Foi de base para Tejo (Armageddon)",
-          "ms": 41612
+          "text": "Foi de base para Sova (Vandal)",
+          "ms": 41911
         },
         {
           "time": "OUT",
@@ -896,18 +683,87 @@
       ],
       "tactical_events": [
         {
-          "killer_agent": "Tejo",
-          "victim_agent": "Astra",
-          "weapon": "Armageddon",
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
           "time": "0:41",
-          "time_ms": 41612,
+          "time_ms": 41911,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 22,
+      "pos": "Amassou no domínio de espaço com Vandal contra Sova.",
+      "neg": "Tomou um sacode de Reyna (Phantom) aos 0:11.",
+      "narrative": [
+        {
+          "time": "0:10",
+          "type": "pos",
+          "text": "Garantiu o frag no Sova (Vandal)",
+          "ms": 10155
+        },
+        {
+          "time": "0:11",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Phantom)",
+          "ms": 11737
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Sova",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "0:10",
+          "time_ms": 10155,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Sova",
+          "weapon": "Phantom",
+          "time": "0:11",
+          "time_ms": 11737,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 23,
+      "pos": "BOMB PLANTED",
+      "neg": "Pego dormindo (fora de posição) aos 0:32.",
+      "narrative": [
+        {
+          "time": "PLAN",
+          "type": "pos",
+          "text": "Dominou o site e garantiu o plant",
+          "ms": 24119
+        },
+        {
+          "time": "0:32",
+          "type": "neg",
+          "text": "Foi de base para Sage (Vandal)",
+          "ms": 32389
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Sage",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "0:32",
+          "time_ms": 32389,
           "is_player_killer": false,
           "is_player_victim": true
         }
       ]
     }
   ],
-  "meta_category": "BASELINE_AVG",
-  "target_kd": 1,
-  "estimated_rank": "RADIANTE"
+  "meta_category": "GOLD // VSTATS",
+  "target_kd": 0.97,
+  "estimated_rank": "PRATA/BRONZE"
 }
