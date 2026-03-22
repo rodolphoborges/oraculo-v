@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS players (
 CREATE TABLE IF NOT EXISTS match_analysis_queue (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   match_id text NOT NULL,
-  player_tag text NOT NULL, -- Pode ser 'AUTO' ou Nick#Tag
+  agente_tag text NOT NULL, -- Pode ser 'AUTO' ou Nick#Tag
   status text DEFAULT 'pending', -- 'pending', 'processing', 'completed', 'failed'
   created_at timestamp with time zone DEFAULT now(),
   processed_at timestamp with time zone,

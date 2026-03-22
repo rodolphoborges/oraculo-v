@@ -39,7 +39,7 @@ async function processQueue() {
         return;
     }
 
-    console.log(`👷 Processando Job: Match ${job.match_id} (Player: ${job.player_tag})`);
+    console.log(`👷 Processando Job: Match ${job.match_id} (Player: ${job.agente_tag})`);
 
     try {
         // 2. Marcar como 'processing'
@@ -49,7 +49,7 @@ async function processQueue() {
         }).eq('id', job.id);
 
         // Novo comportamento da fila: PROCESSAMENTO EM LOTE (AUTO)
-        if (job.player_tag === 'AUTO') {
+        if (job.agente_tag === 'AUTO') {
             console.log(`🤖 Modo AUTO: Buscando participantes da partida ${job.match_id}...`);
             
             // Importar a função de busca
@@ -118,7 +118,7 @@ async function processQueue() {
 
                 await supabase.from('match_analysis_queue').insert([{
                     match_id: job.match_id,
-                    player_tag: finalTag,
+                    agente_tag: finalTag,
                     chat_id: job.chat_id,
                     status: 'pending',
                     metadata: job.metadata || {}
@@ -152,8 +152,8 @@ async function processQueue() {
         // 3. Executar o sistema de análise
         // Usamos spawnSync para evitar injeção de comandos via shell
         const { spawnSync } = await import('child_process');
-        console.log(`🚀 Iniciando análise: node analyze_match.js "${job.player_tag}" "${job.match_id}"`);
-        const child = spawnSync('node', ['analyze_match.js', job.player_tag, job.match_id], { 
+        console.log(`🚀 Iniciando análise: node analyze_match.js "${job.agente_tag}" "${job.match_id}"`);
+        const child = spawnSync('node', ['analyze_match.js', job.agente_tag, job.match_id], { 
             encoding: 'utf-8',
             env: { ...process.env, DOTENV_QUIET: 'true' },
             timeout: 10 * 60 * 1000 // 10 minutos de timeout

@@ -9,12 +9,12 @@ async function rerun() {
     const matchId = "5525faf5-034e-4caf-b142-9d9bc8a3e897";
 
     console.log(`🧹 [TEST] Limpando job anterior para ${player}...`);
-    await supabase.from('match_analysis_queue').delete().eq('match_id', matchId).eq('player_tag', player);
+    await supabase.from('match_analysis_queue').delete().eq('match_id', matchId).eq('agente_tag', player);
 
     console.log(`📥 [TEST] Enfileirando novamente (v2.0 com Constituição)...`);
     const { data: job } = await supabase.from('match_analysis_queue').insert([{
         match_id: matchId,
-        player_tag: player,
+        agente_tag: player,
         status: 'pending'
     }]).select().single();
 

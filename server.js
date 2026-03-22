@@ -30,7 +30,7 @@ app.post('/api/queue', async (req, res) => {
       .from('match_analysis_queue')
       .select('id, status')
       .eq('match_id', matchId)
-      .eq('player_tag', player)
+      .eq('agente_tag', player)
       .neq('status', 'failed')
       .limit(1);
 
@@ -42,7 +42,7 @@ app.post('/api/queue', async (req, res) => {
       .from('match_analysis_queue')
       .insert([{ 
         match_id: matchId, 
-        player_tag: player, 
+        agente_tag: player, 
         status: 'pending' 
       }])
       .select()
@@ -67,7 +67,7 @@ app.get('/api/status/:matchId', async (req, res) => {
       .eq('match_id', matchId);
     
     if (player) {
-      query = query.eq('player_tag', player);
+      query = query.eq('agente_tag', player);
     }
 
     const { data, error } = await query.order('created_at', { ascending: false }).limit(1);
@@ -81,7 +81,7 @@ app.get('/api/status/:matchId', async (req, res) => {
     
     // Se estiver completo, tentamos carregar o JSON do relatório local
     if (job.status === 'completed') {
-      const reportPath = `analysis_${job.player_tag.replace('#', '_')}.json`;
+      const reportPath = `analysis_${job.agente_tag.replace('#', '_')}.json`;
       if (fs.existsSync(reportPath)) {
         try {
           const result = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
