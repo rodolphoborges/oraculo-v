@@ -77,6 +77,8 @@ async function discover() {
             if (!json.data) continue;
 
             for (const match of json.data) {
+                if (!match?.metadata?.matchid) continue;
+                
                 const mid = match.metadata.matchid;
                 if (!matchHistory[mid]) {
                     matchHistory[mid] = new Set();
