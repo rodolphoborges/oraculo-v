@@ -73,9 +73,9 @@ async function backfill() {
 
         // 5. Salvar estado final no Perfil do Jogador
         const { error: upError } = await supabaseProtocol.from('players').update({
-            performance_L: L_perf, performance_T: T_perf,
-            kd_L: L_kd, kd_T: T_kd,
-            adr_L: L_adr, adr_T: T_adr
+            performance_l: L_perf, performance_t: T_perf,
+            kd_l: L_kd, kd_t: T_kd,
+            adr_l: L_adr, adr_t: T_adr
         }).eq('riot_id', tag);
 
         if (upError) {
