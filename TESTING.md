@@ -26,12 +26,12 @@ curl -X POST http://localhost:3000/api/queue -H "Content-Type: application/json"
 
 ---
 
-## 3. Processar a Fila (Worker)
-O sistema é assíncrono. Para processar o que você acabou de enviar, execute o worker em um terminal separado:
+## 3. Ligar o Motor Assíncrono (Worker)
+O sistema é assíncrono e feito para rodar em Loop Contínuo. Para ligar o motor que consumirá a fila:
 ```bash
 node worker.js
 ```
-Acompanhe os logs: ele marcará o job como `processing`, chamará o motor Python e finalizará como `completed`.
+Acompanhe os logs: Ele puxará os dados, identificará grupamentos (se modo 'AUTO'), passará a partida para o Python local e voltará a dormir no aguardo de mais jobs na fila.
 
 ---
 
@@ -46,6 +46,15 @@ Acompanhe os logs: ele marcará o job como `processing`, chamará o motor Python
 Ao clicar em `[ ABRIR ]`, você deve ser levado ao dashboard principal.
 - **Deverá ver**: Uma simulação de terminal digitando `analyze --player OUSADIA#013...`
 - **Deverá ver**: O relatório detalhado com os **Artigos da Constituição** citados pelo K.A.I.O. Advisor.
+
+---
+
+## 6. Testes Automatizados (Bateria Ponta-a-Ponta)
+Se precisar checar de modo absoluto a saúde da infraestrutura (Por ex: se o Schema de DB mudou), há uma suíte local. Com o `server.js` e `worker.js` rodando em outras abas, apenas execute:
+```bash
+node run_e2e_test.js
+```
+Ele injetará um pacote teste, fará `polling` do status na API simulando o front-end, e validará que o pipeline inteiro do Python sobreviveu à atualização sem a necessidade de intervenção humana.
 
 ---
 *(C) 2026 DEEPMIND ANTIGRAVITY // PROTOCOLO_V_READY*

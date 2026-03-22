@@ -1,79 +1,97 @@
 {
   "player": "m4sna#chama",
-  "agent": "Omen",
-  "map": "Split",
+  "agent": "Phoenix",
+  "map": "Breeze",
   "map_details": {
-    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/d960549e-485c-e861-8d71-aa9d1aed12a2/displayicon.png",
-    "yMultiplier": -0.000078,
-    "xMultiplier": 0.000078,
-    "yScalarToAdd": 0.697578,
-    "xScalarToAdd": 0.842188
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2fb9a4fd-47b8-4e7d-a969-74b4046ebd53/displayicon.png",
+    "yMultiplier": -0.00007,
+    "xMultiplier": 0.00007,
+    "yScalarToAdd": 0.833078,
+    "xScalarToAdd": 0.465123
   },
-  "acs": 182.06666666666666,
-  "adr": 109.13333333333334,
-  "kd": 1.2222222222222223,
-  "meta_kd": 1,
-  "first_bloods": 0,
-  "conselho_kaio": "VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V e na vStats, o DANO é a métrica absoluta de impacto. Sua presença no mapa não está gerando pressão real. Priorize trocas agressivas e trade-kills imediatos; se você não está causando dano, você está apenas assistindo o time perder.",
-  "performance_index": 97.4,
+  "acs": 239.08333333333334,
+  "adr": 158,
+  "kd": 1.1764705882352942,
+  "meta_kd": 1.06,
+  "first_bloods": 2,
+  "conselho_kaio": "FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. Você manteve a disciplina e cumpriu sua função básica. O Oráculo segue monitorando sua evolução técnica. Mantenha a constância.",
+  "performance_index": 114.6,
   "performance_status": "ABOVE_BASELINE",
-  "total_rounds": 15,
+  "total_rounds": 24,
   "rounds": [
     {
       "round": 1,
-      "pos": "Amassou no domínio de espaço com Classic contra Sova.",
-      "neg": null,
+      "pos": null,
+      "neg": "Foi de base pra Fade (Classic) no contrapé aos 0:43.",
       "narrative": [
         {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $750)",
-          "ms": -1
-        },
-        {
-          "time": "0:54",
-          "type": "pos",
-          "text": "Garantiu o frag no Sova (Classic)",
-          "ms": 54744
+          "time": "0:43",
+          "type": "neg",
+          "text": "Foi de base para Fade (Classic)",
+          "ms": 43162
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Sova",
+          "killer_agent": "Fade",
+          "victim_agent": "Phoenix",
           "weapon": "Classic",
-          "time": "0:54",
-          "time_ms": 54744,
-          "is_player_killer": true,
-          "is_player_victim": false
+          "time": "0:43",
+          "time_ms": 43162,
+          "is_player_killer": false,
+          "is_player_victim": true
         }
       ]
     },
     {
       "round": 2,
-      "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:17.",
+      "pos": "Mandou Miks de arrasta com Spectre aos 0:40.",
+      "neg": "Pego dormindo (fora de posição) aos 0:54.",
       "narrative": [
         {
-          "time": "0:17",
-          "type": "neg",
-          "text": "Foi de base para Jett (Sheriff)",
-          "ms": 17435
+          "time": "0:27",
+          "type": "pos",
+          "text": "Garantiu o frag no Jett (Spectre)",
+          "ms": 27663
         },
         {
-          "time": "OUT",
+          "time": "0:40",
+          "type": "pos",
+          "text": "Garantiu o frag no Miks (Spectre)",
+          "ms": 40763
+        },
+        {
+          "time": "0:54",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 dmg)",
-          "ms": 999999
+          "text": "Foi de base para Veto (Spectre)",
+          "ms": 54575
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Jett",
-          "victim_agent": "Omen",
-          "weapon": "Sheriff",
-          "time": "0:17",
-          "time_ms": 17435,
+          "killer_agent": "Phoenix",
+          "victim_agent": "Jett",
+          "weapon": "Spectre",
+          "time": "0:27",
+          "time_ms": 27663,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Miks",
+          "weapon": "Spectre",
+          "time": "0:40",
+          "time_ms": 40763,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Veto",
+          "victim_agent": "Phoenix",
+          "weapon": "Spectre",
+          "time": "0:54",
+          "time_ms": 54575,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -81,28 +99,68 @@
     },
     {
       "round": 3,
-      "pos": "BOMB PLANTED",
-      "neg": null,
+      "pos": "Amassou no domínio de espaço com Bulldog contra Jett.",
+      "neg": "Perdeu a troca direta contra Veto (Dano: 164).",
       "narrative": [
         {
-          "time": "PLAN",
+          "time": "0:17",
           "type": "pos",
-          "text": "Dominou o site e garantiu o plant",
-          "ms": 27134
+          "text": "Garantiu o frag no Miks (Bulldog)",
+          "ms": 17017
+        },
+        {
+          "time": "0:22",
+          "type": "pos",
+          "text": "Garantiu o frag no Jett (Bulldog)",
+          "ms": 22133
+        },
+        {
+          "time": "0:25",
+          "type": "neg",
+          "text": "Foi de base para Veto (Spectre)",
+          "ms": 25755
         }
       ],
-      "tactical_events": []
+      "tactical_events": [
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Miks",
+          "weapon": "Bulldog",
+          "time": "0:17",
+          "time_ms": 17017,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Jett",
+          "weapon": "Bulldog",
+          "time": "0:22",
+          "time_ms": 22133,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Veto",
+          "victim_agent": "Phoenix",
+          "weapon": "Spectre",
+          "time": "0:25",
+          "time_ms": 25755,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 4,
       "pos": null,
-      "neg": "Tomou um sacode de Omen (Frenzy) aos 0:32.",
+      "neg": "Ficou isolado aos 0:16 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "0:32",
+          "time": "0:16",
           "type": "neg",
-          "text": "Foi de base para Omen (Frenzy)",
-          "ms": 32088
+          "text": "Foi de base para Killjoy (Judge)",
+          "ms": 16775
         },
         {
           "time": "OUT",
@@ -113,11 +171,11 @@
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Omen",
-          "weapon": "Frenzy",
-          "time": "0:32",
-          "time_ms": 32088,
+          "killer_agent": "Killjoy",
+          "victim_agent": "Phoenix",
+          "weapon": "Judge",
+          "time": "0:16",
+          "time_ms": 16775,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -125,38 +183,38 @@
     },
     {
       "round": 5,
-      "pos": "Mandou Jett de arrasta com Vandal aos 0:17.",
-      "neg": "Perdeu a troca direta contra Omen (Dano: 233).",
+      "pos": "Amassou no domínio de espaço com Vandal contra Killjoy.",
+      "neg": "Perdeu a troca direta contra Veto (Dano: 187).",
       "narrative": [
         {
-          "time": "0:17",
+          "time": "0:28",
           "type": "pos",
-          "text": "Garantiu o frag no Jett (Vandal)",
-          "ms": 17911
+          "text": "Garantiu o frag no Killjoy (Vandal)",
+          "ms": 28216
         },
         {
-          "time": "0:21",
+          "time": "0:29",
           "type": "neg",
-          "text": "Foi de base para Omen (Vandal)",
-          "ms": 21397
+          "text": "Foi de base para Veto (Vandal)",
+          "ms": 29564
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Jett",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Killjoy",
           "weapon": "Vandal",
-          "time": "0:17",
-          "time_ms": 17911,
+          "time": "0:28",
+          "time_ms": 28216,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Omen",
+          "killer_agent": "Veto",
+          "victim_agent": "Phoenix",
           "weapon": "Vandal",
-          "time": "0:21",
-          "time_ms": 21397,
+          "time": "0:29",
+          "time_ms": 29564,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -164,38 +222,38 @@
     },
     {
       "round": 6,
-      "pos": "Segurou o rush inimigo aos 0:25 com Vandal.",
-      "neg": "Foi de base pra Skye (Odin) no contrapé aos 0:31.",
+      "pos": "Mandou Veto de arrasta com Bulldog aos 0:22.",
+      "neg": "Perdeu a troca direta contra Fade (Dano: 222).",
       "narrative": [
         {
-          "time": "0:25",
+          "time": "0:22",
           "type": "pos",
-          "text": "Garantiu o frag no Sova (Vandal)",
-          "ms": 25287
+          "text": "Garantiu o frag no Veto (Bulldog)",
+          "ms": 22331
         },
         {
-          "time": "0:31",
+          "time": "0:27",
           "type": "neg",
-          "text": "Foi de base para Skye (Odin)",
-          "ms": 31756
+          "text": "Foi de base para Fade (Phantom)",
+          "ms": 27373
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Sova",
-          "weapon": "Vandal",
-          "time": "0:25",
-          "time_ms": 25287,
+          "killer_agent": "Phoenix",
+          "victim_agent": "Veto",
+          "weapon": "Bulldog",
+          "time": "0:22",
+          "time_ms": 22331,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Skye",
-          "victim_agent": "Omen",
-          "weapon": "Odin",
-          "time": "0:31",
-          "time_ms": 31756,
+          "killer_agent": "Fade",
+          "victim_agent": "Phoenix",
+          "weapon": "Phantom",
+          "time": "0:27",
+          "time_ms": 27373,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -203,98 +261,98 @@
     },
     {
       "round": 7,
-      "pos": "Amassou no domínio de espaço com Bomb contra Omen.",
-      "neg": null,
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Veto (Dano: 408).",
       "narrative": [
         {
-          "time": "0:25",
-          "type": "pos",
-          "text": "Garantiu o frag no Jett (Spectre)",
-          "ms": 25715
+          "time": "0:17",
+          "type": "neg",
+          "text": "Foi de base para Veto (Phantom)",
+          "ms": 17987
         },
         {
-          "time": "1:47",
-          "type": "pos",
-          "text": "Garantiu o frag no Omen (Vandal)",
-          "ms": 107794
-        },
-        {
-          "time": "1:51",
-          "type": "pos",
-          "text": "Garantiu o frag no Omen (Bomb)",
-          "ms": 111412
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (40 dmg)",
+          "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Jett",
-          "weapon": "Spectre",
-          "time": "0:25",
-          "time_ms": 25715,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Omen",
-          "weapon": "Vandal",
-          "time": "1:47",
-          "time_ms": 107794,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Omen",
-          "weapon": "Bomb",
-          "time": "1:51",
-          "time_ms": 111412,
-          "is_player_killer": true,
+          "killer_agent": "Veto",
+          "victim_agent": "Phoenix",
+          "weapon": "Phantom",
+          "time": "0:17",
+          "time_ms": 17987,
+          "is_player_killer": false,
           "is_player_victim": true
         }
       ]
     },
     {
       "round": 8,
-      "pos": "Amassou no domínio de espaço com Vandal contra Sova.",
+      "pos": "Mandou Miks de arrasta com Vandal aos 0:51.",
       "neg": null,
       "narrative": [
         {
-          "time": "0:22",
+          "time": "0:14",
           "type": "pos",
-          "text": "Garantiu o frag no Chamber (Vandal)",
-          "ms": 22346
+          "text": "Garantiu o frag no Jett (Vandal)",
+          "ms": 14142
         },
         {
-          "time": "0:49",
+          "time": "0:28",
           "type": "pos",
-          "text": "Garantiu o frag no Sova (Vandal)",
-          "ms": 49760
+          "text": "Garantiu o frag no Veto (Vandal)",
+          "ms": 28502
         },
         {
-          "time": "PLAN",
+          "time": "0:45",
           "type": "pos",
-          "text": "Dominou o site e garantiu o plant",
-          "ms": 55208
+          "text": "Garantiu o frag no Killjoy (Vandal)",
+          "ms": 45584
+        },
+        {
+          "time": "0:51",
+          "type": "pos",
+          "text": "Garantiu o frag no Miks (Vandal)",
+          "ms": 51633
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Chamber",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Jett",
           "weapon": "Vandal",
-          "time": "0:22",
-          "time_ms": 22346,
+          "time": "0:14",
+          "time_ms": 14142,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Sova",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Veto",
           "weapon": "Vandal",
-          "time": "0:49",
-          "time_ms": 49760,
+          "time": "0:28",
+          "time_ms": 28502,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Killjoy",
+          "weapon": "Vandal",
+          "time": "0:45",
+          "time_ms": 45584,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "0:51",
+          "time_ms": 51633,
           "is_player_killer": true,
           "is_player_victim": false
         }
@@ -303,28 +361,28 @@
     {
       "round": 9,
       "pos": null,
-      "neg": "Tomou um sacode de Omen (Vandal) aos 0:37.",
+      "neg": "Pego dormindo (fora de posição) aos 0:30.",
       "narrative": [
         {
-          "time": "0:37",
+          "time": "0:30",
           "type": "neg",
-          "text": "Foi de base para Omen (Vandal)",
-          "ms": 37761
+          "text": "Foi de base para Fade (Vandal)",
+          "ms": 30737
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 dmg)",
+          "text": "Morreu seco sem causar impacto (40 dmg)",
           "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Omen",
+          "killer_agent": "Fade",
+          "victim_agent": "Phoenix",
           "weapon": "Vandal",
-          "time": "0:37",
-          "time_ms": 37761,
+          "time": "0:30",
+          "time_ms": 30737,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -332,23 +390,38 @@
     },
     {
       "round": 10,
-      "pos": null,
-      "neg": "Ficou isolado aos 0:20 e foi punido sem trade.",
+      "pos": "Mandou Killjoy de arrasta com Vandal aos 0:18.",
+      "neg": "Tomou um sacode de Fade (Vandal) aos 1:24.",
       "narrative": [
         {
-          "time": "0:20",
+          "time": "0:18",
+          "type": "pos",
+          "text": "Garantiu o frag no Killjoy (Vandal)",
+          "ms": 18757
+        },
+        {
+          "time": "1:24",
           "type": "neg",
-          "text": "Foi de base para Skye (Vandal)",
-          "ms": 20360
+          "text": "Foi de base para Fade (Vandal)",
+          "ms": 84162
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Skye",
-          "victim_agent": "Omen",
+          "killer_agent": "Phoenix",
+          "victim_agent": "Killjoy",
           "weapon": "Vandal",
-          "time": "0:20",
-          "time_ms": 20360,
+          "time": "0:18",
+          "time_ms": 18757,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Fade",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "1:24",
+          "time_ms": 84162,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -356,14 +429,38 @@
     },
     {
       "round": 11,
-      "pos": null,
-      "neg": "Perdeu a troca direta contra Chamber (Dano: 195).",
+      "pos": "Segurou o rush inimigo aos 0:19 com Vandal.",
+      "neg": null,
       "narrative": [
         {
-          "time": "0:03",
+          "time": "0:19",
+          "type": "pos",
+          "text": "Garantiu o frag no Miks (Vandal)",
+          "ms": 19947
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "0:19",
+          "time_ms": 19947,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 12,
+      "pos": null,
+      "neg": "Foi de base pra Miks (Bulldog) no contrapé aos 0:24.",
+      "narrative": [
+        {
+          "time": "0:24",
           "type": "neg",
-          "text": "Foi de base para Chamber (Guardian)",
-          "ms": 3810
+          "text": "Foi de base para Miks (Bulldog)",
+          "ms": 24243
         },
         {
           "time": "OUT",
@@ -374,50 +471,155 @@
       ],
       "tactical_events": [
         {
-          "killer_agent": "Chamber",
-          "victim_agent": "Omen",
-          "weapon": "Guardian",
-          "time": "0:03",
-          "time_ms": 3810,
+          "killer_agent": "Miks",
+          "victim_agent": "Phoenix",
+          "weapon": "Bulldog",
+          "time": "0:24",
+          "time_ms": 24243,
           "is_player_killer": false,
           "is_player_victim": true
         }
       ]
     },
     {
-      "round": 12,
-      "pos": "Aula de mira com Vandal pra cima de Chamber.",
-      "neg": null,
+      "round": 13,
+      "pos": "Abriu o round deitando Jett aos 0:25.",
+      "neg": "Ficou isolado aos 0:29 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "0:51",
+          "time": "ECO",
           "type": "pos",
-          "text": "Garantiu o frag no Chamber (Vandal)",
-          "ms": 51327
+          "text": "Fez estrago no Round Eco (Gasto: $1000)",
+          "ms": -1
+        },
+        {
+          "time": "0:25",
+          "type": "pos",
+          "text": "Garantiu o frag no Jett (Ghost)",
+          "ms": 25282
+        },
+        {
+          "time": "0:29",
+          "type": "neg",
+          "text": "Foi de base para Veto (Ghost)",
+          "ms": 29089
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Chamber",
-          "weapon": "Vandal",
-          "time": "0:51",
-          "time_ms": 51327,
+          "killer_agent": "Phoenix",
+          "victim_agent": "Jett",
+          "weapon": "Ghost",
+          "time": "0:25",
+          "time_ms": 25282,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Veto",
+          "victim_agent": "Phoenix",
+          "weapon": "Ghost",
+          "time": "0:29",
+          "time_ms": 29089,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "pos": null,
+      "neg": "Ficou isolado aos 0:54 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "0:54",
+          "type": "neg",
+          "text": "Foi de base para Killjoy (Frenzy)",
+          "ms": 54874
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (44 dmg)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Killjoy",
+          "victim_agent": "Phoenix",
+          "weapon": "Frenzy",
+          "time": "0:54",
+          "time_ms": 54874,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 15,
+      "pos": "Amassou no domínio de espaço com Spectre contra Killjoy.",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "0:36",
+          "type": "pos",
+          "text": "Garantiu o frag no Killjoy (Spectre)",
+          "ms": 36376
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Killjoy",
+          "weapon": "Spectre",
+          "time": "0:36",
+          "time_ms": 36376,
           "is_player_killer": true,
           "is_player_victim": false
         }
       ]
     },
     {
-      "round": 13,
+      "round": 16,
       "pos": null,
-      "neg": "Pego dormindo (fora de posição) aos 0:12.",
+      "neg": "Tomou um sacode de Killjoy (Bulldog) aos 0:11.",
       "narrative": [
         {
-          "time": "0:12",
+          "time": "0:11",
           "type": "neg",
-          "text": "Foi de base para Jett (Sheriff)",
-          "ms": 12164
+          "text": "Foi de base para Killjoy (Bulldog)",
+          "ms": 11022
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (26 dmg)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Killjoy",
+          "victim_agent": "Phoenix",
+          "weapon": "Bulldog",
+          "time": "0:11",
+          "time_ms": 11022,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 17,
+      "pos": null,
+      "neg": "Pego dormindo (fora de posição) aos 0:09.",
+      "narrative": [
+        {
+          "time": "0:09",
+          "type": "neg",
+          "text": "Foi de base para Jett (Vandal)",
+          "ms": 9137
         },
         {
           "time": "OUT",
@@ -429,101 +631,219 @@
       "tactical_events": [
         {
           "killer_agent": "Jett",
-          "victim_agent": "Omen",
-          "weapon": "Sheriff",
-          "time": "0:12",
-          "time_ms": 12164,
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "0:09",
+          "time_ms": 9137,
           "is_player_killer": false,
           "is_player_victim": true
         }
       ]
     },
     {
-      "round": 14,
-      "pos": "Amassou no domínio de espaço com Spectre contra Chamber.",
-      "neg": "Pego dormindo (fora de posição) aos 0:36.",
-      "narrative": [
-        {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez estrago no Round Eco (Gasto: $250)",
-          "ms": -1
-        },
-        {
-          "time": "0:10",
-          "type": "pos",
-          "text": "Garantiu o frag no Jett (Classic)",
-          "ms": 10519
-        },
-        {
-          "time": "0:30",
-          "type": "pos",
-          "text": "Garantiu o frag no Chamber (Spectre)",
-          "ms": 30708
-        },
-        {
-          "time": "0:36",
-          "type": "neg",
-          "text": "Foi de base para Skye (Sheriff)",
-          "ms": 36973
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Jett",
-          "weapon": "Classic",
-          "time": "0:10",
-          "time_ms": 10519,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Chamber",
-          "weapon": "Spectre",
-          "time": "0:30",
-          "time_ms": 30708,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Skye",
-          "victim_agent": "Omen",
-          "weapon": "Sheriff",
-          "time": "0:36",
-          "time_ms": 36973,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 15,
-      "pos": "Mandou Chamber de arrasta com Vandal aos 0:22.",
+      "round": 18,
+      "pos": "Mandou Killjoy de arrasta com Bulldog aos 0:07.",
       "neg": null,
       "narrative": [
         {
-          "time": "0:22",
+          "time": "0:06",
           "type": "pos",
-          "text": "Garantiu o frag no Chamber (Vandal)",
-          "ms": 22550
+          "text": "Garantiu o frag no Miks (Bulldog)",
+          "ms": 6037
+        },
+        {
+          "time": "0:07",
+          "type": "pos",
+          "text": "Garantiu o frag no Killjoy (Bulldog)",
+          "ms": 7143
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Chamber",
-          "weapon": "Vandal",
-          "time": "0:22",
-          "time_ms": 22550,
+          "killer_agent": "Phoenix",
+          "victim_agent": "Miks",
+          "weapon": "Bulldog",
+          "time": "0:06",
+          "time_ms": 6037,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Killjoy",
+          "weapon": "Bulldog",
+          "time": "0:07",
+          "time_ms": 7143,
           "is_player_killer": true,
           "is_player_victim": false
         }
       ]
+    },
+    {
+      "round": 19,
+      "pos": null,
+      "neg": "Pego dormindo (fora de posição) aos 1:11.",
+      "narrative": [
+        {
+          "time": "1:11",
+          "type": "neg",
+          "text": "Foi de base para Killjoy (Spectre)",
+          "ms": 71361
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Killjoy",
+          "victim_agent": "Phoenix",
+          "weapon": "Spectre",
+          "time": "1:11",
+          "time_ms": 71361,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 20,
+      "pos": "Aula de mira com Vandal pra cima de Fade.",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "0:41",
+          "type": "pos",
+          "text": "Garantiu o frag no Fade (Vandal)",
+          "ms": 41722
+        },
+        {
+          "time": "DEF",
+          "type": "pos",
+          "text": "Clutch no defuse! Garantiu o round no detalhe",
+          "ms": 52616
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Fade",
+          "weapon": "Vandal",
+          "time": "0:41",
+          "time_ms": 41722,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 21,
+      "pos": "Aula de mira com Vandal pra cima de Miks.",
+      "neg": "Tomou um sacode de Killjoy (Phantom) aos 1:01.",
+      "narrative": [
+        {
+          "time": "0:46",
+          "type": "pos",
+          "text": "Garantiu o frag no Miks (Vandal)",
+          "ms": 46173
+        },
+        {
+          "time": "1:01",
+          "type": "neg",
+          "text": "Foi de base para Killjoy (Phantom)",
+          "ms": 61434
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "0:46",
+          "time_ms": 46173,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Killjoy",
+          "victim_agent": "Phoenix",
+          "weapon": "Phantom",
+          "time": "1:01",
+          "time_ms": 61434,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 22,
+      "pos": null,
+      "neg": "Perdeu a troca direta contra Veto (Dano: 318).",
+      "narrative": [
+        {
+          "time": "0:26",
+          "type": "neg",
+          "text": "Foi de base para Veto (Vandal)",
+          "ms": 26572
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Veto",
+          "victim_agent": "Phoenix",
+          "weapon": "Vandal",
+          "time": "0:26",
+          "time_ms": 26572,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 23,
+      "pos": "Amassou no domínio de espaço com Vandal contra Jett.",
+      "neg": null,
+      "narrative": [
+        {
+          "time": "0:50",
+          "type": "pos",
+          "text": "Garantiu o frag no Miks (Vandal)",
+          "ms": 50267
+        },
+        {
+          "time": "1:05",
+          "type": "pos",
+          "text": "Garantiu o frag no Jett (Vandal)",
+          "ms": 65069
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Miks",
+          "weapon": "Vandal",
+          "time": "0:50",
+          "time_ms": 50267,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Phoenix",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "1:05",
+          "time_ms": 65069,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 24,
+      "pos": null,
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
     }
   ],
-  "meta_category": "BASELINE_AVG",
-  "target_kd": 1,
-  "estimated_rank": "OURO"
+  "meta_category": "SILVER // VSTATS",
+  "target_kd": 1.06,
+  "estimated_rank": "DIAMANTE"
 }

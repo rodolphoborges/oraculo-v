@@ -35,8 +35,8 @@ async function processQueue() {
         .single();
 
     if (error || !job) {
-        console.log("📭 Fila vazia. Finalizando.");
-        return;
+        // console.log("📭 Fila vazia.");
+        return false;
     }
 
     console.log(`👷 Processando Job: Match ${job.match_id} (Player: ${job.agente_tag})`);
@@ -146,7 +146,7 @@ async function processQueue() {
                 }
             }
 
-            return; // Encerra o processamento do job AUTO. O worker pegará os novos jobs pendentes nas próximas execuções.
+            return true; // O job AUTO foi expandido. Retorna true para processar os próximos imediatamente.
         }
 
         // 3. Executar o sistema de análise
@@ -221,7 +221,23 @@ async function processQueue() {
             status: 'failed',
             error_msg: err.message
         }).eq('id', job.id);
+        return true; // Continua a fila mesmo se um job falhar
+    }
+    return true; // Sucesso na análise padrão
+}
+
+async function startWorker() {
+    console.log("🟢 [WORKER] Motor Tático Iniciado. Vigiando a fila...");
+    while (true) {
+        const processed = await processQueue();
+        if (!processed) {
+            // Fila vazia, dorme 10 segundos
+            await new Promise(res => setTimeout(res, 10000));
+        } else {
+            // Processou um job com sucesso (ou expandiu AUTO). Dá um respiro de 2s.
+            await new Promise(res => setTimeout(res, 2000));
+        }
     }
 }
 
-await processQueue();
+startWorker();
