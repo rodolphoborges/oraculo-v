@@ -1,55 +1,73 @@
 {
   "player": "ALEGRIA#021",
   "agent": "Omen",
-  "map": "Lotus",
+  "map": "Abyss",
   "map_details": {
-    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2fe4ed3a-450a-948b-6d6b-e89a78e680a9/displayicon.png",
-    "yMultiplier": -0.000072,
-    "xMultiplier": 0.000072,
-    "yScalarToAdd": 0.917752,
-    "xScalarToAdd": 0.454789
+    "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/224b0a95-48b9-f703-1bd8-67aca101a61f/displayicon.png",
+    "yMultiplier": -0.000081,
+    "xMultiplier": 0.000081,
+    "yScalarToAdd": 0.5,
+    "xScalarToAdd": 0.5
   },
-  "acs": 181.9,
-  "adr": 143.6,
-  "kd": 0.8,
+  "acs": 100.22727272727273,
+  "adr": 82.5,
+  "kd": 0.35714285714285715,
   "meta_kd": 1,
   "first_bloods": 1,
-  "conselho_kaio": "FOCO OPERACIONAL: Desempenho equilibrado. Mantenha a disciplina econômica e a comunicação tática via rádio.",
-  "performance_index": 80,
+  "conselho_kaio": "VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V e na vStats, o DANO é a métrica absoluta de impacto. Sua presença no mapa não está gerando pressão real. Priorize trocas agressivas e trade-kills imediatos; se você não está causando dano, você está apenas assistindo o time perder.",
+  "performance_index": 51,
   "performance_status": "BELOW_BASELINE",
+  "total_rounds": 22,
   "rounds": [
     {
       "round": 1,
       "pos": null,
-      "neg": null,
-      "narrative": [],
-      "tactical_events": []
+      "neg": "Perdeu a troca direta contra Reyna (Dano: 105).",
+      "narrative": [
+        {
+          "time": "0:39",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Ghost)",
+          "ms": 39207
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Omen",
+          "weapon": "Ghost",
+          "time": "0:39",
+          "time_ms": 39207,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
     },
     {
       "round": 2,
       "pos": null,
-      "neg": "Ficou isolado aos 0:50 e foi punido sem trade.",
+      "neg": "Tomou um sacode de Waylay (Marshal) aos 0:13.",
       "narrative": [
         {
-          "time": "0:50",
+          "time": "0:13",
           "type": "neg",
-          "text": "Ficou no chão para Raze (Bandit)",
-          "ms": 50884
+          "text": "Foi de base para Waylay (Marshal)",
+          "ms": 13217
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
           "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Raze",
+          "killer_agent": "Waylay",
           "victim_agent": "Omen",
-          "weapon": "Bandit",
-          "time": "0:50",
-          "time_ms": 50884,
+          "weapon": "Marshal",
+          "time": "0:13",
+          "time_ms": 13217,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -57,68 +75,68 @@
     },
     {
       "round": 3,
-      "pos": null,
-      "neg": "Tomou um sacode de Phoenix (Vandal) aos 0:49.",
+      "pos": "Amassou no domínio de espaço com Vandal contra Jett.",
+      "neg": null,
       "narrative": [
-        {
-          "time": "0:49",
-          "type": "neg",
-          "text": "Ficou no chão para Phoenix (Vandal)",
-          "ms": 49559
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Phoenix",
-          "victim_agent": "Omen",
-          "weapon": "Vandal",
-          "time": "0:49",
-          "time_ms": 49559,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 4,
-      "pos": "Mandou Miks de arrasta com Vandal aos 0:27.",
-      "neg": "Tomou um sacode de Raze (Vandal) aos 0:51.",
-      "narrative": [
-        {
-          "time": "0:27",
-          "type": "pos",
-          "text": "Fez o frag no Miks (Vandal)",
-          "ms": 27524
-        },
         {
           "time": "PLAN",
           "type": "pos",
-          "text": "Dominou o site e plantou a Spike",
-          "ms": 37111
+          "text": "Dominou o site e garantiu o plant",
+          "ms": 21199
         },
         {
-          "time": "0:51",
-          "type": "neg",
-          "text": "Ficou no chão para Raze (Vandal)",
-          "ms": 51447
+          "time": "0:33",
+          "type": "pos",
+          "text": "Garantiu o frag no Jett (Vandal)",
+          "ms": 33266
         }
       ],
       "tactical_events": [
         {
           "killer_agent": "Omen",
-          "victim_agent": "Miks",
+          "victim_agent": "Jett",
           "weapon": "Vandal",
-          "time": "0:27",
-          "time_ms": 27524,
+          "time": "0:33",
+          "time_ms": 33266,
+          "is_player_killer": true,
+          "is_player_victim": false
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "pos": "Aula de mira com Vandal pra cima de Jett.",
+      "neg": "Ficou isolado aos 1:21 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "0:59",
+          "type": "pos",
+          "text": "Garantiu o frag no Jett (Vandal)",
+          "ms": 59262
+        },
+        {
+          "time": "1:21",
+          "type": "neg",
+          "text": "Foi de base para Sova (Vandal)",
+          "ms": 81312
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Omen",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:59",
+          "time_ms": 59262,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Raze",
+          "killer_agent": "Sova",
           "victim_agent": "Omen",
           "weapon": "Vandal",
-          "time": "0:51",
-          "time_ms": 51447,
+          "time": "1:21",
+          "time_ms": 81312,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -126,158 +144,75 @@
     },
     {
       "round": 5,
-      "pos": "Aula de mira com Stinger pra cima de Phoenix.",
-      "neg": "Tomou um sacode de Raze (Vandal) aos 0:28.",
+      "pos": "Amassou no domínio de espaço com Bomb contra Omen.",
+      "neg": null,
       "narrative": [
         {
-          "time": "ECO",
+          "time": "PLAN",
           "type": "pos",
-          "text": "Fez o estrago no eco (Investimento: 2250)",
-          "ms": -1
+          "text": "Dominou o site e garantiu o plant",
+          "ms": 46160
         },
         {
-          "time": "0:22",
+          "time": "1:28",
           "type": "pos",
-          "text": "Fez o frag no Phoenix (Stinger)",
-          "ms": 22427
+          "text": "Garantiu o frag no Waylay (Vandal)",
+          "ms": 88442
         },
         {
-          "time": "0:28",
-          "type": "neg",
-          "text": "Ficou no chão para Raze (Vandal)",
-          "ms": 28160
+          "time": "1:32",
+          "type": "pos",
+          "text": "Garantiu o frag no Omen (Bomb)",
+          "ms": 92175
         }
       ],
       "tactical_events": [
         {
           "killer_agent": "Omen",
-          "victim_agent": "Phoenix",
-          "weapon": "Stinger",
-          "time": "0:22",
-          "time_ms": 22427,
+          "victim_agent": "Waylay",
+          "weapon": "Vandal",
+          "time": "1:28",
+          "time_ms": 88442,
           "is_player_killer": true,
           "is_player_victim": false
         },
         {
-          "killer_agent": "Raze",
+          "killer_agent": "Omen",
           "victim_agent": "Omen",
-          "weapon": "Vandal",
-          "time": "0:28",
-          "time_ms": 28160,
-          "is_player_killer": false,
+          "weapon": "Bomb",
+          "time": "1:32",
+          "time_ms": 92175,
+          "is_player_killer": true,
           "is_player_victim": true
         }
       ]
     },
     {
       "round": 6,
-      "pos": "Abriu o round deitando Miks aos 1:12.",
-      "neg": "Perdeu a troca direta contra Raze (Dano: 160).",
-      "narrative": [
-        {
-          "time": "PLAN",
-          "type": "pos",
-          "text": "Dominou o site e plantou a Spike",
-          "ms": 44771
-        },
-        {
-          "time": "1:04",
-          "type": "pos",
-          "text": "Fez o frag no Phoenix (Vandal)",
-          "ms": 64371
-        },
-        {
-          "time": "1:09",
-          "type": "pos",
-          "text": "Fez o frag no Fade (Vandal)",
-          "ms": 69320
-        },
-        {
-          "time": "1:12",
-          "type": "pos",
-          "text": "Fez o frag no Miks (Vandal)",
-          "ms": 72488
-        },
-        {
-          "time": "1:14",
-          "type": "neg",
-          "text": "Ficou no chão para Raze (Vandal)",
-          "ms": 74012
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Phoenix",
-          "weapon": "Vandal",
-          "time": "1:04",
-          "time_ms": 64371,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Fade",
-          "weapon": "Vandal",
-          "time": "1:09",
-          "time_ms": 69320,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Miks",
-          "weapon": "Vandal",
-          "time": "1:12",
-          "time_ms": 72488,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Raze",
-          "victim_agent": "Omen",
-          "weapon": "Vandal",
-          "time": "1:14",
-          "time_ms": 74012,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
+      "pos": null,
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
     },
     {
       "round": 7,
-      "pos": "Mandou Phoenix de arrasta com Vandal aos 0:38.",
-      "neg": "Ficou isolado aos 0:44 e foi punido sem trade.",
+      "pos": null,
+      "neg": "Foi de base pra Waylay (Sheriff) no contrapé aos 0:39.",
       "narrative": [
         {
-          "time": "0:38",
-          "type": "pos",
-          "text": "Fez o frag no Phoenix (Vandal)",
-          "ms": 38762
-        },
-        {
-          "time": "0:44",
+          "time": "0:39",
           "type": "neg",
-          "text": "Ficou no chão para Raze (Vandal)",
-          "ms": 44978
+          "text": "Foi de base para Waylay (Sheriff)",
+          "ms": 39769
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Phoenix",
-          "weapon": "Vandal",
-          "time": "0:38",
-          "time_ms": 38762,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Raze",
+          "killer_agent": "Waylay",
           "victim_agent": "Omen",
-          "weapon": "Vandal",
-          "time": "0:44",
-          "time_ms": 44978,
+          "weapon": "Sheriff",
+          "time": "0:39",
+          "time_ms": 39769,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -285,38 +220,35 @@
     },
     {
       "round": 8,
-      "pos": "Abriu o round deitando Fade aos 1:06.",
-      "neg": "Tomou um sacode de Raze (Vandal) aos 1:35.",
+      "pos": "BOMB PLANTED",
+      "neg": "Perdeu a troca direta contra Reyna (Dano: 200).",
       "narrative": [
         {
-          "time": "1:06",
+          "time": "PLAN",
           "type": "pos",
-          "text": "Fez o frag no Fade (Bulldog)",
-          "ms": 66693
+          "text": "Dominou o site e garantiu o plant",
+          "ms": 46323
         },
         {
-          "time": "1:35",
+          "time": "1:15",
           "type": "neg",
-          "text": "Ficou no chão para Raze (Vandal)",
-          "ms": 95716
+          "text": "Foi de base para Reyna (Vandal)",
+          "ms": 75444
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (17 dmg)",
+          "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Omen",
-          "victim_agent": "Fade",
-          "weapon": "Bulldog",
-          "time": "1:06",
-          "time_ms": 66693,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Raze",
+          "killer_agent": "Reyna",
           "victim_agent": "Omen",
           "weapon": "Vandal",
-          "time": "1:35",
-          "time_ms": 95716,
+          "time": "1:15",
+          "time_ms": 75444,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -324,23 +256,38 @@
     },
     {
       "round": 9,
-      "pos": null,
-      "neg": "Tomou um sacode de Fade (Vandal) aos 0:39.",
+      "pos": "Abriu o round deitando Sova aos 0:36.",
+      "neg": "Foi de base pra Jett (Vandal) no contrapé aos 0:43.",
       "narrative": [
         {
-          "time": "0:39",
+          "time": "0:36",
+          "type": "pos",
+          "text": "Garantiu o frag no Sova (Vandal)",
+          "ms": 36883
+        },
+        {
+          "time": "0:43",
           "type": "neg",
-          "text": "Ficou no chão para Fade (Vandal)",
-          "ms": 39185
+          "text": "Foi de base para Jett (Vandal)",
+          "ms": 43570
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Fade",
+          "killer_agent": "Omen",
+          "victim_agent": "Sova",
+          "weapon": "Vandal",
+          "time": "0:36",
+          "time_ms": 36883,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Jett",
           "victim_agent": "Omen",
           "weapon": "Vandal",
-          "time": "0:39",
-          "time_ms": 39185,
+          "time": "0:43",
+          "time_ms": 43570,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -349,22 +296,28 @@
     {
       "round": 10,
       "pos": null,
-      "neg": "Foi de base pra Raze (Vandal) no contrapé aos 0:30.",
+      "neg": "Ficou isolado aos 0:29 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "0:30",
+          "time": "0:29",
           "type": "neg",
-          "text": "Ficou no chão para Raze (Vandal)",
-          "ms": 30038
+          "text": "Foi de base para Reyna (Vandal)",
+          "ms": 29086
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
+          "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Raze",
+          "killer_agent": "Reyna",
           "victim_agent": "Omen",
           "weapon": "Vandal",
-          "time": "0:30",
-          "time_ms": 30038,
+          "time": "0:29",
+          "time_ms": 29086,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -372,35 +325,23 @@
     },
     {
       "round": 11,
-      "pos": "BOMB PLANTED",
-      "neg": "Perdeu a troca direta contra Miks (Dano: 200).",
+      "pos": null,
+      "neg": "Ficou isolado aos 0:30 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "PLAN",
-          "type": "pos",
-          "text": "Dominou o site e plantou a Spike",
-          "ms": 28505
-        },
-        {
-          "time": "0:44",
+          "time": "0:30",
           "type": "neg",
-          "text": "Ficou no chão para Miks (Vandal)",
-          "ms": 44525
-        },
-        {
-          "time": "OUT",
-          "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
-          "ms": 999999
+          "text": "Foi de base para Harbor (Phantom)",
+          "ms": 30895
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Miks",
+          "killer_agent": "Harbor",
           "victim_agent": "Omen",
-          "weapon": "Vandal",
-          "time": "0:44",
-          "time_ms": 44525,
+          "weapon": "Phantom",
+          "time": "0:30",
+          "time_ms": 30895,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -409,73 +350,35 @@
     {
       "round": 12,
       "pos": null,
-      "neg": "Perdeu a troca direta contra Raze (Dano: 150).",
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
+    },
+    {
+      "round": 13,
+      "pos": null,
+      "neg": "Ficou isolado aos 1:06 e foi punido sem trade.",
       "narrative": [
         {
-          "time": "0:35",
+          "time": "1:06",
           "type": "neg",
-          "text": "Ficou no chão para Raze (Operator)",
-          "ms": 35104
+          "text": "Foi de base para Sova (Classic)",
+          "ms": 66295
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (30 dmg)",
           "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Raze",
+          "killer_agent": "Sova",
           "victim_agent": "Omen",
-          "weapon": "Operator",
-          "time": "0:35",
-          "time_ms": 35104,
-          "is_player_killer": false,
-          "is_player_victim": true
-        }
-      ]
-    },
-    {
-      "round": 13,
-      "pos": "Segurou o rush inimigo aos 0:26 com Ghost.",
-      "neg": "Tomou um sacode de Miks (Ghost) aos 1:30.",
-      "narrative": [
-        {
-          "time": "ECO",
-          "type": "pos",
-          "text": "Fez o estrago no eco (Investimento: 800)",
-          "ms": -1
-        },
-        {
-          "time": "0:26",
-          "type": "pos",
-          "text": "Fez o frag no Phoenix (Ghost)",
-          "ms": 26510
-        },
-        {
-          "time": "1:30",
-          "type": "neg",
-          "text": "Ficou no chão para Miks (Ghost)",
-          "ms": 90998
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Phoenix",
-          "weapon": "Ghost",
-          "time": "0:26",
-          "time_ms": 26510,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Miks",
-          "victim_agent": "Omen",
-          "weapon": "Ghost",
-          "time": "1:30",
-          "time_ms": 90998,
+          "weapon": "Classic",
+          "time": "1:06",
+          "time_ms": 66295,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -483,36 +386,52 @@
     },
     {
       "round": 14,
-      "pos": null,
+      "pos": "CLUTCH DEFUSE",
       "neg": null,
-      "narrative": [],
+      "narrative": [
+        {
+          "time": "DEF",
+          "type": "pos",
+          "text": "Clutch no defuse! Garantiu o round no detalhe",
+          "ms": 42799
+        }
+      ],
       "tactical_events": []
     },
     {
       "round": 15,
-      "pos": null,
-      "neg": "Perdeu a troca direta contra Raze (Dano: 140).",
+      "pos": "Amassou no domínio de espaço com Vandal contra Jett.",
+      "neg": "Tomou um sacode de Harbor (Sheriff) aos 0:14.",
       "narrative": [
         {
-          "time": "0:11",
-          "type": "neg",
-          "text": "Ficou no chão para Raze (Phantom)",
-          "ms": 11582
+          "time": "0:09",
+          "type": "pos",
+          "text": "Garantiu o frag no Jett (Vandal)",
+          "ms": 9316
         },
         {
-          "time": "OUT",
+          "time": "0:14",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
-          "ms": 999999
+          "text": "Foi de base para Harbor (Sheriff)",
+          "ms": 14041
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Raze",
+          "killer_agent": "Omen",
+          "victim_agent": "Jett",
+          "weapon": "Vandal",
+          "time": "0:09",
+          "time_ms": 9316,
+          "is_player_killer": true,
+          "is_player_victim": false
+        },
+        {
+          "killer_agent": "Harbor",
           "victim_agent": "Omen",
-          "weapon": "Phantom",
-          "time": "0:11",
-          "time_ms": 11582,
+          "weapon": "Sheriff",
+          "time": "0:14",
+          "time_ms": 14041,
           "is_player_killer": false,
           "is_player_victim": true
         }
@@ -520,151 +439,147 @@
     },
     {
       "round": 16,
-      "pos": "Aula de mira com Phantom pra cima de Chamber.",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "0:29",
-          "type": "pos",
-          "text": "Fez o frag no Miks (Phantom)",
-          "ms": 29401
-        },
-        {
-          "time": "0:33",
-          "type": "pos",
-          "text": "Fez o frag no Chamber (Phantom)",
-          "ms": 33687
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Miks",
-          "weapon": "Phantom",
-          "time": "0:29",
-          "time_ms": 29401,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Chamber",
-          "weapon": "Phantom",
-          "time": "0:33",
-          "time_ms": 33687,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 17,
       "pos": null,
-      "neg": "Foi de base pra Miks (Vandal) no contrapé aos 0:52.",
+      "neg": "Tomou um sacode de Jett (Vandal) aos 0:32.",
       "narrative": [
         {
-          "time": "0:52",
+          "time": "0:32",
           "type": "neg",
-          "text": "Ficou no chão para Miks (Vandal)",
-          "ms": 52111
+          "text": "Foi de base para Jett (Vandal)",
+          "ms": 32038
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
           "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Miks",
+          "killer_agent": "Jett",
           "victim_agent": "Omen",
           "weapon": "Vandal",
-          "time": "0:52",
-          "time_ms": 52111,
+          "time": "0:32",
+          "time_ms": 32038,
           "is_player_killer": false,
           "is_player_victim": true
         }
       ]
     },
     {
-      "round": 18,
-      "pos": "Amassou no domínio de espaço com Vandal contra Miks.",
-      "neg": null,
-      "narrative": [
-        {
-          "time": "0:55",
-          "type": "pos",
-          "text": "Fez o frag no Phoenix (Vandal)",
-          "ms": 55289
-        },
-        {
-          "time": "1:03",
-          "type": "pos",
-          "text": "Fez o frag no Miks (Vandal)",
-          "ms": 63110
-        }
-      ],
-      "tactical_events": [
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Phoenix",
-          "weapon": "Vandal",
-          "time": "0:55",
-          "time_ms": 55289,
-          "is_player_killer": true,
-          "is_player_victim": false
-        },
-        {
-          "killer_agent": "Omen",
-          "victim_agent": "Miks",
-          "weapon": "Vandal",
-          "time": "1:03",
-          "time_ms": 63110,
-          "is_player_killer": true,
-          "is_player_victim": false
-        }
-      ]
-    },
-    {
-      "round": 19,
+      "round": 17,
       "pos": "CLUTCH DEFUSE",
       "neg": null,
       "narrative": [
         {
           "time": "DEF",
           "type": "pos",
-          "text": "Fez o clutch no defuse e garantiu o round",
-          "ms": 88351
+          "text": "Clutch no defuse! Garantiu o round no detalhe",
+          "ms": 53680
         }
       ],
       "tactical_events": []
     },
     {
-      "round": 20,
+      "round": 18,
       "pos": null,
-      "neg": "Foi de base pra Fade (Vandal) no contrapé aos 1:00.",
+      "neg": "Foi de base pra Sova (Vandal) no contrapé aos 0:15.",
       "narrative": [
         {
-          "time": "1:00",
+          "time": "0:15",
           "type": "neg",
-          "text": "Ficou no chão para Fade (Vandal)",
-          "ms": 60614
+          "text": "Foi de base para Sova (Vandal)",
+          "ms": 15005
         },
         {
           "time": "OUT",
           "type": "neg",
-          "text": "Morreu seco sem causar impacto (0 de dano)",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
           "ms": 999999
         }
       ],
       "tactical_events": [
         {
-          "killer_agent": "Fade",
+          "killer_agent": "Sova",
           "victim_agent": "Omen",
           "weapon": "Vandal",
-          "time": "1:00",
-          "time_ms": 60614,
+          "time": "0:15",
+          "time_ms": 15005,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 19,
+      "pos": null,
+      "neg": "Tomou um sacode de Reyna (Vandal) aos 0:22.",
+      "narrative": [
+        {
+          "time": "0:22",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Vandal)",
+          "ms": 22807
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (0 dmg)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:22",
+          "time_ms": 22807,
+          "is_player_killer": false,
+          "is_player_victim": true
+        }
+      ]
+    },
+    {
+      "round": 20,
+      "pos": null,
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
+    },
+    {
+      "round": 21,
+      "pos": null,
+      "neg": null,
+      "narrative": [],
+      "tactical_events": []
+    },
+    {
+      "round": 22,
+      "pos": null,
+      "neg": "Ficou isolado aos 0:48 e foi punido sem trade.",
+      "narrative": [
+        {
+          "time": "0:48",
+          "type": "neg",
+          "text": "Foi de base para Reyna (Vandal)",
+          "ms": 48394
+        },
+        {
+          "time": "OUT",
+          "type": "neg",
+          "text": "Morreu seco sem causar impacto (40 dmg)",
+          "ms": 999999
+        }
+      ],
+      "tactical_events": [
+        {
+          "killer_agent": "Reyna",
+          "victim_agent": "Omen",
+          "weapon": "Vandal",
+          "time": "0:48",
+          "time_ms": 48394,
           "is_player_killer": false,
           "is_player_victim": true
         }

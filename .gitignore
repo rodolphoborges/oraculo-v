@@ -4,3 +4,4 @@ matches/*.json
 analysis_*.json
 .DS_Store
 *.log
+*.exe
