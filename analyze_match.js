@@ -127,8 +127,12 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     analysisResult.target_kd = targetKd;
     analysisResult.estimated_rank = estimatedRank;
 
+    // Garante que a pasta analyses existe
+    const analysesDir = './analyses';
+    if (!fs.existsSync(analysesDir)) fs.mkdirSync(analysesDir);
+
     // Salva o relatório local enriquecido (com rank estimado e meta)
-    const finalReportPath = `analysis_${playerTag.replace('#', '_')}.json`;
+    const finalReportPath = path.join(analysesDir, `analysis_${playerTag.replace('#', '_')}.json`);
     fs.writeFileSync(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
     
     return analysisResult;
