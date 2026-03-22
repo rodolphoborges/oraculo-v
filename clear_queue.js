@@ -9,7 +9,7 @@ async function clearQueue() {
     const { data, error, count } = await supabase
         .from('match_analysis_queue')
         .delete()
-        .neq('id', '00000000-0000-0000-0000-000000000000'); // Deleta tudo que não tem esse ID impossível
+        .neq('status', 'NON_EXISTENT'); // Filtro agnóstico ao tipo da chave primária
 
     if (error) {
         console.error("❌ Erro ao limpar fila:", error.message);
