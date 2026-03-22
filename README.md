@@ -1,55 +1,58 @@
-# ORÁCULO V // NÚCLEO_TÁTICO v2.2
+# ORÁCULO V // NÚCLEO_TÁTICO v3.0
 
-O **Oráculo V** é um **Conselheiro Tático de Elite** de arquitetura assíncrona. Ele processa metadados do [vstats.gg](https://www.vstats.gg/) e do Tracker.gg para fornecer insights profundos sob a estética "Brutalista Terminal".
+O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v3.0, ele opera como um microserviço independente que monitora jogadores dO **Protocolo-V** e gerencia sua própria fila de tarefas sob a estética "Brutalista Terminal".
 
-## 🚨 Funcionalidades de Elite (v2.2)
+## 🏗️ Arquitetura Multi-Base (Microserviços)
 
-- **Segurança Auditada (Anti-Injection)**: Proteção contra execução remota de código (RCE) via `spawnSync`, garantindo integridade total do host.
-- **API Assíncrona & Fila**: Solicite análises via `/api/queue` e acompanhe o progresso em tempo real.
-- **Painel de Monitoramento (Console)**: Acesse `/admin.html` para visualizar estatísticas globais e gerenciar jobs via Deep Links.
-- **Diretriz Tática & Constituição**: O K.A.I.O. Advisor cita os **Artigos dO Protocolo V**:
-  - **Art. 1: Dano Absoluto** (ADR > 130)
-  - **Art. 2: Iniciativa** (First Bloods)
-  - **Art. 3: Sinergia** (Trade Kills / Reset Psicológico)
-- **Cálculo de Impacto vStats**: Índice de performance ponderado: **60% ADR** / 40% K/D.
+O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
+- **Base Fonte (Protocolo-V)**: Onde residem os jogadores cadastrados e o banco de dados principal.
+- **Base de Operações (Oráculo-V)**: Onde o motor gerencia sua própria fila de processamento (`match_analysis_queue`).
 
-## 🎞️ Léxico do Impacto
+## 🚨 Funcionalidades de Elite (v3.0)
 
-Para os iniciados dO Protocolo V, estes não são apenas números. São o pulso da sua existência operacional:
-
-- **ADR** // *O Amasso*: O quanto você deitou o time inimigo em média por round. É o dano puro: se você não amassa, você não joga.
-- **ACS** // *O Sinal*: O quanto você apareceu no jogo. Pontuação média que reflete seu combate real, abates e impacto.
-- **K/D** // *A Conta*: Quantos adversários você levou antes de ir de base. O saldo entre kills e quedas.
-- **FB** // *O First*: Quem dita o ritmo do round. Quem abriu o mapa e garantiu a vantagem numérica pro time logo de cara.
+- **Radar Multi-Base**: Escaneia jogadores da base externa e cria tarefas na base local.
+- **Worker de Alta Performance**: Processamento paralelo de partidas via Puppeteer e Python.
+- **CI/CD Otimizado (GitHub Actions)**: Workflow acelerado com cache de binários e Node.js v22.
+- **Diagnóstico Híbrido**: Verificação em tempo real da saúde das duas conexões de banco de dados.
 
 ## 📂 Estrutura do Projeto
 
-- `server.js`: API Express e Console Admin.
-- `worker.js`: Processador autônomo da fila (Anti-Injection Ready).
+- `discover_matches.js`: Radar que busca interseção de jogadores no vStats/Henrik API.
+- `worker.js`: Processador autônomo da fila de análise.
+- `lib/supabase.js`: Core de conexão dual-database.
+- `check_tables_v2.js`: Diagnóstico de conectividade multi-base.
 - `analyze_valorant.py`: Motor de análise tática e narrativa em Python.
-- `rerun_test.js`: Script de teste rápido do fluxo completo (Fila -> Worker).
 
 ## ⚙️ Configuração
 
 1. **Instalação**: `npm install`
 2. **Setup**: Renomeie `.env.example` para `.env` e preencha as chaves:
-   - `SUPABASE_URL` / `SUPABASE_SERVICE_KEY`
-   - `HENRIK_API_KEY` / `TELEGRAM_BOT_TOKEN`
+
+### Oráculo V (Banco de Tarefas)
+- `SUPABASE_URL`: URL do projeto do Oráculo.
+- `SUPABASE_SERVICE_KEY`: Key `service_role` dO Oráculo.
+
+### Protocolo V (Fonte de Dados)
+- `PROTOCOL_SUPABASE_URL`: URL do projeto do Protocolo.
+- `PROTOCOL_SUPABASE_KEY`: Key `service_role` dO Protocolo.
+
+### APIs de Terceiros
+- `HENRIK_API_KEY`: Chave da API HenrikDev.
+- `TELEGRAM_BOT_TOKEN`: Token do Bot dO Telegram.
 
 ## 🤖 Operação e Testes
 
-### Teste Rápido (Full Stack)
-Para validar o sistema completo (limpar fila, enfileirar e processar) em um comando:
+### Diagnóstico de Base
+Para validar se as duas conexões e tabelas estão prontas:
 ```bash
-node rerun_test.js
+node check_tables_v2.js
 ```
 
-### Console de Operações (API)
-| Rota | Método | Descrição |
-| --- | --- | --- |
-| `/api/queue` | POST | Envia jogador e matchId para a fila. |
-| `/api/status/:matchId` | GET | Retorna o status atual e o relatório final. |
-| `/api/admin/stats` | GET | Estatísticas globais de performance do Oráculo. |
+### Radar de Partidas
+Para buscar manualmente novas partidas em grupo:
+```bash
+node discover_matches.js
+```
 
 ---
 *(C) 2026 DEEPMIND ANTIGRAVITY // PROTOCOLO_V_OPERACAO_MAXIMA*
