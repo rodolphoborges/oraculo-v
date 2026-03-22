@@ -37,10 +37,15 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   const matchData = JSON.parse(fs.readFileSync(matchJsonPath, 'utf8'));
   
   // 4. Identifica o agente, mapa e rank do jogador na partida
+  if (!matchData.data?.metadata || !matchData.data?.segments) {
+    throw new Error('Dados da partida incompletos ou malformados.');
+  }
+
   const mapDetected = matchData.data.metadata.mapName;
   
-  const playerSummary = matchData.data.segments.find(s => s.type === 'player-summary' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
-  const playerRound = matchData.data.segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
+  const segments = matchData.data.segments;
+  const playerSummary = segments.find(s => s.type === 'player-summary' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
+  const playerRound = segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
   
   const agentName = playerSummary ? playerSummary.metadata.agentName : (playerRound ? playerRound.metadata.agentName : null);
   const rankDisplay = playerSummary?.stats?.rank?.displayValue || "ALL";
@@ -77,13 +82,20 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
       
       console.error(`Executando análise Python: ${pythonScript}`);
       
+      const totalRounds = matchData.data.metadata.rounds;
+      const teamId = playerSummary?.metadata?.teamId || 'Unknown';
+
       // Usamos spawnSync para evitar injeção de comandos via shell
       const { spawnSync } = await import('child_process');
       const child = spawnSync('python', [
         pythonScript, 
         '--json', normalizedMatchPath, 
         '--player', playerTag, 
-        '--target-kd', targetKd.toString()
+        '--target-kd', targetKd.toString(),
+        '--agent', agentName,
+        '--map', mapDetected,
+        '--rounds', totalRounds.toString(),
+        '--team', teamId
       ], { 
         encoding: 'utf8',
         env: { ...process.env, PYTHONIOENCODING: 'utf-8' },

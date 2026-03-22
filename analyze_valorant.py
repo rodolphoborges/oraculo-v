@@ -25,33 +25,34 @@ if hasattr(sys.stdout, 'reconfigure'):
     except:
         pass
 
-def analyze_match(json_data, target_player, target_kd=1.0):
+def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None):
     data = json.loads(json_data)
     match_metadata = data['data']['metadata']
-    map_name = match_metadata['mapName']
-    total_rounds = match_metadata['rounds']
+    
+    # Use provided metadata or fallback to extraction
+    curr_map = map_name or match_metadata['mapName']
+    curr_rounds = total_rounds or match_metadata['rounds']
     map_details = match_metadata.get('mapDetails', {})
     
     segments = data['data']['segments']
-    player_summary = next((s for s in segments if s['type'] == 'player-summary' and s['attributes']['platformUserIdentifier'].upper() == target_player.upper()), None)
+    player_target_upper = target_player.upper()
+    player_summary = next((s for s in segments if s['type'] == 'player-summary' and s['attributes']['platformUserIdentifier'].upper() == player_target_upper), None)
     
     if not player_summary:
         return {"error": "Jogador não encontrado no resumo da partida."}
 
-    agent_name = player_summary['metadata']['agentName']
+    curr_agent = agent_name or player_summary['metadata']['agentName']
     stats = player_summary['stats']
-    acs = stats['score']['value'] / total_rounds
-    adr = stats['damage']['value'] / total_rounds
+    acs = stats['score']['value'] / curr_rounds
+    adr = stats['damage']['value'] / curr_rounds
     actual_kd = stats['kills']['value'] / max(1, stats['deaths']['value'])
     
-    player_target_upper = target_player.upper()
     player_round_segs = [s for s in segments if s['type'] == 'player-round' and s['attributes']['platformUserIdentifier'].upper() == player_target_upper]
     all_kill_segs = [s for s in segments if s['type'] == 'player-round-kills']
     round_summaries = {s['attributes']['round']: s['metadata'] for s in segments if s['type'] == 'round-summary'}
 
     player_agents = {}
-    player_meta = player_summary.get('metadata', {})
-    player_team = player_meta.get('teamId', 'Unknown')
+    player_team = team_id or player_summary.get('metadata', {}).get('teamId', 'Unknown')
     for seg in segments:
         if seg['type'] in ['player-summary', 'player-round']:
             pid = seg['attributes']['platformUserIdentifier']
@@ -60,7 +61,7 @@ def analyze_match(json_data, target_player, target_kd=1.0):
 
     # Cálculo de First Bloods (FB)
     first_kills_count = 0
-    for r_num in range(1, total_rounds + 1):
+    for r_num in range(1, curr_rounds + 1):
         round_kills = sorted(
             [k for k in all_kill_segs if k['attributes']['round'] == r_num],
             key=lambda x: x['metadata'].get('roundTime', 0)
@@ -217,10 +218,45 @@ if __name__ == "__main__":
     parser.add_argument("--json", required=True)
     parser.add_argument("--player", required=True)
     parser.add_argument("--target-kd", type=float, default=1.0)
+    parser.add_argument("--agent", help="Agent name (optional)")
+    parser.add_argument("--map", help="Map name (optional)")
+    parser.add_argument("--rounds", type=int, help="Total rounds (optional)")
+    parser.add_argument("--team", help="Team ID (optional)")
     args = parser.parse_args()
+    
     try:
         with open(args.json, 'r', encoding='utf-8') as f:
             content = f.read()
-        print(json.dumps(analyze_match(content, args.player, args.target_kd), indent=2, ensure_ascii=False))
+        
+        # O motor agora processa os dados, preferindo metadados injetados pelo orquestrador
+        data = json.loads(content)
+        match_metadata = data['data']['metadata']
+        
+        # Fallbacks caso o orquestrador não envie (CLI manual)
+        agent_name = args.agent
+        map_name = args.map or match_metadata['mapName']
+        total_rounds = args.rounds or match_metadata['rounds']
+        
+        # Se o agent não foi passado, buscamos no JSON
+        if not agent_name:
+            segments = data['data']['segments']
+            player_summary = next((s for s in segments if s['type'] == 'player-summary' and s['attributes']['platformUserIdentifier'].upper() == args.player.upper()), None)
+            if player_summary:
+                agent_name = player_summary['metadata']['agentName']
+        
+        if not agent_name:
+            print(json.dumps({"error": "Agente não identificado."}))
+            sys.exit(0)
+
+        result = analyze_match(
+            content, 
+            args.player, 
+            args.target_kd, 
+            agent_name=agent_name, 
+            map_name=map_name, 
+            total_rounds=total_rounds,
+            team_id=args.team
+        )
+        print(json.dumps(result, indent=2, ensure_ascii=False))
     except Exception as e:
         print(json.dumps({"error": str(e)}))

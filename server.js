@@ -22,6 +22,13 @@ app.post('/api/queue', async (req, res) => {
     return res.status(400).json({ error: 'Player Tag e Match ID são obrigatórios.' });
   }
 
+  // Validação de formato (Segurança e Integridade)
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(matchId);
+  const isTag = /^.+#.{2,5}$/i.test(player) || player === 'AUTO';
+
+  if (!isUuid) return res.status(400).json({ error: 'Formato de Match ID inválido (deve ser UUID).' });
+  if (!isTag) return res.status(400).json({ error: 'Formato de Player Tag inválido (deve ser Nick#Tag ou AUTO).' });
+
   try {
     console.log(`[API] Requisição de análise: ${player} - ${matchId}`);
     
