@@ -140,7 +140,7 @@ async function processQueue() {
         console.error("❌ Erro no JOB:", err.message);
         const { error: failError } = await supabase.from('match_analysis_queue').update({ 
             status: 'failed',
-            error_msg: err.message
+            error_message: err.message
         }).eq('id', job.id);
         if (failError) console.error("❌ Erro GRAVE ao marcar failed no Supabase:", failError.message);
         return true; // Continua a fila mesmo se um job falhar

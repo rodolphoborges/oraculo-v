@@ -119,7 +119,7 @@ app.get('/api/status/:matchId', async (req, res) => {
 
     res.json({ 
       status: job.status, 
-      error: job.error_msg,
+      error: job.error_message,
       processed_at: job.processed_at 
     });
   } catch (err) {
