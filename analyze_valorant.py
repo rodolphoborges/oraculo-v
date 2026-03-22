@@ -217,9 +217,9 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         
         kd_t = holt_next.get("kd_t", 0)
         adr_t = holt_next.get("adr_t", 0)
-        if kd_T > 0 and adr_T < 0:
+        if kd_t > 0 and adr_t < 0:
             conselhos.append("DESBALANCEAMENTO TÁTICO: Seu K/D está subindo mas o ADR está caindo. Cuidado: você está garantindo abates sem gerar pressão real no mapa (Kills de baixo impacto/Exit frags).")
-        elif kd_T < 0 and adr_T > 0:
+        elif kd_t < 0 and adr_t > 0:
             conselhos.append("INICIATIVA ALTA, BAIXA SOBREVIVÊNCIA: ADR em alta com K/D em queda. Você está causando muito dano mas morrendo sem garantir o frag. Melhore sua finalização e posicionamento pós-troca.")
 
     # Static Fallbacks (Artigos Constitucionais)
