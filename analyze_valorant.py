@@ -25,7 +25,7 @@ if hasattr(sys.stdout, 'reconfigure'):
     except:
         pass
 
-def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None):
+def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None, holt_prev={}):
     data = json.loads(json_data)
     match_metadata = data['data']['metadata']
     
@@ -71,13 +71,13 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             if first_kill['attributes']['platformUserIdentifier'].upper() == player_target_upper:
                 first_kills_count += 1
 
-    # Templates de Mensagem Principal (Abrasileirado & Valorant Style)
+    # Templates de Mensagem Principal
     POS_TEMPLATES = [
         "Mandou {victim_agent} de arrasta com {weapon} aos {time}.",
         "Amassou no domínio de espaço com {weapon} contra {victim_agent}.",
         "Abriu o round deitando {victim_agent} aos {time}.",
         "Aula de mira com {weapon} pra cima de {victim_agent}.",
-        "Segurou o rush inimigo aos {time} com {weapon}."
+        "Segurou o rush inimigo aos {time} with {weapon}."
     ]
     
     NEG_TEMPLATES = [
@@ -156,79 +156,86 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             neg_label = neg_label or "PINOU FEIO"
             narrative_events.append({"time": "OUT", "type": "neg", "text": f"Morreu seco sem causar impacto ({int(dmg)} dmg)", "ms": 999999})
 
-        # Ordenação final dos fatos
         narrative_events.sort(key=lambda x: x['ms'])
-
-        # Adiciona alias para compatibilidade com frontends antigos ou específicos (Protocolo V)
         for i in range(len(narrative_events)):
             narrative_events[i]["texto"] = narrative_events[i]["text"]
             narrative_events[i]["tipo"] = narrative_events[i]["type"]
 
-        # Calcula métricas para o Protocolo V
         round_kills_count = sum(1 for e in tactical_events if e["is_player_killer"])
         round_died = any(e["is_player_victim"] for e in tactical_events)
-        
-        # Define o comentário (comment) que o Protocolo V espera
         round_comment = pos_label or neg_label or "Sem eventos críticos registrados."
         round_impacto = "Positivo" if pos_label else ("Negativo" if neg_label else "Neutro")
 
         rounds_analysis.append({
-            "round": r_num,
-            "pos": pos_label,
-            "neg": neg_label,
-            "comment": round_comment, # Requisito do Protocolo V
-            "impacto": round_impacto, # Requisito do Protocolo V
-            "kills": round_kills_count, # Requisito do Protocolo V
-            "died": round_died,
-            "narrative": narrative_events,
-            "eventos": narrative_events, # Alias para o Protocolo V
-            "tactical_events": tactical_events
+            "round": r_num, "comment": round_comment, "impacto": round_impacto, "kills": round_kills_count, 
+            "died": round_died, "narrative": narrative_events, "eventos": narrative_events, "tactical_events": tactical_events
         })
 
-    # --- DIRETRIZES TÁTICAS K.A.I.O. (Alinhamento Constitucional & Elucidativo) ---
-    conselhos = []
-    
-    # 1. Artigo 1: O Dano é Absoluto (ADR)
-    if adr < 125:
-        conselhos.append("VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V e na vStats, o DANO é a métrica absoluta de impacto. Sua presença no mapa não está gerando pressão real. Priorize trocas agressivas e trade-kills imediatos; se você não está causando dano, você está apenas assistindo o time perder.")
-    elif adr > 165:
-        conselhos.append("CUMPRIMENTO DO ARTIGO 1: EFICIÊNCIA LETAL IDENTIFICADA. Seu ADR está em nível de elite, garantindo que cada round seu resulte em impacto direto na economia inimiga. O Oráculo reconhece sua letalidade absoluta.")
-
-    # 2. Artigo 2: Iniciativa e Reconhecimento (First Bloods)
-    if first_kills_count >= 3:
-        conselhos.append("CUMPRIMENTO DO ARTIGO 2: EXCELÊNCIA EM INICIATIVA. Você está garantindo a vantagem numérica logo no início. Continue abrindo o mapa e criando janelas de oportunidade para o time. Domínio de espaço é o primeiro passo para a vitória.")
-    elif first_kills_count == 0 and adr < 130:
-        conselhos.append("VIOLAÇÃO DO ARTIGO 2: POSTURA PASSIVA/HESITANTE. Zero First Bloods aliados a baixo dano indicam que você está jogando com 'medinho'. O Protocolo V exige predação. Se você não abrir o caminho ou trocar o primeiro frag, o reset operacional será inevitável.")
-
-    # 3. Artigo 3: Sinergia e Trocas (Trade Kills / Radio Limpo / Sinergia)
-    deaths = stats['deaths']['value']
-    if deaths > total_rounds * 0.85 and actual_kd < 0.85:
-        conselhos.append("VIOLAÇÃO DO ARTIGO 3: COLAPSO DE SINERGIA. Muitas mortes sem trade (troca) sugerem que você está jogando isolado ou sem comunicação. No Protocolo V, jogar sozinho é um erro tático grave. Cole em um aliado, use o rádio e não deixe sua morte ser em vão.")
-    elif actual_kd > 1.6 and adr < 135:
-        conselhos.append("ALERTA DE DESVIO: SÍNDROME DE KDA. Seu K/D está alto, mas o ADR está baixo — isso cheira a 'Exit Frags' (matar quando o round já acabou). Honre os artigos: saia da zona de conforto, vá pro combate real e cause dano quando ele realmente importa.")
-
-    # 4. Fallback Geral (Estado de Reset)
-    if not conselhos:
-        conselhos.append("FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. Você manteve a disciplina e cumpriu sua função básica. O Oráculo segue monitorando sua evolução técnica. Mantenha a constância.")
-
-    # Seleciona o conselho mais prioritário (ou o primeiro)
-    conselho_final = conselhos[0]
-
-    # Cálculo de Performance Ponderado (vStats Style: Impacto > KDA)
-    # Peso: 40% K/D vs Meta, 60% ADR vs Baseline (135)
+    # --- Cálculo de Performance Ponderado ---
     kd_perf = (actual_kd / target_kd) if target_kd > 0 else 1.0
-    adr_perf = (adr / 135.0) # Baseline médio de impacto
+    adr_perf = (adr / 135.0)
     perf_idx = (kd_perf * 0.4 + adr_perf * 0.6) * 100
     
+    # --- HOLT'S DOUBLE EXPONENTIAL SMOOTHING ---
+    α = 0.4 # Level smoothing
+    β = 0.2 # Trend smoothing
+    
+    holt_next = {}
+    metrics = {
+        "performance": perf_idx,
+        "kd": actual_kd,
+        "adr": adr
+    }
+    
+    for m, y_t in metrics.items():
+        L_prev = holt_prev.get(f"{m}_L")
+        T_prev = holt_prev.get(f"{m}_T")
+        
+        if L_prev is not None and T_prev is not None:
+            # Holt formulas
+            L_t = α * y_t + (1 - α) * (L_prev + T_prev)
+            T_t = β * (L_t - L_prev) + (1 - β) * T_prev
+            forecast = L_t + T_t
+            holt_next[f"{m}_L"] = round(L_t, 4)
+            holt_next[f"{m}_T"] = round(T_t, 4)
+            holt_next[f"{m}_forecast"] = round(forecast, 4)
+        else:
+            # Não inicializado aqui (o worker faz a média das 3 primeiras fora)
+            holt_next[f"{m}_L"] = None
+            holt_next[f"{m}_T"] = None
+
+    # --- DIRETRIZES TÁTICAS K.A.I.O. (Upgrade Trend-Aware) ---
+    conselhos = []
+    
+    # Check trends if available
+    perf_T = holt_next.get("performance_T")
+    if perf_T is not None:
+        if perf_T > 0.5:
+            conselhos.append(f"EVOLUÇÃO DETECTADA: Tendência de melhora robusta (+{perf_T:.1f}% por partida). O Oráculo prevê performance superior no próximo combate ({holt_next['performance_forecast']:.1f}%). Mantenha o ritmo.")
+        elif perf_T < -0.5:
+            conselhos.append(f"ALERTA DE QUEDA: Tendência de performance negativa identificada ({perf_T:.1f}%). Seu nível técnico está oscilando para baixo. Reavalie sua postura tática antes da próxima partida.")
+        
+        kd_T = holt_next.get("kd_T", 0)
+        adr_T = holt_next.get("adr_T", 0)
+        if kd_T > 0 and adr_T < 0:
+            conselhos.append("DESBALANCEAMENTO TÁTICO: Seu K/D está subindo mas o ADR está caindo. Cuidado: você está garantindo abates sem gerar pressão real no mapa (Kills de baixo impacto/Exit frags).")
+        elif kd_T < 0 and adr_T > 0:
+            conselhos.append("INICIATIVA ALTA, BAIXA SOBREVIVÊNCIA: ADR em alta com K/D em queda. Você está causando muito dano mas morrendo sem garantir o frag. Melhore sua finalização e posicionamento pós-troca.")
+
+    # Static Fallbacks (Artigos Constitucionais)
+    if adr < 125:
+        conselhos.append("VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V, o DANO é a métrica absoluta. Sua presença no mapa não gera pressão real.")
+    if first_kills_count >= 3:
+        conselhos.append("CUMPRIMENTO DO ARTIGO 2: EXCELÊNCIA EM INICIATIVA. Você está garantindo a vantagem numérica inicial.")
+    
+    if not conselhos:
+        conselhos.append("FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. O Oráculo segue monitorando sua evolução técnica.")
+
     return {
         "player": target_player, "agent": agent_name, "map": map_name, "map_details": map_details,
-        "acs": acs, "adr": adr, "kd": actual_kd, "meta_kd": target_kd,
-        "first_bloods": first_kills_count,
-        "conselho_kaio": conselho_final,
-        "performance_index": float(round(perf_idx, 1)),
-        "performance_status": "ABOVE_BASELINE" if actual_kd >= target_kd else "BELOW_BASELINE",
-        "total_rounds": total_rounds,
-        "rounds": rounds_analysis
+        "acs": acs, "adr": adr, "kd": actual_kd, "performance_index": float(round(perf_idx, 1)),
+        "holt": holt_next, "conselho_kaio": conselhos[0], "all_conselhos": conselhos,
+        "total_rounds": total_rounds, "rounds": rounds_analysis
     }
 
 if __name__ == "__main__":
@@ -236,45 +243,33 @@ if __name__ == "__main__":
     parser.add_argument("--json", required=True)
     parser.add_argument("--player", required=True)
     parser.add_argument("--target-kd", type=float, default=1.0)
-    parser.add_argument("--agent", help="Agent name (optional)")
-    parser.add_argument("--map", help="Map name (optional)")
-    parser.add_argument("--rounds", type=int, help="Total rounds (optional)")
-    parser.add_argument("--team", help="Team ID (optional)")
+    parser.add_argument("--agent")
+    parser.add_argument("--map")
+    parser.add_argument("--rounds", type=int)
+    parser.add_argument("--team")
+    # Holt parameters
+    parser.add_argument("--p-l", type=float, help="Prev Perf Level")
+    parser.add_argument("--p-t", type=float, help="Prev Perf Trend")
+    parser.add_argument("--k-l", type=float, help="Prev KD Level")
+    parser.add_argument("--k-t", type=float, help="Prev KD Trend")
+    parser.add_argument("--a-l", type=float, help="Prev ADR Level")
+    parser.add_argument("--a-t", type=float, help="Prev ADR Trend")
     args = parser.parse_args()
     
     try:
         with open(args.json, 'r', encoding='utf-8') as f:
             content = f.read()
+            
+        holt_prev = {
+            "performance_L": args.p_l, "performance_T": args.p_t,
+            "kd_L": args.k_l, "kd_T": args.k_t,
+            "adr_L": args.a_l, "adr_T": args.a_t
+        }
         
-        # O motor agora processa os dados, preferindo metadados injetados pelo orquestrador
-        data = json.loads(content)
-        match_metadata = data['data']['metadata']
-        
-        # Fallbacks caso o orquestrador não envie (CLI manual)
-        agent_name = args.agent
-        map_name = args.map or match_metadata['mapName']
-        total_rounds = args.rounds or match_metadata['rounds']
-        
-        # Se o agent não foi passado, buscamos no JSON
-        if not agent_name:
-            segments = data['data']['segments']
-            player_summary = next((s for s in segments if s['type'] == 'player-summary' and s['attributes']['platformUserIdentifier'].upper() == args.player.upper()), None)
-            if player_summary:
-                agent_name = player_summary['metadata']['agentName']
-        
-        if not agent_name:
-            print(json.dumps({"error": "Agente não identificado."}))
-            sys.exit(0)
+        # Remove keys with None values
+        holt_prev = {k: v for k, v in holt_prev.items() if v is not None}
 
-        result = analyze_match(
-            content, 
-            args.player, 
-            args.target_kd, 
-            agent_name=agent_name, 
-            map_name=map_name, 
-            total_rounds=total_rounds,
-            team_id=args.team
-        )
+        result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev)
         print(json.dumps(result, indent=2, ensure_ascii=False))
     except Exception as e:
         print(json.dumps({"error": str(e)}))

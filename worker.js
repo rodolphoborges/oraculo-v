@@ -22,6 +22,51 @@ import fs from 'fs';
  * Ideal para rodar como GitHub Action cron ou serviço persistente.
  */
 
+async function getPlayerHoltState(agenteTag) {
+    const { data: player } = await supabaseProtocol
+        .from('players')
+        .select('performance_L, performance_T, kd_L, kd_T, adr_L, adr_T')
+        .eq('riot_id', agenteTag)
+        .single();
+    
+    if (player && player.performance_L !== null) {
+        return player;
+    }
+
+    // Inicialização: Média das 3 primeiras partidas
+    const { data: matches } = await supabase
+        .from('match_analysis_queue')
+        .select('metadata->perf, metadata->analysis->kd, metadata->analysis->adr')
+        .eq('agente_tag', agenteTag)
+        .eq('status', 'completed')
+        .order('created_at', { ascending: true })
+        .limit(3);
+
+    if (matches && matches.length === 3) {
+        console.log(`🧠 [WORKER] Inicializando Holt para ${agenteTag} com base em 3 partidas.`);
+        const L0_perf = matches.reduce((acc, m) => acc + m.perf, 0) / 3;
+        const L0_kd = matches.reduce((acc, m) => acc + m.kd, 0) / 3;
+        const L0_adr = matches.reduce((acc, m) => acc + m.adr, 0) / 3;
+
+        // T0 = média das diferenças
+        const T0_perf = ((matches[1].perf - matches[0].perf) + (matches[2].perf - matches[1].perf)) / 2;
+        const T0_kd = ((matches[1].kd - matches[0].kd) + (matches[2].kd - matches[1].kd)) / 2;
+        const T0_adr = ((matches[1].adr - matches[0].adr) + (matches[2].adr - matches[1].adr)) / 2;
+
+        const initialState = {
+            performance_L: L0_perf, performance_T: T0_perf,
+            kd_L: L0_kd, kd_T: T0_kd,
+            adr_L: L0_adr, adr_T: T0_adr
+        };
+
+        // Salvar No Protocolo (Persistência)
+        await supabaseProtocol.from('players').update(initialState).eq('riot_id', agenteTag);
+        return initialState;
+    }
+
+    return null;
+}
+
 async function processQueue() {
     console.log("♻️ [WORKER] Verificando fila de processamento...");
 
@@ -35,7 +80,6 @@ async function processQueue() {
         .single();
 
     if (error || !job) {
-        // console.log("📭 Fila vazia.");
         return false;
     }
 
@@ -49,7 +93,6 @@ async function processQueue() {
         }).eq('id', job.id);
         if (procError) throw new Error(`Erro ao marcar como processing: ${procError.message}`);
 
-        // Novo comportamento: O Worker é PURO. Não faz expansão AUTO.
         if (job.agente_tag === 'AUTO') {
             console.log(`⚠️ [WORKER] Modo AUTO detectado, mas desativado no Worker.`);
             await supabase.from('match_analysis_queue').update({ 
@@ -59,47 +102,27 @@ async function processQueue() {
             return true;
         }
 
-        // 3. Executar o sistema de análise
-        // Usamos spawnSync para evitar injeção de comandos via shell
+        // 3. Buscar Estado Holt Anterior
+        const holtPrev = await getPlayerHoltState(job.agente_tag);
+
+        // 4. Executar o sistema de análise
         const { spawnSync } = await import('child_process');
         console.log(`🚀 Iniciando análise: node analyze_match.js "${job.agente_tag}" "${job.match_id}"`);
-        const child = spawnSync('node', ['analyze_match.js', job.agente_tag, job.match_id], { 
-            encoding: 'utf-8',
-            env: { ...process.env, DOTENV_QUIET: 'true' },
-            timeout: 10 * 60 * 1000 // 10 minutos de timeout
-        });
         
-        if (child.error) throw child.error;
-        const output = child.stdout;
+        const runArgs = ['analyze_match.js', job.agente_tag, job.match_id];
+        // Note: analyze_match.js runAnalysis doesn't take Holt state via CLI args easily unless we update its CLI handler
+        // But we already updated analyze_match.js runAnalysis function. 
+        // Let's call it direct if possible or update analyze_match.js CLI.
         
-        // Localizar o objeto JSON completo (do primeiro { ao último })
-        const firstBrace = output.indexOf('{');
-        const lastBrace = output.lastIndexOf('}');
-        
-        if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
-            // Se não houver JSON, o erro provavelmente está no terminal ou no motor Python
-            const stderrMsg = child.stderr ? child.stderr.trim() : "";
-            
-            // Pega as últimas 3 linhas do stdout caso não tenha JSON, para dar contexto
-            const stdoutLines = output.trim().split('\n');
-            const stdoutContext = stdoutLines.slice(-3).join(' | ');
-            
-            const errorMsg = stderrMsg || stdoutContext || "Erro desconhecido na análise (Sem saída JSON)";
-            throw new Error(`O analisador falhou: ${errorMsg}`);
-        }
-        
-        let result;
-        try {
-            const jsonText = output.substring(firstBrace, lastBrace + 1);
-            result = JSON.parse(jsonText);
-        } catch (e) {
-            throw new Error("Falha ao processar o JSON de resultado do analisador (JSON malformado).");
-        }
+        // Actually, let's keep it simple: Call the function directly if we can, 
+        // or just pass JSON string in env/args. 
+        // Since we are in worker.js, we can import runAnalysis!
+        const { runAnalysis } = await import('./analyze_match.js');
+        const result = await runAnalysis(job.agente_tag, job.match_id, 'ALL', 'ALL', holtPrev || {});
 
         if (result.error) throw new Error(result.error);
 
-        // 4. Salvar resultado e marcar como completo
-        // No futuro, poderíamos gerar uma imagem aqui ou um link para o site
+        // 5. Salvar resultado e marcar como completo
         const { error: completeError } = await supabase.from('match_analysis_queue').update({ 
             status: 'completed',
             metadata: { 
@@ -107,24 +130,37 @@ async function processQueue() {
                 agent: result.agent, 
                 map: result.map,
                 perf: result.performance_index,
-                analysis: result // Salva o JSON do relatório completo aqui, conforme requisitado pelo frontend
+                holt: result.holt,
+                analysis: result 
             }
         }).eq('id', job.id);
 
-        if (completeError) {
-            throw new Error(`Erro ao salvar no Supabase (completed): ${completeError.message}`);
+        if (completeError) throw new Error(`Erro ao salvar no Supabase (completed): ${completeError.message}`);
+
+        // 6. Atualizar Estado Holt no Jogador (se disponível)
+        if (result.holt && result.holt.performance_L !== null) {
+            console.log(`📈 [WORKER] Atualizando tendência para ${job.agente_tag}`);
+            await supabaseProtocol.from('players').update({
+                performance_L: result.holt.performance_L,
+                performance_T: result.holt.performance_T,
+                kd_L: result.holt.kd_L,
+                kd_T: result.holt.kd_T,
+                adr_L: result.holt.adr_L,
+                adr_T: result.holt.adr_T
+            }).eq('riot_id', job.agente_tag);
         }
 
         console.log("✅ Análise concluída com sucesso.");
 
-        // 5. Notificar via Telegram (Opcional, mas recomendado)
+        // 7. Notificar via Telegram
         if (job.chat_id) {
-            // Aqui poderíamos chamar uma API do Bot ou usar o token do Bot diretamente
             console.log(`📢 Notificando chat_id: ${job.chat_id}`);
-            // Exemplo simplificado de chamada via Fetch (Bot API)
             const botToken = process.env.TELEGRAM_BOT_TOKEN;
             if (botToken) {
-                const message = `📡 *[ORÁCULO V: ANÁLISE PRONTA]*\n\nPartida: \`${job.match_id}\`\nAgente: *${result.agent}*\nPerformance: *${result.performance_index}%*\n\nVisualize no terminal: [Abrir](https://protocolov.com/analise/${job.match_id})`;
+                const trendIcon = result.holt?.performance_T > 0 ? '📈' : '📉';
+                const trendMsg = result.holt?.performance_T ? `\nTendência: ${trendIcon} ${result.holt.performance_T > 0 ? '+' : ''}${result.holt.performance_T.toFixed(1)}%` : '';
+                
+                const message = `📡 *[ORÁCULO V: ANÁLISE PRONTA]*\n\nPartida: \`${job.match_id}\`\nAgente: *${result.agent}*\nPerformance: *${result.performance_index}%*${trendMsg}\n\nVisualize no terminal: [Abrir](https://protocolov.com/analise/${job.match_id})`;
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -139,14 +175,13 @@ async function processQueue() {
 
     } catch (err) {
         console.error("❌ Erro no JOB:", err.message);
-        const { error: failError } = await supabase.from('match_analysis_queue').update({ 
+        await supabase.from('match_analysis_queue').update({ 
             status: 'failed',
             error_message: err.message
         }).eq('id', job.id);
-        if (failError) console.error("❌ Erro GRAVE ao marcar failed no Supabase:", failError.message);
-        return true; // Continua a fila mesmo se um job falhar
+        return true; 
     }
-    return true; // Sucesso na análise padrão
+    return true;
 }
 
 async function startWorker() {

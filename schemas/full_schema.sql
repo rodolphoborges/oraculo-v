@@ -3,7 +3,13 @@ CREATE TABLE IF NOT EXISTS players (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   riot_id text UNIQUE NOT NULL, -- Nick#Tag
   telegram_id text,
-  created_at timestamp with time zone DEFAULT now()
+  created_at timestamp with time zone DEFAULT now(),
+  performance_L float8,
+  performance_T float8,
+  kd_L float8,
+  kd_T float8,
+  adr_L float8,
+  adr_T float8
 );
 
 -- Fila de Processamento de Partidas
