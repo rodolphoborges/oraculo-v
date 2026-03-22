@@ -20,16 +20,16 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 
 ## 🚨 Funcionalidades de Elite (v3.0)
 
-- **Radar Multi-Base**: Escaneia jogadores da base externa e cria tarefas na base local.
-- **Worker de Alta Performance**: Processamento assíncrono de partidas via Puppeteer e Python.
+- **Radar de Descoberta**: Escaneia jogadores da base externa, busca historico de partidas e cria tarefas individuais na fila para cada agente registrado.
+- **Worker Puro (Expertise Engine)**: Motor de processamento assíncrono especializado. Ele não faz "descoberta" de jogadores; apenas executa a análise técnica tática sobre tarefas específicas `{match_id, agente_tag}`.
 - **Integração Serverless**: Relatórios JSON (`metadata.analysis`) acessíveis de forma estática pelo frontend diretamente no Supabase.
 - **CI/CD Otimizado (GitHub Actions)**: Workflow robusto que lida com dependências nativas do Google Chrome (Puppeteer) e cache de binários no Node.js v22.
 - **Diagnóstico Híbrido**: Verificação em tempo real da saúde das duas conexões de banco de dados.
 
 ## 📂 Estrutura do Projeto
 
-- `discover_matches.js`: Radar que busca interseção de jogadores no vStats/Henrik API. Em caso de 429/404 da API, o erro é contornado silenciosamente.
-- `worker.js`: Processador em loop infinito autônomo da fila de análise.
+- `discover_matches.js`: Radar principal. Descobre partidas em grupo e preenche a fila de análise. É o responsável por "caminhar" pelos jogadores e consumir APIs de descoberta.
+- `worker.js`: Motor de análise puro. Monitora a fila e executa o motor Python. É cego para a descoberta; foca 100% na expertise técnica.
 - `lib/supabase.js`: Core de conexão dual-database.
 - `check_tables_v2.js`: Diagnóstico de conectividade multi-base.
 - `analyze_valorant.py`: Motor de análise tática e narrativa em Python.
@@ -37,7 +37,7 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 
 ## 🌐 Endpoints da API (`server.js`)
 O sistema emite um painel admin e 3 rotas centrais:
-1. `POST /api/queue`: (Body: `{ player: "Nick#Tag" | "AUTO", matchId: "UUID" }`) - Enfileira uma partida. O modo `AUTO` expande a partida para todos os envolvidos no Protocolo V.
+1. `POST /api/queue`: (Body: `{ player: "Nick#Tag" | "AUTO", matchId: "UUID" }`) - Enfileira uma análise técnica. O modo `AUTO` identifica e enfileira automaticamente todos os agentes do Protocolo V presentes na partida.
 2. `GET /api/status/:matchId?player=Nick#Tag`: Retorna o status atual de processamento e, se `'completed'`, anexa o JSON parcial do resultado.
 3. `GET /api/admin/stats`: Retorna as estatísticas do servidor para consumo do `admin.html`.
 

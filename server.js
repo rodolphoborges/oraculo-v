@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-import { supabase } from './lib/supabase.js';
+import { expandAutoJob } from './lib/job_expansion.js';
 
 app.post('/api/queue', async (req, res) => {
   const { player, matchId } = req.body;
@@ -23,8 +23,16 @@ app.post('/api/queue', async (req, res) => {
   }
 
   try {
-    console.log(`[API] Enfileirando análise: ${player} - ${matchId}`);
+    console.log(`[API] Requisição de análise: ${player} - ${matchId}`);
     
+    if (player === 'AUTO') {
+        const count = await expandAutoJob(matchId, null);
+        return res.status(201).json({ 
+            message: `Modo AUTO: ${count} agente(s) enfileirados.`,
+            count 
+        });
+    }
+
     // Verifica se já existe na fila para evitar duplicatas pendentes
     const { data: existing } = await supabase
       .from('match_analysis_queue')
