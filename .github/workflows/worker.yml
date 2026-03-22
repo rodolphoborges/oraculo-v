@@ -15,17 +15,21 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22' # Versão estável com fetch nativo
+          cache: 'npm'
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
+      - name: Cache Puppeteer Browser
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-puppeteer-
 
       - name: Install Node Dependencies
         run: npm install
@@ -34,6 +38,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          PROTOCOL_SUPABASE_URL: ${{ secrets.PROTOCOL_SUPABASE_URL }}
+          PROTOCOL_SUPABASE_KEY: ${{ secrets.PROTOCOL_SUPABASE_KEY }}
           HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
         run: node discover_matches.js
 
@@ -41,8 +47,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          PROTOCOL_SUPABASE_URL: ${{ secrets.PROTOCOL_SUPABASE_URL }}
+          PROTOCOL_SUPABASE_KEY: ${{ secrets.PROTOCOL_SUPABASE_KEY }}
           HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          # Caminho do puppeteer no Ubuntu do GitHub Actions costuma ser automático,
-          # mas podemos precisar de configs extras se o analyze_match falhar.
         run: node worker.js
