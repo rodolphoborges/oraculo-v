@@ -49,106 +49,14 @@ async function processQueue() {
         }).eq('id', job.id);
         if (procError) throw new Error(`Erro ao marcar como processing: ${procError.message}`);
 
-        // Novo comportamento da fila: PROCESSAMENTO EM LOTE (AUTO)
+        // Novo comportamento: O Worker é PURO. Não faz expansão AUTO.
         if (job.agente_tag === 'AUTO') {
-            console.log(`🤖 Modo AUTO: Buscando participantes da partida ${job.match_id}...`);
-            
-            // Importar a função de busca
-            const { fetchMatchJson } = await import('./lib/tracker_api.js');
-            
-            // Garantir diretório local
-            const matchesDir = './matches';
-            if (!fs.existsSync(matchesDir)) fs.mkdirSync(matchesDir);
-            
-            const matchJsonPath = path.join(matchesDir, `${job.match_id}.json`);
-            let matchData;
-            
-            if (fs.existsSync(matchJsonPath)) {
-                matchData = JSON.parse(fs.readFileSync(matchJsonPath, 'utf8'));
-            } else {
-                matchData = await fetchMatchJson(job.match_id);
-                fs.writeFileSync(matchJsonPath, JSON.stringify(matchData, null, 2));
-            }
-            
-            // Extrair tags dos jogadores da partida
-            const segments = matchData.data?.segments || [];
-            const playersInMatch = segments
-                .filter(s => s.type === 'player-summary' && s.attributes?.platformUserIdentifier)
-                .map(s => s.attributes.platformUserIdentifier);
-                
-            console.log(`Pessoas na partida:`, playersInMatch.length > 0 ? playersInMatch.join(', ') : 'Nenhum encontrado');
-
-            // Buscar todos os jogadores registrados no banco (FONTE: PROTOCOLO)
-            const { data: dbPlayers } = await supabaseProtocol.from('players').select('riot_id');
-            const registeredRiotIds = (dbPlayers || []).map(p => p.riot_id.toUpperCase());
-
-            // Filtrar quem participou desta partida e está registrado no banco
-            const targets = playersInMatch.filter(p => registeredRiotIds.includes(p.toUpperCase()));
-            
-            if (targets.length === 0) {
-                console.log("❌ Nenhum agente do Protocolo V encontrado nesta partida.");
-                await supabase.from('match_analysis_queue').update({ 
-                    status: 'failed',
-                    error_msg: "Nenhum agente registrado encontrado no JSON da partida"
-                }).eq('id', job.id);
-                
-                if (job.chat_id) {
-                    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-                    if (botToken) {
-                        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                chat_id: job.chat_id,
-                                text: `🤖 *[K.A.I.O.]*: Nenhum agente do Protocolo V foi identificado na partida \`${job.match_id}\`. Análise cancelada.`,
-                                parse_mode: 'Markdown'
-                            })
-                        });
-                    }
-                }
-                return;
-            }
-
-            console.log(`🎯 Agentes detectados nesta partida:`, targets.join(', '));
-
-            // Inserir um job pendente individual para cada player, herdando o chat_id do solicitante
-            for (const target of targets) {
-                // Tenta achar o riot_id com o casing correto do banco de dados para evitar bugs
-                const exactDbPlayer = dbPlayers.find(p => p.riot_id.toUpperCase() === target.toUpperCase());
-                const finalTag = exactDbPlayer ? exactDbPlayer.riot_id : target;
-
-                await supabase.from('match_analysis_queue').insert([{
-                    match_id: job.match_id,
-                    agente_tag: finalTag,
-                    chat_id: job.chat_id,
-                    status: 'pending',
-                    metadata: job.metadata || {}
-                }]);
-            }
-
-            // Marca o job AUTO como processado (ou deleta) para não travar a fila
-            const { error: autoError } = await supabase.from('match_analysis_queue').update({ 
-                status: 'completed',
-                metadata: { ...job.metadata, note: `Expandido para ${targets.length} agentes` }
+            console.log(`⚠️ [WORKER] Modo AUTO detectado, mas desativado no Worker.`);
+            await supabase.from('match_analysis_queue').update({ 
+                status: 'failed',
+                error_msg: "Modo AUTO deve ser expandido na origem (Radar/Bot) para manter o Worker focado em expertise."
             }).eq('id', job.id);
-            if (autoError) console.error("❌ Erro ao completar job AUTO:", autoError.message);
-            
-            if (job.chat_id) {
-                const botToken = process.env.TELEGRAM_BOT_TOKEN;
-                if (botToken) {
-                    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            chat_id: job.chat_id,
-                            text: `⚙️ *[K.A.I.O.]*: Partida decodificada. Identificados ${targets.length} agente(s). Iniciando análise individual...`,
-                            parse_mode: 'Markdown'
-                        })
-                    });
-                }
-            }
-
-            return true; // O job AUTO foi expandido. Retorna true para processar os próximos imediatamente.
+            return true;
         }
 
         // 3. Executar o sistema de análise
