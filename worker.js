@@ -1,3 +1,15 @@
+/**
+ * worker.js
+ * 
+ * The main execution engine for Oráculo V.
+ * This background worker monitors the 'match_analysis_queue' in Supabase,
+ * orchestrates the browser-based scraping of battle data, and executes
+ * the tactical analysis engine (analyze_valorant.py).
+ * 
+ * Multi-base connectivity:
+ * - Reads/Writes 'match_analysis_queue' in ORÁCULO_V project.
+ * - Reads 'players' info from PROTOCOLO_V project for group expansions.
+ */
 import { supabase, supabaseProtocol } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import path from 'path';

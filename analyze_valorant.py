@@ -1,15 +1,29 @@
+"""
+analyze_valorant.py
+
+The core tactical analysis engine for Oráculo V.
+This script processes raw match JSON data and generates a detailed tactical report
+based on Protocolo-V's "Lexicon of Impact" (ADR, FB, Sinergia, etc.).
+
+Inputs:
+- JSON file path (via command line argument)
+- Player Riot ID (via --player argument)
+- Target K/D (optional, via --target-kd argument)
+
+Outputs:
+- Structured JSON report to stdout.
+"""
 import json
 import sys
 import argparse
 import random
 
-# Garante que a saída seja sempre em UTF-8 (compatível com múltiplas versões de Python)
-try:
-    if sys.stdout.encoding.lower() != 'utf-8':
-        if hasattr(sys.stdout, 'reconfigure'):
-            sys.stdout.reconfigure(encoding='utf-8')
-except:
-    pass
+# Garante que a saída seja UTF-8
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except:
+        pass
 
 def analyze_match(json_data, target_player, target_kd=1.0):
     data = json.loads(json_data)
@@ -186,12 +200,13 @@ def analyze_match(json_data, target_player, target_kd=1.0):
     kd_perf = (actual_kd / target_kd) if target_kd > 0 else 1.0
     adr_perf = (adr / 135.0) # Baseline médio de impacto
     perf_idx = (kd_perf * 0.4 + adr_perf * 0.6) * 100
+    
     return {
         "player": target_player, "agent": agent_name, "map": map_name, "map_details": map_details,
         "acs": acs, "adr": adr, "kd": actual_kd, "meta_kd": target_kd,
         "first_bloods": first_kills_count,
         "conselho_kaio": conselho_final,
-        "performance_index": round(perf_idx, 1),
+        "performance_index": float(round(perf_idx, 1)),
         "performance_status": "ABOVE_BASELINE" if actual_kd >= target_kd else "BELOW_BASELINE",
         "total_rounds": total_rounds,
         "rounds": rounds_analysis
