@@ -3,10 +3,10 @@
 O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v3.0, ele opera como um microserviço independente que monitora jogadores dO **Protocolo-V** e gerencia sua própria fila de tarefas sob a estética "Brutalista Terminal".
 
 > [!NOTE]
-> **[AI/LLM ENTRY POINT - V3.0 UPDATED]**
+> **[AI/LLM ENTRY POINT - V3.2 UPDATED]**
 > Future AI agents should start by reviewing `lib/supabase.js` for dual-database setup, and `worker.js` which acts as a **continuous asynchronous daemon (while loop)** processing the queue.
 > 
-> **CRITICAL DB CONTEXT:** The primary queue table in Supabase (`match_analysis_queue`) specifically uses `agente_tag` (NOT `player_riot_id`) and `error_msg` (NOT `error_message`). Keep this in mind to avoid silent SQL update errors. The final JSON report output by the engine is saved into the `metadata.analysis` JSONB property.
+> **CRITICAL DB CONTEXT:** The primary queue table in Supabase (`match_analysis_queue`) uses `agente_tag` (for primary lookup) and `error_message` (with 'e'). Both `agente_tag` and `player_riot_id` are present in the schema. The final JSON report output by the engine is saved into the `metadata.analysis` JSONB property.
 > 
 > Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`.
 > Integration and regression tests should be executed via `node run_e2e_test.js`.
@@ -107,6 +107,17 @@ Para buscar manualmente novas partidas em grupo:
 ```bash
 node discover_matches.js
 ```
+
+## 🛠️ Manutenção e Diagnóstico
+
+O projeto conta com scripts utilitários para manter a saúde da fila:
+
+- `node check_queue_status.js`: Resumo visual do status da fila e últimos jobs.
+- `node verify_global_pending.js`: Consulta rápida apenas do total de pendências.
+- `node recover_queue.js`: Reseta jobs travados em `processing` (timeout > 15min).
+- `node reset_failed.js`: Move todos os jobs com `failed` de volta para `pending`.
+- `node repair_truncated_jobs.js`: Identifica e reseta análises salvas de forma incompleta.
+- `node backfill_trends.js`: Recalcula tendências Holt-Winters para todo o histórico.
 
 ---
 *(C) 2026 DEEPMIND ANTIGRAVITY // PROTOCOLO_V_OPERACAO_MAXIMA*
