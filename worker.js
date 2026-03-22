@@ -1,11 +1,8 @@
-import dotenv from 'dotenv';
-dotenv.config({ quiet: true });
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+import fetch from 'node-fetch'; // Adicionado para compatibilidade se necessário, embora Node 18+ tenha nativo
 
 /**
  * worker.js 
