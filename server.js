@@ -7,6 +7,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Core Database Connection
+import { supabase } from './lib/supabase.js';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -96,15 +99,21 @@ app.get('/api/status/:matchId', async (req, res) => {
     
     // Se estiver completo, tentamos carregar o JSON do relatório local
     if (job.status === 'completed') {
-      const reportPath = `analysis_${job.agente_tag.replace('#', '_')}.json`;
+      // 1. Tenta carregar do sistema de arquivos local (Cache Rápido)
+      const reportPath = path.join(__dirname, 'analyses', `analysis_${job.agente_tag.replace('#', '_')}.json`);
       if (fs.existsSync(reportPath)) {
         try {
           const result = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
           return res.json({ status: 'completed', result });
         } catch (pErr) {
           console.error(`[API] Erro ao ler JSON local (${reportPath}):`, pErr.message);
-          // Fallback para apenas o status do banco
         }
+      }
+
+      // 2. Fallback: Tenta usar o que foi salvo na coluna metadata.analysis do Supabase
+      if (job.metadata && job.metadata.analysis) {
+        console.log(`[API] Usando fallback de metadados do Supabase para ${job.agente_tag}`);
+        return res.json({ status: 'completed', result: job.metadata.analysis });
       }
     }
 
