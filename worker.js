@@ -54,9 +54,9 @@ async function getPlayerHoltState(agenteTag) {
         const T0_adr = ((matches[1].adr - matches[0].adr) + (matches[2].adr - matches[1].adr)) / 2;
 
         const initialState = {
-            performance_L: L0_perf, performance_T: T0_perf,
-            kd_L: L0_kd, kd_T: T0_kd,
-            adr_L: L0_adr, adr_T: T0_adr
+            performance_l: L0_perf, performance_t: T0_perf,
+            kd_l: L0_kd, kd_t: T0_kd,
+            adr_l: L0_adr, adr_t: T0_adr
         };
 
         // Salvar No Protocolo (Persistência)
@@ -138,15 +138,15 @@ async function processQueue() {
         if (completeError) throw new Error(`Erro ao salvar no Supabase (completed): ${completeError.message}`);
 
         // 6. Atualizar Estado Holt no Jogador (se disponível)
-        if (result.holt && result.holt.performance_L !== null) {
+        if (result.holt && result.holt.performance_l !== null) {
             console.log(`📈 [WORKER] Atualizando tendência para ${job.agente_tag}`);
             await supabaseProtocol.from('players').update({
-                performance_l: result.holt.performance_L,
-                performance_t: result.holt.performance_T,
-                kd_l: result.holt.kd_L,
-                kd_t: result.holt.kd_T,
-                adr_l: result.holt.adr_L,
-                adr_t: result.holt.adr_T
+                performance_l: result.holt.performance_l,
+                performance_t: result.holt.performance_t,
+                kd_l: result.holt.kd_l,
+                kd_t: result.holt.kd_t,
+                adr_l: result.holt.adr_l,
+                adr_t: result.holt.adr_t
             }).eq('riot_id', job.agente_tag);
         }
 
