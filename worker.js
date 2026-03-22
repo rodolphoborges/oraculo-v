@@ -43,10 +43,11 @@ async function processQueue() {
 
     try {
         // 2. Marcar como 'processing'
-        await supabase.from('match_analysis_queue').update({ 
+        const { error: procError } = await supabase.from('match_analysis_queue').update({ 
             status: 'processing',
             processed_at: new Date().toISOString()
         }).eq('id', job.id);
+        if (procError) throw new Error(`Erro ao marcar como processing: ${procError.message}`);
 
         // Novo comportamento da fila: PROCESSAMENTO EM LOTE (AUTO)
         if (job.agente_tag === 'AUTO') {
@@ -88,7 +89,7 @@ async function processQueue() {
                 console.log("❌ Nenhum agente do Protocolo V encontrado nesta partida.");
                 await supabase.from('match_analysis_queue').update({ 
                     status: 'failed',
-                    error_message: "Nenhum agente registrado encontrado no JSON da partida"
+                    error_msg: "Nenhum agente registrado encontrado no JSON da partida"
                 }).eq('id', job.id);
                 
                 if (job.chat_id) {
@@ -126,10 +127,11 @@ async function processQueue() {
             }
 
             // Marca o job AUTO como processado (ou deleta) para não travar a fila
-            await supabase.from('match_analysis_queue').update({ 
+            const { error: autoError } = await supabase.from('match_analysis_queue').update({ 
                 status: 'completed',
                 metadata: { ...job.metadata, note: `Expandido para ${targets.length} agentes` }
             }).eq('id', job.id);
+            if (autoError) console.error("❌ Erro ao completar job AUTO:", autoError.message);
             
             if (job.chat_id) {
                 const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -185,15 +187,20 @@ async function processQueue() {
 
         // 4. Salvar resultado e marcar como completo
         // No futuro, poderíamos gerar uma imagem aqui ou um link para o site
-        await supabase.from('match_analysis_queue').update({ 
+        const { error: completeError } = await supabase.from('match_analysis_queue').update({ 
             status: 'completed',
             metadata: { 
                 ...job.metadata, 
                 agent: result.agent, 
                 map: result.map,
-                perf: result.performance_index
+                perf: result.performance_index,
+                analysis: result // Salva o JSON do relatório completo aqui, conforme requisitado pelo frontend
             }
         }).eq('id', job.id);
+
+        if (completeError) {
+            throw new Error(`Erro ao salvar no Supabase (completed): ${completeError.message}`);
+        }
 
         console.log("✅ Análise concluída com sucesso.");
 
@@ -219,10 +226,11 @@ async function processQueue() {
 
     } catch (err) {
         console.error("❌ Erro no JOB:", err.message);
-        await supabase.from('match_analysis_queue').update({ 
+        const { error: failError } = await supabase.from('match_analysis_queue').update({ 
             status: 'failed',
-            error_message: err.message
+            error_msg: err.message
         }).eq('id', job.id);
+        if (failError) console.error("❌ Erro GRAVE ao marcar failed no Supabase:", failError.message);
         return true; // Continua a fila mesmo se um job falhar
     }
     return true; // Sucesso na análise padrão
