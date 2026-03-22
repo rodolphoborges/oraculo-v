@@ -1,6 +1,6 @@
 # Guia de Testes // Operação Oráculo V
 
-Siga este protocolo para validar todas as funcionalidades do sistema v2.0.
+Siga este protocolo para validar todas as funcionalidades do sistema v3.2.
 
 ## 1. Subir o Servidor (Dashboard & API)
 Abra um terminal e execute:
