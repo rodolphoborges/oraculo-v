@@ -75,10 +75,14 @@ async function processQueue() {
         // Filtrar a saída para pegar apenas o ÚLTIMO bloco JSON (o resultado real)
         const jsonBlocks = output.match(/\{[\s\S]*?\}/g);
         if (!jsonBlocks) {
-            // Se não houver JSON, o erro provavelmente está no terminal
+            // Se não houver JSON, o erro provavelmente está no terminal ou no motor Python
             const stderrMsg = child.stderr ? child.stderr.trim() : "";
-            const stdoutMsg = output ? output.trim().split('\n').pop() : "";
-            const errorMsg = stderrMsg || stdoutMsg || "Erro desconhecido na análise";
+            
+            // Pega as últimas 3 linhas do stdout caso não tenha JSON, para dar contexto
+            const stdoutLines = output.trim().split('\n');
+            const stdoutContext = stdoutLines.slice(-3).join(' | ');
+            
+            const errorMsg = stderrMsg || stdoutContext || "Erro desconhecido na análise (Sem saída JSON)";
             throw new Error(`O analisador falhou: ${errorMsg}`);
         }
         
