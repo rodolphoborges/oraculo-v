@@ -164,10 +164,22 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             narrative_events[i]["texto"] = narrative_events[i]["text"]
             narrative_events[i]["tipo"] = narrative_events[i]["type"]
 
+        # Calcula métricas para o Protocolo V
+        round_kills_count = sum(1 for e in tactical_events if e["is_player_killer"])
+        round_died = any(e["is_player_victim"] for e in tactical_events)
+        
+        # Define o comentário (comment) que o Protocolo V espera
+        round_comment = pos_label or neg_label or "Sem eventos críticos registrados."
+        round_impacto = "Positivo" if pos_label else ("Negativo" if neg_label else "Neutro")
+
         rounds_analysis.append({
             "round": r_num,
             "pos": pos_label,
             "neg": neg_label,
+            "comment": round_comment, # Requisito do Protocolo V
+            "impacto": round_impacto, # Requisito do Protocolo V
+            "kills": round_kills_count, # Requisito do Protocolo V
+            "died": round_died,
             "narrative": narrative_events,
             "eventos": narrative_events, # Alias para o Protocolo V
             "tactical_events": tactical_events
