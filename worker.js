@@ -25,11 +25,11 @@ import fs from 'fs';
 async function getPlayerHoltState(agenteTag) {
     const { data: player } = await supabaseProtocol
         .from('players')
-        .select('performance_L, performance_T, kd_L, kd_T, adr_L, adr_T')
+        .select('performance_l, performance_t, kd_l, kd_t, adr_l, adr_t')
         .eq('riot_id', agenteTag)
         .single();
     
-    if (player && player.performance_L !== null) {
+    if (player && player.performance_l !== null) {
         return player;
     }
 
@@ -141,12 +141,12 @@ async function processQueue() {
         if (result.holt && result.holt.performance_L !== null) {
             console.log(`📈 [WORKER] Atualizando tendência para ${job.agente_tag}`);
             await supabaseProtocol.from('players').update({
-                performance_L: result.holt.performance_L,
-                performance_T: result.holt.performance_T,
-                kd_L: result.holt.kd_L,
-                kd_T: result.holt.kd_T,
-                adr_L: result.holt.adr_L,
-                adr_T: result.holt.adr_T
+                performance_l: result.holt.performance_L,
+                performance_t: result.holt.performance_T,
+                kd_l: result.holt.kd_L,
+                kd_t: result.holt.kd_T,
+                adr_l: result.holt.adr_L,
+                adr_t: result.holt.adr_T
             }).eq('riot_id', job.agente_tag);
         }
 

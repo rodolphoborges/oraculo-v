@@ -14,7 +14,7 @@ async function verifyHoltSystem() {
         console.log("\n1. Verificando colunas no Supabase (Protocolo-V)...");
         const { data: cols, error: colError } = await supabaseProtocol
             .from('players')
-            .select('performance_L, performance_T, kd_L, kd_T, adr_L, adr_T')
+            .select('performance_l, performance_t, kd_l, kd_t, adr_l, adr_t')
             .limit(1);
         
         if (colError) {
