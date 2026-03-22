@@ -95,12 +95,12 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
       ];
 
       // Add Holt parameters if present
-      if (holtPrev.performance_L != null) pythonArgs.push('--p-l', holtPrev.performance_L.toString());
-      if (holtPrev.performance_T != null) pythonArgs.push('--p-t', holtPrev.performance_T.toString());
-      if (holtPrev.kd_L != null) pythonArgs.push('--k-l', holtPrev.kd_L.toString());
-      if (holtPrev.kd_T != null) pythonArgs.push('--k-t', holtPrev.kd_T.toString());
-      if (holtPrev.adr_L != null) pythonArgs.push('--a-l', holtPrev.adr_L.toString());
-      if (holtPrev.adr_T != null) pythonArgs.push('--a-t', holtPrev.adr_T.toString());
+      if (holtPrev.performance_l != null) pythonArgs.push('--p-l', holtPrev.performance_l.toString());
+      if (holtPrev.performance_t != null) pythonArgs.push('--p-t', holtPrev.performance_t.toString());
+      if (holtPrev.kd_l != null) pythonArgs.push('--k-l', holtPrev.kd_l.toString());
+      if (holtPrev.kd_t != null) pythonArgs.push('--k-t', holtPrev.kd_t.toString());
+      if (holtPrev.adr_l != null) pythonArgs.push('--a-l', holtPrev.adr_l.toString());
+      if (holtPrev.adr_t != null) pythonArgs.push('--a-t', holtPrev.adr_t.toString());
 
       const { spawnSync } = await import('child_process');
       const child = spawnSync('python', pythonArgs, { 

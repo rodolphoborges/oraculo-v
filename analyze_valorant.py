@@ -188,35 +188,35 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     }
     
     for m, y_t in metrics.items():
-        L_prev = holt_prev.get(f"{m}_L")
-        T_prev = holt_prev.get(f"{m}_T")
+        L_prev = holt_prev.get(f"{m}_l")
+        T_prev = holt_prev.get(f"{m}_t")
         
         if L_prev is not None and T_prev is not None:
             # Holt formulas
             L_t = α * y_t + (1 - α) * (L_prev + T_prev)
             T_t = β * (L_t - L_prev) + (1 - β) * T_prev
             forecast = L_t + T_t
-            holt_next[f"{m}_L"] = round(L_t, 4)
-            holt_next[f"{m}_T"] = round(T_t, 4)
+            holt_next[f"{m}_l"] = round(L_t, 4)
+            holt_next[f"{m}_t"] = round(T_t, 4)
             holt_next[f"{m}_forecast"] = round(forecast, 4)
         else:
             # Não inicializado aqui (o worker faz a média das 3 primeiras fora)
-            holt_next[f"{m}_L"] = None
-            holt_next[f"{m}_T"] = None
+            holt_next[f"{m}_l"] = None
+            holt_next[f"{m}_t"] = None
 
     # --- DIRETRIZES TÁTICAS K.A.I.O. (Upgrade Trend-Aware) ---
     conselhos = []
     
     # Check trends if available
-    perf_T = holt_next.get("performance_T")
-    if perf_T is not None:
-        if perf_T > 0.5:
-            conselhos.append(f"EVOLUÇÃO DETECTADA: Tendência de melhora robusta (+{perf_T:.1f}% por partida). O Oráculo prevê performance superior no próximo combate ({holt_next['performance_forecast']:.1f}%). Mantenha o ritmo.")
-        elif perf_T < -0.5:
-            conselhos.append(f"ALERTA DE QUEDA: Tendência de performance negativa identificada ({perf_T:.1f}%). Seu nível técnico está oscilando para baixo. Reavalie sua postura tática antes da próxima partida.")
+    perf_t = holt_next.get("performance_t")
+    if perf_t is not None:
+        if perf_t > 0.5:
+            conselhos.append(f"EVOLUÇÃO DETECTADA: Tendência de melhora robusta (+{perf_t:.1f}% por partida). O Oráculo prevê performance superior no próximo combate ({holt_next['performance_forecast']:.1f}%). Mantenha o ritmo.")
+        elif perf_t < -0.5:
+            conselhos.append(f"ALERTA DE QUEDA: Tendência de performance negativa identificada ({perf_t:.1f}%). Seu nível técnico está oscilando para baixo. Reavalie sua postura tática antes da próxima partida.")
         
-        kd_T = holt_next.get("kd_T", 0)
-        adr_T = holt_next.get("adr_T", 0)
+        kd_t = holt_next.get("kd_t", 0)
+        adr_t = holt_next.get("adr_t", 0)
         if kd_T > 0 and adr_T < 0:
             conselhos.append("DESBALANCEAMENTO TÁTICO: Seu K/D está subindo mas o ADR está caindo. Cuidado: você está garantindo abates sem gerar pressão real no mapa (Kills de baixo impacto/Exit frags).")
         elif kd_T < 0 and adr_T > 0:
@@ -261,9 +261,9 @@ if __name__ == "__main__":
             content = f.read()
             
         holt_prev = {
-            "performance_L": args.p_l, "performance_T": args.p_t,
-            "kd_L": args.k_l, "kd_T": args.k_t,
-            "adr_L": args.a_l, "adr_T": args.a_t
+            "performance_l": args.p_l, "performance_t": args.p_t,
+            "kd_l": args.k_l, "kd_t": args.k_t,
+            "adr_l": args.a_l, "adr_t": args.a_t
         }
         
         # Remove keys with None values
