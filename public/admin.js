@@ -26,12 +26,12 @@ async function updateStats() {
             
             // Link para o relatório (Deep Link)
             const openLink = job.status === 'completed' 
-                ? `<a href="index.html?player=${encodeURIComponent(job.player_tag)}&matchId=${job.match_id}" target="_blank" style="color:var(--green-ok);text-decoration:none;">[ ABRIR ]</a>`
+                ? `<a href="index.html?player=${encodeURIComponent(job.agente_tag)}&matchId=${job.match_id}" target="_blank" style="color:var(--green-ok);text-decoration:none;">[ ABRIR ]</a>`
                 : '';
 
             row.innerHTML = `
                 <td><code>${job.id.split('-')[0]}...</code></td>
-                <td><b>${job.player_tag.toUpperCase()}</b></td>
+                <td><b>${job.agente_tag.toUpperCase()}</b></td>
                 <td><small>${job.match_id}</small></td>
                 <td><span class="status-pill ${statusClass}">${job.status}</span> ${openLink}</td>
                 <td>${date}</td>

@@ -11,7 +11,7 @@ async function listQueue() {
     } else {
         console.log(`Queue size: ${data.length}`);
         data.forEach(row => {
-            console.log(`ID: ${row.id} | Match: ${row.match_id} | Player: ${row.player_tag} | Status: ${row.status}`);
+            console.log(`ID: ${row.id} | Match: ${row.match_id} | Player: ${row.agente_tag} | Status: ${row.status}`);
         });
     }
 }

@@ -93,8 +93,8 @@ async function discover() {
         await delay(2000);
     }
 
-    // 3. Filtrar partidas com INTERSEÇÃO (2+ jogadores cadastrados)
-    const jointMatches = Object.keys(matchHistory).filter(mid => matchHistory[mid].size >= 2);
+    // 3. Filtrar partidas com INTERSEÇÃO (1+ para diagnóstico de inserção)
+    const jointMatches = Object.keys(matchHistory).filter(mid => matchHistory[mid].size >= 1);
     console.log(`🎯 Encontradas ${jointMatches.length} partidas em grupo potenciais.`);
     
     if (jointMatches.length === 0) {
@@ -126,7 +126,7 @@ async function discover() {
         console.log(`📥 Adicionando partida ${mid} à fila de análise.`);
         const { error: insError } = await supabase.from('match_analysis_queue').insert([{
             match_id: mid,
-            player_tag: involvedTags[0], 
+            agente_tag: involvedTags[0], 
             status: 'pending',
             metadata: {
                 group: involvedTags,
