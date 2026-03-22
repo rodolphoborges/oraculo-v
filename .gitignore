@@ -2,6 +2,7 @@
 node_modules/
 matches/*.json
 analysis_*.json
-.DS_Store
+[0-9a-f]*.json
+test_output.json
 *.log
 *.exe
