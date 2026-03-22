@@ -53,8 +53,12 @@ Os dados finais estão no objeto `analysis`. Campos principais:
 - `performance_status`: `'ABOVE_BASELINE'` ou `'BELOW_BASELINE'`.
 - `estimated_rank`: (String) Rank sugerido (Ex: "RADIANTE").
 - `target_kd`: (Number) K/D médio esperado para o rank desse agente.
-- `conselho_kaio`: (String) Texto longo com a DIRETRIZ TÁTICA principal (Artigo de Impacto).
+- `conselho_kaio`: (String) Texto longo com a DIRETRIZ TÁTICA principal (Artigo de Impacto). **Agora inclui análise de tendência automática.**
 - `acs`, `adr`, `kd`: Métricas gerais da partida.
+- `holt`: (**NOVO v3.2**) Objeto com Double Exponential Smoothing (Tendência):
+    - `performance_L`, `performance_T`: Nível e Tendência do Índice de Performance.
+    - `performance_forecast`: Previsão de performance para a próxima partida.
+    - `kd_L`, `kd_T`, `adr_L`, `adr_T`: Estados internos para KD e ADR.
 
 ### 2. Lista de Rounds (`rounds[]`)
 
