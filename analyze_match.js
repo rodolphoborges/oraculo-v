@@ -6,7 +6,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 'ALL') {
+export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 'ALL', holtPrev = {}) {
   let matchJsonPath = inputPath;
 
   // 1. Verifica se o input é um Match ID (UUID)
@@ -51,7 +51,6 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   const rankDisplay = playerSummary?.stats?.rank?.displayValue || "ALL";
   
   // Normaliza o rank para o formato do vStats (ex: "Gold 2" -> "Gold")
-  // Mas por enquanto o scraper só pega "ALL", então mantemos flexível.
   const rankTier = rankDisplay.split(' ')[0] || "ALL";
 
   if (!agentName) {
@@ -62,7 +61,6 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   console.error(`Buscando Meta para: ${agentName} | Mapa: ${mapDetected} | Rank: ${rankTier}...`);
   const meta = await getAgentMeta(agentName, mapDetected, rankTier);
   
-  // Se não encontrar para o rank específico, tenta no global (ALL)
   let finalMeta = meta;
   if (!finalMeta) {
     finalMeta = await getAgentMeta(agentName, 'ALL', 'ALL');
@@ -71,7 +69,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   const targetKd = finalMeta ? finalMeta.kd : 1.0;
   const metaCategory = finalMeta ? `${rankTier.toUpperCase()} // VSTATS` : 'BASELINE_AVG';
 
-  // 6. Predição de Ranking (Adivinhe o Rank)
+  // 6. Predição de Ranking
   console.error(`Calculando Predição de Nível Técnico...`);
   const baselines = await getRankBaselines(agentName, mapDetected);
   
@@ -85,9 +83,7 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
       const totalRounds = matchData.data.metadata.rounds;
       const teamId = playerSummary?.metadata?.teamId || 'Unknown';
 
-      // Usamos spawnSync para evitar injeção de comandos via shell
-      const { spawnSync } = await import('child_process');
-      const child = spawnSync('python', [
+      const pythonArgs = [
         pythonScript, 
         '--json', normalizedMatchPath, 
         '--player', playerTag, 
@@ -96,10 +92,21 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
         '--map', mapDetected,
         '--rounds', totalRounds.toString(),
         '--team', teamId
-      ], { 
+      ];
+
+      // Add Holt parameters if present
+      if (holtPrev.performance_L != null) pythonArgs.push('--p-l', holtPrev.performance_L.toString());
+      if (holtPrev.performance_T != null) pythonArgs.push('--p-t', holtPrev.performance_T.toString());
+      if (holtPrev.kd_L != null) pythonArgs.push('--k-l', holtPrev.kd_L.toString());
+      if (holtPrev.kd_T != null) pythonArgs.push('--k-t', holtPrev.kd_T.toString());
+      if (holtPrev.adr_L != null) pythonArgs.push('--a-l', holtPrev.adr_L.toString());
+      if (holtPrev.adr_T != null) pythonArgs.push('--a-t', holtPrev.adr_T.toString());
+
+      const { spawnSync } = await import('child_process');
+      const child = spawnSync('python', pythonArgs, { 
         encoding: 'utf8',
         env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
-        timeout: 5 * 60 * 1000 // 5 minutos de timeout
+        timeout: 5 * 60 * 1000 
       });
       
       if (child.error) throw child.error;
