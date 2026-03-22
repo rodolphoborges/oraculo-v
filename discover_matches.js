@@ -1,4 +1,4 @@
-import { supabase, getSupabaseConfig } from './lib/supabase.js';
+import { supabase, supabaseProtocol, getSupabaseConfig } from './lib/supabase.js';
 const HENRIK_API_KEY = process.env.HENRIK_API_KEY;
 
 if (!HENRIK_API_KEY || HENRIK_API_KEY === 'your_henrik_api_key_v3') {
@@ -20,11 +20,11 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 async function discover() {
     const config = getSupabaseConfig();
-    const maskedUrl = config.url ? config.url.replace(/(https?:\/\/).{4}/, "$1****") : 'MISSING_URL';
-    console.log(`🔍 [RADAR] Iniciando busca (Projeto: ${maskedUrl})...`);
+    const mask = (url) => url ? url.replace(/(https?:\/\/).{4}/, "$1****") : 'MISSING';
+    console.log(`🔍 [RADAR] Iniciando (Fonte: ${mask(config.protocolUrl)} | Fila: ${mask(config.oraculoUrl)})...`);
 
-    // 1. Buscar todos os jogadores ativos
-    const { data: players, error: pError } = await supabase
+    // 1. Buscar todos os jogadores ativos (DA BASE DO PROTOCOLO)
+    const { data: players, error: pError } = await supabaseProtocol
         .from('players')
         .select('riot_id, telegram_id')
         .not('riot_id', 'is', null);
