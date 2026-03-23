@@ -79,9 +79,33 @@ async function processQueue() {
         .limit(1)
         .single();
 
-    if (error || !job) {
-        return false;
+    if (error) {
+        if (error.code === 'PGRST116') { // Código do Postgrest para "0 rows returned"
+            // Antes de desistir, vamos ver se não tem algum job "morto" (em processamento há muito tempo)
+            const thirtyMinsAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+            const { data: staleJob } = await supabase
+                .from('match_analysis_queue')
+                .select('*')
+                .eq('status', 'processing')
+                .lt('processed_at', thirtyMinsAgo)
+                .limit(1)
+                .single();
+            
+            if (staleJob) {
+                console.log(`⚠️ [WORKER] Detectado job "preso" (ID: ${staleJob.id}). Reabrindo para tentativa.`);
+                await supabase.from('match_analysis_queue').update({ status: 'pending' }).eq('id', staleJob.id);
+                return true; // Continua o loop para pegar esse job
+            }
+
+            return false; // Fila realmente vazia
+        }
+        
+        console.error("❌ [WORKER] Erro ao buscar da fila:", error.message);
+        // Em caso de erro de rede/conexão, retornamos true para o loop tentar novamente após um delay
+        return true; 
     }
+
+    if (!job) return false;
 
     console.log(`👷 Processando Job: Match ${job.match_id} (Player: ${job.agente_tag})`);
 
