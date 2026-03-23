@@ -76,7 +76,10 @@ async function discover() {
             const json = await res.json();
             if (!json.data) continue;
 
-            for (const match of json.data) {
+            // Inverter para processar da mais antiga para a mais recente (Cronológico)
+            const chronologicalMatches = [...json.data].reverse();
+
+            for (const match of chronologicalMatches) {
                 if (!match?.metadata?.matchid) continue;
                 
                 const mid = match.metadata.matchid;

@@ -86,18 +86,27 @@ async function processQueue() {
     console.log(`👷 Processando Job: Match ${job.match_id} (Player: ${job.agente_tag})`);
 
     try {
-        // 2. Marcar como 'processing'
-        const { error: procError } = await supabase.from('match_analysis_queue').update({ 
-            status: 'processing',
-            processed_at: new Date().toISOString()
-        }).eq('id', job.id);
-        if (procError) throw new Error(`Erro ao marcar como processing: ${procError.message}`);
+        // 2. Marcar como 'processing' com verificação de segurança (Double-Check)
+        const { data: updatedJob, error: procError } = await supabase
+            .from('match_analysis_queue')
+            .update({ 
+                status: 'processing',
+                processed_at: new Date().toISOString()
+            })
+            .eq('id', job.id)
+            .eq('status', 'pending') // Garante que ninguém pegou no milissegundo entre o select e o update
+            .select();
+
+        if (procError || !updatedJob || updatedJob.length === 0) {
+            console.log(`[WORKER] Job ${job.id} já está sendo processado por outra instância. Pulando.`);
+            return true;
+        }
 
         if (job.agente_tag === 'AUTO') {
             console.log(`⚠️ [WORKER] Modo AUTO detectado, mas desativado no Worker.`);
             await supabase.from('match_analysis_queue').update({ 
                 status: 'failed',
-                error_msg: "Modo AUTO deve ser expandido na origem (Radar/Bot) para manter o Worker focado em expertise."
+                error_message: "Solicitação 'AUTO' detectada na fila. O modo AUTO deve ser expandido em jobs individuais pelo Radar ou API antes de chegar ao Worker."
             }).eq('id', job.id);
             return true;
         }
