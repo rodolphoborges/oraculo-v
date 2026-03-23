@@ -219,6 +219,19 @@ async function processQueue() {
 
 async function startWorker() {
     console.log("🟢 [WORKER] Motor Tático Iniciado. Vigiando a fila...");
+    // SUPORTE MANUAL VIA GITHUB ACTIONS
+    if (process.env.MANUAL_PLAYER && process.env.MANUAL_MATCH) {
+        console.log(`🎯 [MANUAL] Recebida solicitação manual para ${process.env.MANUAL_PLAYER} na partida ${process.env.MANUAL_MATCH}`);
+        const { error: insError } = await supabase.from('match_analysis_queue').upsert([{
+            match_id: process.env.MANUAL_MATCH.trim(),
+            agente_tag: process.env.MANUAL_PLAYER.trim(),
+            status: 'pending'
+        }], { onConflict: 'match_id,agente_tag' });
+        
+        if (insError) console.error("❌ [MANUAL] Erro ao enfileirar job manual:", insError.message);
+        else console.log("✅ [MANUAL] Job enfileirado com sucesso.");
+    }
+
     while (true) {
         const processed = await processQueue();
         if (!processed) {
