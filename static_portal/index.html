@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oráculo-V | Portal tático Estático</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --panel-bg: rgba(20, 26, 35, 0.8);
+            --accent-color: #ff4655;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success-color: #00ff88;
+            --warning-color: #facc15;
+            --danger-color: #ff4655;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background-color: rgba(15, 20, 28, 0.95);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .player-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .player-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .player-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .player-item.active {
+            background: rgba(255, 70, 85, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .player-name {
+            font-weight: 600;
+        }
+
+        .match-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(circle at top right, #1a1f2e, #0b0e14);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .header {
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: rgba(11, 14, 20, 0.8);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .match-list-view {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .match-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .match-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .match-card .date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .match-card .agent-map {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .tag-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .status-tag {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .status-elite { background: rgba(0, 255, 136, 0.2); color: var(--success-color); }
+        .status-stable { background: rgba(250, 204, 21, 0.2); color: var(--warning-color); }
+        .status-danger { background: rgba(255, 70, 85, 0.2); color: var(--danger-color); }
+
+        /* Report Overlay */
+        #report-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .report-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #141a23;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .report-header h2 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .report-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .stat-value { font-size: 1.5rem; font-weight: 800; color: var(--accent-color); }
+
+        .advice-section {
+            background: rgba(255, 70, 85, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+
+        .rounds-analysis {
+            margin-top: 2rem;
+        }
+
+        .round-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .round-num { width: 40px; font-weight: 800; color: var(--text-secondary); }
+        .round-comment { flex: 1; margin-left: 1rem; }
+        .round-impact { width: 100px; text-align: right; font-size: 0.8rem; }
+
+        .impact-pos { color: var(--success-color); }
+        .impact-neg { color: var(--danger-color); }
+        .impact-neu { color: var(--text-secondary); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>Oráculo-V</h1>
+            <p style="font-size: 0.7rem; color: var(--text-secondary);">MÓDULO ESTÁTICO</p>
+        </div>
+        <div class="player-list" id="player-list">
+            <!-- JS Renders -->
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h2 id="view-title">Selecione um Agente</h2>
+            <div id="global-stats"></div>
+        </div>
+        <div class="match-list-view">
+            <div class="match-grid" id="match-grid"></div>
+        </div>
+    </div>
+
+    <div id="report-overlay">
+        <div class="report-container" id="report-container">
+            <button class="close-btn" onclick="closeReport()">&times;</button>
+            <div id="report-content"></div>
+        </div>
+    </div>
+
+    <script src="portal.js"></script>
+</body>
+</html>
