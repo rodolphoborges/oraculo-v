@@ -22,10 +22,11 @@ import random
 if hasattr(sys.stdout, 'reconfigure'):
     try:
         sys.stdout.reconfigure(encoding='utf-8')
-    except:
+    except (AttributeError, TypeError):
         pass
+# Fallback removed for simplicity and compatibility
 
-def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None, holt_prev={}):
+def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None, holt_prev={}, strat_context={}):
     data = json.loads(json_data)
     match_metadata = data['data']['metadata']
     
@@ -204,11 +205,12 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             L_t = α * y_t + (1 - α) * (L_prev + T_prev)
             T_t = β * (L_t - L_prev) + (1 - β) * T_prev
             forecast = L_t + T_t
-            holt_next[f"{m}_l"] = round(L_t, 4)
-            holt_next[f"{m}_t"] = round(T_t, 4)
-            holt_next[f"{m}_forecast"] = round(forecast, 4)
+            holt_next[f"{m}_l"] = float(L_t)
+            holt_next[f"{m}_t"] = float(T_t)
+            holt_next[f"{m}_forecast"] = float(forecast)
         else:
             # Não inicializado aqui (o worker faz a média das 3 primeiras fora)
+            # Usando strings para evitar problemas de tipo em alguns linters
             holt_next[f"{m}_l"] = None
             holt_next[f"{m}_t"] = None
 
@@ -223,12 +225,28 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         elif perf_t < -0.5:
             conselhos.append(f"ALERTA DE QUEDA: Tendência de performance negativa identificada ({perf_t:.1f}%). Seu nível técnico está oscilando para baixo. Reavalie sua postura tática antes da próxima partida.")
         
-        kd_t = holt_next.get("kd_t", 0)
-        adr_t = holt_next.get("adr_t", 0)
-        if kd_t > 0 and adr_t < 0:
-            conselhos.append("DESBALANCEAMENTO TÁTICO: Seu K/D está subindo mas o ADR está caindo. Cuidado: você está garantindo abates sem gerar pressão real no mapa (Kills de baixo impacto/Exit frags).")
-        elif kd_t < 0 and adr_t > 0:
-            conselhos.append("INICIATIVA ALTA, BAIXA SOBREVIVÊNCIA: ADR em alta com K/D em queda. Você está causando muito dano mas morrendo sem garantir o frag. Melhore sua finalização e posicionamento pós-troca.")
+        kd_t = holt_next.get("kd_t")
+        adr_t = holt_next.get("adr_t")
+        if kd_t is not None and adr_t is not None:
+            if kd_t > 0 and adr_t < 0:
+                conselhos.append("DESBALANCEAMENTO TÁTICO: Seu K/D está subindo mas o ADR está caindo. Cuidado: você está garantindo abates sem gerar pressão real no mapa (Kills de baixo impacto/Exit frags).")
+            elif kd_t < 0 and adr_t > 0:
+                conselhos.append("INICIATIVA ALTA, BAIXA SOBREVIVÊNCIA: ADR em alta com K/D em queda. Você está causando muito dano mas morrendo sem garantir o frag. Melhore sua finalização e posicionamento pós-troca.")
+            
+    # --- INSIGHTS ESTRATÉGICOS (K.A.I.O. v2) ---
+    best_agents = strat_context.get('bestAgents', [])
+    if best_agents:
+        top_agent = best_agents[0]
+        # Se o agente atual for o melhor, ou se houver um agente muito melhor
+        if top_agent['agent'] == curr_agent:
+            if top_agent['avgPerf'] > 110:
+                conselhos.append(f"DOMÍNIO DE PERSONAGEM: Você é oficialmente Main {curr_agent}. Sua performance média ({top_agent['avgPerf']:.1f}%) justifica a escolha.")
+        elif top_agent['avgPerf'] > (perf_idx + 15):
+             conselhos.append(f"OTIMIZAÇÃO DE AGENTE: Historicamente, sua performance com {top_agent['agent']} ({top_agent['avgPerf']:.1f}%) supera seu desempenho atual. Avalie a troca de função.")
+
+    partners = strat_context.get('squadPartners', [])
+    if partners:
+        conselhos.append(f"SINERGIA OPERACIONAL: Squad detectado com {', '.join(partners)}. A coordenação de grupo é a chave para a vitória no Protocolo V.")
 
     # Static Fallbacks (Artigos Constitucionais)
     if adr < 125:
@@ -263,6 +281,7 @@ if __name__ == "__main__":
     parser.add_argument("--k-t", type=float, help="Prev KD Trend")
     parser.add_argument("--a-l", type=float, help="Prev ADR Level")
     parser.add_argument("--a-t", type=float, help="Prev ADR Trend")
+    parser.add_argument("--strat", help="Strategic Context JSON")
     args = parser.parse_args()
     
     try:
@@ -278,7 +297,14 @@ if __name__ == "__main__":
         # Remove keys with None values
         holt_prev = {k: v for k, v in holt_prev.items() if v is not None}
 
-        result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev)
+        strat_context = {}
+        if args.strat:
+            try:
+                strat_context = json.loads(args.strat)
+            except:
+                pass
+
+        result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev, strat_context=strat_context)
         print(json.dumps(result, indent=2, ensure_ascii=False))
     except Exception as e:
         print(json.dumps({"error": str(e)}))

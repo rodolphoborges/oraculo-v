@@ -73,6 +73,11 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   console.error(`Calculando Predição de Nível Técnico...`);
   const baselines = await getRankBaselines(agentName, mapDetected);
   
+    // 6.1. Busca Contexto Estratégico (Histórico e Squad)
+    const { getStrategicContext } = await import('./lib/strategic_advisor.js');
+    const stratContext = await getStrategicContext(playerTag, isUuid ? inputPath : matchData.data.metadata.matchId);
+    const stratJson = JSON.stringify(stratContext);
+
     // 7. Chama o script Python
     try {
       const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
@@ -91,7 +96,8 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
         '--agent', agentName,
         '--map', mapDetected,
         '--rounds', totalRounds.toString(),
-        '--team', teamId
+        '--team', teamId,
+        '--strat', stratJson
       ];
 
       // Add Holt parameters if present
