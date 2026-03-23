@@ -41,6 +41,12 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     throw new Error('Dados da partida incompletos ou malformados.');
   }
 
+  // VALIDAR MODO: Só aceitamos competitivo
+  const queueId = matchData.data.metadata.queueId || "";
+  if (queueId.toLowerCase() !== 'competitive') {
+    throw new Error(`O Oráculo v4.0 só aceita partidas COMPETITIVAS. Esta partida é de modo: ${matchData.data.metadata.modeName || queueId}`);
+  }
+
   const mapDetected = matchData.data.metadata.mapName;
   
   const segments = matchData.data.segments;

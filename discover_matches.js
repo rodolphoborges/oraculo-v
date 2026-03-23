@@ -82,6 +82,13 @@ async function discover() {
             for (const match of chronologicalMatches) {
                 if (!match?.metadata?.matchid) continue;
                 
+                // FILTRO DE ELITE: Apenas partidas competitivas
+                const mode = match.metadata.mode || "";
+                if (mode.toLowerCase() !== 'competitive') {
+                    // console.log(`⏭️ Pulando partida ${match.metadata.matchid} (Modo: ${mode})`);
+                    continue;
+                }
+                
                 const mid = match.metadata.matchid;
                 if (!matchHistory[mid]) {
                     matchHistory[mid] = new Set();
