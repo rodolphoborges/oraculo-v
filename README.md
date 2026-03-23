@@ -1,6 +1,6 @@
-# ORÁCULO V // NÚCLEO_TÁTICO v3.0
+# ORÁCULO V // NÚCLEO_TÁTICO v4.0 (RESILIÊNCIA TOTAL)
 
-O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v3.0, ele opera como um microserviço independente que monitora jogadores dO **Protocolo-V** e gerencia sua própria fila de tarefas sob a estética "Brutalista Terminal".
+O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v4.0, ele atinge maturidade máxima com **Exploração Cruzada de Agentes** e **Cache Permanente por Partida**, operando sob a estética "Brutalista Terminal".
 
 > [!NOTE]
 > **[AI/LLM ENTRY POINT - V3.2 UPDATED]**
@@ -18,18 +18,18 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 - **Base Fonte (Protocolo-V)**: Onde residem os jogadores cadastrados e o banco de dados principal.
 - **Base de Operações (Oráculo-V)**: Onde o motor gerencia sua própria fila de processamento (`match_analysis_queue`).
 
-## 🚨 Funcionalidades de Elite (v3.0)
+## 🚨 Funcionalidades de Elite (v4.0)
 
-- **Radar de Descoberta**: Escaneia jogadores da base externa, busca historico de partidas e cria tarefas individuais na fila para cada agente registrado.
-- **Worker Puro (Expertise Engine)**: Motor de processamento assíncrono especializado. Ele não faz "descoberta" de jogadores; apenas executa a análise técnica tática sobre tarefas específicas `{match_id, agente_tag}`.
-- **Integração Serverless**: Relatórios JSON (`metadata.analysis`) acessíveis de forma estática pelo frontend diretamente no Supabase.
+- **Radar de Exploração Cruzada**: Ao encontrar uma partida para um único jogador, o radar agora escaneia automaticamente todos os 10 participantes da sala. Se encontrar qualquer outro agente do Protocolo V, ele o enfileira instantaneamente, mesmo que a partida não esteja no histórico recente desse segundo agente.
+- **Worker Resiliente (Self-Healing)**: Motor de processamento com detecção de falhas de rede. Ele distingue erros de API de "fila vazia" e possui um sistema de auto-recuperação para "Jobs Fantasmas" (travados em processamento).
+- **Cache Permanente Unificado**: Relatórios JSON agora são salvos com a chave ÚNICA `match_MATCHID_PLAYER.json`. Isso impede que novas partidas sobrescrevam o histórico no servidor.
+- **Holt-Winters DES**: Análise de tendência Double Exponential Smoothing integrada para prever performance futura e detectar "quedas de rendimento" antes que aconteçam.
 - **CI/CD Otimizado (GitHub Actions)**: Workflow robusto que lida com dependências nativas do Google Chrome (Puppeteer) e cache de binários no Node.js v22.
-- **Diagnóstico Híbrido**: Verificação em tempo real da saúde das duas conexões de banco de dados.
 
 ## 📂 Estrutura do Projeto
 
-- `discover_matches.js`: Radar principal. Descobre partidas em grupo e preenche a fila de análise. É o responsável por "caminhar" pelos jogadores e consumir APIs de descoberta.
-- `worker.js`: Motor de análise puro. Monitora a fila e executa o motor Python. É cego para a descoberta; foca 100% na expertise técnica.
+- `discover_matches.js`: Radar de exploração (size=20). Descobre partidas e expande automaticamente para todos os agentes detectados na mesma sala.
+- `worker.js`: Motor de análise com lógica de retry e recuperação de jobs pendentes/presos.
 - `lib/supabase.js`: Core de conexão dual-database.
 - `check_tables_v2.js`: Diagnóstico de conectividade multi-base.
 - `analyze_valorant.py`: Motor de análise tática e narrativa em Python.
