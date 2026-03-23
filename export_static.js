@@ -48,8 +48,8 @@ async function exportData() {
         fs.mkdirSync(portalDir);
     }
 
-    const dataPath = path.join(portalDir, 'database.json');
-    fs.writeFileSync(dataPath, JSON.stringify(database, null, 2));
+    const dataPath = path.join(portalDir, 'data.js');
+    fs.writeFileSync(dataPath, `const ORACULO_DATABASE = ${JSON.stringify(database, null, 2)};`);
 
     console.log(`✅ Exportados ${jobs.length} registros para ${dataPath}`);
     console.log(`👥 Total de jogadores únicos: ${Object.keys(database).length}`);
