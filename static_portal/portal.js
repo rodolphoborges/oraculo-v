@@ -3,17 +3,30 @@ let db = {};
 
 async function init() {
     try {
-        const response = await fetch('database.json');
-        db = await response.json();
+        // Agora usamos a variável global ORACULO_DATABASE carregada via script
+        db = typeof ORACULO_DATABASE !== 'undefined' ? ORACULO_DATABASE : {};
+        
+        if (Object.keys(db).length === 0) {
+            throw new Error("Base de dados vazia ou não carregada.");
+        }
+
         renderPlayerList();
         
         // Auto-select first player if exists
-        const firstPlayer = Object.keys(db)[0];
+        const firstPlayer = Object.keys(db).sort()[0];
         if (firstPlayer) selectPlayer(firstPlayer);
         
     } catch (err) {
         console.error("Erro ao carregar banco de dados estático:", err);
-        document.getElementById('match-grid').innerHTML = `<p style="color:red">Erro ao carregar database.json. Verifique se o arquivo existe na mesma pasta.</p>`;
+        document.getElementById('match-grid').innerHTML = `
+            <div style="padding: 2rem; background: rgba(255,70,85,0.1); border-radius: 12px; border: 1px solid var(--accent-color);">
+                <h3 style="color: var(--accent-color); margin-bottom: 1rem;">Erro de Carregamento</h3>
+                <p>Não foi possível encontrar a variável <b>ORACULO_DATABASE</b>.</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    Certifique-se de ter rodado <code>node export_static.js</code> e que o arquivo <b>data.js</b> está na mesma pasta que este HTML.
+                </p>
+            </div>
+        `;
     }
 }
 
