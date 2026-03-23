@@ -3,7 +3,16 @@ name: Oráculo V Worker
 on:
   schedule:
     - cron: '0 * * * *' # Roda a cada hora
-  workflow_dispatch: # Permite rodar manualmente
+  workflow_dispatch: # Permite rodar manualmente pelo painel do GitHub
+    inputs:
+      player_tag:
+        description: 'Nick#Tag do Agente (Opcional - Vazio roda o Radar normal)'
+        required: false
+        default: ''
+      match_id:
+        description: 'UUID da Partida (Opcional)'
+        required: false
+        default: ''
 
 jobs:
   analyze:
@@ -56,4 +65,6 @@ jobs:
           PROTOCOL_SUPABASE_KEY: ${{ secrets.PROTOCOL_SUPABASE_KEY }}
           HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          MANUAL_PLAYER: ${{ github.event.inputs.player_tag }}
+          MANUAL_MATCH: ${{ github.event.inputs.match_id }}
         run: node worker.js

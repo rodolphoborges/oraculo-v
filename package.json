@@ -5,9 +5,14 @@
   "type": "module",
   "main": "scrapers/main.js",
   "scripts": {
-    "start": "node scrapers/main.js",
-    "test": "node tests/test-scraper.js",
-    "blog": "node scrapers/blog.js"
+    "start": "node server.js",
+    "radar": "node discover_matches.js",
+    "worker": "node worker.js",
+    "check": "node check_tables_v2.js",
+    "queue": "node check_queue_status.js",
+    "recover": "node recover_queue.js",
+    "trends": "node backfill_trends.js",
+    "test": "node run_e2e_test.js"
   },
   "repository": {
     "type": "git",
