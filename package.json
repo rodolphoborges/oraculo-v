@@ -12,7 +12,8 @@
     "queue": "node check_queue_status.js",
     "recover": "node recover_queue.js",
     "trends": "node backfill_trends.js",
-    "test": "node run_e2e_test.js"
+    "test": "node run_e2e_test.js",
+    "export": "node export_static.js"
   },
   "repository": {
     "type": "git",
