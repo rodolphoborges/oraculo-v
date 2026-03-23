@@ -57,7 +57,7 @@ async function discover() {
 
         try {
             console.log(`📡 Escaneando histórico: ${p.riot_id}...`);
-            const url = `https://api.henrikdev.xyz/valorant/v3/matches/br/${encodeURIComponent(name)}/${encodeURIComponent(tag)}?size=10`;
+            const url = `https://api.henrikdev.xyz/valorant/v3/matches/br/${encodeURIComponent(name)}/${encodeURIComponent(tag)}?size=20`;
             const res = await fetch(url, {
                 headers: { 'Authorization': HENRIK_API_KEY }
             });
@@ -87,8 +87,21 @@ async function discover() {
                     matchHistory[mid] = new Set();
                     matchToTags[mid] = [];
                 }
-                matchHistory[mid].add(p.riot_id);
-                matchToTags[mid].push(p.riot_id);
+
+                // ESTRATÉGIA DE EXPANSÃO: Além do jogador 'p', buscar todos os outros na partida
+                // que também estão no seu banco de dados (Protocolo V).
+                const playersInThisMatch = match.players?.all_players || [];
+                const registeredPlayers = players.map(pl => pl.riot_id.toUpperCase());
+
+                playersInThisMatch.forEach(playerInMatch => {
+                    const tagInMatch = `${playerInMatch.name}#${playerInMatch.tag}`;
+                    if (registeredPlayers.includes(tagInMatch.toUpperCase())) {
+                        if (!matchHistory[mid].has(tagInMatch)) {
+                            matchHistory[mid].add(tagInMatch);
+                            matchToTags[mid].push(tagInMatch);
+                        }
+                    }
+                });
             }
         } catch (err) {
             console.error(`🔥 Erro ao processar ${p.riot_id}:`, err.message);

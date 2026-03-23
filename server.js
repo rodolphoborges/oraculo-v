@@ -100,7 +100,7 @@ app.get('/api/status/:matchId', async (req, res) => {
     // Se estiver completo, tentamos carregar o JSON do relatório local
     if (job.status === 'completed') {
       // 1. Tenta carregar do sistema de arquivos local (Cache Rápido)
-      const reportPath = path.join(__dirname, 'analyses', `analysis_${job.agente_tag.replace('#', '_')}.json`);
+      const reportPath = path.join(__dirname, 'analyses', `match_${job.match_id}_${job.agente_tag.replace('#', '_')}.json`);
       if (fs.existsSync(reportPath)) {
         try {
           const result = JSON.parse(fs.readFileSync(reportPath, 'utf8'));

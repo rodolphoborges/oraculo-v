@@ -157,7 +157,8 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     if (!fs.existsSync(analysesDir)) fs.mkdirSync(analysesDir);
 
     // Salva o relatório local enriquecido (com rank estimado e meta)
-    const finalReportPath = path.join(analysesDir, `analysis_${playerTag.replace('#', '_')}.json`);
+    const matchId = isUuid ? inputPath : (analysisResult.match_id || 'unknown');
+    const finalReportPath = path.join(analysesDir, `match_${matchId}_${playerTag.replace('#', '_')}.json`);
     fs.writeFileSync(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
     
     return analysisResult;
