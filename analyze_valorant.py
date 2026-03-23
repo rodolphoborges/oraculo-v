@@ -60,8 +60,9 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             agent = seg['metadata'].get('agentName', 'Unknown')
             player_agents[pid.upper()] = agent
 
-    # Cálculo de First Bloods (FB)
+    # Cálculo de First Bloods (FB) e First Deaths (FD)
     first_kills_count = 0
+    first_deaths_count = 0
     for r_num in range(1, curr_rounds + 1):
         round_kills = sorted(
             [k for k in all_kill_segs if k['attributes']['round'] == r_num],
@@ -71,6 +72,8 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             first_kill = round_kills[0]
             if first_kill['attributes']['platformUserIdentifier'].upper() == player_target_upper:
                 first_kills_count += 1
+            elif first_kill['attributes'].get('opponentPlatformUserIdentifier', '').upper() == player_target_upper:
+                first_deaths_count += 1
 
     # Templates de Mensagem Principal
     POS_TEMPLATES = [
@@ -257,10 +260,21 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     if not conselhos:
         conselhos.append("FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. O Oráculo segue monitorando sua evolução técnica.")
 
+    # Lore-friendly status
+    if perf_idx >= 115:
+        perf_status = "ELITE DO PROTOCOLO"
+    elif perf_idx >= 95:
+        perf_status = "DENTRO DOS PARÂMETROS"
+    else:
+        perf_status = "ABAIXO DO RADAR"
+
     return {
         "player": target_player, "agent": agent_name, "map": map_name, "map_details": map_details,
         "acs": acs, "adr": adr, "kd": actual_kd, "performance_index": float(round(perf_idx, 1)),
+        "performance_status": perf_status,
         "first_kills": first_kills_count,
+        "first_deaths": first_deaths_count,
+        "matches_analyzed": strat_context.get('matchesAnalyzed', 0),
         "holt": holt_next, "conselho_kaio": conselhos[0], "all_conselhos": conselhos,
         "total_rounds": total_rounds, "rounds": rounds_analysis
     }
