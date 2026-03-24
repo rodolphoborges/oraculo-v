@@ -20,6 +20,10 @@ O sistema foi concebido sob princípios de microserviços, escalabilidade e sepa
     -   Ele consome dados de jogadores diretamente do banco de dados centralizado do Protocolo V para garantir a integridade da identidade dos agentes.
 4.  **Cache de Relatórios**:
     -   Resultados de análises concluídas são persistidos tanto no Supabase quanto no sistema de arquivos local (`/analyses`) para entrega ultrarrápida.
+5.  **I/O Não-Bloqueante**:
+    -   Todo o core do sistema utiliza chamadas assíncronas (`fs.promises`), garantindo que o Event Loop nunca seja bloqueado durante operações de disco.
+6.  **Otimização de Recursos (Singleton)**:
+    -   Uso de instâncias únicas de Browser (Puppeteer) para maximizar o aproveitamento de RAM/CPU em alta carga.
 
 ## Fluxo de Dados Macro
 
@@ -38,7 +42,8 @@ graph TD
 
 ## Responsabilidades dos Componentes
 
--   `server.js`: Gateway de entrada, validação de inputs e consulta de status.
--   `worker.js`: Gerenciador de ciclo de vida do job, re-tentativas e integração com Telegram.
--   `analyze_match.js`: Orquestrador da raspagem de dados via Puppeteer/API e execução do script Python.
--   `analyze_valorant.py`: Lógica pura de análise tática e badges.
+-   `server.js`: Gateway de entrada protegida, validação de inputs e consulta de status.
+-   `worker.js`: Gerenciador de ciclo de vida do job, integração com Telegram e expansão de jobs via `lib/job_expansion.js`.
+-   `analyze_match.js`: Orquestrador da análise que utiliza o `lib/ranking_service.js` para predição técnica.
+-   `analyze_valorant.py`: Lógica tática pura e geração de badges em Python.
+-   `/scripts`: Repositório de ferramentas de manutenção, auditoria e sanitização de dados.
