@@ -8,10 +8,10 @@
     "start": "node server.js",
     "radar": "node discover_matches.js",
     "worker": "node worker.js",
-    "check": "node check_tables_v2.js",
-    "queue": "node check_queue_status.js",
-    "recover": "node recover_queue.js",
-    "trends": "node backfill_trends.js",
+    "check": "node scripts/check_tables_v2.js",
+    "queue": "node scripts/check_queue_status.js",
+    "recover": "node scripts/recover_queue.js",
+    "trends": "node scripts/backfill_trends.js",
     "test": "node run_e2e_test.js",
     "export": "node export_static.js"
   },
@@ -27,11 +27,11 @@
   },
   "homepage": "https://github.com/rodolphoborges/oraculo-v#readme",
   "dependencies": {
-    "@supabase/supabase-js": "^2.99.3",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "jsdom": "^29.0.1",
+    "@supabase/supabase-js": "^2.45.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsdom": "^25.0.0",
     "node-fetch": "^3.3.2",
-    "puppeteer": "^24.40.0"
+    "puppeteer": "^23.3.0"
   }
 }
