@@ -48,22 +48,12 @@ jobs:
           chmod +x ./node_modules/.bin/puppeteer || true
           npx puppeteer browsers install chrome
 
-      - name: Run Match Discovery
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          PROTOCOL_SUPABASE_URL: ${{ secrets.PROTOCOL_SUPABASE_URL }}
-          PROTOCOL_SUPABASE_KEY: ${{ secrets.PROTOCOL_SUPABASE_KEY }}
-          HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
-        run: node discover_matches.js
-
       - name: Process Queue (Analyze Match)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           PROTOCOL_SUPABASE_URL: ${{ secrets.PROTOCOL_SUPABASE_URL }}
           PROTOCOL_SUPABASE_KEY: ${{ secrets.PROTOCOL_SUPABASE_KEY }}
-          HENRIK_API_KEY: ${{ secrets.HENRIK_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           MANUAL_PLAYER: ${{ github.event.inputs.player_tag }}
           MANUAL_MATCH: ${{ github.event.inputs.match_id }}
