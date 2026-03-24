@@ -18,6 +18,22 @@ app.use(express.static('public'));
 
 import { expandAutoJob } from './lib/job_expansion.js';
 
+// Middleware de Segurança para Rotas Administrativas
+const adminAuth = (req, res, next) => {
+  const apiKey = req.headers['x-api-key'];
+  const masterKey = process.env.ADMIN_API_KEY;
+
+  if (!masterKey) {
+    console.error('[SECURITY] ADMIN_API_KEY não configurada no servidor.');
+    return res.status(500).json({ error: 'Configuração de segurança pendente no servidor.' });
+  }
+
+  if (apiKey !== masterKey) {
+    return res.status(401).json({ error: 'Acesso negado. API Key administrativa inválida ou ausente.' });
+  }
+  next();
+};
+
 app.post('/api/queue', async (req, res) => {
   const { player, matchId } = req.body;
 
@@ -70,7 +86,7 @@ app.post('/api/queue', async (req, res) => {
     res.status(201).json({ jobId: data.id, status: 'pending' });
   } catch (err) {
     console.error('[API] Erro ao enfileirar:', err.message);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ocorreu um erro interno ao processar sua solicitação de fila.' });
   }
 });
 
@@ -127,24 +143,33 @@ app.get('/api/status/:matchId', async (req, res) => {
     });
   } catch (err) {
     console.error('[API] Erro ao buscar status:', err.message);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Erro ao recuperar o status da análise.' });
   }
 });
 
-app.get('/api/admin/stats', async (req, res) => {
+app.get('/api/admin/stats', adminAuth, async (req, res) => {
   try {
-    // Busca os últimos 50 jobs
-    const { data: jobs, error: jError } = await supabase
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 50;
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
+    // Busca os jobs com paginação
+    const { data: jobs, error: jError, count } = await supabase
       .from('match_analysis_queue')
-      .select('*')
+      .select('*', { count: 'exact' })
       .order('created_at', { ascending: false })
-      .limit(50);
+      .range(from, to);
 
     if (jError) throw jError;
 
-    // Calcula estatísticas básicas
+    // Calcula estatísticas básicas (do snapshot atual de 50 ou histórico se preferir)
+    // Para simplificar, calculamos sobre o set retornado, mas o ideal seria uma query de agregação
     const stats = {
-      total: jobs.length,
+      total_in_range: jobs.length,
+      total_records: count,
+      page,
+      limit,
       pending: jobs.filter(j => j.status === 'pending').length,
       processing: jobs.filter(j => j.status === 'processing').length,
       completed: jobs.filter(j => j.status === 'completed').length,
@@ -154,7 +179,7 @@ app.get('/api/admin/stats', async (req, res) => {
     res.json({ stats, jobs });
   } catch (err) {
     console.error('[API ADMIN] Erro:', err.message);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Erro interno ao recuperar estatísticas administrativas.' });
   }
 });
 
