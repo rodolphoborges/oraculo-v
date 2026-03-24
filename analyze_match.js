@@ -58,8 +58,9 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   const mapDetected = matchData.data.metadata.mapName;
   
   const segments = matchData.data.segments;
-  const playerSummary = segments.find(s => s.type === 'player-summary' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
-  const playerRound = segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.toUpperCase() === playerTag.toUpperCase());
+  const normalizedTarget = playerTag.replace(/\s/g, '').toUpperCase();
+  const playerSummary = segments.find(s => s.type === 'player-summary' && s.attributes.platformUserIdentifier.replace(/\s/g, '').toUpperCase() === normalizedTarget);
+  const playerRound = segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.replace(/\s/g, '').toUpperCase() === normalizedTarget);
   
   const agentName = playerSummary ? playerSummary.metadata.agentName : (playerRound ? playerRound.metadata.agentName : null);
   const rankDisplay = playerSummary?.stats?.rank?.displayValue || "ALL";

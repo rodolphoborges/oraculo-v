@@ -14,6 +14,7 @@ import { supabase, supabaseProtocol } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import { expandAutoJob } from './lib/job_expansion.js';
 
 /**
  * worker.js 
@@ -115,7 +116,8 @@ async function processQueue() {
             .from('match_analysis_queue')
             .update({ 
                 status: 'processing',
-                processed_at: new Date().toISOString()
+                processed_at: new Date().toISOString(),
+                error_message: null
             })
             .eq('id', job.id)
             .eq('status', 'pending') // Garante que ninguém pegou no milissegundo entre o select e o update
@@ -127,11 +129,22 @@ async function processQueue() {
         }
 
         if (job.agente_tag === 'AUTO') {
-            console.log(`⚠️ [WORKER] Modo AUTO detectado, mas desativado no Worker.`);
-            await supabase.from('match_analysis_queue').update({ 
-                status: 'failed',
-                error_message: "Solicitação 'AUTO' detectada na fila. O modo AUTO deve ser expandido em jobs individuais pelo Radar ou API antes de chegar ao Worker."
-            }).eq('id', job.id);
+            try {
+                const count = await expandAutoJob(job.match_id, job.chat_id, job.metadata);
+                console.log(`🤖 [WORKER] AUTO Expandido: ${count} novos jobs.`);
+                await supabase.from('match_analysis_queue').update({ 
+                    status: 'completed',
+                    processed_at: new Date().toISOString(),
+                    error_message: null,
+                    metadata: { ...job.metadata, expanded_count: count }
+                }).eq('id', job.id);
+            } catch (expansionErr) {
+                console.error(`❌ [WORKER] Erro na expansão AUTO:`, expansionErr.message);
+                await supabase.from('match_analysis_queue').update({ 
+                    status: 'failed',
+                    error_message: expansionErr.message
+                }).eq('id', job.id);
+            }
             return true;
         }
 
@@ -158,6 +171,7 @@ async function processQueue() {
         // 5. Salvar resultado e marcar como completo
         const { error: completeError } = await supabase.from('match_analysis_queue').update({ 
             status: 'completed',
+            error_message: null,
             metadata: { 
                 ...job.metadata, 
                 agent: result.agent, 

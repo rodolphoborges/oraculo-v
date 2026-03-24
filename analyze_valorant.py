@@ -17,6 +17,16 @@ import json
 import sys
 import argparse
 import random
+import math
+
+def clean_nan(obj):
+    if isinstance(obj, dict):
+        return {k: clean_nan(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [clean_nan(v) for v in obj]
+    elif isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
+        return None
+    return obj
 
 # Garante que a saída seja UTF-8
 if hasattr(sys.stdout, 'reconfigure'):
@@ -319,6 +329,6 @@ if __name__ == "__main__":
                 pass
 
         result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev, strat_context=strat_context)
-        print(json.dumps(result, indent=2, ensure_ascii=False))
+        print(json.dumps(clean_nan(result), indent=2, ensure_ascii=False))
     except Exception as e:
-        print(json.dumps({"error": str(e)}))
+        print(json.dumps(clean_nan({"error": str(e)})))
