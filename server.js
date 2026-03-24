@@ -101,11 +101,14 @@ app.get('/api/status/:matchId', async (req, res) => {
     if (job.status === 'completed') {
       // 1. Tenta carregar do sistema de arquivos local (Cache Rápido)
       const reportPath = path.join(__dirname, 'analyses', `match_${job.match_id}_${job.agente_tag.replace('#', '_')}.json`);
-      if (fs.existsSync(reportPath)) {
-        try {
-          const result = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-          return res.json({ status: 'completed', result });
-        } catch (pErr) {
+      try {
+        await fs.promises.access(reportPath); // Verifica se o arquivo existe de forma assíncrona
+        const content = await fs.promises.readFile(reportPath, 'utf8');
+        const result = JSON.parse(content);
+        return res.json({ status: 'completed', result });
+      } catch (pErr) {
+        // Se o arquivo não existir ou houver erro na leitura, seguimos para o fallback
+        if (pErr.code !== 'ENOENT') {
           console.error(`[API] Erro ao ler JSON local (${reportPath}):`, pErr.message);
         }
       }

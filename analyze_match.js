@@ -14,27 +14,35 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   
   if (isUuid) {
     const matchesDir = './matches';
-    if (!fs.existsSync(matchesDir)) fs.mkdirSync(matchesDir);
+    try {
+      await fs.promises.access(matchesDir);
+    } catch {
+      await fs.promises.mkdir(matchesDir, { recursive: true });
+    }
     
     matchJsonPath = path.join(matchesDir, `${inputPath}.json`);
     
-    if (!fs.existsSync(matchJsonPath)) {
+    try {
+      await fs.promises.access(matchJsonPath);
+    } catch {
       console.error(`Match ID detectado. Baixando dados para ${matchJsonPath}...`);
       try {
         const data = await fetchMatchJson(inputPath);
-        fs.writeFileSync(matchJsonPath, JSON.stringify(data, null, 2));
+        await fs.promises.writeFile(matchJsonPath, JSON.stringify(data, null, 2));
       } catch (err) {
         throw new Error(`Falha ao baixar dados da partida: ${err.message}`);
       }
     }
   }
 
-  if (!fs.existsSync(matchJsonPath)) {
-    throw new Error(`Arquivo ${matchJsonPath} não encontrado.`);
-  }
-
   // 3. Carrega o JSON da partida
-  const matchData = JSON.parse(fs.readFileSync(matchJsonPath, 'utf8'));
+  let matchData;
+  try {
+    const content = await fs.promises.readFile(matchJsonPath, 'utf8');
+    matchData = JSON.parse(content);
+  } catch (err) {
+    throw new Error(`Erro ao ler arquivo ${matchJsonPath}: ${err.message}`);
+  }
   
   // 4. Identifica o agente, mapa e rank do jogador na partida
   if (!matchData.data?.metadata || !matchData.data?.segments) {
@@ -129,29 +137,13 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
           console.error("Python Stderr:", stderr);
       }
     
-    const analysisResult = JSON.parse(stdout);
-    
-    // Lógica de Predição Técnica Ponderada (vStats Impact Factor)
-    let estimatedRank = 'PRATA/BRONZE';
-    const actualKd = analysisResult.kd;
-    const actualAdr = analysisResult.adr;
-    
-    // Ordena baselines por um "Score de Impacto" (Simplesmente do maior rank pro menor)
-    const sortedBaselines = baselines.sort((a, b) => (b.kd + b.adr/100) - (a.kd + a.adr/100));
-    
-    for (const b of sortedBaselines) {
-      // Cálculo de Ratio Ponderado: 40% KD, 60% ADR
-      const kdRatio = actualKd / b.kd;
-      const adrRatio = actualAdr / b.adr;
-      const combinedImpact = (kdRatio * 0.4) + (adrRatio * 0.6);
+      const analysisResult = JSON.parse(stdout);
       
-      if (combinedImpact >= 0.97) {
-        estimatedRank = b.rank;
-        break;
-      }
-    }
-    
-    console.error(`Debug Predicition - Final Estimated Rank:`, estimatedRank);
+      // Lógica de Predição Técnica Ponderada (vStats Impact Factor)
+      const { estimateTechnicalRank } = await import('./lib/ranking_service.js');
+      const estimatedRank = estimateTechnicalRank(analysisResult.kd, analysisResult.adr, baselines);
+      
+      console.error(`Debug Predicition - Final Estimated Rank:`, estimatedRank);
 
     // Adiciona informações de meta e predição no resultado
     analysisResult.meta_category = metaCategory;
@@ -160,12 +152,16 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
 
     // Garante que a pasta analyses existe
     const analysesDir = './analyses';
-    if (!fs.existsSync(analysesDir)) fs.mkdirSync(analysesDir);
+    try {
+      await fs.promises.access(analysesDir);
+    } catch {
+      await fs.promises.mkdir(analysesDir, { recursive: true });
+    }
 
     // Salva o relatório local enriquecido (com rank estimado e meta)
     const matchId = isUuid ? inputPath : (analysisResult.match_id || 'unknown');
     const finalReportPath = path.join(analysesDir, `match_${matchId}_${playerTag.replace('#', '_')}.json`);
-    fs.writeFileSync(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
+    await fs.promises.writeFile(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
     
     return analysisResult;
   } catch (err) {
