@@ -18,6 +18,9 @@ import sys
 import argparse
 import random
 import math
+import traceback
+import random
+import math
 
 def clean_nan(obj):
     if isinstance(obj, dict):
@@ -105,7 +108,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     ]
 
     rounds_analysis = []
-    for r_num in range(1, total_rounds + 1):
+    for r_num in range(1, curr_rounds + 1):
         round_seg = next((s for s in player_round_segs if s['attributes']['round'] == r_num), None)
         if not round_seg: continue
 
@@ -286,7 +289,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         "first_deaths": first_deaths_count,
         "matches_analyzed": strat_context.get('matchesAnalyzed', 0),
         "holt": holt_next, "conselho_kaio": conselhos[0], "all_conselhos": conselhos,
-        "total_rounds": total_rounds, "rounds": rounds_analysis
+        "total_rounds": curr_rounds, "rounds": rounds_analysis
     }
 
 if __name__ == "__main__":
@@ -331,4 +334,5 @@ if __name__ == "__main__":
         result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev, strat_context=strat_context)
         print(json.dumps(clean_nan(result), indent=2, ensure_ascii=False))
     except Exception as e:
+        traceback.print_exc()
         print(json.dumps(clean_nan({"error": str(e)})))
