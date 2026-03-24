@@ -164,7 +164,8 @@ async function processQueue() {
                 map: result.map,
                 perf: result.performance_index,
                 holt: result.holt,
-                analysis: result 
+                analysis: result,
+                finished_at: new Date().toISOString()
             }
         }).eq('id', job.id);
 

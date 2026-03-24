@@ -1,164 +1,187 @@
 // portal.js
-let db = {};
+let agents = {};
+let operations = [];
 
-async function init() {
-    try {
-        // Agora usamos a variável global ORACULO_DATABASE carregada via script
-        db = typeof ORACULO_DATABASE !== 'undefined' ? ORACULO_DATABASE : {};
+function init() {
+    agents = typeof ORACULO_DATABASE !== 'undefined' ? ORACULO_DATABASE : {};
+    operations = typeof ORACULO_OPERATIONS !== 'undefined' ? ORACULO_OPERATIONS : [];
+    
+    renderDashboard();
+    renderAgents();
+}
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(`view-${tabId}`).classList.add('active');
+    
+    // Find the button and activate it
+    const btns = document.querySelectorAll('.nav-btn');
+    btns.forEach(btn => {
+        if (btn.textContent.toLowerCase().includes(tabId)) btn.classList.add('active');
+    });
+
+    document.getElementById('current-view').textContent = tabId.charAt(0).toUpperCase() + tabId.slice(1);
+}
+
+function renderDashboard() {
+    const statsContainer = document.getElementById('dash-stats');
+    const tableBody = document.getElementById('ops-table-body');
+    
+    // Calculate Stats
+    const total = operations.length;
+    const completed = operations.filter(o => o.status === 'completed').length;
+    const failed = operations.filter(o => o.status === 'failed').length;
+    const rate = total ? ((completed / total) * 100).toFixed(0) : 0;
+
+    statsContainer.innerHTML = `
+        <div class="stat-card">
+            <div class="stat-label">Total de Jobs</div>
+            <div class="stat-val">${total}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Taxa de Sucesso</div>
+            <div class="stat-val" style="color: var(--success)">${rate}%</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Falhas</div>
+            <div class="stat-val" style="color: var(--accent)">${failed}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Agentes Ativos</div>
+            <div class="stat-val">${Object.keys(agents).length}</div>
+        </div>
+    `;
+
+    // Render Table
+    tableBody.innerHTML = operations.map(op => {
+        const start = op.processed_at ? new Date(op.processed_at) : null;
+        const end = op.metadata?.finished_at ? new Date(op.metadata.finished_at) : null;
         
-        if (Object.keys(db).length === 0) {
-            throw new Error("Base de dados vazia ou não carregada.");
+        let duration = '---';
+        if (start && end) {
+            const diff = Math.round((end - start) / 1000);
+            duration = diff > 60 ? `${Math.floor(diff/60)}m ${diff%60}s` : `${diff}s`;
         }
 
-        renderPlayerList();
-        
-        // Auto-select first player if exists
-        const firstPlayer = Object.keys(db).sort()[0];
-        if (firstPlayer) selectPlayer(firstPlayer);
-        
-    } catch (err) {
-        console.error("Erro ao carregar banco de dados estático:", err);
-        document.getElementById('match-grid').innerHTML = `
-            <div style="padding: 2rem; background: rgba(255,70,85,0.1); border-radius: 12px; border: 1px solid var(--accent-color);">
-                <h3 style="color: var(--accent-color); margin-bottom: 1rem;">Erro de Carregamento</h3>
-                <p>Não foi possível encontrar a variável <b>ORACULO_DATABASE</b>.</p>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                    Certifique-se de ter rodado <code>node export_static.js</code> e que o arquivo <b>data.js</b> está na mesma pasta que este HTML.
-                </p>
+        const dateStr = op.created_at ? new Date(op.created_at).toLocaleString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' }) : '---';
+
+        return `
+            <tr>
+                <td><code class="dim" style="font-size: 0.7rem;">${op.match_id.substring(0, 18)}...</code></td>
+                <td><b>${op.agente_tag}</b></td>
+                <td><span class="status-pill status-${op.status}">${op.status}</span></td>
+                <td class="dim">${dateStr}</td>
+                <td class="accent" style="font-weight: 600;">${duration}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function renderAgents() {
+    const grid = document.getElementById('agent-grid');
+    grid.innerHTML = Object.keys(agents).sort().map(tag => {
+        const player = agents[tag];
+        return `
+            <div class="agent-card" onclick="viewAgentDetail('${tag}')">
+                <div class="dim" style="font-size: 0.7rem; margin-bottom: 0.5rem;">REGISTRO ATIVO</div>
+                <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;">${tag}</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="dim">${player.matches.length} Partidas</span>
+                    <span class="accent">Ver Histórico →</span>
+                </div>
             </div>
         `;
-    }
+    }).join('');
 }
 
-function renderPlayerList() {
-    const list = document.getElementById('player-list');
-    list.innerHTML = '';
+function viewAgentDetail(tag) {
+    const player = agents[tag];
+    document.getElementById('player-title').textContent = tag;
+    const grid = document.getElementById('player-matches-grid');
     
-    Object.keys(db).sort().forEach(playerTag => {
-        const item = document.createElement('div');
-        item.className = 'player-item';
-        item.id = `player-${playerTag.replace('#', '-')}`;
-        item.onclick = () => selectPlayer(playerTag);
-        
-        item.innerHTML = `
-            <span class="player-name">${playerTag}</span>
-            <span class="match-count">${db[playerTag].matches.length}</span>
-        `;
-        list.appendChild(item);
-    });
-}
-
-function selectPlayer(tag) {
-    // UI Update
-    document.querySelectorAll('.player-item').forEach(el => el.classList.remove('active'));
-    const item = document.getElementById(`player-${tag.replace('#', '-')}`);
-    if (item) item.classList.add('active');
-    
-    document.getElementById('view-title').textContent = `Agente: ${tag}`;
-    
-    renderMatches(tag);
-}
-
-function renderMatches(tag) {
-    const grid = document.getElementById('match-grid');
-    grid.innerHTML = '';
-    
-    const matches = db[tag].matches;
-    
-    matches.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'match-card';
-        card.onclick = () => showReport(m);
-        
-        const date = new Date(m.timestamp).toLocaleString('pt-BR');
+    grid.innerHTML = player.matches.map(m => {
+        const date = new Date(m.timestamp).toLocaleDateString('pt-BR');
         const data = m.analysis;
-        
-        const statusClass = getStatusClass(data.performance_status);
-        
-        card.innerHTML = `
-            <div class="date">${date}</div>
-            <div class="agent-map">${data.agent} @ ${data.map}</div>
-            <div style="font-size: 1.2rem; font-weight: 800; color: var(--accent-color); margin-bottom: 0.5rem;">
-                IK: ${data.performance_index}
-            </div>
-            <div class="tag-row">
-                <span class="status-tag ${statusClass}">${data.performance_status || 'ANALISADO'}</span>
-                <span style="font-size: 0.7rem; color: var(--text-secondary)">${data.matches_analyzed || 0} PARTIDAS ANTES</span>
+        return `
+            <div class="agent-card" onclick="showReport('${tag}', '${m.id}')">
+                <div class="dim" style="font-size: 0.7rem; margin-bottom: 0.5rem;">${date}</div>
+                <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">${data.agent} @ ${data.map}</div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;">
+                    IK ${data.performance_index}
+                </div>
+                <div class="status-pill status-completed" style="width: fit-content;">${data.performance_status || 'ANALISADO'}</div>
             </div>
         `;
-        grid.appendChild(card);
-    });
+    }).join('');
+
+    switchTab('player-detail');
 }
 
-function getStatusClass(status) {
-    if (!status) return '';
-    if (status.includes('ELITE')) return 'status-elite';
-    if (status.includes('DENTRO')) return 'status-stable';
-    if (status.includes('ABAIXO')) return 'status-danger';
-    return '';
-}
-
-function showReport(match) {
-    const overlay = document.getElementById('report-overlay');
-    const content = document.getElementById('report-content');
+function showReport(playerTag, jobId) {
+    const player = agents[playerTag];
+    const match = player.matches.find(m => m.id === jobId);
     const data = match.analysis;
     
-    overlay.style.display = 'block';
-    document.body.style.overflow = 'hidden';
+    const panel = document.getElementById('report-inner-content');
     
-    content.innerHTML = `
-        <div class="report-header">
-            <p style="color: var(--accent-color); font-weight: 800; letter-spacing: 2px;">PROTOCOLO V // RELATÓRIO TÁTICO</p>
-            <h2>${data.performance_status || 'RELATÓRIO DE CAMPO'}</h2>
-            <p style="color: var(--text-secondary)">Operação: ${match.matchId}</p>
+    panel.innerHTML = `
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div class="accent" style="font-weight: 800; letter-spacing: 2px; font-size: 0.7rem; margin-bottom: 1rem;">PROTOCOLO V // NÚCLEO TÁTICO</div>
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">${data.performance_status || 'ANÁLISE DE CAMPO'}</h1>
+            <div class="dim">Operação: ${match.matchId}</div>
         </div>
 
-        <div class="report-stats">
-            <div class="stat-box">
-                <div class="stat-label">IK (INDEX)</div>
-                <div class="stat-value">${data.performance_index}</div>
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label">IK (Index)</div>
+                <div class="stat-val" style="color: var(--accent)">${data.performance_index}</div>
             </div>
-            <div class="stat-box">
+            <div class="stat-card">
                 <div class="stat-label">ADR</div>
-                <div class="stat-value">${data.adr}</div>
+                <div class="stat-val">${data.adr}</div>
             </div>
-            <div class="stat-box">
-                <div class="stat-label">FIRST KILLS (FK)</div>
-                <div class="stat-value">${data.first_kills || 0}</div>
+            <div class="stat-card">
+                <div class="stat-label">K/D</div>
+                <div class="stat-val">${data.kd}</div>
             </div>
-            <div class="stat-box">
-                <div class="stat-label">FIRST DEATHS (FD)</div>
-                <div class="stat-value">${data.first_deaths || 0}</div>
+            <div class="stat-card">
+                <div class="stat-label">ACS</div>
+                <div class="stat-val">${data.acs || '---'}</div>
             </div>
         </div>
 
-        <div class="advice-section">
-            <h3 style="margin-bottom: 1rem; color: var(--accent-color);">CONSELHO DO K.A.I.O.</h3>
-            <p style="font-size: 1.1rem; line-height: 1.6;">${data.conselho_kaio}</p>
+        <div style="background: rgba(255, 70, 85, 0.05); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--accent); margin-bottom: 3rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--accent)">DIRETRIZ K.A.I.O.</h3>
+            <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.9)">${data.conselho_kaio}</p>
         </div>
 
-        <div class="rounds-analysis">
-            <h3 style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">ANÁLISE DE ROUNDS</h3>
+        <h3>Eventos de Impacto</h3>
+        <div style="margin-top: 1.5rem;">
             ${data.rounds.map(r => `
-                <div class="round-item">
-                    <div class="round-num">R${String(r.round).padStart(2, '0')}</div>
-                    <div class="round-comment">${r.comment}</div>
-                    <div class="round-impact ${getImpactClass(r.impacto)}">${r.impacto.toUpperCase()}</div>
+                <div style="display: flex; padding: 1rem 0; border-bottom: 1px solid var(--border); align-items: center;">
+                    <div class="dim" style="width: 50px; font-weight: 800;">R${String(r.round).padStart(2, '0')}</div>
+                    <div style="flex: 1; padding: 0 1rem;">${r.comment}</div>
+                    <div style="width: 100px; text-align: right; font-weight: 700; font-size: 0.7rem;" class="${r.impacto === 'Positivo' ? 'status-completed' : (r.impacto === 'Negativo' ? 'accent' : 'dim')}">
+                        ${r.impacto.toUpperCase()}
+                    </div>
                 </div>
             `).join('')}
         </div>
     `;
-}
 
-function getImpactClass(impact) {
-    if (impact === 'Positivo') return 'impact-pos';
-    if (impact === 'Negativo') return 'impact-neg';
-    return 'impact-neu';
+    document.getElementById('report-overlay').style.display = 'block';
 }
 
 function closeReport() {
     document.getElementById('report-overlay').style.display = 'none';
-    document.body.style.overflow = 'auto';
 }
+
+// Global exposure for HTML onclicks
+window.switchTab = switchTab;
+window.viewAgentDetail = viewAgentDetail;
+window.showReport = showReport;
+window.closeReport = closeReport;
 
 init();
