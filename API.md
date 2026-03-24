@@ -7,15 +7,16 @@ Esta documentação descreve os padrões de comunicação e endpoints do micross
 -   **Protocolo**: HTTPS
 -   **Formato**: JSON (Content-Type: `application/json`)
 -   **Padrão**: RESTful
--   **Autenticação**: JWT (JSON Web Token) via header `Authorization: Bearer <token>`
-    -   Nota: Atualmente em fase de implementação para ambiente de produção.
+-   **Autenticação**:
+    -   **Público**: Sem autenticação necessária.
+    -   **Admin**: Exige header `x-api-key: <token>` para rotas de estatísticas e gestão.
 
 ## Endpoints Principais
 
 ### 1. Enfileirar Análise de Partida
 Solicita que o Oráculo processe uma partida específica para um jogador.
 
-**Endpoint**: `POST /api/v1/queue`
+**Endpoint**: `POST /api/queue`
 
 **Request Payload**:
 ```json
@@ -39,7 +40,7 @@ Solicita que o Oráculo processe uma partida específica para um jogador.
 ### 2. Consultar Status/Resultado da Análise
 Retorna o estado atual de um processamento ou o resultado completo se finalizado.
 
-**Endpoint**: `GET /api/v1/status/{matchId}?player={playerTag}`
+**Endpoint**: `GET /api/status/{matchId}?player={playerTag}`
 
 **Response (200 OK - Processing)**:
 ```json
@@ -89,31 +90,34 @@ Retorna dados agregados e tendências de um jogador.
 
 ---
 
-### 4. Gerenciamento de Equipes
-Criação e registro de novas organizações/times no Protocolo V.
+### 5. Estatísticas Administrativas
+Retorna o estado da fila de processamento e métricas de sistema.
 
-**Endpoint**: `POST /api/v1/teams`
+**Endpoint**: `GET /api/admin/stats`
 
-**Request Payload**:
+**Headers**:
+- `x-api-key`: Chave administrativa mestra.
+
+**Query Parameters**:
+- `page`: Número da página (default: 1).
+- `limit`: Quantidade de registros (default: 50).
+
+**Response (200 OK)**:
 ```json
 {
-  "name": "Astralis Brasil",
-  "shortName": "ASB",
-  "captainId": "user_id_uuid"
-}
-```
-
-**Response (201 Created)**:
-```json
-{
-  "teamId": "772ac10b-58cc-4372-a567-0e02b2c3d987",
-  "status": "active"
+  "stats": {
+    "total_records": 1250,
+    "pending": 5,
+    "page": 1,
+    "limit": 50
+  },
+  "jobs": [...]
 }
 ```
 
 ## Códigos de Erro
 
--   `400 Bad Request`: Parâmetros inválidos ou formatos (ex: UUID inválido).
--   `401 Unauthorized`: Token ausente ou expirado.
--   `404 Not Found`: Partida ou Jogador não localizado na base.
--   `500 Internal Server Error`: Falha crítica no processamento ou banco de dados.
+-   `400 Bad Request`: Parâmetros inválidos ou formatos (ex: Nick#Tag fora do padrão).
+-   `401 Unauthorized`: API Key administrativa ausente ou inválida.
+-   `404 Not Found`: Análise não localizada na fila.
+-   `500 Internal Server Error`: Erro genérico de servidor para proteger informações internas.
