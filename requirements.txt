@@ -1,0 +1,4 @@
+# Oráculo V - Python Dependencies
+# Este script usa apenas bibliotecas padrão para máxima portabilidade e performance.
+
+# Nenhuma dependência externa necessária no momento.
