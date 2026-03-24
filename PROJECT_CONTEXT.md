@@ -25,14 +25,13 @@ O sistema foi concebido sob princípios de microserviços, escalabilidade e sepa
 6.  **Otimização de Recursos (Singleton)**:
     -   Uso de instâncias únicas de Browser (Puppeteer) para maximizar o aproveitamento de RAM/CPU em alta carga.
 
-## Fluxo de Dados Macro
+## Fluxo de Dados Macro (Pure Consumer)
 
 ```mermaid
 graph TD
-    A[Cliente / Radar / Bot] -- "POST /api/queue" --> B(API Express)
+    A[Protocolo V / Radar Externo] -- "POST /api/queue" --> B(API Express)
     B -- "Status: pending" --> C{Supabase Queue}
     D[Worker Node.js] -- "Pull Job" --> C
-    D -- "Fetch History" --> E[Supabase Protocolo V]
     D -- "Execute Analysis" --> F[Python Engine]
     F -- "Calculate Badges & Trends" --> G[Report JSON]
     G -- "Save & Cache" --> H[Supabase + Local Filesystem]
@@ -42,8 +41,8 @@ graph TD
 
 ## Responsabilidades dos Componentes
 
--   `server.js`: Gateway de entrada protegida, validação de inputs e consulta de status.
--   `worker.js`: Gerenciador de ciclo de vida do job, integração com Telegram e expansão de jobs via `lib/job_expansion.js`.
+-   `server.js`: Gateway de entrada protegida, validação de inputs e consulta de status. Recebe jobs do **Protocolo V**.
+-   `worker.js`: Gerenciador de ciclo de vida do job, integração com Telegram e processamento da fila.
 -   `analyze_match.js`: Orquestrador da análise que utiliza o `lib/ranking_service.js` para predição técnica.
 -   `analyze_valorant.py`: Lógica tática pura e geração de badges em Python.
 -   `/scripts`: Repositório de ferramentas de manutenção, auditoria e sanitização de dados.

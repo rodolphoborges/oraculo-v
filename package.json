@@ -6,7 +6,7 @@
   "main": "scrapers/main.js",
   "scripts": {
     "start": "node server.js",
-    "radar": "node discover_matches.js",
+    "radar-legacy": "node scripts/radar_deprecated.js",
     "worker": "node worker.js",
     "check": "node scripts/check_tables_v2.js",
     "queue": "node scripts/check_queue_status.js",

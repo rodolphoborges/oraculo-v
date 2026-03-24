@@ -20,7 +20,6 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 
 ## 🚨 Funcionalidades de Elite (v4.0)
 
-- **Radar de Exploração Cruzada**: Ao encontrar uma partida para um único jogador, o radar agora escaneia automaticamente todos os 10 participantes da sala. Se encontrar qualquer outro agente do Protocolo V, ele o enfileira instantaneamente, mesmo que a partida não esteja no histórico recente desse segundo agente.
 - **Worker Resiliente (Self-Healing)**: Motor de processamento com detecção de falhas de rede. Ele distingue erros de API de "fila vazia" e possui um sistema de auto-recuperação para "Jobs Fantasmas" (travados em processamento).
 - **Cache Permanente Unificado**: Relatórios JSON agora são salvos com a chave ÚNICA `match_MATCHID_PLAYER.json`. Isso impede que novas partidas sobrescrevam o histórico no servidor.
 - **Holt-Winters DES**: Análise de tendência Double Exponential Smoothing integrada para prever performance futura e detectar "quedas de rendimento" antes que aconteçam.
@@ -28,7 +27,6 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 
 ## 📂 Estrutura do Projeto
 
-- `discover_matches.js`: Radar de exploração (size=20). Descobre partidas e expande automaticamente para todos os agentes detectados na mesma sala.
 - `worker.js`: Motor de análise com lógica de retry e recuperação de jobs pendentes/presos.
 - `lib/supabase.js`: Core de conexão dual-database.
 - `check_tables_v2.js`: Diagnóstico de conectividade multi-base.
@@ -90,9 +88,9 @@ Cada item no array `rounds` representa uma rodada analisada:
 - `PROTOCOL_SUPABASE_URL`: URL do projeto do Protocolo.
 - `PROTOCOL_SUPABASE_KEY`: Key `service_role` dO Protocolo.
 
-### APIs de Terceiros
-- `HENRIK_API_KEY`: Chave da API HenrikDev.
-- `TELEGRAM_BOT_TOKEN`: Token do Bot dO Telegram.
+### IDs e Chaves Opcionais
+- `HENRIK_API_KEY`: (Opcional) Chave da API HenrikDev, necessária apenas se usar o script legado de radar.
+- `TELEGRAM_BOT_TOKEN`: Token do Bot do Telegram para notificações.
 
 ## 🤖 Operação e Testes
 
@@ -102,10 +100,10 @@ Para validar se as duas conexões e tabelas estão prontas:
 node check_tables_v2.js
 ```
 
-### Radar de Partidas
-Para buscar manualmente novas partidas em grupo:
+### Radar de Partidas (Legado)
+Para buscar manualmente novas partidas usando a API Henrik (requer chave):
 ```bash
-node discover_matches.js
+node scripts/radar_deprecated.js
 ```
 
 ## 🛠️ Manutenção e Diagnóstico
