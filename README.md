@@ -3,14 +3,14 @@
 O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v4.0, ele atinge maturidade máxima com **Exploração Cruzada de Agentes** e **Cache Permanente por Partida**, operando sob a estética "Brutalista Terminal".
 
 > [!NOTE]
-> **[AI/LLM ENTRY POINT - V3.2 UPDATED]**
+> **[AI/LLM ENTRY POINT - V4.0 UPDATED]**
 > Future AI agents should start by reviewing `lib/supabase.js` for dual-database setup, and `worker.js` which acts as a **continuous asynchronous daemon (while loop)** processing the queue.
 > 
 > **CRITICAL DB CONTEXT:** The primary queue table in Supabase (`match_analysis_queue`) uses `agente_tag` (for primary lookup) and `error_message` (with 'e'). Both `agente_tag` and `player_riot_id` are present in the schema. The final JSON report output by the engine is saved into the `metadata.analysis` JSONB property.
 > 
 > Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`.
 > Integration and regression tests should be executed via `node run_e2e_test.js`.
-> Connectivity diagnostics can be run via `node check_tables_v2.js`.
+> Connectivity diagnostics can be run via `node scripts/check_tables_v2.js`.
 
 ## 🏗️ Arquitetura Multi-Base (Microserviços)
 
@@ -36,9 +36,9 @@ O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
 ## 🌐 Endpoints da API (`server.js`)
 O sistema emite um painel admin e 4 rotas centrais:
 1. `POST /api/queue`: (Body: `{ player: "Nick#Tag" | "AUTO", matchId: "UUID" }`) - Enfileira uma análise técnica. O modo `AUTO` identifica e enfileira automaticamente todos os agentes do Protocolo V presentes na partida.
-2. `GET /api/status/:matchId?player=Nick#Tag`: Retorna o status atual de processamento e, se `'completed'`, anexa o JSON parcial do resultado.
+2. `GET /api/status/:matchId?player=Nick#Tag`: Retorna o status atual de processamento e, se `'completed'`, anexa o JSON do resultado (local ou via metadata).
 3. `GET /api/admin/stats`: Retorna as estatísticas do servidor para consumo do `admin.html`.
-4. `GET /api/status/:matchId?player=Nick#Tag`: (v3.1) Agora retorna o objeto completo de análise dentro de `job.metadata.analysis`.
+4. `GET /api/status/:matchId?player=Nick#Tag`: (v4.0) Agora retorna o objeto completo de análise dentro de `job.metadata.analysis`.
 
 ## 📘 Guia para Consumidores de Dados (Frontend)
 
@@ -53,7 +53,7 @@ Os dados finais estão no objeto `analysis`. Campos principais:
 - `target_kd`: (Number) K/D médio esperado para o rank desse agente.
 - `conselho_kaio`: (String) Texto longo com a DIRETRIZ TÁTICA principal (Artigo de Impacto). **Agora inclui análise de tendência automática.**
 - `acs`, `adr`, `kd`: Métricas gerais da partida.
-- `holt`: (**NOVO v3.2**) Objeto com Double Exponential Smoothing (Tendência):
+- `holt`: (**NOVO v4.0**) Objeto com Double Exponential Smoothing (Tendência):
     - `performance_L`, `performance_T`: Nível e Tendência do Índice de Performance.
     - `performance_forecast`: Previsão de performance para a próxima partida.
     - `kd_L`, `kd_T`, `adr_L`, `adr_T`: Estados internos para KD e ADR.
@@ -73,7 +73,7 @@ Cada item no array `rounds` representa uma rodada analisada:
 
 - **Box kaio**: Sempre exiba `conselho_kaio` em destaque (Ex: Terminal Box ou Alerta).
 - **Lista de Rounds**: Intere sobre `analysis.rounds`. Se `comment` estiver presente, exiba-o. Se não, use `pos` ou `neg`.
-- **Compatibilidade**: O motor v3.1+ fornece campos tanto em Inglês (`text`, `type`) quanto em Português (`texto`, `tipo`). Priorize os campos em Português se existirem para manter a consistência do Protocolo-V.
+- **Compatibilidade**: O motor v4.0+ fornece campos tanto em Inglês (`text`, `type`) quanto em Português (`texto`, `tipo`). Priorize os campos em Português se existirem para manter a consistência do Protocolo-V.
 
 ## ⚙️ Configuração
 
@@ -97,7 +97,7 @@ Cada item no array `rounds` representa uma rodada analisada:
 ### Diagnóstico de Base
 Para validar se as duas conexões e tabelas estão prontas:
 ```bash
-node check_tables_v2.js
+node scripts/check_tables_v2.js
 ```
 
 ### Radar de Partidas (Legado)
@@ -110,12 +110,12 @@ node scripts/radar_deprecated.js
 
 O projeto conta com scripts utilitários para manter a saúde da fila:
 
-- `node check_queue_status.js`: Resumo visual do status da fila e últimos jobs.
-- `node verify_global_pending.js`: Consulta rápida apenas do total de pendências.
-- `node recover_queue.js`: Reseta jobs travados em `processing` (timeout > 15min).
-- `node reset_failed.js`: Move todos os jobs com `failed` de volta para `pending`.
-- `node repair_truncated_jobs.js`: Identifica e reseta análises salvas de forma incompleta.
-- `node backfill_trends.js`: Recalcula tendências Holt-Winters para todo o histórico.
+- `node scripts/check_queue_status.js`: Resumo visual do status da fila e últimos jobs.
+- `node scripts/verify_global_pending.js`: Consulta rápida apenas do total de pendências.
+- `node scripts/recover_queue.js`: Reseta jobs travados em `processing` (timeout > 15min).
+- `node scripts/reset_failed.js`: Move todos os jobs com `failed` de volta para `pending`.
+- `node scripts/repair_truncated_jobs.js`: Identifica e reseta análises salvas de forma incompleta.
+- `node scripts/backfill_trends.js`: Recalcula tendências Holt-Winters para todo o histórico.
 
 ---
 *(C) 2026 DEEPMIND ANTIGRAVITY // PROTOCOLO_V_OPERACAO_MAXIMA*

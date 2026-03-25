@@ -41,8 +41,9 @@ graph TD
 
 ## Responsabilidades dos Componentes
 
--   `server.js`: Gateway de entrada protegida, validação de inputs e consulta de status. Recebe jobs do **Protocolo V**.
--   `worker.js`: Gerenciador de ciclo de vida do job, integração com Telegram e processamento da fila.
--   `analyze_match.js`: Orquestrador da análise que utiliza o `lib/ranking_service.js` para predição técnica.
--   `analyze_valorant.py`: Lógica tática pura e geração de badges em Python.
+-   `server.js`: Gateway de entrada protegida (Express), validação de inputs e consulta de status. Oferece o modo `AUTO` para expansão de partidas.
+-   `worker.js`: Gerenciador de ciclo de vida do job (Daemon assíncrono). Gerencia o estado **Holt-Winters** e integra com Telegram.
+-   `analyze_match.js`: Orquestrador de análise que baixa dados da partida, consulta o meta (VStats) e coordena a execução do motor Python.
+-   `analyze_valorant.py`: Motor de análise tática puro (Python). Implementa o Lexicon of Impact, gera badges e calcula tendências.
+-   `lib/supabase.js`: Gerenciador centralizado de conectividade dual-database (Oráculo + Protocolo).
 -   `/scripts`: Repositório de ferramentas de manutenção, auditoria e sanitização de dados.

@@ -1,8 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
-dotenv.config();
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+import { supabase } from '../lib/supabase.js';
 
 async function checkQueue() {
   const { data, error } = await supabase
