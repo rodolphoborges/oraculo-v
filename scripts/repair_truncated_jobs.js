@@ -1,4 +1,4 @@
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../lib/supabase.js';
 
 /**
  * repair_truncated_jobs.js

@@ -5,7 +5,7 @@
  * Verifies that the 'players' and 'operation_squads' tables exist in Protocolo-V,
  * and that 'match_analysis_queue' exists in Oráculo-V.
  */
-import { supabase, supabaseProtocol, getSupabaseConfig } from './lib/supabase.js';
+import { supabase, supabaseProtocol, getSupabaseConfig } from '../lib/supabase.js';
 
 async function checkTables() {
     const config = getSupabaseConfig();

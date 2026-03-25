@@ -1,4 +1,4 @@
-import { supabase, supabaseProtocol } from './lib/supabase.js';
+import { supabase, supabaseProtocol } from '../lib/supabase.js';
 
 async function backfill() {
     console.log("🚀 [BACKFILL] Iniciando recalibragem de tendências para todos os jogadores...");
