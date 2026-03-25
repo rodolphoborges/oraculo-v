@@ -11,6 +11,8 @@ O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura ass
 > Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`.
 > Integration and regression tests should be executed via `node run_e2e_test.js`.
 > Connectivity diagnostics can be run via `node scripts/check_tables_v2.js`.
+>
+> **Documentação Tática de Elite:** Para entender os detalhes de cálculo de IK, Tendência e Sinergia, veja [REGRAS_NEGOCIO.md](file:///c:/Users/rodol/OneDrive/%C3%81rea%20de%20Trabalho/oraculo-v/oraculo-v/REGRAS_NEGOCIO.md).
 
 ## 🏗️ Arquitetura Multi-Base (Microserviços)
 
