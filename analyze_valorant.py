@@ -188,12 +188,13 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
 
         r_sum = round_summaries.get(r_num)
         if r_sum:
+            site = r_sum.get('plant', {}).get('site', 'Unknown') if r_sum.get('plant') else (r_sum.get('defuse', {}).get('site', 'Unknown') if r_sum.get('defuse') else 'Unknown')
             if r_sum.get('plant') and r_sum['plant']['platformUserIdentifier'].upper() == player_target_upper:
-                pos_label = pos_label or tm.get("bomb_planted", "BOMB PLANTED")
-                narrative_events.append({"time": "PLAN", "type": "pos", "text": "Dominou o site e garantiu o plant", "ms": r_sum['plant'].get('roundTime', 0)})
+                pos_label = pos_label or tm.get("bomb_planted", "BOMB PLANTED").format(site=site)
+                narrative_events.append({"time": "PLAN", "type": "pos", "text": f"Dominou o site {site} e garantiu o plant", "ms": r_sum['plant'].get('roundTime', 0)})
             if r_sum.get('defuse') and r_sum['defuse']['platformUserIdentifier'].upper() == player_target_upper:
-                pos_label = pos_label or tm.get("bomb_defused", "CLUTCH DEFUSE")
-                narrative_events.append({"time": "DEF", "type": "pos", "text": "Clutch no defuse! Garantiu o round no detalhe", "ms": r_sum['defuse'].get('roundTime', 0)})
+                pos_label = pos_label or tm.get("bomb_defused", "CLUTCH DEFUSE").format(site=site)
+                narrative_events.append({"time": "DEF", "type": "pos", "text": f"Clutch no defuse no site {site}! Garantiu o round no detalhe", "ms": r_sum['defuse'].get('roundTime', 0)})
 
         if economy < 2500 and kills_count > 0:
             pos_label = pos_label or tm.get("eco_kill", "ECOOU FORTE").format(economy=economy)
