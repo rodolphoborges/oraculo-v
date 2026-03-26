@@ -52,7 +52,25 @@ class TemplateManager:
         return random.choice(options)
 
     def format(self, event_type, default, **kwargs):
-        template = self.get(event_type, default)
+        # Mapeamento de Sinônimos para maior compatibilidade com o Dump
+        synonyms = {
+            "first_blood": ["first_blood_positivo", "first_blood"],
+            "pos_generic": ["pos_generic", "abate_positivo"],
+            "neg_generic": ["neg_generic", "morte_negativa", "morte_boba_negativo"],
+            "bomb_planted": ["plant_positivo", "bomb_planted"],
+            "bomb_defused": ["defuse_positivo", "bomb_defused"],
+        }
+        
+        target_keys = synonyms.get(event_type, [event_type])
+        template = None
+        for key in target_keys:
+            tpl = self.get(key, None)
+            if tpl:
+                template = tpl
+                break
+        
+        if not template:
+            template = default
         
         # Aliases for compatibility with the dump
         kwargs['local'] = kwargs.get('site', 'Desconhecido')
@@ -242,12 +260,28 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         r_sum = round_summaries.get(r_num)
         if r_sum:
             site = r_sum.get('plant', {}).get('site', 'Unknown') if r_sum.get('plant') else (r_sum.get('defuse', {}).get('site', 'Unknown') if r_sum.get('defuse') else 'Unknown')
+            
+            # Detecção de Round Type (Pistola, Eco, Force)
+            is_win = r_sum.get('winningTeam') == player_team
+            if is_win:
+                if r_num in [1, 13]:
+                    pos_label = pos_label or tm.format("round_pistola_positivo", "Ganhou o Pistola!")
+                elif economy < 2500:
+                    pos_label = pos_label or tm.format("round_eco_positivo", "Vitória no Round Eco!")
+                elif 2500 <= economy <= 3800:
+                    pos_label = pos_label or tm.format("round_force_positivo", "Vitória no Force Buy!")
+
             if r_sum.get('plant') and r_sum['plant']['platformUserIdentifier'].upper() == player_target_upper:
-                pos_label = pos_label or tm.get("bomb_planted", "BOMB PLANTED").format(site=site)
+                pos_label = pos_label or tm.format("bomb_planted", "BOMB PLANTED", site=site)
                 narrative_events.append({"time": "PLAN", "type": "pos", "text": f"Dominou o site {site} e garantiu o plant", "ms": r_sum['plant'].get('roundTime', 0)})
             if r_sum.get('defuse') and r_sum['defuse']['platformUserIdentifier'].upper() == player_target_upper:
-                pos_label = pos_label or tm.get("bomb_defused", "CLUTCH DEFUSE").format(site=site)
+                pos_label = pos_label or tm.format("bomb_defused", "CLUTCH DEFUSE", site=site)
                 narrative_events.append({"time": "DEF", "type": "pos", "text": f"Clutch no defuse no site {site}! Garantiu o round no detalhe", "ms": r_sum['defuse'].get('roundTime', 0)})
+
+        # Clutch Detection (v4.1.1)
+        clutches = r_stats.get('clutches', {}).get('value', 0) if r_stats else 0
+        if clutches > 0:
+            pos_label = tm.format("clutch_positivo", pos_label or "CLUTCH!", quantidade=int(clutches))
 
         if economy < 2500 and kills_count > 0:
             pos_label = pos_label or tm.format("eco_kill", "ECOOU FORTE", economy=economy)
