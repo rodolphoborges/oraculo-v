@@ -31,6 +31,28 @@ def clean_nan(obj):
         return None
     return obj
 
+class TemplateManager:
+    def __init__(self, templates_json):
+        self.templates = {}
+        if templates_json:
+            try:
+                raw_templates = json.loads(templates_json)
+                for t in raw_templates:
+                    etype = t['event_type']
+                    if etype not in self.templates:
+                        self.templates[etype] = []
+                    self.templates[etype].append(t['template'])
+            except:
+                pass
+            
+    def get(self, event_type, default):
+        options = self.templates.get(event_type, [])
+        if not options:
+            if isinstance(default, list):
+                return random.choice(default)
+            return default
+        return random.choice(options)
+
 # Garante que a saída seja UTF-8
 if hasattr(sys.stdout, 'reconfigure'):
     try:
@@ -39,7 +61,8 @@ if hasattr(sys.stdout, 'reconfigure'):
         pass
 # Fallback removed for simplicity and compatibility
 
-def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None, holt_prev={}, strat_context={}):
+def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None, holt_prev={}, strat_context={}, templates_json=None):
+    tm = TemplateManager(templates_json)
     data = json.loads(json_data)
     match_metadata = data['data']['metadata']
     
@@ -88,18 +111,17 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             elif first_kill['attributes'].get('opponentPlatformUserIdentifier', '').upper() == player_target_upper:
                 first_deaths_count += 1
 
-    # Templates de Mensagem Principal
-    POS_TEMPLATES = [
+    # Templates de Mensagem Principal (Fallbacks)
+    POS_DEFAULT = [
         "Mandou {victim_agent} de arrasta com {weapon} aos {time}.",
         "Amassou no domínio de espaço com {weapon} contra {victim_agent}.",
         "Aula de mira com {weapon} pra cima de {victim_agent}.",
         "Segurou o rush inimigo aos {time} with {weapon}."
     ]
     
-    # Template exclusivo para First Blood (Abertura)
-    FB_TEMPLATE = "Abriu o round deitando {victim_agent} aos {time}."
+    FB_DEFAULT = "Abriu o round deitando {victim_agent} aos {time}."
     
-    NEG_TEMPLATES = [
+    NEG_DEFAULT = [
         "Foi de base pra {killer_agent} ({weapon}) no contrapé aos {time}.",
         "Perdeu a troca direta contra {killer_agent} (Dano: {damage}).",
         "Pego dormindo (fora de posição) aos {time}.",
@@ -155,30 +177,30 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
 
                 if event["is_player_killer"]:
                     if is_first_kill_of_round:
-                        pos_label = FB_TEMPLATE.format(**ctx)
+                        pos_label = tm.get("first_blood", FB_DEFAULT).format(**ctx)
                         narrative_events.append({"time": time_str, "type": "pos", "text": f"FIRST BLOOD no {event['victim_agent']} ({weapon})", "ms": rt_ms})
                     else:
-                        pos_label = random.choice(POS_TEMPLATES).format(**ctx)
+                        pos_label = tm.get("pos_generic", POS_DEFAULT).format(**ctx)
                         narrative_events.append({"time": time_str, "type": "pos", "text": f"Garantiu o frag no {event['victim_agent']} ({weapon})", "ms": rt_ms})
                 else:
-                    neg_label = random.choice(NEG_TEMPLATES).format(**ctx)
+                    neg_label = tm.get("neg_generic", NEG_DEFAULT).format(**ctx)
                     narrative_events.append({"time": time_str, "type": "neg", "text": f"Foi de base para {event['killer_agent']} ({weapon})", "ms": rt_ms})
 
         r_sum = round_summaries.get(r_num)
         if r_sum:
             if r_sum.get('plant') and r_sum['plant']['platformUserIdentifier'].upper() == player_target_upper:
-                pos_label = pos_label or "BOMB PLANTED"
+                pos_label = pos_label or tm.get("bomb_planted", "BOMB PLANTED")
                 narrative_events.append({"time": "PLAN", "type": "pos", "text": "Dominou o site e garantiu o plant", "ms": r_sum['plant'].get('roundTime', 0)})
             if r_sum.get('defuse') and r_sum['defuse']['platformUserIdentifier'].upper() == player_target_upper:
-                pos_label = pos_label or "CLUTCH DEFUSE"
+                pos_label = pos_label or tm.get("bomb_defused", "CLUTCH DEFUSE")
                 narrative_events.append({"time": "DEF", "type": "pos", "text": "Clutch no defuse! Garantiu o round no detalhe", "ms": r_sum['defuse'].get('roundTime', 0)})
 
         if economy < 2500 and kills_count > 0:
-            pos_label = pos_label or "ECOOU FORTE"
+            pos_label = pos_label or tm.get("eco_kill", "ECOOU FORTE").format(economy=economy)
             narrative_events.insert(0, {"time": "ECO", "type": "pos", "text": f"Fez estrago no Round Eco (Gasto: ${economy})", "ms": -1})
 
         if deaths_count == 1 and kills_count == 0 and dmg < 50:
-            neg_label = neg_label or "PINOU FEIO"
+            neg_label = neg_label or tm.get("low_impact_death", "PINOU FEIO").format(damage=int(dmg))
             narrative_events.append({"time": "OUT", "type": "neg", "text": f"Morreu seco sem causar impacto ({int(dmg)} dmg)", "ms": 999999})
 
         narrative_events.sort(key=lambda x: x['ms'])
@@ -309,6 +331,7 @@ if __name__ == "__main__":
     parser.add_argument("--a-l", type=float, help="Prev ADR Level")
     parser.add_argument("--a-t", type=float, help="Prev ADR Trend")
     parser.add_argument("--strat", help="Strategic Context JSON")
+    parser.add_argument("--templates", help="Dynamic Templates JSON")
     args = parser.parse_args()
     
     try:
@@ -331,7 +354,7 @@ if __name__ == "__main__":
             except:
                 pass
 
-        result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev, strat_context=strat_context)
+        result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev, strat_context=strat_context, templates_json=args.templates)
         print(json.dumps(clean_nan(result), indent=2, ensure_ascii=False))
     except Exception as e:
         traceback.print_exc()

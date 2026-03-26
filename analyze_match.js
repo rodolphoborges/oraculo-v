@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({ quiet: true });
 import { getAgentMeta, getRankBaselines } from './lib/meta_loader.js';
 import { fetchMatchJson } from './lib/tracker_api.js';
+import { supabase } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -93,6 +94,15 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     const stratContext = await getStrategicContext(playerTag, isUuid ? inputPath : matchData.data.metadata.matchId);
     const stratJson = JSON.stringify(stratContext);
 
+    // 6.2. Busca Templates de Comentários (Banco de Termos Dinâmico)
+    let templates = [];
+    if (supabase) {
+      console.error(`Buscando Templates de Comentários...`);
+      const { data: templateData } = await supabase.from('round_comment_templates').select('event_type, template');
+      templates = templateData || [];
+    }
+    const templatesJson = JSON.stringify(templates);
+
     // 7. Chama o script Python
     try {
       const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
@@ -112,7 +122,8 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
         '--map', mapDetected,
         '--rounds', totalRounds.toString(),
         '--team', teamId,
-        '--strat', stratJson
+        '--strat', stratJson,
+        '--templates', templatesJson
       ];
 
       // Add Holt parameters if present
