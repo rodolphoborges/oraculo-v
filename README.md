@@ -50,7 +50,7 @@ Se você é uma **IA/LLM** trabalhando no frontend (ex: **Protocolo-V**), use es
 
 Os dados finais estão no objeto `analysis`. Campos principais:
 - `performance_index`: (Number) Taxa de performance (100 = média).
-- `performance_status`: `'ABOVE_BASELINE'` ou `'BELOW_BASELINE'`.
+- `performance_status`: `'ELITE DO PROTOCOLO'`, `'DENTRO DOS PARÂMETROS'` ou `'ABAIXO DO RADAR'`.
 - `estimated_rank`: (String) Rank sugerido (Ex: "RADIANTE").
 - `target_kd`: (Number) K/D médio esperado para o rank desse agente.
 - `conselho_kaio`: (String) Texto longo com a DIRETRIZ TÁTICA principal (Artigo de Impacto). **Agora inclui análise de tendência automática.**

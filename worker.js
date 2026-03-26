@@ -24,6 +24,7 @@ import { expandAutoJob } from './lib/job_expansion.js';
  */
 
 async function getPlayerHoltState(agenteTag) {
+    if (!supabaseProtocol) return null;
     const { data: player } = await supabaseProtocol
         .from('players')
         .select('performance_l, performance_t, kd_l, kd_t, adr_l, adr_t')
@@ -60,8 +61,9 @@ async function getPlayerHoltState(agenteTag) {
             adr_l: L0_adr, adr_t: T0_adr
         };
 
-        // Salvar No Protocolo (Persistência)
-        await supabaseProtocol.from('players').update(initialState).eq('riot_id', agenteTag);
+        if (supabaseProtocol) {
+            await supabaseProtocol.from('players').update(initialState).eq('riot_id', agenteTag);
+        }
         return initialState;
     }
 
@@ -186,7 +188,7 @@ async function processQueue() {
         if (completeError) throw new Error(`Erro ao salvar no Supabase (completed): ${completeError.message}`);
 
         // 6. Atualizar Estado Holt no Jogador (se disponível)
-        if (result.holt && result.holt.performance_l !== null) {
+        if (result.holt && result.holt.performance_l !== null && supabaseProtocol) {
             console.log(`📈 [WORKER] Atualizando tendência para ${job.agente_tag}`);
             await supabaseProtocol.from('players').update({
                 performance_l: result.holt.performance_l,

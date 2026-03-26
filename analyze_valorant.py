@@ -48,10 +48,24 @@ class TemplateManager:
     def get(self, event_type, default):
         options = self.templates.get(event_type, [])
         if not options:
-            if isinstance(default, list):
-                return random.choice(default)
             return default
         return random.choice(options)
+
+    def format(self, event_type, default, **kwargs):
+        template = self.get(event_type, default)
+        
+        # Aliases for compatibility with the dump
+        kwargs['local'] = kwargs.get('site', 'Desconhecido')
+        kwargs['arma'] = kwargs.get('weapon', 'Desconhecida')
+        kwargs['agente_inimigo'] = kwargs.get('victim_agent', kwargs.get('killer_agent', 'Inimigo'))
+        kwargs['quantidade'] = kwargs.get('quantidade', 1)
+        kwargs['util'] = kwargs.get('weapon', 'Utilidade') # Fallback simple
+        
+        try:
+            return template.format(**kwargs)
+        except KeyError as e:
+            # Se faltar alguma chave nova, tenta limpar ou retorna o template puro
+            return template
 
 # Garante que a saída seja UTF-8
 if hasattr(sys.stdout, 'reconfigure'):
@@ -149,8 +163,33 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         pos_label = None
         neg_label = None
         narrative_events = []
+        current_kills = 0
 
-        for k in round_kills:
+        # Helper to find trades
+        def check_trade(kill_index, target_id, is_killer):
+            # Procura nos 5 segundos anteriores/posteriores (5000ms)
+            current_kill = round_kills[kill_index]
+            current_time = current_kill['metadata'].get('roundTime', 0)
+            
+            if is_killer:
+                # Trade Positivo: Alguém do meu time morreu logo antes de eu matar o killer
+                for i in range(kill_index - 1, -1, -1):
+                    prev = round_kills[i]
+                    if (current_time - prev['metadata'].get('roundTime', 0)) > 5000: break
+                    # Se o cara que eu matei agora tinha acabado de matar um aliado meu
+                    if prev['attributes'].get('platformUserIdentifier') == current_kill['attributes'].get('opponentPlatformUserIdentifier'):
+                        return True
+            else:
+                # Trade Negativo: Eu morri e alguém do meu time matou meu killer logo depois
+                for i in range(kill_index + 1, len(round_kills)):
+                    next_k = round_kills[i]
+                    if (next_k['metadata'].get('roundTime', 0) - current_time) > 5000: break
+                    # Se meu killer morreu logo depois para um aliado meu
+                    if next_k['attributes'].get('opponentPlatformUserIdentifier') == current_kill['attributes'].get('platformUserIdentifier'):
+                        return True
+            return False
+
+        for idx, k in enumerate(round_kills):
             k_meta = k['metadata']
             k_attr = k['attributes']
             killer_id = k_attr['platformUserIdentifier']
@@ -176,14 +215,28 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
                 is_first_kill_of_round = (event["time_ms"] == round_kills[0]['metadata'].get('roundTime', 0)) if round_kills else False
 
                 if event["is_player_killer"]:
+                    current_kills += 1
+                    ctx['quantidade'] = current_kills
+                    is_trade = check_trade(idx, player_target_upper, True)
+                    
                     if is_first_kill_of_round:
-                        pos_label = tm.get("first_blood", FB_DEFAULT).format(**ctx)
+                        pos_label = tm.format("first_blood", FB_DEFAULT, **ctx)
                         narrative_events.append({"time": time_str, "type": "pos", "text": f"FIRST BLOOD no {event['victim_agent']} ({weapon})", "ms": rt_ms})
+                    elif is_trade:
+                        pos_label = tm.format("trade_positivo", POS_DEFAULT, **ctx)
+                        narrative_events.append({"time": time_str, "type": "pos", "text": f"TRADE no {event['victim_agent']} ({weapon})", "ms": rt_ms})
+                    elif current_kills > 1:
+                        pos_label = tm.format("multi_kill_positivo", POS_DEFAULT, **ctx)
+                        narrative_events.append({"time": time_str, "type": "pos", "text": f"MULTI-KILL ({current_kills}x) no {event['victim_agent']}", "ms": rt_ms})
                     else:
-                        pos_label = tm.get("pos_generic", POS_DEFAULT).format(**ctx)
+                        pos_label = tm.format("pos_generic", POS_DEFAULT, **ctx)
                         narrative_events.append({"time": time_str, "type": "pos", "text": f"Garantiu o frag no {event['victim_agent']} ({weapon})", "ms": rt_ms})
                 else:
-                    neg_label = tm.get("neg_generic", NEG_DEFAULT).format(**ctx)
+                    is_trade_neg = check_trade(idx, player_target_upper, False)
+                    if is_trade_neg:
+                        neg_label = tm.format("trade_negativo", NEG_DEFAULT, **ctx)
+                    else:
+                        neg_label = tm.format("neg_generic", NEG_DEFAULT, **ctx)
                     narrative_events.append({"time": time_str, "type": "neg", "text": f"Foi de base para {event['killer_agent']} ({weapon})", "ms": rt_ms})
 
         r_sum = round_summaries.get(r_num)
@@ -197,11 +250,11 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
                 narrative_events.append({"time": "DEF", "type": "pos", "text": f"Clutch no defuse no site {site}! Garantiu o round no detalhe", "ms": r_sum['defuse'].get('roundTime', 0)})
 
         if economy < 2500 and kills_count > 0:
-            pos_label = pos_label or tm.get("eco_kill", "ECOOU FORTE").format(economy=economy)
+            pos_label = pos_label or tm.format("eco_kill", "ECOOU FORTE", economy=economy)
             narrative_events.insert(0, {"time": "ECO", "type": "pos", "text": f"Fez estrago no Round Eco (Gasto: ${economy})", "ms": -1})
 
         if deaths_count == 1 and kills_count == 0 and dmg < 50:
-            neg_label = neg_label or tm.get("low_impact_death", "PINOU FEIO").format(damage=int(dmg))
+            neg_label = neg_label or tm.format("low_impact_death", "PINOU FEIO", damage=int(dmg))
             narrative_events.append({"time": "OUT", "type": "neg", "text": f"Morreu seco sem causar impacto ({int(dmg)} dmg)", "ms": 999999})
 
         narrative_events.sort(key=lambda x: x['ms'])
@@ -260,9 +313,9 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     perf_t = holt_next.get("performance_t")
     if perf_t is not None:
         if perf_t > 0.5:
-            conselhos.append(f"EVOLUÇÃO DETECTADA: Tendência de melhora robusta (+{perf_t:.1f}% por partida). O Oráculo prevê performance superior no próximo combate ({holt_next['performance_forecast']:.1f}%). Mantenha o ritmo.")
+            conselhos.append(tm.format("insight_consistencia_alta", f"EVOLUÇÃO DETECTADA: Tendência de melhora robusta (+{perf_t:.1f}% por partida). O Oráculo prevê performance superior no próximo combate ({holt_next['performance_forecast']:.1f}%). Mantenha o ritmo."))
         elif perf_t < -0.5:
-            conselhos.append(f"ALERTA DE QUEDA: Tendência de performance negativa identificada ({perf_t:.1f}%). Seu nível técnico está oscilando para baixo. Reavalie sua postura tática antes da próxima partida.")
+            conselhos.append(tm.format("insight_consistencia_baixa", f"ALERTA DE QUEDA: Tendência de performance negativa identificada ({perf_t:.1f}%). Seu nível técnico está oscilando para baixo. Reavalie sua postura tática antes da próxima partida."))
         
         kd_t = holt_next.get("kd_t")
         adr_t = holt_next.get("adr_t")
@@ -294,15 +347,17 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         conselhos.append("CUMPRIMENTO DO ARTIGO 2: EXCELÊNCIA EM INICIATIVA. Você está garantindo a vantagem numérica inicial.")
     
     if not conselhos:
-        conselhos.append("FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. O Oráculo segue monitorando sua evolução técnica.")
+        conselhos.append(tm.format("insight_recomendacao", "FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. O Oráculo segue monitorando sua evolução técnica."))
 
     # Lore-friendly status
     if perf_idx >= 115:
         perf_status = "ELITE DO PROTOCOLO"
+        conselhos.append(tm.format("destaque_alta_performance", "VOCÊ ESTÁ VOANDO!"))
     elif perf_idx >= 95:
         perf_status = "DENTRO DOS PARÂMETROS"
     else:
         perf_status = "ABAIXO DO RADAR"
+        conselhos.append(tm.format("alerta_baixa_performance", "PRECISA MELHORAR O IMPACTO."))
 
     return {
         "player": target_player, "agent": agent_name, "map": map_name, "map_details": map_details,
