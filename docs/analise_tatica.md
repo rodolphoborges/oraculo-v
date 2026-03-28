@@ -31,3 +31,9 @@ Toda vez que uma *Kill* é classificada, o sistema verifica se um colega de time
 Se for a primeira kill temporal dentro do JSON, ganha o status Textual de "First Blood".
 
 Seu núcleo também rastreia se existem "Aliados" `(Sinergia)` ou se o Agente detectado pela API corresponde ao da sua classe ótima `(Otimização de Classe)`.
+
+## 4. Evolução: O Prompt Foundation (IA Generativa)
+
+Com a arquitetura LLM nativa introduzida, **o Motor Python deixou de ser o destino final da análise**.
+Hoje, toda a base matemática (Aceleradores K/D, Holt-Winters, KAST, Trade-kills) funciona como *Prompt Foundation*. O script Node consolida esses índices puros matemáticos gerados pelo Python e os envia como contexto absoluto ao OpenRouter (Llama/Gemma/Qwen).  
+Isso garante que a IA não invente métricas, mas atue puramente como uma analista de comunicação tática em cima de **dados reais e incontestáveis**.
