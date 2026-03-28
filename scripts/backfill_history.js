@@ -14,6 +14,10 @@ const MATCHES_DIR = './matches';
 async function runBackfill() {
     console.log("🚀 [BACKFILL] Iniciando Motor de Histórico...");
     
+    // Captura filtro de jogador (Opcional: node backfill_history.js "ousadia#013")
+    const playerFilter = process.argv[2] ? process.argv[2].replace(/\s/g, '').toUpperCase() : null;
+    if (playerFilter) console.log(`🎯 [FILTER] Focando apenas no jogador: ${playerFilter}`);
+
     // 1. Buscar todos os jogadores oficiais do Protocolo-V
     const { data: players, error: pErr } = await supabaseProtocol.from('players').select('riot_id');
     if (pErr) {
@@ -61,6 +65,9 @@ async function runBackfill() {
 
                 const normalizedPid = pid.replace(/\s/g, '').toUpperCase();
                 
+                // Aplicar Filtro se solicitado
+                if (playerFilter && normalizedPid !== playerFilter) continue;
+
                 // Se o jogador estiver na nossa lista de monitorados
                 if (riotIds.includes(normalizedPid)) {
                     // E se ainda não tiver insight gerado
