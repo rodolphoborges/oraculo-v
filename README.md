@@ -1,123 +1,111 @@
-# ORÁCULO V // NÚCLEO_TÁTICO v4.0 (RESILIÊNCIA TOTAL)
+# ORÁCULO V // NÚCLEO_TÁTICO v4.0
 
-O **Oráculo V** é um **Motor de Análise Tática de Elite** de arquitetura assíncrona. Nesta versão v4.0, ele atinge maturidade máxima com **Exploração Cruzada de Agentes** e **Cache Permanente por Partida**, operando sob a estética "Brutalista Terminal".
+O **Oráculo V** é um Motor de Análise Tática de Elite com arquitetura assíncrona, concebido como o cérebro analítico do ecossistema "Protocolo V". Seu propósito é processar e interpretar o desempenho tático de jogadores de Valorant, avaliando impacto contextual (Clutches, KAST, Trades, Tendências) em linguagem "brutalista terminal", entregando predições e conselhos via geração narrativa inteligente em Python.
 
-> [!NOTE]
-> **[AI/LLM ENTRY POINT - V4.0 UPDATED]**
-> Future AI agents should start by reviewing `lib/supabase.js` for dual-database setup, and `worker.js` which acts as a **continuous asynchronous daemon (while loop)** processing the queue.
-> 
-> **CRITICAL DB CONTEXT:** The primary queue table in Supabase (`match_analysis_queue`) uses `agente_tag` (for primary lookup) and `error_message` (with 'e'). Both `agente_tag` and `player_riot_id` are present in the schema. The final JSON report output by the engine is saved into the `metadata.analysis` JSONB property.
-> 
-> Core domain rules (Lexicon of Impact) are implemented in `analyze_valorant.py`.
-> Integration and regression tests should be executed via `node run_e2e_test.js`.
-> Connectivity diagnostics can be run via `node scripts/check_tables_v2.js`.
->
-> **Documentação Tática de Elite:** Para entender os detalhes de cálculo de IK, Tendência e Sinergia, veja [REGRAS_NEGOCIO.md](file:///c:/Users/rodol/OneDrive/%C3%81rea%20de%20Trabalho/oraculo-v/oraculo-v/REGRAS_NEGOCIO.md).
+---
 
-## 🏗️ Arquitetura Multi-Base (Microserviços)
+## 🏗️ Arquitetura de Sistema
 
-O Oráculo V agora suporta conexão simultânea a dois projetos Supabase:
-- **Base Fonte (Protocolo-V)**: Onde residem os jogadores cadastrados e o banco de dados principal.
-- **Base de Operações (Oráculo-V)**: Onde o motor gerencia sua própria fila de processamento (`match_analysis_queue`).
-
-## 🚨 Funcionalidades de Elite (v4.0)
-
-- **Worker Resiliente (Self-Healing)**: Motor de processamento com detecção de falhas de rede. Ele distingue erros de API de "fila vazia" e possui um sistema de auto-recuperação para "Jobs Fantasmas" (travados em processamento).
-- **Cache Permanente Unificado**: Relatórios JSON agora são salvos com a chave ÚNICA `match_MATCHID_PLAYER.json`. Isso impede que novas partidas sobrescrevam o histórico no servidor.
-- **Holt-Winters DES**: Análise de tendência Double Exponential Smoothing integrada para prever performance futura e detectar "quedas de rendimento" antes que aconteçam.
-- **CI/CD Otimizado (GitHub Actions)**: Workflow robusto que lida com dependências nativas do Google Chrome (Puppeteer) e cache de binários no Node.js v22.
-
-## 📂 Estrutura do Projeto
-
-- `worker.js`: Motor de análise com lógica de retry e recuperação de jobs pendentes/presos.
-- `lib/supabase.js`: Core de conexão dual-database.
-- `check_tables_v2.js`: Diagnóstico de conectividade multi-base.
-- `analyze_valorant.py`: Motor de análise tática e narrativa em Python.
-- `run_e2e_test.js`: Bateria automatizada de testes locais de Ponta-a-Ponta.
-
-## 🌐 Endpoints da API (`server.js`)
-O sistema emite um painel admin e 4 rotas centrais:
-1. `POST /api/queue`: (Body: `{ player: "Nick#Tag" | "AUTO", matchId: "UUID" }`) - Enfileira uma análise técnica. O modo `AUTO` identifica e enfileira automaticamente todos os agentes do Protocolo V presentes na partida.
-2. `GET /api/status/:matchId?player=Nick#Tag`: Retorna o status atual de processamento e, se `'completed'`, anexa o JSON do resultado (local ou via metadata).
-3. `GET /api/admin/stats`: Retorna as estatísticas do servidor para consumo do `admin.html`.
-4. `GET /api/status/:matchId?player=Nick#Tag`: (v4.0) Agora retorna o objeto completo de análise dentro de `job.metadata.analysis`.
-
-## 📘 Guia para Consumidores de Dados (Frontend)
-
-Se você é uma **IA/LLM** trabalhando no frontend (ex: **Protocolo-V**), use este guia para renderizar os relatórios do Oráculo-V corretamente.
-
-### 1. Estrutura do Objeto de Análise (`metadata.analysis`)
-
-Os dados finais estão no objeto `analysis`. Campos principais:
-- `performance_index`: (Number) Taxa de performance (100 = média).
-- `performance_status`: `'ELITE DO PROTOCOLO'`, `'DENTRO DOS PARÂMETROS'` ou `'ABAIXO DO RADAR'`.
-- `estimated_rank`: (String) Rank sugerido (Ex: "RADIANTE").
-- `target_kd`: (Number) K/D médio esperado para o rank desse agente.
-- `conselho_kaio`: (String) Texto longo com a DIRETRIZ TÁTICA principal (Artigo de Impacto). **Agora inclui análise de tendência automática.**
-- `acs`, `adr`, `kd`: Métricas gerais da partida.
-- `holt`: (**NOVO v4.0**) Objeto com Double Exponential Smoothing (Tendência):
-    - `performance_L`, `performance_T`: Nível e Tendência do Índice de Performance.
-    - `performance_forecast`: Previsão de performance para a próxima partida.
-    - `kd_L`, `kd_T`, `adr_L`, `adr_T`: Estados internos para KD e ADR.
-
-### 2. Lista de Rounds (`rounds[]`)
-
-Cada item no array `rounds` representa uma rodada analisada:
-- `round`: (Number) Número do round.
-- `comment`: (String | **NOVO**) Resumo narrativo do round (Ex: "Amassou no site B..."). **Use este campo como fallback principal.**
-- `impacto`: (String | **NOVO**) `'Positivo'`, `'Negativo'` ou `'Neutro'`. Use para colorir o round.
-- `kills`: (Number | **NOVO**) Quantidade de abates no round.
-- `pos` / `neg`: (String) Eventos específicos positivos/negativos destacados.
-- `narrative[]` / `eventos[]`: Array de eventos detalhados com carimbo de tempo.
-    - Cada evento tem: `time` (MM:SS), `text` (ou `texto`), `type` (ou `tipo`).
-
-### 3. Dicas de UI para LLMs (Protocolo-V)
-
-- **Box kaio**: Sempre exiba `conselho_kaio` em destaque (Ex: Terminal Box ou Alerta).
-- **Lista de Rounds**: Intere sobre `analysis.rounds`. Se `comment` estiver presente, exiba-o. Se não, use `pos` ou `neg`.
-- **Compatibilidade**: O motor v4.0+ fornece campos tanto em Inglês (`text`, `type`) quanto em Português (`texto`, `tipo`). Priorize os campos em Português se existirem para manter a consistência do Protocolo-V.
-
-## ⚙️ Configuração
-
-1. **Instalação**: `npm install`
-2. **Setup**: Renomeie `.env.example` para `.env` e preencha as chaves:
-
-### Oráculo V (Banco de Tarefas)
-- `SUPABASE_URL`: URL do projeto do Oráculo.
-- `SUPABASE_SERVICE_KEY`: Key `service_role` dO Oráculo.
-
-### Protocolo V (Fonte de Dados)
-- `PROTOCOL_SUPABASE_URL`: URL do projeto do Protocolo.
-- `PROTOCOL_SUPABASE_KEY`: Key `service_role` dO Protocolo.
-
-### IDs e Chaves Opcionais
-- `HENRIK_API_KEY`: (Opcional) Chave da API HenrikDev, necessária apenas se usar o script legado de radar.
-- `TELEGRAM_BOT_TOKEN`: Token do Bot do Telegram para notificações.
-
-## 🤖 Operação e Testes
-
-### Diagnóstico de Base
-Para validar se as duas conexões e tabelas estão prontas:
-```bash
-node scripts/check_tables_v2.js
+```mermaid
+graph TD
+    A[Protocolo-V Frontend] -->|Envia Requisição API| B(Express API: server.js)
+    B -->|Grava Pending| C[Supabase: match_analysis_queue]
+    D(Loop: worker.js) -->|Consome Pending| C
+    D -->|Chama NodeJS Intermediário| E(analyze_match.js)
+    E -->|Baixa Dados Tracker / Meta| F([Arquivos Locais/matches/])
+    E -->|Invoca Motor Python| G(analyze_valorant.py)
+    G -->|Gera JSON Narrativo/Holt| E
+    E -->|Salva| H([Arquivos Locais/analyses/])
+    E -->|Salva Metadados/Result| C
+    D -->|Dispara Alerta| I(Telegram Bot)
 ```
 
-### Radar de Partidas (Legado)
-Para buscar manualmente novas partidas usando a API Henrik (requer chave):
-```bash
-node scripts/radar_deprecated.js
+O projeto utiliza uma conexão simultânea (Multi-Base) com dois repositórios Supabase (Banco de Operações local e a Base Fonte Pública do Protocolo).
+
+## 🚀 Guia de Instalação Passo a Passo
+
+Os módulos em Python utilizam apenas bibliotecas padrão do sistema, resultando em um processo formal de dependências voltado primariamente aos scripts Node.
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/rodolphoborges/oraculo-v.git
+   cd oraculo-v
+   ```
+
+2. **Requisitos de Sistema:**
+   - [Node.js](https://nodejs.org/) v18 ou superior.
+   - [Python](https://www.python.org/) 3.9 ou superior (Necessário no PATH funcional).
+
+3. **Crie o Ambiente e Instale Dependências NPM:**
+   ```bash
+   npm install
+   ```
+
+## ⚙️ Variáveis de Ambiente Necessárias
+
+Crie um arquivo `.env` na raiz do projeto contendo as seguintes chaves essenciais:
+
+```ini
+# --- SUPABASE (Oráculo V - Banco Primário de Fila) ---
+SUPABASE_URL=URL_do_projeto_Oraculo
+SUPABASE_SERVICE_KEY=Sua_Service_Role_Privada
+
+# --- SUPABASE (Protocolo V - Base Fonte de Jogadores) ---
+PROTOCOL_SUPABASE_URL=URL_do_projeto_Protocolo
+PROTOCOL_SUPABASE_KEY=Sua_Service_Role_do_Protocolo
+
+# --- SEGURANÇA API INTERNA ---
+ADMIN_API_KEY=Chave_Para_Acesso_de_Rotas_Master
+
+# --- EXTRAS (Opcional) ---
+PORT=3000
+TELEGRAM_BOT_TOKEN=Token_Para_Avisos_Telegram
+HENRIK_API_KEY=Opcional_Se_Usar_Radar_Legado
 ```
 
-## 🛠️ Manutenção e Diagnóstico
+## 💻 Exemplos de Uso e Funções Principais
 
-O projeto conta com scripts utilitários para manter a saúde da fila:
+### 1. Via API e Fila Assíncrona (Produção)
 
-- `node scripts/check_queue_status.js`: Resumo visual do status da fila e últimos jobs.
-- `node scripts/verify_global_pending.js`: Consulta rápida apenas do total de pendências.
-- `node scripts/recover_queue.js`: Reseta jobs travados em `processing` (timeout > 15min).
-- `node scripts/reset_failed.js`: Move todos os jobs com `failed` de volta para `pending`.
-- `node scripts/repair_truncated_jobs.js`: Identifica e reseta análises salvas de forma incompleta.
-- `node scripts/backfill_trends.js`: Recalcula tendências Holt-Winters para todo o histórico.
+Para ambientes de produção, suba simultaneamente o Worker (Motor) e o Server (API). 
+
+**Terminal 1 (Worker Motor):**
+Responde por monitorar o banco e disparar os Jobs em Python.
+```bash
+npm run worker
+```
+
+**Terminal 2 (Rotas de API):**
+Responsável por interagir com o FrontEnd e receber chamadas em `/api/queue`.
+```bash
+npm start
+```
+
+**Exemplo de Enfileiramento via cURL:**
+```bash
+curl -X POST http://localhost:3000/api/queue \
+  -H 'Content-Type: application/json' \
+  -d '{"player": "Nick#Tag", "matchId": "UUID-DO-MATCH"}'
+```
+> [!TIP]
+> No payload acima, substituir `"Nick#Tag"` por `"AUTO"` fará o Motor expandir e analisar todos os aliados presentes no grupo do jogador dono da partida.
+
+### 2. Via Linha de Comando (Standalone)
+
+Caso precise rodar testes de integração isolados ou forçar uma avaliação desconsiderando a fila:
+```bash
+node analyze_match.js "Nick#Tag" "UUID-DA-PARTIDA-OU-CAMINHO-JSON"
+```
+*A saída será um dump detalhado de um JSON formatado na saída padrão.*
+
+## 📂 Estrutura e Manutenção
+
+- `/scripts`: Rotinas úteis de diagnósticos assíncronos (Ex: `check_queue_status.js` para monitoria manual e `recover_queue.js` para restabelecer jobs interrompidos).
+- `/docs`: Detalhes complexos das regras de negócio e fluxos sistêmicos.
+  - [Manutenção e Diagnósticos (Worker Assíncrono)](./docs/worker_assincrono.md)
+  - [Regras de Negócio e Matemática Tática (`analyze_valorant.py`)](./docs/analise_tatica.md)
+- `worker.js`: Camada Resiliente (Self-Healing) que reprocessa análises.
+- `lib/supabase.js`: Cliente Supabase Dual-Connection.
 
 ---
 *(C) 2026 DEEPMIND ANTIGRAVITY // PROTOCOLO_V_OPERACAO_MAXIMA*
