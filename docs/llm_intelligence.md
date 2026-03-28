@@ -49,4 +49,10 @@ Abaixo temos um Log gerado diretamente do Worker, mostrando uma chamada real mon
 }
 ```
 
-O resultado dessa requisição cai diretamente na base de dados `ai_insights`, estando apta a ser exibida pelos front-ends do Protocolo V de forma instantânea.
+O resultado dessa requisição cai diretamente na base de dados `ai_insights`.
+O Worker realiza um espelhamento assíncrono (**Double-Write**) sincronizando os dados simultaneamente com a base do Oráculo (local) e a base do Protocolo-V (Dashboard Front-End).
+
+## 5. Historiador Tático (Backfill Massivo)
+
+Devido ao processamento ser *retroativo* (passar dezenas de partidas que ocorreram antes da v4.0), a documentação prevê o uso focado no motor local (`Ollama` em rede) via `scripts/backfill_history.js`.
+O *Backfill* atua mapeando partidas na máquina do oráculo e identificando quais nunca receberam suporte de IA, recarregando assim centenas de relatórios na fila para análise retroativa total.
