@@ -97,8 +97,11 @@ async function runBackfill() {
     const chunkSize = 100;
     for (let i = 0; i < pendingJobs.length; i += chunkSize) {
         const chunk = pendingJobs.slice(i, i + chunkSize);
-        console.log(`📡 [BULK] Inserindo bloco de ${chunk.length} jobs na fila...`);
-        const { error: insErr } = await supabase.from('match_analysis_queue').insert(chunk);
+        console.log(`📡 [BULK] Atualizando/Inserindo bloco de ${chunk.length} jobs na fila...`);
+        const { error: insErr } = await supabase
+            .from('match_analysis_queue')
+            .upsert(chunk, { onConflict: 'match_id,agente_tag' });
+        
         if (insErr) {
             console.error("❌ Erro ao enfileirar chunk:", insErr.message);
         } else {
