@@ -8,19 +8,19 @@ O **Oráculo V** é um Motor de Análise Tática de Elite com arquitetura assín
 
 ```mermaid
 graph TD
-    A[Protocolo-V Frontend] -->|Envia Requisição API| B(Express API: server.js)
-    B -->|Grava Pending| C[Supabase: match_analysis_queue]
-    D(Loop: worker.js) -->|Consome Pending| C
-    D -->|Chama NodeJS Intermediário| E(analyze_match.js)
-    E -->|Baixa Dados Tracker / Meta| F([Arquivos Locais/matches/])
-    E -->|Invoca Motor Python| G(analyze_valorant.py)
-    G -->|Gera JSON Narrativo/Holt| E
-    E -->|Salva| H([Arquivos Locais/analyses/])
-    E -->|Preenche match_stats| C
-    E -->|Invoca OpenRouter (Fallbacks)| J(openrouter_engine.js)
-    J -->|Gera Insight LLM| K[Supabase Oráculo: ai_insights]
-    J -->|Sincronismo Dual-Base| L[Supabase Protocolo: ai_insights]
-    D -->|Dispara Alerta| I(Telegram Bot)
+    A["Protocolo-V Frontend"] -->|"Envia Requisição API"| B("Express API: server.js")
+    B -->|"Grava Pending"| C["Supabase: match_analysis_queue"]
+    D("Loop: worker.js") -->|"Consome Pending"| C
+    D -->|"Chama NodeJS Intermediário"| E("analyze_match.js")
+    E -->|"Baixa Dados Tracker / Meta"| F(["Arquivos Locais/matches/"])
+    E -->|"Invoca Motor Python"| G("analyze_valorant.py")
+    G -->|"Gera JSON Narrativo/Holt"| E
+    E -->|"Salva"| H(["Arquivos Locais/analyses/"])
+    E -->|"Preenche match_stats"| C
+    E -->|"Invoca OpenRouter (Fallbacks)"| J("openrouter_engine.js")
+    J -->|"Gera Insight LLM"| K["Supabase Oráculo: ai_insights"]
+    J -->|"Sincronismo Dual-Base"| L["Supabase Protocolo: ai_insights"]
+    D -->|"Dispara Alerta"| I("Telegram Bot")
 ```
 
 O projeto utiliza uma conexão simultânea (Multi-Base) com dois repositórios Supabase (Banco de Operações local e a Base Fonte Pública do Protocolo).
