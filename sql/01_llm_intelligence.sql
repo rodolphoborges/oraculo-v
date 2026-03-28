@@ -1,6 +1,6 @@
 -- =========================================================================
 -- Arquitetura OpenRouter + Supabase: LLM Insights Engine
--- Execute este arquivo no SQL Editor do seu projeto Supabase (Protocolo V)
+-- Execute este arquivo no SQL Editor do seu projeto Supabase (Oráculo-V)
 -- =========================================================================
 
 -- 1. Tabela Opcional para Grupos (Analise de Sinergia)
