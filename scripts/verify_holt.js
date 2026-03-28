@@ -1,6 +1,6 @@
 
 import { runAnalysis } from './analyze_match.js';
-import { supabaseProtocol } from './lib/supabase.js';
+import { supabaseProtocol } from '../lib/supabase.js';
 
 async function verifyHoltSystem() {
     console.log("🔍 [DIAGNÓSTICO] Verificando Sistema de Tendências (Holt's DES)");

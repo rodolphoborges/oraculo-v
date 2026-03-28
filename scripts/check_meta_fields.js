@@ -1,4 +1,4 @@
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../lib/supabase.js';
 
 async function check() {
     const { data: matches } = await supabase
