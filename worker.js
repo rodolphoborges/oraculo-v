@@ -15,6 +15,7 @@ import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import { expandAutoJob } from './lib/job_expansion.js';
+import { generateInsights } from './lib/openrouter_engine.js';
 
 /**
  * worker.js 
@@ -201,6 +202,29 @@ async function processQueue() {
         }
 
         console.log("✅ Análise concluída com sucesso.");
+
+        // 6.5. Geração de Inteligência com OpenRouter
+        const promptData = {
+            match_data: {
+                agent: result.agent, map: result.map,
+                perf: result.performance_index,
+                kd: result.kd, acs: result.acs,
+                conselhosBase: result.all_conselhos
+            },
+            trend: holtPrev || "Histórico insuficiente",
+            history: null, // Pode ser preenchido por uma select anterior na tabela ai_insights
+            squad: null    // Pode ser hidratado do lib/strategic_advisor
+        };
+        const aiResponse = await generateInsights(promptData);
+        if (aiResponse) {
+            console.log(`🤖 Insight LLM (${aiResponse.model_used}) Recebido.`);
+            await supabase.from('ai_insights').insert([{
+                match_id: job.match_id,
+                player_id: job.agente_tag,
+                insight_resumo: aiResponse.insight,
+                model_used: aiResponse.model_used
+            }]);
+        }
 
         // 7. Notificar via Telegram
         if (job.chat_id) {
