@@ -36,4 +36,4 @@ Na arquitetura v4.0, após o processamento da predição matemática estrita em 
 1. **Persistência Estruturada**: Grava os contadores técnicos na tabela `match_stats` (Kills, Deaths, ACS, ADR) e na tabela base `matches`.
 2. **Contexto Histórico**: Lê a View do Postgres `vw_player_trends` (Médias Móveis de 10 jogos) e faz uma consulta aos últimos 2 relatórios da Inteligência Artificial já gerados.
 3. **Invocação (Fallback Free-Tier)**: Envia a métrica de jogo + tendências para o `openrouter_engine.js`. Se o provedor principal (`Llama 3.3`) estiver congestionado (Rate Limited 429), o sistema automaticamente desliza e tenta os modelos substitutos (`Gemma 3` e `Qwen 3`).
-4. **Relatório**: O output em JSON do Head Coach é finalmente inserido na tabela `ai_insights` no banco de operações para que possa ser exibido pelo Front-end (Dashboard).
+4. **Relatório**: O output em JSON do Head Coach é finalmente inserido na tabela `ai_insights` no banco de operações local (Oráculo) para que possa ser exibido pelo dashboard do Protocolo V de forma instantânea (via sincronismo **Double-Write** na base hospedada *Protocolo*).

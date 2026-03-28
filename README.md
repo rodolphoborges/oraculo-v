@@ -18,7 +18,8 @@ graph TD
     E -->|Salva| H([Arquivos Locais/analyses/])
     E -->|Preenche match_stats| C
     E -->|Invoca OpenRouter (Fallbacks)| J(openrouter_engine.js)
-    J -->|Gera Insight LLM| K[Supabase: ai_insights]
+    J -->|Gera Insight LLM| K[Supabase Oráculo: ai_insights]
+    J -->|Sincronismo Dual-Base| L[Supabase Protocolo: ai_insights]
     D -->|Dispara Alerta| I(Telegram Bot)
 ```
 
@@ -105,7 +106,10 @@ node analyze_match.js "Nick#Tag" "UUID-DA-PARTIDA-OU-CAMINHO-JSON"
 
 ## 📂 Estrutura e Manutenção
 
-- `/scripts`: Rotinas úteis de diagnósticos assíncronos (Ex: `check_queue_status.js` para monitoria manual e `recover_queue.js` para restabelecer jobs interrompidos).
+- `/scripts`: Rotinas úteis de diagnósticos e processamento em massa.
+  - `backfill_history.js`: Varredor de histórico local para enfileiramento massivo de IA.
+  - `backfill_dashboard.js`: Painel de monitoramento visual do Worker em tempo real.
+  - `reprocess_completed_no_ai.js`: Reset de fila para jobs legados.
 - `/docs`: Detalhes complexos das regras de negócio e fluxos sistêmicos.
   - [Manutenção e Diagnósticos (Worker Assíncrono)](./docs/worker_assincrono.md)
   - [Regras de Negócio e Matemática Tática (`analyze_valorant.py`)](./docs/analise_tatica.md)
