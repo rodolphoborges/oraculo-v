@@ -269,12 +269,27 @@ async function processQueue() {
         const aiResponse = await generateInsights(promptData);
         if (aiResponse) {
             console.log(`🤖 Insight LLM (${aiResponse.model_used}) Recebido.`);
+            
+            // Gravação Local (Oráculo-V)
             await supabase.from('ai_insights').insert([{
                 match_id: job.match_id,
                 player_id: job.agente_tag,
                 insight_resumo: aiResponse.insight,
                 model_used: aiResponse.model_used
             }]);
+
+            // SINCRONIZAÇÃO DUAL-BASE: Gravação no Protocolo-V (Dashboard)
+            if (supabaseProtocol) {
+                console.log(`📡 [SYNC] Sincronizando insight para o Protocolo-V...`);
+                const { error: syncErr } = await supabaseProtocol.from('ai_insights').insert([{
+                    match_id: job.match_id,
+                    player_id: job.agente_tag,
+                    insight_resumo: aiResponse.insight,
+                    model_used: aiResponse.model_used
+                }]);
+                if (syncErr) console.warn(`⚠️ [SYNC] Falha ao espelhar no Protocolo: ${syncErr.message}`);
+                else console.log(`✅ [SYNC] Insight espelhado com sucesso.`);
+            }
         }
 
         // 7. Notificar via Telegram
