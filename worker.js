@@ -133,7 +133,8 @@ async function processQueue() {
 
         if (job.agente_tag === 'AUTO') {
             try {
-                const count = await expandAutoJob(job.match_id, job.chat_id, job.metadata);
+                const chatId = job.chat_id || job.metadata?.chat_id;
+                const count = await expandAutoJob(job.match_id, chatId, job.metadata);
                 console.log(`🤖 [WORKER] AUTO Expandido: ${count} novos jobs.`);
                 await supabase.from('match_analysis_queue').update({ 
                     status: 'completed',
@@ -171,22 +172,19 @@ async function processQueue() {
 
         if (result.error) throw new Error(result.error);
 
-        // 5. Salvar resultado e marcar como completo
-        const { error: completeError } = await supabase.from('match_analysis_queue').update({ 
-            status: 'completed',
-            error_message: null,
+        // 5. Salvar resultado intermediário (preserva 'processing')
+        const { error: prepError } = await supabase.from('match_analysis_queue').update({ 
             metadata: { 
                 ...job.metadata, 
                 agent: result.agent, 
                 map: result.map,
                 perf: result.performance_index,
                 holt: result.holt,
-                analysis: result,
-                finished_at: new Date().toISOString()
+                analysis: result
             }
         }).eq('id', job.id);
 
-        if (completeError) throw new Error(`Erro ao salvar no Supabase (completed): ${completeError.message}`);
+        if (prepError) console.warn(`⚠️ [WORKER] Falha ao injetar metadados intermediários: ${prepError.message}`);
 
         // 6. Atualizar Estado Holt no Jogador (se disponível)
         if (result.holt && result.holt.performance_l !== null && supabaseProtocol) {
@@ -292,9 +290,27 @@ async function processQueue() {
             }
         }
 
-        // 7. Notificar via Telegram
-        if (job.chat_id) {
-            console.log(`📢 Notificando chat_id: ${job.chat_id}`);
+        // 7. MARCAR COMO COMPLETO (FINALMENTE)
+        console.log(`🏁 [WORKER] Job ${job.id} finalizado.`);
+        await supabase.from('match_analysis_queue').update({ 
+            status: 'completed',
+            error_message: null,
+            metadata: { 
+                ...job.metadata, 
+                agent: result.agent, 
+                map: result.map,
+                perf: result.performance_index,
+                holt: result.holt,
+                analysis: result,
+                ai_generated: !!aiResponse,
+                finished_at: new Date().toISOString()
+            }
+        }).eq('id', job.id);
+
+        // 8. Notificar via Telegram
+        const chatId = job.chat_id || job.metadata?.chat_id;
+        if (chatId) {
+            console.log(`📢 Notificando chat_id: ${chatId}`);
             const botToken = process.env.TELEGRAM_BOT_TOKEN;
             if (botToken) {
                 const trendIcon = result.holt?.performance_T > 0 ? '📈' : '📉';
@@ -305,7 +321,7 @@ async function processQueue() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        chat_id: job.chat_id,
+                        chat_id: chatId,
                         text: message,
                         parse_mode: 'Markdown'
                     })
