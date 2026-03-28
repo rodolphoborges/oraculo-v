@@ -315,8 +315,8 @@ async function processQueue() {
             console.log(`📢 Notificando chat_id: ${chatId}`);
             const botToken = process.env.TELEGRAM_BOT_TOKEN;
             if (botToken) {
-                const trendIcon = result.holt?.performance_T > 0 ? '📈' : '📉';
-                const trendMsg = result.holt?.performance_T ? `\nTendência: ${trendIcon} ${result.holt.performance_T > 0 ? '+' : ''}${result.holt.performance_T.toFixed(1)}%` : '';
+                const trendIcon = result.holt?.performance_t > 0 ? '📈' : '📉';
+                const trendMsg = result.holt?.performance_t ? `\nTendência: ${trendIcon} ${result.holt.performance_t > 0 ? '+' : ''}${result.holt.performance_t.toFixed(1)}%` : '';
                 
                 const message = `📡 *[ORÁCULO V: ANÁLISE PRONTA]*\n\nPartida: \`${job.match_id}\`\nAgente: *${result.agent}*\nPerformance: *${result.performance_index}%*${trendMsg}\n\nVisualize no terminal: [Abrir](https://protocolov.com/analise/${job.match_id})`;
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {

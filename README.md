@@ -113,6 +113,7 @@ node analyze_match.js "Nick#Tag" "UUID-DA-PARTIDA-OU-CAMINHO-JSON"
 - `/docs`: Detalhes complexos das regras de negócio e fluxos sistêmicos.
   - [Manutenção e Diagnósticos (Worker Assíncrono)](./docs/worker_assincrono.md)
   - [Regras de Negócio e Matemática Tática (`analyze_valorant.py`)](./docs/analise_tatica.md)
+- [Guia Oficial de Testes Ponta-a-Ponta](./TESTING.md)
 - `worker.js`: Camada Resiliente (Self-Healing) que reprocessa análises.
 - `lib/supabase.js`: Cliente Supabase Dual-Connection.
 

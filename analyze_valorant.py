@@ -19,8 +19,6 @@ import argparse
 import random
 import math
 import traceback
-import random
-import math
 
 def clean_nan(obj):
     if isinstance(obj, dict):
@@ -375,7 +373,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         conselhos.append(f"SINERGIA OPERACIONAL: Squad detectado com {', '.join(partners)}. A coordenação de grupo é a chave para a vitória no Protocolo V.")
 
     # Static Fallbacks (Artigos Constitucionais)
-    if adr < 125:
+    if adr < 130:
         conselhos.append("VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V, o DANO é a métrica absoluta. Sua presença no mapa não gera pressão real.")
     if first_kills_count >= 3:
         conselhos.append("CUMPRIMENTO DO ARTIGO 2: EXCELÊNCIA EM INICIATIVA. Você está garantindo a vantagem numérica inicial.")
