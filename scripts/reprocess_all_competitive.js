@@ -32,7 +32,8 @@ async function run() {
 
     // 4. Limpar e Re-popular a Fila
     console.log("🧹 Esvaziando a fila de processamento...");
-    await supabase.from('match_analysis_queue').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    // Usamos um filtro que sempre retorna verdadeiro e é compatível com o tipo da coluna
+    await supabase.from('match_analysis_queue').delete().gt('id', 0);
 
     // 5. Coletar match_ids competitivos locais
     console.log("📂 [SCANNER] Re-escaneando diretório './matches'...");
