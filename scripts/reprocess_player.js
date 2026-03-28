@@ -1,4 +1,4 @@
-import { supabase, supabaseProtocol } from './lib/supabase.js';
+import { supabase, supabaseProtocol } from '../lib/supabase.js';
 
 /**
  * reprocess_player.js

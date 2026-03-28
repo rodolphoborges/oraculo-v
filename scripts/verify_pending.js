@@ -1,4 +1,4 @@
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../lib/supabase.js';
 
 async function verify() {
     const { data, count, error } = await supabase

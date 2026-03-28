@@ -9,7 +9,7 @@
  * - Henrik API (Valorant Data)
  * - Supabase (Protocol & Oráculo databases)
  */
-import { supabase, supabaseProtocol, getSupabaseConfig } from './lib/supabase.js';
+import { supabase, supabaseProtocol, getSupabaseConfig } from '../lib/supabase.js';
 const HENRIK_API_KEY = process.env.HENRIK_API_KEY;
 
 if (!HENRIK_API_KEY || HENRIK_API_KEY === 'your_henrik_api_key_v3') {

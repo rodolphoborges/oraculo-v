@@ -1,4 +1,4 @@
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../lib/supabase.js';
 
 async function audit() {
     console.log("🔍 [AUDIT] Iniciando varredura global de sanidade...");

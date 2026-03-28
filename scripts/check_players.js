@@ -1,4 +1,4 @@
-import { supabaseProtocol } from './lib/supabase.js';
+import { supabaseProtocol } from '../lib/supabase.js';
 
 async function check() {
     const { data, error } = await supabaseProtocol

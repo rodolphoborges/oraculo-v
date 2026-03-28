@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../lib/supabase.js';
 
 const MATCHES_DIR = './matches';
 
