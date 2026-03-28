@@ -1,6 +1,6 @@
 import { supabase, supabaseProtocol } from '../lib/supabase.js';
 
-const MATCH_ID = 'ed99d061-40a6-410c-91d5-d4ca0d1f9117';
+const MATCH_ID = '1ad3e2de-4341-4dbd-9fe3-ab214cd3faa0';
 const BANNED_TERMS = ['menear', 'pratele', 'alinharmos', 'instâncias', 'croixhair', 'punkts', 'energia', 'estímulos', 'initiativa', 'group', 'positioning', 'missions'];
 
 function isLowQuality(insight) {

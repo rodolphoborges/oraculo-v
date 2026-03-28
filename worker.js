@@ -288,6 +288,8 @@ async function processQueue() {
                 if (syncErr) console.warn(`⚠️ [SYNC] Falha ao espelhar no Protocolo: ${syncErr.message}`);
                 else console.log(`✅ [SYNC] Insight espelhado com sucesso.`);
             }
+        } else {
+            throw new Error("Falha Crítica: Nenhuma IA (OpenRouter ou Local) retornou resposta válida.");
         }
 
         // 7. MARCAR COMO COMPLETO (FINALMENTE)
