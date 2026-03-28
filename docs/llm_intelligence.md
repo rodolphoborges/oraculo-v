@@ -17,13 +17,17 @@ Para que a LLM saiba não apenas da partida de agora, mas do estado sistêmico a
 Em vez disso, utilizamos o próprio Banco de Dados para sumarizar essas "tendências" pesadas, lendo instantaneamente da View:
 `vw_player_trends` - Uma view atrelada a nova camada SQL do Oráculo que resume o ACS, KD Range, KAST das últimas 10 partidas numa fração de bytes.
 
-## 3. Resiliência: Arquitetura de Fallback (Free-Tier)
+## 3. Resiliência: Arquitetura de Fallback (Free-Tier & NAT)
 
-O código engatilha chamadas API em cadeia via `lib/openrouter_engine.js`. Para não custar $0.01 de infraestrutura ao longo dos meses, usamos os modelos gratuitos de ponta cedidos pelas provedoras (Llama, Google, Qwen).
-Como provedores oscilam em horários de pico (`HTTP 429`), o Engine Node.js é programado estruturalmente para realizar o Fallback se uma falhar:
-1. `meta-llama/llama-3.3-70b-instruct:free` (O carro-chefe Analítico e Lógico)
-2. `google/gemma-3-12b-it:free` (O modelo Veloz Substituto)
-3. `qwen/qwen3-4b:free` (O Generalista Super Eficiente de emergência)
+O código engatilha chamadas API em cadeia via `lib/openrouter_engine.js`. Para não custar $0.01 de infraestrutura, usamos os modelos gratuitos de ponta cedidos pelas provedoras. Se o primeiro falhar por congestionamento (`HTTP 429`), ele tenta o próximo.
+1. `meta-llama/llama-3.3-70b-instruct:free` (Primário)
+2. `google/gemma-3-12b-it:free` (1° Fallback Nuvem)
+3. `qwen/qwen3-4b:free` (2° Fallback Nuvem)
+
+### 3.1 A "Saída de Emergência" (Física/Ollama)
+Se a nuvem inteira do OpenRouter colapsar, o sistema conta com uma última linha de defesa: a **Comunicação Direta com o seu Servidor Residencial**.
+Se as variáveis `LOCAL_LLM_URL` e `LOCAL_LLM_MODEL` estiverem preenchidas no `.env`, o motor dispara a predição para o seu host local (ex: via NAT/Port-Forwarding na porta `11434` do Ollama). 
+*Nota: O parser do Node já é polido para remover as tags XML `<think>` do modelo `deepseek-r1`, garantindo que apenas o conteúdo real seja interpretado como JSON!*
 
 ## 4. O Exemplo Prático de Prompt
 
