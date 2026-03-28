@@ -16,7 +16,9 @@ graph TD
     E -->|Invoca Motor Python| G(analyze_valorant.py)
     G -->|Gera JSON Narrativo/Holt| E
     E -->|Salva| H([Arquivos Locais/analyses/])
-    E -->|Salva Metadados/Result| C
+    E -->|Preenche match_stats| C
+    E -->|Invoca OpenRouter (Fallbacks)| J(openrouter_engine.js)
+    J -->|Gera Insight LLM| K[Supabase: ai_insights]
     D -->|Dispara Alerta| I(Telegram Bot)
 ```
 
@@ -56,6 +58,9 @@ PROTOCOL_SUPABASE_KEY=Sua_Service_Role_do_Protocolo
 
 # --- SEGURANÇA API INTERNA ---
 ADMIN_API_KEY=Chave_Para_Acesso_de_Rotas_Master
+
+# --- INTELIGÊNCIA ARTIFICIAL ---
+OPENROUTER_API_KEY=Chave_Gratuita_Openrouter_Para_Llama3
 
 # --- EXTRAS (Opcional) ---
 PORT=3000

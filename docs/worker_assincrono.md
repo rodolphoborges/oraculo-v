@@ -30,3 +30,10 @@ O Worker intercepta esta flag e suspende temporariamente a análise do Python. A
 O script também trata dependências de API e feedback de notificação:
 - Executa inicialização das predições via Holt-Winters consultando o passado das últimas três partidas, gravando estado no Protocolo-V (Dual-Base).
 - Gera o *payload* final via API Bot Telegram (usando `TELEGRAM_BOT_TOKEN`) diretamente no *chat_id* do usuário com um laudo prévio e tendência.
+
+## 5. Inteligência de Nuvem (OpenRouter LLM)
+Na arquitetura v4.0, após o processamento da predição matemática estrita em Python, o `worker.js` executa uma etapa final mandatória de inteligência artificial:
+1. **Persistência Estruturada**: Grava os contadores técnicos na tabela `match_stats` (Kills, Deaths, ACS, ADR) e na tabela base `matches`.
+2. **Contexto Histórico**: Lê a View do Postgres `vw_player_trends` (Médias Móveis de 10 jogos) e faz uma consulta aos últimos 2 relatórios da Inteligência Artificial já gerados.
+3. **Invocação (Fallback Free-Tier)**: Envia a métrica de jogo + tendências para o `openrouter_engine.js`. Se o provedor principal (`Llama 3.3`) estiver congestionado (Rate Limited 429), o sistema automaticamente desliza e tenta os modelos substitutos (`Gemma 3` e `Qwen 3`).
+4. **Relatório**: O output em JSON do Head Coach é finalmente inserido na tabela `ai_insights` no banco de operações para que possa ser exibido pelo Front-end (Dashboard).

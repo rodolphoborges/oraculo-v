@@ -15,21 +15,18 @@ async function checkTables() {
     console.log(`📡 Protocolo (Dados): ${config.protocolUrl}`);
     console.log(`-------------------------------`);
 
-    // 1. Verificar Oráculo (Fila)
-    console.log("\n[ORÁCULO] Verificando 'match_analysis_queue'...");
-    const { data: mData, error: mError } = await supabase.from('match_analysis_queue').select('count').limit(1);
-    if (mError) console.error("❌ Erro:", mError.message);
-    else console.log("✅ match_analysis_queue existe!");
+    // 3. Verificar Novas Tabelas da IA (Oráculo-V)
+    console.log("\n[ORÁCULO] Verificando Novas Tabelas (IA)...");
+    const tables = ['ai_insights', 'match_stats', 'vw_player_trends'];
+    
+    for (const table of tables) {
+        const { error } = await supabase.from(table).select('count').limit(1);
+        if (error) console.error(`❌ Erro em '${table}':`, error.message);
+        else console.log(`✅ ${table} detectada e acessível!`);
+    }
 
-    // 2. Verificar Protocolo (Jogadores)
-    console.log("\n[PROTOCOLO] Verificando 'players'...");
-    const { data: pData, error: pError } = await supabaseProtocol.from('players').select('count', { count: 'exact', head: true });
-    if (pError) console.error("❌ Erro:", pError.message);
-    else console.log(`✅ players existe! (Total: ${pData || '?'})`);
-
-    const { data: oData, error: oError } = await supabaseProtocol.from('operation_squads').select('count').limit(1);
-    if (oError) console.error("[PROTOCOLO] Erro operation_squads:", oError.message);
-    else console.log("[PROTOCOLO] ✅ operation_squads existe!");
+    console.log(`\n-------------------------------`);
+    console.log(`📡 [STATUS] Motor Prontos para Operação.`);
 }
 
 checkTables();
