@@ -1,6 +1,6 @@
 # Guia de Testes // Operação Oráculo V
 
-Siga este protocolo para validar todas as funcionalidades do sistema v3.2.
+Siga este protocolo para validar todas as funcionalidades do sistema v4.0.
 
 ## 1. Subir o Servidor (Dashboard & API)
 Abra um terminal e execute:
@@ -28,10 +28,11 @@ curl -X POST http://localhost:3000/api/queue -H "Content-Type: application/json"
 
 ## 3. Ligar o Motor Assíncrono (Worker)
 O sistema é assíncrono e feito para rodar em Loop Contínuo. Para ligar o motor que consumirá a fila:
+*(Certifique-se que o Ollama / Local LLM esteja rodando se não for usar OpenRouter).*
 ```bash
 node worker.js
 ```
-Acompanhe os logs: Ele puxará os dados, identificará grupamentos (se modo 'AUTO'), passará a partida para o Python local e voltará a dormir no aguardo de mais jobs na fila.
+Acompanhe os logs: Ele puxará os dados, identificará grupamentos (se modo 'AUTO'), passará a partida para o Python local, invocará o Motor de IA (OpenRouter/Ollama) e voltará a dormir no aguardo de mais jobs na fila.
 
 ---
 
