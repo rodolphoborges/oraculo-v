@@ -8,7 +8,7 @@
 import { supabase } from '../lib/supabase.js';
 
 const startTime = Date.now();
-let lastDone = 0;
+let initialDone = null;
 
 async function showProgress() {
     const { count: total } = await supabase
@@ -20,6 +20,8 @@ async function showProgress() {
         .select('*', { count: 'exact', head: true })
         .eq('status', 'completed');
 
+    if (initialDone === null) initialDone = done;
+
     const { count: failed } = await supabase
         .from('match_analysis_queue')
         .select('*', { count: 'exact', head: true })
@@ -28,17 +30,22 @@ async function showProgress() {
     const pending = total - (done + failed);
     const percent = Math.round((done / total) * 100);
     
-    // Cálculo de ETA
+    // Cálculo de ETA (Baseado no progresso real desde que o dashboard abriu)
     const elapsedMs = Date.now() - startTime;
-    const progressSinceStart = done; // Simplificação: assume que começou do 0 para o ETA ser real
+    const progressSinceStart = done - initialDone;
     let etaStr = "Calculando...";
     
     if (progressSinceStart > 0) {
         const msPerJob = elapsedMs / progressSinceStart;
         const remainingMs = msPerJob * pending;
-        const hours = Math.floor(remainingMs / 3600000);
-        const mins = Math.floor((remainingMs % 3600000) / 60000);
-        etaStr = `${hours}h ${mins}m`;
+        
+        if (remainingMs > 0) {
+            const hours = Math.floor(remainingMs / 3600000);
+            const mins = Math.floor((remainingMs % 3600000) / 60000);
+            etaStr = `${hours}h ${mins}m`;
+        } else {
+            etaStr = "Finalizando...";
+        }
     }
 
     // Gerar barra [######----]
