@@ -135,14 +135,15 @@ app.get('/api/status/:matchId', async (req, res) => {
       const result = JSON.parse(content);
       return res.json({ status: 'completed', result });
     } catch (pErr) {
-      // Se não houver arquivo local, buscamos os stats técnicos no Protocolo-V
-      const { supabaseProtocol } = await import('./lib/supabase.js');
-      const { data: stats } = await supabaseProtocol
-        .from('match_stats')
-        .select('*')
-        .eq('match_id', matchId)
-        .eq('player_id', player)
-        .single();
+      // Tenta parsear o insight se ele for uma string JSON
+      let tacticalInsight = data.insight_resumo;
+      try {
+          if (typeof tacticalInsight === 'string' && tacticalInsight.startsWith('{')) {
+              tacticalInsight = JSON.parse(tacticalInsight);
+          }
+      } catch (e) {
+          console.warn('[API] Falha ao parsear insight_resumo localmente.');
+      }
 
       return res.json({ 
         status: 'completed', 
@@ -156,7 +157,7 @@ app.get('/api/status/:matchId', async (req, res) => {
           target_kd: 1.0,
           acs: stats?.acs || 0,
           adr: stats?.adr || 0,
-          conselho_kaio: data.insight_resumo,
+          conselho_kaio: tacticalInsight,
           rounds: [] // Fallback sem timeline
         }
       });
