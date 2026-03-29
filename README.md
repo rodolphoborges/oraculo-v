@@ -1,6 +1,11 @@
 # ORÁCULO V // NÚCLEO_TÁTICO v4.0
 
-O **Oráculo V** é um Motor de Análise Tática de Elite com arquitetura assíncrona, concebido como o cérebro analítico do ecossistema "Protocolo V". Seu propósito é processar e interpretar o desempenho tático de jogadores de Valorant, avaliando impacto contextual (Clutches, KAST, Trades, Tendências) em linguagem "brutalista terminal", entregando predições e conselhos via geração narrativa inteligente em Python.
+O **Oráculo V** é um Motor de Análise Tática de Elite (Service Provider). Sua única responsabilidade é transformar dados brutos de combate em inteligência estratégica.
+
+### 🛡️ Filosofia do Serviço
+- **Stateless by Design**: O Oráculo não retém dados de jogadores ou esquadrões a longo prazo. Ele processa o "Briefing" e entrega o "Insight".
+- **Contrato Estrito**: Toda comunicação é ancorada no `match_id` (UUID) gerado pelo Protocolo-V.
+- **Framework**: Antigravity para orquestração resiliente de modelos Python.
 
 ---
 
@@ -87,14 +92,31 @@ Responsável por interagir com o FrontEnd e receber chamadas em `/api/queue`.
 npm start
 ```
 
-**Exemplo de Enfileiramento via cURL:**
-```bash
-curl -X POST http://localhost:3000/api/queue \
-  -H 'Content-Type: application/json' \
-  -d '{"player": "Nick#Tag", "matchId": "UUID-DO-MATCH"}'
+### 📡 Contrato de API (The Insight Loop)
+
+O Oráculo-V expõe endpoints para processamento assíncrono. O fluxo segue o contrato definido na [Arquitetura Global](../ARCHITECTURE.md).
+
+**Endpoint**: `POST /api/analyze`
+
+**Request (Briefing):**
+```json
+{
+  "match_id": "UUID-DO-MATCH",
+  "player_id": "ousadia#013",
+  "combat_stats": { ... }
+}
 ```
-> [!TIP]
-> No payload acima, substituir `"Nick#Tag"` por `"AUTO"` fará o Motor expandir e analisar todos os aliados presentes no grupo do jogador dono da partida.
+
+**Response (Intelligence):**
+```json
+{
+  "insight_resumo": "Análise narrativa...",
+  "technical_report": { "impact_kernel": 8.5, "trend": "Holt-Winters" }
+}
+```
+
+> [!IMPORTANT]
+> O `match_id` deve ser fornecido obrigatoriamente no corpo da requisição para garantir a integridade entre os sistemas.
 
 ### 2. Via Linha de Comando (Standalone)
 
