@@ -176,7 +176,8 @@ export async function processBriefing(briefing) {
                 total_rounds: result.total_rounds,
                 conselhosBase: result.all_conselhos,
                 tone_instruction: impact.tone_instruction,
-                template_hint: rankTemplate
+                template_hint: rankTemplate,
+                abilities: briefing.ability_context || [] // [NOVO] Keywords técnicas
             },
             trend: null, // As tendências agora são baseadas no Holt local
             history: previousInsights,

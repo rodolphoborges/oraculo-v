@@ -48,16 +48,16 @@ class ImpactAnalyzer {
         const I = (w.adr * nADR) + (w.kast * nKAST) + (w.fb * nFB) + (w.clutch * nClutch) + (w.acs * nACS);
         const finalScore = Math.round(I * 10) / 10;
 
-        // 4. Classificação e Tom de Voz
+        // 4. Classificação e Tom de Voz (Refinado - Narrativa Coach)
         let rank = 'Depósito de Torreta';
-        let tone = 'Use um tom sarcástico, condescendente e instigue o jogador a visitar o site do Protocolo-V imediatamente para não ser kickado da squad. Chame-o de peso morto.';
+        let tone = `O jogador foi um peso morto. Faça um trash talk citando que o uso de [Keywords] foi vergonhoso. Mencione que até o ferro 1 teria uma leitura de jogo melhor.`;
         
         if (finalScore >= 80) {
             rank = 'Alpha';
-            tone = 'Use um tom épico, heroico e grandioso. Trate o jogador como o motor e o líder tático incontestável da operação.';
+            tone = `O jogador brilhou de [Agente]. Use termos como [Keywords] para elogiar como ele dominou o mapa hoje.`;
         } else if (finalScore >= 50) {
             rank = 'Omega';
-            tone = 'Use um tom profissional, técnico e equilibrado. Reconheça a consistência e o cumprimento das ordens táticas.';
+            tone = `Aja como um Coach Analítico. O desempenho foi consistente, mas sem o brilho do rank Alpha. Use [Keywords] de forma técnica.`;
         }
 
         return {
