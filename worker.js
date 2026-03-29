@@ -186,31 +186,63 @@ export async function processBriefing(briefing) {
 
         // Geração Resiliente: Timeout 10s para Local e Fallback Automático Elite
         const aiResponse = await generateInsights(promptData);
-        if (aiResponse) {
+        if (aiResponse && typeof aiResponse.insight === 'object') {
             console.log(`🤖 Insight LLM (${aiResponse.model_used}) Recebido.`);
             
-            // Gravação Local (Oráculo-V) com RAW DATA SNAPSHOT
-            await supabase.from('ai_insights').insert([{
-                match_id: match_id,
-                player_id: player_id,
-                insight_resumo: aiResponse.insight,
-                model_used: aiResponse.model_used,
-                raw_data_snapshot: raw_data || briefing
-            }]);
+            // 4. Persistência dO Insight (Oráculo - Resiliente a Schema)
+            try {
+                // Remove registro antigo (Case-Insensitive para Player ID)
+                const { count, error: delErr } = await supabase
+                    .from('ai_insights')
+                    .delete({ count: 'exact' })
+                    .eq('match_id', match_id)
+                    .ilike('player_id', player_id); // [NOVO] Deleta ousadia#013 ou OUSADIA#013
+                
+                if (delErr) {
+                    console.warn(`⚠️ [DB] Falha na purga: ${delErr.message}`);
+                } else {
+                    console.log(`🧹 [PURGE] ${count || 0} registros antigos removidos.`);
+                }
 
-            // SINCRONIZAÇÃO DUAL-BASE: Gravação no Protocolo-V (Dashboard)
-            if (supabaseProtocol) {
-                console.log(`📡 [SYNC] Sincronizando insight para o Protocolo-V...`);
-                const { error: syncErr } = await supabaseProtocol.from('ai_insights').upsert([{
-                    match_id: match_id,
+                const { error: insErr } = await supabase.from('ai_insights').insert([{
                     player_id: player_id,
-                    insight_resumo: aiResponse.insight.diagnostico_principal || aiResponse.insight,
-                    classification: impact.rank,
-                    impact_score: impact.score,
-                    model_used: aiResponse.model_used
-                }], { onConflict: 'match_id, player_id' });
-                if (syncErr) console.warn(`⚠️ [SYNC] Falha ao espelhar no Protocolo: ${syncErr.message}`);
-                else console.log(`✅ [SYNC] Insight espelhado com sucesso.`);
+                    match_id: match_id,
+                    insight_resumo: JSON.stringify(aiResponse.insight),
+                    created_at: new Date().toISOString()
+                }]);
+
+                if (insErr) console.error(`   [❌] Falha no Oráculo: ${insErr.message}`);
+
+                // 5. Espelhamento no Protocolo-V (Completo - Com Métricas Táticas)
+                if (supabaseProtocol) {
+                    const { error: syncErr } = await supabaseProtocol.from('ai_insights').upsert([{
+                        player_id: player_id,
+                        match_id: match_id,
+                        insight_resumo: (typeof aiResponse.insight === 'object') ? JSON.stringify(aiResponse.insight) : aiResponse.insight,
+                        model_used: aiResponse.model_used,
+                        classification: aiResponse.insight.classification || impact.rank,
+                        impact_score: impact.score,
+                        created_at: new Date().toISOString()
+                    }], { onConflict: 'match_id, player_id' });
+                    
+                    if (syncErr) console.warn(`⚠️ [SYNC] Falha no Protocolo: ${syncErr.message}`);
+                    else console.log(`✅ [SYNC] Insight espelhado com sucesso.`);
+                }
+
+                // [NOVO] Sincronização de Arquivo Local (Analyses/)
+                // Garante que o Dashboard (que prefere o JSON local) receba o objeto estruturado
+                const reportPath = path.join(process.cwd(), 'analyses', `match_${match_id}_${player_id.replace('#', '_')}.json`);
+                try {
+                    const fileContent = await fs.promises.readFile(reportPath, 'utf8');
+                    const currentReport = JSON.parse(fileContent);
+                    currentReport.conselho_kaio = aiResponse.insight; // Atualiza com o Objeto JSON
+                    await fs.promises.writeFile(reportPath, JSON.stringify(currentReport, null, 2), 'utf8');
+                    console.log(`📂 [FILE-SYNC] Arquivo local atualizado com Insight estruturado.`);
+                } catch (fileErr) {
+                    console.warn(`⚠️ [FILE-SYNC] Falha ao atualizar arquivo local: ${fileErr.message}`);
+                }
+            } catch (err) {
+                console.error(`❌ Erro na persistência do insight: ${err.message}`);
             }
         } else {
             throw new Error("Falha Crítica: Nenhuma IA (OpenRouter ou Local) retornou resposta válida.");
@@ -232,4 +264,53 @@ export async function processBriefing(briefing) {
         console.error("❌ Erro no Processamento:", err.message);
         return { success: false, error: err.message };
     }
+}
+
+/**
+ * Loop principal que monitora a fila de análise no Supabase.
+ */
+export async function startWorker() {
+    console.log('🤖 [ORACULO-V] Motor de análise em background iniciado.');
+    
+    // Loop infinito de monitoramento
+    setInterval(async () => {
+        try {
+            // Busca o próximo item pendente na fila
+            const { data: queueItem, error } = await supabase
+                .from('match_analysis_queue')
+                .select('*')
+                .eq('status', 'pending')
+                .order('created_at', { ascending: true })
+                .limit(1)
+                .single();
+
+            if (error || !queueItem) return; // Nada para processar
+
+            const { id, player_id, match_id } = queueItem;
+
+            // Marca como processando imediatamente
+            await supabase.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
+
+            console.log(`📡 [QUEUE] Iniciando análise de ${player_id} - Partida ${match_id}`);
+
+            // Executa o processamento
+            const result = await processBriefing({
+                match_id,
+                player_id,
+                // O Oráculo-V busca os metadados restantes no Banco do Protocolo-V
+                map_name: null,
+                agent_name: null
+            });
+
+            // Atualiza o status final
+            if (result.success) {
+                await supabase.from('match_analysis_queue').update({ status: 'completed' }).eq('id', id);
+            } else {
+                await supabase.from('match_analysis_queue').update({ status: 'failed', error: result.error }).eq('id', id);
+            }
+
+        } catch (err) {
+            console.error('❌ [QUEUE-ERROR] Falha no loop do worker:', err.message);
+        }
+    }, 5000); // Verifica a cada 5 segundos
 }

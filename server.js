@@ -19,7 +19,7 @@ const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}
 app.use(express.json());
 app.use(express.static('public'));
 
-import { processBriefing } from './worker.js';
+import { processBriefing, startWorker } from './worker.js';
 
 // Middleware de Segurança para Rotas Administrativas
 const adminAuth = (req, res, next) => {
@@ -194,6 +194,8 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
 } else {
   app.listen(PORT, () => {
     console.log(`Oráculo V Dashboard rodando em http://localhost:${PORT}`);
+    // Inicia o motor de processamento da fila em background
+    startWorker().catch(err => console.error('[WORKER] Erro na inicialização:', err.message));
   });
 }
 
