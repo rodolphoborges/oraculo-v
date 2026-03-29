@@ -39,7 +39,10 @@ async function startAnalysisFlow(player, matchId) {
         const queueRes = await fetch('/api/queue', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ player, matchId })
+            body: JSON.stringify({ 
+                player_id: player, 
+                match_id: matchId 
+            })
         });
         const queueData = await queueRes.json();
         if (!queueRes.ok) throw new Error(queueData.error);

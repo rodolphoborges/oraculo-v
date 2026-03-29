@@ -221,7 +221,9 @@ export async function processBriefing(briefing) {
             success: true, 
             result,
             insight: {
-                resumo: aiResponse.insight,
+                resumo: aiResponse.insight.diagnostico_principal || aiResponse.insight,
+                rank: impact.rank,
+                score: impact.score,
                 model_used: aiResponse.model_used
             }
         };
