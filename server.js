@@ -13,6 +13,9 @@ import { supabase } from './lib/supabase.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Regex para validação de UUID
+const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -42,6 +45,10 @@ app.post('/api/queue', async (req, res) => {
     return res.status(400).json({ error: 'Player ID e Match ID são obrigatórios no briefing.' });
   }
 
+  if (!UUID_REGEX.test(match_id)) {
+    return res.status(400).json({ error: 'O match_id fornecido não é um UUID válido.' });
+  }
+
   console.log(`[API] Briefing recebido (Async): ${player_id} - ${match_id}`);
 
   // Disparar processamento em background (202 Accepted)
@@ -65,6 +72,10 @@ app.post('/api/analyze', async (req, res) => {
 
   if (!player_id || !match_id) {
     return res.status(400).json({ error: 'Player ID e Match ID são obrigatórios.' });
+  }
+
+  if (!UUID_REGEX.test(match_id)) {
+    return res.status(400).json({ error: 'O match_id fornecido não é um UUID válido.' });
   }
 
   console.log(`[API] Requisição Síncrona /analyze: Match ${match_id} (Player: ${player_id})`);
@@ -161,6 +172,12 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Oráculo V Dashboard rodando em http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
+  // Em modo de teste, o supertest gerencia o servidor.
+} else {
+  app.listen(PORT, () => {
+    console.log(`Oráculo V Dashboard rodando em http://localhost:${PORT}`);
+  });
+}
+
+export default app;
