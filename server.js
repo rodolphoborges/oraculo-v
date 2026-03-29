@@ -111,19 +111,20 @@ app.get('/api/status/:matchId', async (req, res) => {
   if (!player) return res.status(400).json({ error: 'Player ID é obrigatório via query string (?player=...)' });
 
   try {
-    // Busca diretamente na tabela de insights
-    const { data, error } = await supabase
+    // Busca diretamente na tabela de insights (usamos limit 1 para evitar erro de duplicidade)
+    const { data: insights, error } = await supabase
       .from('ai_insights')
       .select('*')
       .eq('match_id', matchId)
       .eq('player_id', player)
-      .single();
+      .order('created_at', { ascending: false })
+      .limit(1);
 
-    if (error) {
-      if (error.code === 'PGRST116') { // Not found
-         return res.status(404).json({ status: 'pending', message: 'Insight ainda não gerado ou partida não enviada.' });
-      }
-      throw error;
+    const data = insights && insights.length > 0 ? insights[0] : null;
+
+    if (error || !data) {
+      if (error && error.code !== 'PGRST116') throw error;
+      return res.status(404).json({ status: 'pending', message: 'Insight ainda não gerado ou partida não enviada.' });
     }
 
     // Se encontramos no banco, verificamos se temos o JSON local para o relatório completo

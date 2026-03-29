@@ -51,8 +51,12 @@ async function startAnalysisFlow(player, matchId) {
 
         const pollStatus = async () => {
             const statusRes = await fetch(`/api/status/${matchId}?player=${encodeURIComponent(player)}`);
+            
+            // Se for 404, significa que ainda está na fila ou processando
+            if (statusRes.status === 404) return false; 
+            
             const statusData = await statusRes.json();
-            if (!statusRes.ok) throw new Error(statusData.error);
+            if (!statusRes.ok) throw new Error(statusData.error || 'ERRO_DE_PROCESSAMENTO');
 
             if (statusData.status === 'completed' && statusData.result) {
                 addTerminalMessage('ANÁLISE_CONCLUÍDA_COM_SUCESSO.');
@@ -114,7 +118,6 @@ window.addEventListener('load', () => {
         playerInp.value = p;
         matchInp.value = m;
 
-        // Limpa o terminal e mostra o comando como se tivesse sido digitado
         loadingSec.innerHTML = '';
         loadingSec.classList.remove('hidden');
         
@@ -122,13 +125,11 @@ window.addEventListener('load', () => {
         cmdLog.innerHTML = `<span style="color:var(--green-ok)">> analyze --player "${p}" --match ${m}</span>`;
         loadingSec.appendChild(cmdLog);
 
-        // Inicia o fluxo com um pequeno atraso para parecer processamento
         setTimeout(() => startAnalysisFlow(p, m), 1000);
     }
 });
 
 function renderResults(data) {
-    // ── Cabeçalho ───────────────────────────────────────────
     document.getElementById('resAgent').innerHTML = `<b>${data.agent.toUpperCase()}</b>`;
     document.getElementById('resMap').innerHTML   = `<b>${data.map.toUpperCase()}</b>`;
     const above = data.performance_status === 'ABOVE_BASELINE';
@@ -145,17 +146,14 @@ function renderResults(data) {
     document.getElementById('resCombat').innerHTML =
         `<b>${data.acs.toFixed(0)}</b> ACS  //  <b>${data.adr.toFixed(0)}</b> ADR`;
     
-    // ── Conselho Tático ──────────────────────────────────────
     const adviceText = data.conselho_kaio;
     const adviceEl = document.getElementById('resAdviceText');
     const adviceBlock = document.getElementById('resAdvice');
     
     if (adviceText) {
-        // Se for um objeto (JSON da LLM), tentamos extrair campos
         if (typeof adviceText === 'object') {
             adviceEl.textContent = (adviceText.diagnostico_principal || 'ANÁLISE_CONCLUÍDA').toUpperCase();
             
-            // Renderiza Listas (Strengths/Weaknesses)
             const renderList = (id, listId, items) => {
                 const block = document.getElementById(id);
                 const list = document.getElementById(listId);
