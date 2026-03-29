@@ -134,14 +134,29 @@ app.get('/api/status/:matchId', async (req, res) => {
       const result = JSON.parse(content);
       return res.json({ status: 'completed', result });
     } catch (pErr) {
-      // Se não houver arquivo local, retornamos o insight do banco como fallback
-      console.log(`[API] Relatório local não encontrado. Fornecendo insight resumido.`);
+      // Se não houver arquivo local, buscamos os stats técnicos no Protocolo-V
+      const { supabaseProtocol } = await import('./lib/supabase.js');
+      const { data: stats } = await supabaseProtocol
+        .from('match_stats')
+        .select('*')
+        .eq('match_id', matchId)
+        .eq('player_id', player)
+        .single();
+
       return res.json({ 
         status: 'completed', 
         result: { 
-          insight: data.insight_resumo,
-          model: data.model_used,
-          created_at: data.created_at
+          agent: stats?.agent || 'DESCONHECIDO',
+          map: stats?.map || 'TODOS',
+          performance_index: stats?.impact_score || 0,
+          performance_status: (stats?.impact_score || 0) >= 100 ? 'ABOVE_BASELINE' : 'BELOW_BASELINE',
+          estimated_rank: data.classification || stats?.impact_rank || 'N/A',
+          kd: stats?.deaths > 0 ? stats.kills / stats.deaths : stats?.kills || 0,
+          target_kd: 1.0,
+          acs: stats?.acs || 0,
+          adr: stats?.adr || 0,
+          conselho_kaio: data.insight_resumo,
+          rounds: [] // Fallback sem timeline
         }
       });
     }

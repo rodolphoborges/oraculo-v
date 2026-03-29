@@ -146,11 +146,44 @@ function renderResults(data) {
         `<b>${data.acs.toFixed(0)}</b> ACS  //  <b>${data.adr.toFixed(0)}</b> ADR`;
     
     // ── Conselho Tático ──────────────────────────────────────
-    if (data.conselho_kaio) {
-        document.getElementById('resAdviceText').textContent = data.conselho_kaio.toUpperCase();
-        document.getElementById('resAdvice').classList.remove('hidden');
+    const adviceText = data.conselho_kaio;
+    const adviceEl = document.getElementById('resAdviceText');
+    const adviceBlock = document.getElementById('resAdvice');
+    
+    if (adviceText) {
+        // Se for um objeto (JSON da LLM), tentamos extrair campos
+        if (typeof adviceText === 'object') {
+            adviceEl.textContent = (adviceText.diagnostico_principal || 'ANÁLISE_CONCLUÍDA').toUpperCase();
+            
+            // Renderiza Listas (Strengths/Weaknesses)
+            const renderList = (id, listId, items) => {
+                const block = document.getElementById(id);
+                const list = document.getElementById(listId);
+                list.innerHTML = '';
+                if (items && Array.isArray(items) && items.length > 0) {
+                    items.forEach(i => {
+                        const li = document.createElement('li');
+                        li.textContent = i.toUpperCase();
+                        list.appendChild(li);
+                    });
+                    block.classList.remove('hidden');
+                } else {
+                    block.classList.add('hidden');
+                }
+            };
+
+            renderList('resStrength', 'resStrengthList', adviceText.pontos_fortes);
+            renderList('resWeakness', 'resWeaknessList', adviceText.pontos_fracos);
+        } else {
+            adviceEl.textContent = adviceText.toUpperCase();
+            document.getElementById('resStrength').classList.add('hidden');
+            document.getElementById('resWeakness').classList.add('hidden');
+        }
+        adviceBlock.classList.remove('hidden');
     } else {
-        document.getElementById('resAdvice').classList.add('hidden');
+        adviceBlock.classList.add('hidden');
+        document.getElementById('resStrength').classList.add('hidden');
+        document.getElementById('resWeakness').classList.add('hidden');
     }
 
     // ── Helpers ──────────────────────────────────────────────
