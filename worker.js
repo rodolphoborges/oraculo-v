@@ -1,20 +1,14 @@
 /**
  * worker.js
  * 
- * The main execution engine for Oráculo V.
- * This background worker monitors the 'match_analysis_queue' in Supabase,
- * orchestrates the browser-based scraping of battle data, and executes
- * the tactical analysis engine (analyze_valorant.py).
- * 
- * Multi-base connectivity:
- * - Reads/Writes 'match_analysis_queue' in ORÁCULO_V project.
- * - Reads 'players' info from PROTOCOLO_V project for group expansions.
+ * The execution engine for Oráculo V.
+ * Refactored to be a service-based engine instead of a polling worker.
+ * Receives data directly from Protocolo-V via API.
  */
 import { supabase, supabaseProtocol } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
-import { expandAutoJob } from './lib/job_expansion.js';
 import { generateInsights } from './lib/openrouter_engine.js';
 
 /**
@@ -71,131 +65,37 @@ async function getPlayerHoltState(agenteTag) {
     return null;
 }
 
-async function processQueue() {
-    console.log("♻️ [WORKER] Verificando fila de processamento...");
+/**
+ * Processa um briefing recebido do Protocolo-V.
+ * @param {object} briefing Dados estruturados da partida
+ */
+export async function processBriefing(briefing) {
+    const { match_id, player_id, map_name, agent_name, raw_data } = briefing;
 
-    // 1. Pegar o item mais antigo 'pending'
-    const { data: job, error } = await supabase
-        .from('match_analysis_queue')
-        .select('*')
-        .eq('status', 'pending')
-        .order('created_at', { ascending: true })
-        .limit(1)
-        .single();
-
-    if (error) {
-        if (error.code === 'PGRST116') { // Código do Postgrest para "0 rows returned"
-            // Antes de desistir, vamos ver se não tem algum job "morto" (em processamento há muito tempo)
-            const thirtyMinsAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString();
-            const { data: staleJob } = await supabase
-                .from('match_analysis_queue')
-                .select('*')
-                .eq('status', 'processing')
-                .lt('processed_at', thirtyMinsAgo)
-                .limit(1)
-                .single();
-            
-            if (staleJob) {
-                console.log(`⚠️ [WORKER] Detectado job "preso" (ID: ${staleJob.id}). Reabrindo para tentativa.`);
-                await supabase.from('match_analysis_queue').update({ status: 'pending' }).eq('id', staleJob.id);
-                return true; // Continua o loop para pegar esse job
-            }
-
-            return false; // Fila realmente vazia
-        }
-        
-        console.error("❌ [WORKER] Erro ao buscar da fila:", error.message);
-        // Em caso de erro de rede/conexão, retornamos true para o loop tentar novamente após um delay
-        return true; 
-    }
-
-    if (!job) return false;
-
-    console.log(`👷 Processando Job: Match ${job.match_id} (Player: ${job.agente_tag})`);
+    console.log(`👷 Processando Briefing: Match ${match_id} (Player: ${player_id})`);
 
     try {
-        // 2. Marcar como 'processing' com verificação de segurança (Double-Check)
-        const { data: updatedJob, error: procError } = await supabase
-            .from('match_analysis_queue')
-            .update({ 
-                status: 'processing',
-                processed_at: new Date().toISOString(),
-                error_message: null
-            })
-            .eq('id', job.id)
-            .eq('status', 'pending') // Garante que ninguém pegou no milissegundo entre o select e o update
-            .select();
-
-        if (procError || !updatedJob || updatedJob.length === 0) {
-            console.log(`[WORKER] Job ${job.id} já está sendo processado por outra instância. Pulando.`);
-            return true;
-        }
-
-        if (job.agente_tag === 'AUTO') {
-            try {
-                const chatId = job.chat_id || job.metadata?.chat_id;
-                const count = await expandAutoJob(job.match_id, chatId, job.metadata);
-                console.log(`🤖 [WORKER] AUTO Expandido: ${count} novos jobs.`);
-                await supabase.from('match_analysis_queue').update({ 
-                    status: 'completed',
-                    processed_at: new Date().toISOString(),
-                    error_message: null,
-                    metadata: { ...job.metadata, expanded_count: count }
-                }).eq('id', job.id);
-            } catch (expansionErr) {
-                console.error(`❌ [WORKER] Erro na expansão AUTO:`, expansionErr.message);
-                await supabase.from('match_analysis_queue').update({ 
-                    status: 'failed',
-                    error_message: expansionErr.message
-                }).eq('id', job.id);
-            }
-            return true;
-        }
 
         // 3. Buscar Estado Holt Anterior
-        const holtPrev = await getPlayerHoltState(job.agente_tag);
+        const holtPrev = await getPlayerHoltState(player_id);
 
         // 4. Executar o sistema de análise
         const { spawnSync } = await import('child_process');
-        console.log(`🚀 Iniciando análise: node analyze_match.js "${job.agente_tag}" "${job.match_id}"`);
-        
-        const runArgs = ['analyze_match.js', job.agente_tag, job.match_id];
-        // Note: analyze_match.js runAnalysis doesn't take Holt state via CLI args easily unless we update its CLI handler
-        // But we already updated analyze_match.js runAnalysis function. 
-        // Let's call it direct if possible or update analyze_match.js CLI.
-        
-        // Actually, let's keep it simple: Call the function directly if we can, 
-        // or just pass JSON string in env/args. 
-        // Since we are in worker.js, we can import runAnalysis!
         const { runAnalysis } = await import('./analyze_match.js');
         const result = await runAnalysis(
-            job.agente_tag, 
-            job.match_id, 
-            job.metadata?.map || 'ALL', 
+            player_id, 
+            match_id, 
+            map_name || 'ALL', 
             'ALL', 
             holtPrev || {},
-            job.metadata?.agent || 'ALL'
+            agent_name || 'ALL'
         );
 
         if (result.error) throw new Error(result.error);
 
-        // 5. Salvar resultado intermediário (preserva 'processing')
-        const { error: prepError } = await supabase.from('match_analysis_queue').update({ 
-            metadata: { 
-                ...job.metadata, 
-                agent: result.agent, 
-                map: result.map,
-                perf: result.performance_index,
-                holt: result.holt,
-                analysis: result
-            }
-        }).eq('id', job.id);
-
-        if (prepError) console.warn(`⚠️ [WORKER] Falha ao injetar metadados intermediários: ${prepError.message}`);
-
         // 6. Atualizar Estado Holt no Jogador (se disponível)
         if (result.holt && result.holt.performance_l !== null && supabaseProtocol) {
-            console.log(`📈 [WORKER] Atualizando tendência para ${job.agente_tag}`);
+            console.log(`📈 [WORKER] Atualizando tendência para ${player_id}`);
             await supabaseProtocol.from('players').update({
                 performance_l: result.holt.performance_l,
                 performance_t: result.holt.performance_t,
@@ -203,59 +103,25 @@ async function processQueue() {
                 kd_t: result.holt.kd_t,
                 adr_l: result.holt.adr_l,
                 adr_t: result.holt.adr_t
-            }).eq('riot_id', job.agente_tag);
+            }).eq('riot_id', player_id);
         }
 
         console.log("✅ Análise concluída com sucesso.");
 
-        // 6.2. Persistência Estruturada (Para View de Tendências)
-        try {
-            // Upsert na tabela matches
-            await supabase.from('matches').upsert([{
-                match_id: job.match_id,
-                map_name: result.map,
-                queue_id: 'competitive',
-                rounds: result.total_rounds
-            }]);
+        // Remoção das tabelas matches e match_stats (Agora centralizadas no Protocolo-V)
 
-            // Upsert na tabela match_stats
-            await supabase.from('match_stats').upsert([{
-                match_id: job.match_id,
-                player_id: job.agente_tag,
-                agent: result.agent,
-                kills: Math.round(result.kd * 15), // Estimativa se não houver kill count direto no root
-                deaths: 15, // Base para cálculo reverso se necessário ou use result.deaths se disponível
-                acs: result.acs,
-                adr: result.adr,
-                kast: 70, // Fallback
-                first_bloods: result.first_kills || 0,
-                clutches: 0, 
-                is_win: result.performance_index > 100 // Heurística se não houver result.is_win
-            }]);
-        } catch (dbErr) {
-            console.warn("⚠️ [DB] Falha ao popular tabelas de estatísticas estruturadas:", dbErr.message);
-        }
-
-        // 6.4. Buscar Tendências Reais da VIEW e Histórico de Insights
-        let trendData = "Histórico insuficiente";
+        // 6.4. Buscar Tendências Reais/Insights anteriores para a LLM
         let previousInsights = null;
         try {
-            const { data: trend } = await supabase
-                .from('vw_player_trends')
-                .select('*')
-                .eq('player_id', job.agente_tag)
-                .single();
-            if (trend) trendData = trend;
-
             const { data: pastInsights } = await supabase
                 .from('ai_insights')
                 .select('insight_resumo')
-                .eq('player_id', job.agente_tag)
+                .eq('player_id', player_id)
                 .order('created_at', { ascending: false })
                 .limit(2);
             if (pastInsights) previousInsights = pastInsights.map(i => i.insight_resumo);
         } catch (queryErr) {
-            console.warn("⚠️ [DB] Falha ao ler tendências/insights para a LLM:", queryErr.message);
+            console.warn("⚠️ [DB] Falha ao ler insights anteriores para a LLM:", queryErr.message);
         }
 
         const promptData = {
@@ -266,9 +132,9 @@ async function processQueue() {
                 total_rounds: result.total_rounds,
                 conselhosBase: result.all_conselhos
             },
-            trend: trendData,
+            trend: null, // As tendências agora são baseadas no Holt local
             history: previousInsights,
-            squad: null
+            squad: briefing.squad_stats || null
         };
 
         // Geração Resiliente: Timeout 10s para Local e Fallback Automático Elite
@@ -276,20 +142,21 @@ async function processQueue() {
         if (aiResponse) {
             console.log(`🤖 Insight LLM (${aiResponse.model_used}) Recebido.`);
             
-            // Gravação Local (Oráculo-V)
+            // Gravação Local (Oráculo-V) com RAW DATA SNAPSHOT
             await supabase.from('ai_insights').insert([{
-                match_id: job.match_id,
-                player_id: job.agente_tag,
+                match_id: match_id,
+                player_id: player_id,
                 insight_resumo: aiResponse.insight,
-                model_used: aiResponse.model_used
+                model_used: aiResponse.model_used,
+                raw_data_snapshot: raw_data || briefing
             }]);
 
             // SINCRONIZAÇÃO DUAL-BASE: Gravação no Protocolo-V (Dashboard)
             if (supabaseProtocol) {
                 console.log(`📡 [SYNC] Sincronizando insight para o Protocolo-V...`);
                 const { error: syncErr } = await supabaseProtocol.from('ai_insights').insert([{
-                    match_id: job.match_id,
-                    player_id: job.agente_tag,
+                    match_id: match_id,
+                    player_id: player_id,
                     insight_resumo: aiResponse.insight,
                     model_used: aiResponse.model_used
                 }]);
@@ -300,86 +167,18 @@ async function processQueue() {
             throw new Error("Falha Crítica: Nenhuma IA (OpenRouter ou Local) retornou resposta válida.");
         }
 
-        // 7. MARCAR COMO COMPLETO (FINALMENTE)
-        console.log(`🏁 [WORKER] Job ${job.id} finalizado.`);
-        await supabase.from('match_analysis_queue').update({ 
-            status: 'completed',
-            error_message: null,
-            metadata: { 
-                ...job.metadata, 
-                agent: result.agent, 
-                map: result.map,
-                perf: result.performance_index,
-                holt: result.holt,
-                analysis: result,
-                ai_generated: !!aiResponse,
-                finished_at: new Date().toISOString()
+        console.log(`🏁 [ENGINE] Match ${match_id} finalizado.`);
+        return { 
+            success: true, 
+            result,
+            insight: {
+                resumo: aiResponse.insight,
+                model_used: aiResponse.model_used
             }
-        }).eq('id', job.id);
-
-        // 8. Notificar via Telegram
-        const chatId = job.chat_id || job.metadata?.chat_id;
-        if (chatId) {
-            console.log(`📢 Notificando chat_id: ${chatId}`);
-            const botToken = process.env.TELEGRAM_BOT_TOKEN;
-            if (botToken) {
-                const trendIcon = result.holt?.performance_t > 0 ? '📈' : '📉';
-                const trendMsg = result.holt?.performance_t ? `\nTendência: ${trendIcon} ${result.holt.performance_t > 0 ? '+' : ''}${result.holt.performance_t.toFixed(1)}%` : '';
-                
-                const message = `📡 *[ORÁCULO V: ANÁLISE PRONTA]*\n\nPartida: \`${job.match_id}\`\nAgente: *${result.agent}*\nPerformance: *${result.performance_index}%*${trendMsg}\n\nVisualize no terminal: [Abrir](https://protocolov.com/analise/${job.match_id})`;
-                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    })
-                });
-            }
-        }
+        };
 
     } catch (err) {
-        console.error("❌ Erro no JOB:", err.message);
-        await supabase.from('match_analysis_queue').update({ 
-            status: 'failed',
-            error_message: err.message
-        }).eq('id', job.id);
-        return true; 
-    }
-    return true;
-}
-
-async function startWorker() {
-    console.log("🟢 [WORKER] Motor Tático Iniciado. Vigiando a fila...");
-    // SUPORTE MANUAL VIA GITHUB ACTIONS
-    if (process.env.MANUAL_PLAYER && process.env.MANUAL_MATCH) {
-        console.log(`🎯 [MANUAL] Recebida solicitação manual para ${process.env.MANUAL_PLAYER} na partida ${process.env.MANUAL_MATCH}`);
-        const { error: insError } = await supabase.from('match_analysis_queue').upsert([{
-            match_id: process.env.MANUAL_MATCH.trim(),
-            agente_tag: process.env.MANUAL_PLAYER.trim(),
-            status: 'pending'
-        }], { onConflict: 'match_id,agente_tag' });
-        
-        if (insError) console.error("❌ [MANUAL] Erro ao enfileirar job manual:", insError.message);
-        else console.log("✅ [MANUAL] Job enfileirado com sucesso.");
-    }
-
-    while (true) {
-        const processed = await processQueue();
-        if (!processed) {
-            // Se estiver rodando no GitHub Actions e a fila estiver vazia, encerra para não gastar minutos
-            if (process.env.GITHUB_ACTIONS === 'true') {
-                console.log("🏁 Fila vazia. Encerrando worker no GitHub Actions.");
-                process.exit(0);
-            }
-            // Fila vazia, dorme 10 segundos
-            await new Promise(res => setTimeout(res, 10000));
-        } else {
-            // Processou um job com sucesso (ou expandiu AUTO). Dá um respiro de 2s.
-            await new Promise(res => setTimeout(res, 2000));
-        }
+        console.error("❌ Erro no Processamento:", err.message);
+        return { success: false, error: err.message };
     }
 }
-
-startWorker();

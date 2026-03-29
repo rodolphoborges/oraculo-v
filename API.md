@@ -13,25 +13,56 @@ Esta documentação descreve os padrões de comunicação e endpoints do micross
 
 ## Endpoints Principais
 
-### 1. Enfileirar Análise de Partida
-Solicita que o Oráculo processe uma partida específica para um jogador.
+### 1. Enviar Briefing de Partida (Push)
+Solicita que o Oráculo processe uma análise tática a partir de dados estruturados vindos do Protocolo-V.
 
 **Endpoint**: `POST /api/queue`
 
 **Request Payload**:
 ```json
 {
-  "player": "Mahoraga#Chess",
-  "matchId": "5660ca26-8e21-40bc-bfd6-8bd2a85c1409"
+  "match_id": "5660ca26-8e21-40bc-bfd6-8bd2a85c1409",
+  "player_id": "Mahoraga#Chess",
+  "map_name": "Ascent",
+  "agent_name": "Jett",
+  "squad_stats": [...], 
+  "raw_data": { ... } 
 }
 ```
 
-**Response (201 Created)**:
+**Response (202 Accepted)**:
 ```json
 {
-  "jobId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
-  "status": "pending",
-  "message": "Solicitação enfileirada com sucesso."
+  "message": "Briefing aceito e processamento iniciado.",
+  "matchId": "5660ca26-8e21-40bc-bfd6-8bd2a85c1409",
+  "player": "Mahoraga#Chess"
+}
+```
+
+---
+
+### 1.5. Analisar Partida (Síncrono)
+Processa a análise e retorna o resultado **imediatamente** na resposta HTTP. Recomendado para o Protocolo-V receber o insight na hora.
+
+**Endpoint**: `POST /api/analyze`
+
+**Request Payload**: O mesmo do endpoint `/api/queue` (Briefing).
+
+**Response (200 OK)**:
+```json
+{
+  "status": "completed",
+  "matchId": "5660ca26-8e21-40bc-bfd6-8bd2a85c1409",
+  "player": "Mahoraga#Chess",
+  "insight": {
+    "resumo": "Análise completa do comportamento tático...",
+    "model_used": "gpt-4o"
+  },
+  "technical_data": {
+    "performance_index": 82.5,
+    "kd": 1.5,
+    ...
+  }
 }
 ```
 
