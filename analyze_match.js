@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 
 export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', rank = 'ALL', holtPrev = {}, agentNameInput = 'ALL') {
+  console.log(`🧠 [ANALYSIS] Iniciando motor tático para ${playerTag}...`);
   let matchJsonPath = inputPath;
   let mapName = mapNameInput;
   let agentName = agentNameInput;
