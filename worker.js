@@ -251,7 +251,6 @@ async function processQueue() {
             console.warn("⚠️ [DB] Falha ao ler tendências/insights para a LLM:", queryErr.message);
         }
 
-        // 6.5. Geração de Inteligência com OpenRouter
         const promptData = {
             match_data: {
                 agent: result.agent, map: result.map,
@@ -262,8 +261,10 @@ async function processQueue() {
             },
             trend: trendData,
             history: previousInsights,
-            squad: null    // Pode ser hidratado do lib/strategic_advisor
+            squad: null
         };
+
+        // Geração Resiliente: Timeout 10s para Local e Fallback Automático Elite
         const aiResponse = await generateInsights(promptData);
         if (aiResponse) {
             console.log(`🤖 Insight LLM (${aiResponse.model_used}) Recebido.`);
