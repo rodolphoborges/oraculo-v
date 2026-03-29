@@ -153,6 +153,43 @@ input:focus { border-color: var(--red); }
     letter-spacing: 0.5px;
 }
 
+.loading-spinner {
+    display: inline-block;
+    color: var(--gold);
+    margin-left: 10px;
+}
+
+/* ── Diagnostic Blocks (LLM Custom Fields) ──────────────── */
+.diag-block {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.diag-header {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.strength .diag-header { color: var(--green-ok); text-shadow: 0 0 5px var(--green-ok); }
+.weakness .diag-header { color: var(--red); text-shadow: 0 0 5px var(--red); }
+
+.diag-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.diag-list li {
+    margin-bottom: 5px;
+}
+
+.strength { border-left: 3px solid var(--green-ok); }
+.weakness { border-left: 3px solid var(--red); }
+
 .loading-cursor {
     display: inline-block;
     width: 8px; height: 12px;
