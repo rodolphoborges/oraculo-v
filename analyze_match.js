@@ -7,8 +7,10 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 'ALL', holtPrev = {}) {
+export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', rank = 'ALL', holtPrev = {}, agentNameInput = 'ALL') {
   let matchJsonPath = inputPath;
+  let mapName = mapNameInput;
+  let agentName = agentNameInput;
 
   // 1. Verifica se o input é um Match ID (UUID)
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(inputPath);
@@ -46,6 +48,19 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
   }
   
   // 4. Identifica o agente, mapa e rank do jogador na partida
+  const playerSegment = matchData.data.segments.find(s => 
+    s.type === 'player-summary' && 
+    (s.attributes?.platformUserIdentifier === playerTag || s.metadata?.platformUserIdentifier === playerTag)
+  );
+  
+  if (agentName === 'ALL') {
+    agentName = playerSegment?.metadata?.agentName || 'Combatente';
+  }
+  
+  if (mapName === 'ALL') {
+    mapName = matchData.data.metadata?.mapName || 'Desconhecido';
+  }
+
   if (!matchData.data?.metadata || !matchData.data?.segments) {
     throw new Error('Dados da partida incompletos ou malformados.');
   }
@@ -56,14 +71,13 @@ export async function runAnalysis(playerTag, inputPath, mapName = 'ALL', rank = 
     throw new Error(`O Oráculo v4.0 só aceita partidas COMPETITIVAS. Esta partida é de modo: ${matchData.data.metadata.modeName || queueId}`);
   }
 
-  const mapDetected = matchData.data.metadata.mapName;
+  const mapDetected = mapName;
   
   const segments = matchData.data.segments;
   const normalizedTarget = playerTag.replace(/\s/g, '').toUpperCase();
   const playerSummary = segments.find(s => s.type === 'player-summary' && s.attributes.platformUserIdentifier.replace(/\s/g, '').toUpperCase() === normalizedTarget);
   const playerRound = segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.replace(/\s/g, '').toUpperCase() === normalizedTarget);
   
-  const agentName = playerSummary ? playerSummary.metadata.agentName : (playerRound ? playerRound.metadata.agentName : null);
   const rankDisplay = playerSummary?.stats?.rank?.displayValue || "ALL";
   
   // Normaliza o rank para o formato do vStats (ex: "Gold 2" -> "Gold")

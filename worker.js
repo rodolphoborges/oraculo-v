@@ -168,7 +168,14 @@ async function processQueue() {
         // or just pass JSON string in env/args. 
         // Since we are in worker.js, we can import runAnalysis!
         const { runAnalysis } = await import('./analyze_match.js');
-        const result = await runAnalysis(job.agente_tag, job.match_id, 'ALL', 'ALL', holtPrev || {});
+        const result = await runAnalysis(
+            job.agente_tag, 
+            job.match_id, 
+            job.metadata?.map || 'ALL', 
+            'ALL', 
+            holtPrev || {},
+            job.metadata?.agent || 'ALL'
+        );
 
         if (result.error) throw new Error(result.error);
 
