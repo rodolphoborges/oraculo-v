@@ -201,12 +201,14 @@ export async function processBriefing(briefing) {
             // SINCRONIZAÇÃO DUAL-BASE: Gravação no Protocolo-V (Dashboard)
             if (supabaseProtocol) {
                 console.log(`📡 [SYNC] Sincronizando insight para o Protocolo-V...`);
-                const { error: syncErr } = await supabaseProtocol.from('ai_insights').insert([{
+                const { error: syncErr } = await supabaseProtocol.from('ai_insights').upsert([{
                     match_id: match_id,
                     player_id: player_id,
-                    insight_resumo: aiResponse.insight,
+                    insight_resumo: aiResponse.insight.diagnostico_principal || aiResponse.insight,
+                    classification: impact.rank,
+                    impact_score: impact.score,
                     model_used: aiResponse.model_used
-                }]);
+                }], { onConflict: 'match_id, player_id' });
                 if (syncErr) console.warn(`⚠️ [SYNC] Falha ao espelhar no Protocolo: ${syncErr.message}`);
                 else console.log(`✅ [SYNC] Insight espelhado com sucesso.`);
             }
