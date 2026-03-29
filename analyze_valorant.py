@@ -113,6 +113,8 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     acs = stats['score']['value'] / curr_rounds
     adr = stats['damage']['value'] / curr_rounds
     actual_kd = stats['kills']['value'] / max(1, stats['deaths']['value'])
+    kills_total = int(stats['kills']['value'])
+    deaths_total = int(stats['deaths']['value'])
     
     player_round_segs = [s for s in segments if s['type'] == 'player-round' and s['attributes']['platformUserIdentifier'].upper() == player_target_upper]
     all_kill_segs = [s for s in segments if s['type'] == 'player-round-kills']
@@ -141,6 +143,15 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             elif first_kill['attributes'].get('opponentPlatformUserIdentifier', '').upper() == player_target_upper:
                 first_deaths_count += 1
 
+    # Detecção de Vitória (Match Outcome)
+    is_win = False
+    team_summary = next((s for s in segments if s['type'] == 'team-summary' and s['attributes']['teamId'] == player_team), None)
+    if team_summary:
+        is_win = team_summary['metadata'].get('result') == 'victory'
+        
+    kast = stats.get('kast', {}).get('value')
+    role = player_summary['metadata'].get('roleName')
+    
     # Templates de Mensagem Principal (Fallbacks)
     POS_DEFAULT = [
         "Mandou {victim_agent} de arrasta com {weapon} aos {time}.",
@@ -160,6 +171,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     ]
 
     rounds_analysis = []
+    total_clutches = 0
     for r_num in range(1, curr_rounds + 1):
         round_seg = next((s for s in player_round_segs if s['attributes']['round'] == r_num), None)
         if not round_seg: continue
@@ -279,6 +291,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         # Clutch Detection (v4.1.1)
         clutches = r_stats.get('clutches', {}).get('value', 0) if r_stats else 0
         if clutches > 0:
+            total_clutches += int(clutches)
             pos_label = tm.format("clutch_positivo", pos_label or "CLUTCH!", quantidade=int(clutches))
 
         if economy < 2500 and kills_count > 0:
@@ -392,11 +405,13 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         conselhos.append(tm.format("alerta_baixa_performance", "PRECISA MELHORAR O IMPACTO."))
 
     return {
-        "player": target_player, "agent": agent_name, "map": map_name, "map_details": map_details,
-        "acs": acs, "adr": adr, "kd": actual_kd, "performance_index": float(round(perf_idx, 1)),
+        "player": target_player, "agent": agent_name, "role": role, "map": map_name, "map_details": map_details,
+        "acs": acs, "adr": adr, "kd": actual_kd, "kast": kast, "performance_index": float(round(perf_idx, 1)),
         "performance_status": perf_status,
+        "kills": kills_total, "deaths": deaths_total, "clutches": total_clutches,
         "first_kills": first_kills_count,
         "first_deaths": first_deaths_count,
+        "is_win": is_win,
         "matches_analyzed": strat_context.get('matchesAnalyzed', 0),
         "holt": holt_next, "conselho_kaio": conselhos[0], "all_conselhos": conselhos,
         "total_rounds": curr_rounds, "rounds": rounds_analysis

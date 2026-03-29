@@ -51,4 +51,18 @@ Mede a coordenação com aliados conhecidos. O sistema identifica membros de squ
 *   **Ausência (-- | 0)**: Quando um jogador tem 0/0 em aberturas, indica que ele atuou em funções de suporte ou finalização, não participando do contato inicial do round.
 
 ---
+
+## 4. Identidade e Validação MVP
+
+### Soberania do Proprietário
+Para fins de validação do MVP e lançamento do Bot de Telegram, o foco total de testes e integração deve ser o proprietário do projeto.
+*   **Dono do Projeto (Telegram)**: `1104821838`
+*   **Agente de Validação Principal**: `ousadia#013`
+
+### Regras MVP
+1. **Prioridade de Notificação**: O bot de Telegram deve ser validado integralmente usando o usuário `ousadia#013`.
+2. **Associação de Contas**: A associação Telegram <-> Instagram/Riot ID está confirmada para este usuário.
+3. **Ambiente de Teste**: Qualquer lógica de "Broadcast" ou notificações automáticas deve ser ativada primariamente para este ID durante a fase 1.
+
+---
 *(C) 2026 DEEPMIND ANTIGRAVITY // NÚCLEO_TÁTICO_V4*

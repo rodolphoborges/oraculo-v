@@ -6,6 +6,7 @@
  * Receives data directly from Protocolo-V via API.
  */
 import { supabase, supabaseProtocol } from './lib/supabase.js';
+import ImpactAnalyzer from './services/ImpactAnalyzer.js';
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
@@ -32,18 +33,17 @@ async function getPlayerHoltState(agenteTag) {
 
     // Inicialização: Média das 3 primeiras partidas
     const { data: matches } = await supabase
-        .from('match_analysis_queue')
-        .select('metadata->perf, metadata->analysis->kd, metadata->analysis->adr')
-        .eq('agente_tag', agenteTag)
-        .eq('status', 'completed')
+        .from('match_stats')
+        .select('impact_score, kd, adr')
+        .eq('player_id', agenteTag)
         .order('created_at', { ascending: true })
         .limit(3);
 
     if (matches && matches.length === 3) {
         console.log(`🧠 [WORKER] Inicializando Holt para ${agenteTag} com base em 3 partidas.`);
-        const L0_perf = matches.reduce((acc, m) => acc + m.perf, 0) / 3;
-        const L0_kd = matches.reduce((acc, m) => acc + m.kd, 0) / 3;
-        const L0_adr = matches.reduce((acc, m) => acc + m.adr, 0) / 3;
+        const L0_perf = matches.reduce((acc, m) => acc + (m.impact_score || 0), 0) / 3;
+        const L0_kd = matches.reduce((acc, m) => acc + (m.kd || 0), 0) / 3;
+        const L0_adr = matches.reduce((acc, m) => acc + (m.adr || 0), 0) / 3;
 
         // T0 = média das diferenças
         const T0_perf = ((matches[1].perf - matches[0].perf) + (matches[2].perf - matches[1].perf)) / 2;
@@ -107,8 +107,36 @@ export async function processBriefing(briefing) {
         }
 
         console.log("✅ Análise concluída com sucesso.");
+        
+        // 5. Cálculo do Score de Impacto (ImpactAnalyzer)
+        const impact = ImpactAnalyzer.calculate({
+            adr: result.adr,
+            kast: result.kast,
+            first_bloods: result.first_kills,
+            clutches: result.clutches,
+            acs: result.acs,
+            agent: result.agent,
+            role: result.role
+        });
 
-        // Remoção das tabelas matches e match_stats (Agora centralizadas no Protocolo-V)
+        // 6. Persistência Técnica (Oráculo-V)
+        // Guardamos o registro técnico antes da camada de IA
+        await supabase.from('match_stats').upsert([{
+            match_id: match_id,
+            player_id: player_id,
+            agent: result.agent,
+            role: result.role,
+            kills: result.kills,
+            deaths: result.deaths,
+            acs: result.acs,
+            adr: result.adr,
+            kast: result.kast,
+            first_bloods: result.first_kills,
+            clutches: result.clutches,
+            is_win: result.is_win,
+            impact_score: impact.score,
+            impact_rank: impact.rank
+        }], { onConflict: 'match_id, player_id' });
 
         // 6.4. Buscar Tendências Reais/Insights anteriores para a LLM
         let previousInsights = null;
@@ -124,13 +152,31 @@ export async function processBriefing(briefing) {
             console.warn("⚠️ [DB] Falha ao ler insights anteriores para a LLM:", queryErr.message);
         }
 
+        // 6.5. Buscar Template de Rank (Estilo de Comentário)
+        let rankTemplate = null;
+        try {
+            const { data: templates } = await supabase
+                .from('round_comment_templates')
+                .select('template')
+                .eq('event_type', impact.rank)
+                .limit(1);
+            if (templates && templates.length > 0) rankTemplate = templates[0].template;
+        } catch (templateErr) {
+            console.warn("⚠️ [DB] Falha ao ler templates de rank:", templateErr.message);
+        }
+
         const promptData = {
             match_data: {
-                agent: result.agent, map: result.map,
-                perf: result.performance_index,
-                kd: result.kd, acs: result.acs,
+                perf: impact.score,
+                rank: impact.rank,
+                agent: result.agent,
+                map: result.map,
+                kd: result.kd, 
+                acs: result.acs,
                 total_rounds: result.total_rounds,
-                conselhosBase: result.all_conselhos
+                conselhosBase: result.all_conselhos,
+                tone_instruction: impact.tone_instruction,
+                template_hint: rankTemplate
             },
             trend: null, // As tendências agora são baseadas no Holt local
             history: previousInsights,

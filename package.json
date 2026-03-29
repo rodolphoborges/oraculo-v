@@ -13,6 +13,7 @@
     "recover": "node scripts/recover_queue.js",
     "trends": "node scripts/backfill_trends.js",
     "test": "node run_e2e_test.js",
+    "test:jest": "set NODE_ENV=test && node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "export": "node export_static.js"
   },
   "repository": {
@@ -33,5 +34,9 @@
     "jsdom": "^25.0.0",
     "node-fetch": "^3.3.2",
     "puppeteer": "^23.3.0"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
   }
 }
