@@ -106,13 +106,18 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
   
   const segments = matchData.data.segments;
   const normalizedTarget = playerTag.replace(/\s/g, '').toUpperCase();
+  const playerPrefix = normalizedTarget.split('#')[0];
+
   const playerSummary = segments.find(s => {
+    if (s.type !== 'player-summary') return false;
     const ident = (s.attributes?.platformUserIdentifier || s.metadata?.platformUserIdentifier || "").replace(/\s/g, '').toUpperCase();
-    return s.type === 'player-summary' && (ident === normalizedTarget || ident.split('#')[0] === normalizedTarget.split('#')[0]);
+    return ident === normalizedTarget || ident.split('#')[0] === playerPrefix;
   });
+
   const playerRound = segments.find(s => {
+    if (s.type !== 'player-round') return false;
     const ident = (s.attributes?.platformUserIdentifier || "").replace(/\s/g, '').toUpperCase();
-    return s.type === 'player-round' && ident === normalizedTarget;
+    return ident === normalizedTarget || ident.split('#')[0] === playerPrefix;
   });
 
   
@@ -121,8 +126,14 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
   // Normaliza o rank para o formato do vStats (ex: "Gold 2" -> "Gold")
   const rankTier = rankDisplay.split(' ')[0] || "ALL";
 
-  if (!agentName) {
-    throw new Error('Jogador não encontrado na partida.');
+  // Se o agentName não foi detectado corretamente, tenta extrair do summary encontrado
+  if ((!agentName || agentName === 'Combatente') && playerSummary?.metadata?.agentName) {
+      agentName = playerSummary.metadata.agentName;
+      console.error(`🔄 [AUTO-FIX] Agente corrigido para: ${agentName}`);
+  }
+
+  if (!agentName || agentName === 'Combatente') {
+    console.warn('⚠️ [WARNING] Jogador detectado, mas nome do Agente ausente no segmento.');
   }
 
   // 5. Busca o Meta Baseline Real (vStats.gg via Supabase)

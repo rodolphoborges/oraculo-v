@@ -222,11 +222,35 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     map_details = match_metadata.get('mapDetails', {})
     
     segments = data['data']['segments']
-    player_target_upper = target_player.upper()
-    player_summary = next((s for s in segments if s['type'] == 'player-summary' and s['attributes']['platformUserIdentifier'].upper() == player_target_upper), None)
     
+    # Normalização para busca resiliente (remove espaços e ignora case)
+    player_target_clean = target_player.replace(" ", "").upper()
+    player_name_prefix = player_target_clean.split('#')[0]
+    
+    player_summary = None
+    for s in segments:
+        if s['type'] != 'player-summary':
+            continue
+            
+        ident = s.get('attributes', {}).get('platformUserIdentifier', '') or \
+                s.get('metadata', {}).get('platformUserIdentifier', '')
+        
+        if not ident:
+            continue
+            
+        ident_clean = ident.replace(" ", "").upper()
+        
+        # 1. Tentativa de correspondência exata (NAME#TAG)
+        if ident_clean == player_target_clean:
+            player_summary = s
+            break
+        
+        # 2. Tentativa de correspondência parcial (Apenas NAME) se ainda não encontrou
+        if not player_summary and ident_clean.split('#')[0] == player_name_prefix:
+            player_summary = s
+
     if not player_summary:
-        return {"error": "Jogador não encontrado no resumo da partida."}
+        return {"error": f"Jogador [{target_player}] não encontrado no resumo da partida."}
 
     curr_agent = agent_name or player_summary['metadata']['agentName']
     stats = player_summary['stats']
