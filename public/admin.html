@@ -110,9 +110,15 @@
 
         <!-- PENDENTES TÁTICOS -->
         <div id="pendingTab" style="display: none;">
-            <div style="margin-bottom: 20px; border-left: 4px solid #ffcc00; padding-left: 15px;">
-                <p style="font-size: 0.9rem; margin-bottom: 5px;">Gaps Táticos Detectados (Squad Operacional): <b id="pendingCount" style="color: #ffcc00;">-</b></p>
-                <small style="opacity: 0.6;">Operações realizadas em grupo que ainda não possuem relatório de impacto individual.</small>
+            <div style="margin-bottom: 20px; border-left: 4px solid #ffcc00; padding-left: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <p style="font-size: 0.9rem; margin-bottom: 5px;">Gaps Táticos Detectados (Squad Operacional): <b id="pendingCount" style="color: #ffcc00;">-</b></p>
+                    <small style="opacity: 0.6;">Operações realizadas em grupo que ainda não possuem relatório de impacto individual.</small>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="btnAnalyzeSelected" onclick="analyzeSelected()" style="background: #ffcc00; color: black; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.8rem; font-weight: bold; font-family: inherit; display: none;">🚀 ANALISAR SELECIONADOS</button>
+                    <button id="btnAnalyzeAll" onclick="analyzeAllPending()" style="background: var(--green-ok); color: black; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.8rem; font-weight: bold; font-family: inherit;">🔥 ANALISAR TODOS (FILA)</button>
+                </div>
             </div>
         </div>
 
@@ -128,6 +134,7 @@
             <table id="jobsTable">
                 <thead id="tableHead">
                     <tr>
+                        <th style="width: 40px;"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this.checked)" style="cursor: pointer; display: none;"></th>
                         <th>ID_CONTRATO</th>
                         <th>AGENTE_TAG</th>
                         <th>MATCH_ID</th>
