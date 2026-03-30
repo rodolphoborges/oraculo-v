@@ -135,6 +135,7 @@ app.post('/api/analyze', async (req, res) => {
     const outcome = await processBriefing(briefing);
 
     if (outcome.success) {
+      console.log(`✅ [API] Sucesso: Match ${match_id} (Player: ${player_id})`);
       res.status(200).json({
         status: 'completed',
         matchId: match_id,
@@ -143,14 +144,15 @@ app.post('/api/analyze', async (req, res) => {
         technical_data: outcome.result
       });
     } else {
+      console.error(`❌ [API] Erro: Match ${match_id} (Player: ${player_id}):`, outcome.error);
       res.status(500).json({ 
         status: 'failed', 
-        error: outcome.error 
+        error: outcome.error || "Erro interno no processamento (vazio)"
       });
     }
   } catch (err) {
-    console.error('[API] Erro síncrono fatal:', err.message);
-    res.status(500).json({ error: 'Ocorreu um erro interno durante a análise em tempo real.' });
+    console.error(`🔥 [API] Erro fatal em /analyze:`, err.message);
+    res.status(500).json({ error: err.message || "Erro fatal interno" });
   }
 });
 
