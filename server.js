@@ -43,7 +43,7 @@ const adminAuth = (req, res, next) => {
 
 app.post('/api/queue', async (req, res) => {
   const briefing = req.body;
-  const { player_tag: player_id, match_id } = briefing;
+  const { player_id, match_id } = briefing;
 
   if (!player_id || !match_id) {
     return res.status(400).json({ error: 'Player ID e Match ID são obrigatórios no briefing.' });
@@ -104,7 +104,7 @@ app.post('/api/queue', async (req, res) => {
  */
 app.post('/api/analyze', async (req, res) => {
   const briefing = req.body;
-  const { player_tag: player_id, match_id } = briefing;
+  const { player_id, match_id } = briefing;
 
   if (!player_id || !match_id) {
     return res.status(400).json({ error: 'Player ID e Match ID são obrigatórios.' });
