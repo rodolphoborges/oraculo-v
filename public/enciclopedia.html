@@ -75,23 +75,59 @@
 
             <!-- CAPÍTULO I -->
             <div class="chapter">
-                <div class="chapter-title">Capítulo I: O Cálculo da Taxa</div>
-                <p>O coração do Oráculo V é a <strong>TAXA DE DESEMPENHO</strong>. Ela não avalia apenas números brutos, mas sim o seu impacto em relação às expectativas de mercado.</p>
+                <div class="chapter-title">Capítulo I: O Performance Index (v4.0)</div>
+                <p>O coração do Oráculo V é o <strong>PERFORMANCE INDEX</strong>. Ele avalia seu desempenho de forma contextual, considerando não apenas K/D, mas também ADR, KAST e sua função no time.</p>
+
                 <div class="rule-block">
-                    <span class="rule-title">FÓRMULA MESTRA:</span>
-                    <code>(K/D Real / K/D Alvo) * 100</code>
+                    <span class="rule-title">CÁLCULO CONTEXTUAL:</span>
+                    <code>Performance Index = (KD_Weight × KD% + ADR_Weight × ADR% + KAST_Weight × KAST%) × 100</code>
                 </div>
-                <p>O <strong>K/D Alvo</strong> é obtido em tempo real através da base de dados do <code>vStats.gg</code>, filtrando por:</p>
+
+                <p>O <strong>K/D Alvo</strong> e pesos de métricas são obtidos em tempo real através da base de dados do <code>vStats.gg</code>, filtrando por:</p>
                 <ul>
-                    <li><strong>Agente:</strong> Cada boneco possui uma curva de eficiência diferente.</li>
+                    <li><strong>Agente:</strong> Cada agente possui curvas de eficiência diferentes (role-aware).</li>
                     <li><strong>Mapa:</strong> O domínio tático varia conforme o cenário espacial.</li>
-                    <li><strong>Ranking:</strong> Comparamos você contra os melhores do seu próprio nível.</li>
+                    <li><strong>Ranking:</strong> Comparamos você contra os melhores do seu próprio nível (Silver-Diamond).</li>
                 </ul>
+
+                <div class="highlight-box">
+                    <strong>Pesos por Classe de Agente:</strong><br>
+                    • <strong>Duelista:</strong> K/D 40% | ADR 40% | KAST 20%<br>
+                    • <strong>Iniciador:</strong> K/D 35% | ADR 35% | KAST 30%<br>
+                    • <strong>Controlador:</strong> K/D 30% | ADR 30% | KAST 40%<br>
+                    • <strong>Sentinel:</strong> K/D 30% | ADR 30% | KAST 40%
+                </div>
             </div>
 
             <!-- CAPÍTULO II -->
             <div class="chapter">
-                <div class="chapter-title">Capítulo II: Anatomia do Round</div>
+                <div class="chapter-title">Capítulo II: Os Três Níveis Técnicos</div>
+                <p>Baseado no Performance Index, o Oráculo V classifica seu desempenho em 3 categorias:</p>
+
+                <div class="rule-block">
+                    <span class="rule-title" style="color: #FFD700;">🥇 ALPHA (Performance Index ≥ 115)</span>
+                    <p>Você brilhou acima das expectativas. Dominou a partida tanto em K/D quanto em consistência de dano. Performance excepcional para seu rank.</p>
+                </div>
+
+                <div class="rule-block">
+                    <span class="rule-title" style="color: #00FF41;">🔷 OMEGA (Performance Index 95-114)</span>
+                    <p>Desempenho consistente e esperado. Você cumpriu sua função tática e manteve métricas dentro da meta. Nada de excepcional, mas sólido.</p>
+                </div>
+
+                <div class="rule-block">
+                    <span class="rule-title" style="color: #FF4655;">💔 DEPÓSITO DE TORRETA (Performance Index < 95)</span>
+                    <p>Seu desempenho ficou aquém do esperado. Métricas abaixo da meta para seu agente/mapa/rank. Requer análise de falhas táticas.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Nota sobre Tendências (Holt-Winters):</strong><br>
+                    O sistema acompanha sua evolução ao longo de partidas, detectando se você está em crescimento, queda ou estável. Tendências são calculadas automaticamente.
+                </div>
+            </div>
+
+            <!-- CAPÍTULO III -->
+            <div class="chapter">
+                <div class="chapter-title">Capítulo III: Anatomia do Round</div>
                 <p>Cada rodada é disseca para identificar eventos de alto impacto. Um round é classificado em três estados possíveis:</p>
                 
                 <div class="rule-block">
@@ -119,9 +155,9 @@
                 </div>
             </div>
 
-            <!-- CAPÍTULO III -->
+            <!-- CAPÍTULO IV -->
             <div class="chapter">
-                <div class="chapter-title">Capítulo III: Métricas de Elite</div>
+                <div class="chapter-title">Capítulo IV: Métricas Componentes</div>
                 <p>Para o Oráculo V, K/D é apenas uma parte da história. O verdadeiro valor é medido por:</p>
                 <div class="highlight-box">
                     <strong>ACS (Pontuação de Combate):</strong> Peso de cada dano, abate e assistência. É o termômetro de agressividade.<br><br>
@@ -129,9 +165,9 @@
                 </div>
             </div>
 
-            <!-- CAPÍTULO IV -->
+            <!-- CAPÍTULO V -->
             <div class="chapter">
-                <div class="chapter-title">Capítulo IV: Princípios Éticos</div>
+                <div class="chapter-title">Capítulo V: Princípios Éticos da Análise</div>
                 <ol>
                     <li>A análise é puramente baseada em dados, sem viés emocional.</li>
                     <li>O contexto é rei: Abates aos 0:10 valem mais do que "exit frags" irrelevantes.</li>
@@ -139,20 +175,45 @@
                 </ol>
             </div>
 
-            <!-- CAPÍTULO V -->
+            <!-- CAPÍTULO VI -->
             <div class="chapter">
-                <div class="chapter-title">Capítulo V: Filosofia de Valor (vStats.gg)</div>
-                <p>Inspirado nos conceitos técnicos do <strong>vStats.gg/blog</strong>, o Oráculo V não avalia apenas a *quantidade* de abates (Kill Count), mas o seu <strong>VALOR TÁTICO</strong>:</p>
+                <div class="chapter-title">Capítulo VI: Fonte Única de Verdade (Python)</div>
+                <p>A partir da versão 4.0, o Oráculo V utiliza um <strong>motor de análise único em Python</strong>. Isso elimina a dupla avaliação e garante coerência total:</p>
                 <div class="rule-block">
-                    <strong>Impacto vs Volume:</strong> Um "Abate de Abertura" (Entry-frag) é matematicamente mais valioso do que um abate no final do round quando o time já está em vantagem. <br><br>
-                    <strong>Trocas (Trades):</strong> Valorizamos quando você morre, mas sua zona de visão permitiu que um aliado fizesse a troca imediata, mantendo a pressão.
+                    <strong>Eliminação da Contradição:</strong> Antes, dois sistemas independentes podiam contradizer-se (ex: K/D 15% abaixo da meta, mas feedback positivo). Agora, há apenas UMA análise.<br><br>
+                    <strong>Vantagens:</strong><br>
+                    • Performance Index é a fonte única de verdade<br>
+                    • Rank técnico deriva APENAS do Performance Index<br>
+                    • Feedback é coerente com métricas<br>
+                    • Recalibração automática por rank (Silver-Diamond)
+                </div>
+            </div>
+
+            <!-- CAPÍTULO VII -->
+            <div class="chapter">
+                <div class="chapter-title">Capítulo VII: Filosofia de Valor (vStats.gg)</div>
+                <p>Inspirado nos conceitos técnicos do <strong>vStats.gg/blog</strong>, o Oráculo V avalia o <strong>VALOR TÁTICO</strong> do seu desempenho:</p>
+                <div class="rule-block">
+                    <strong>Impacto vs Volume:</strong> Um "Abate de Abertura" (Entry-frag) é mais valioso que um abate no final do round.<br><br>
+                    <strong>Consistência:</strong> ADR e KAST medem como você mantém pressão ao longo da partida, não apenas em momentos isolados.<br><br>
+                    <strong>Contexto de Rank:</strong> Esperamos menos de um Silver do que de um Diamond. Comparações são sempre contra sua própria classe.
                 </div>
             </div>
 
             <div class="divider">============================================================</div>
-            
+
+            <div class="highlight-box" style="margin: 40px 0;">
+                <strong>RESUMO OPERACIONAL v4.0:</strong><br>
+                ✓ Motor Python único (sem dupla avaliação)<br>
+                ✓ Performance Index contextual por classe de agente<br>
+                ✓ 3 Ranks: Alpha, Omega, Depósito de Torrata<br>
+                ✓ Holt-Winters para detecção de tendências<br>
+                ✓ Calibração automática por rank (Silver-Diamond)<br>
+                ✓ Análises coerentes e realistas
+            </div>
+
             <footer>
-                [ FIM DO DOCUMENTO // VERSÃO 1.0.5 ]
+                [ FIM DO DOCUMENTO // VERSÃO 4.0 - ATUALIZADO 30/03/2026 ]
             </footer>
         </div>
     </div>
