@@ -82,8 +82,8 @@ export async function processBriefing(briefing) {
                 .maybeSingle();
 
             if (!exists || checkErr) {
-                console.warn(`🛑 [ABORT] Operacional ${player_id} não localizado no Vanguard_DB. Abortando análise de missão.`);
-                return { success: false, error: "não encontrado" }; // Retorna string chave para limpeza automática
+                // Aborta silenciosamente se for erro de "não localizado" para evitar spam no terminal
+                return { success: false, error: "não encontrado" }; 
             }
         }
 
