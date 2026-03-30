@@ -78,7 +78,7 @@ export async function processBriefing(briefing) {
             const { data: exists, error: checkErr } = await supabaseProtocol
                 .from('players')
                 .select('riot_id')
-                .eq('riot_id', player_id)
+                .ilike('riot_id', player_id)
                 .maybeSingle();
 
             if (!exists || checkErr) {
