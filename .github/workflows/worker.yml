@@ -35,18 +35,20 @@ jobs:
       - name: Cache Puppeteer Browser
         uses: actions/cache@v4
         with:
-          path: ~/.cache/puppeteer
+          path: ${{ github.workspace }}/.cache/puppeteer
           key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-puppeteer-
 
       - name: Install Node Dependencies
-        run: npm install
+        run: npm ci
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
 
       - name: Install Puppeteer Browsers
-        run: |
-          chmod +x ./node_modules/.bin/puppeteer || true
-          npx puppeteer browsers install chrome
+        run: npx puppeteer browsers install chrome
+        env:
+          PUPPETEER_CACHE_DIR: ${{ github.workspace }}/.cache/puppeteer
 
       - name: Process Queue (Analyze Match)
         env:
@@ -55,6 +57,7 @@ jobs:
           PROTOCOL_SUPABASE_URL: ${{ secrets.PROTOCOL_SUPABASE_URL }}
           PROTOCOL_SUPABASE_KEY: ${{ secrets.PROTOCOL_SUPABASE_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          PUPPETEER_CACHE_DIR: ${{ github.workspace }}/.cache/puppeteer
           MANUAL_PLAYER: ${{ github.event.inputs.player_tag }}
           MANUAL_MATCH: ${{ github.event.inputs.match_id }}
         run: node worker.js
