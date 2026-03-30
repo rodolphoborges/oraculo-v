@@ -4,7 +4,7 @@
 
 O **Oráculo V** é o componente de inteligência e análise tática do ecossistema **Protocolo V**. Enquanto o Protocolo V atua como a plataforma central de gerenciamento e recrutamento de talentos em Valorant, o Oráculo V funciona como o "cérebro" analítico, processando dados brutos de partidas para extrair insights profundos sobre o desempenho de jogadores.
 
-Sua principal missão é transformar estatísticas frias (KDA, ADR, Econ) em métricas táticas interpretáveis, como a consistência através do modelo **Holt-Winters**, badges de mérito tático (ex: "Clutch King", "Entry Fragger") e tendências de evolução de performance.
+Sua principal missão é transformar estatísticas frias (KDA, ADR, Econ) em métricas táticas interpretáveis, como o **Performance Index** contextual por classe de agente, classificação em **três ranks técnicos** (Alpha, Omega, Depósito de Torreta) e tendências de evolução via modelo **Holt-Winters**.
 
 ## Decisões Arquiteturais
 
@@ -41,9 +41,9 @@ graph TD
 
 ## Responsabilidades dos Componentes
 
--   `server.js`: Gateway de entrada protegida (Express), validação de inputs e consulta de status. Oferece o modo `AUTO` para expansão de partidas.
+-   `server.js`: Gateway de entrada protegida (Express), validação de inputs, consulta de status e painel admin (FILA/HISTÓRICO com endpoints de delete, reprocess e history). Oferece o modo `AUTO` para expansão de partidas.
 -   `worker.js`: Gerenciador de ciclo de vida do job (Daemon assíncrono). Gerencia o estado **Holt-Winters** e integra com Telegram.
 -   `analyze_match.js`: Orquestrador de análise que baixa dados da partida, consulta o meta (VStats) e coordena a execução do motor Python.
--   `analyze_valorant.py`: Motor de análise tática puro (Python). Implementa o Lexicon of Impact, gera badges e calcula tendências.
+-   `analyze_valorant.py`: Motor de análise tática puro (Python). Fonte única de verdade — calcula Performance Index contextual, ranks técnicos e tendências Holt-Winters.
 -   `lib/supabase.js`: Gerenciador centralizado de conectividade dual-database (Oráculo + Protocolo).
 -   `/scripts`: Repositório de ferramentas de manutenção, auditoria e sanitização de dados.

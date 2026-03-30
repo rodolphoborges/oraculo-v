@@ -2,6 +2,27 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo seguindo o padrão [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [4.1.0] - Admin Console, Queue Lifecycle & Role-Aware Index - 2026-03-30
+
+### Adicionado (Added)
+- **Performance Index Contextual (Role-Aware):** Cálculo do índice agora pondera K/D, ADR e KAST com pesos específicos por classe de agente (Duelista 40/40/20, Iniciador 35/35/30, Controlador 30/30/40, Sentinela 30/30/40).
+- **Três Ranks Técnicos:** Alpha (≥115), Omega (95-114), Depósito de Torreta (<95) com tone_instruction para feedback contextual da LLM.
+- **Painel Admin Reestruturado:** Duas abas — FILA (pending/processing/failed) e HISTÓRICO (análises completas de `ai_insights`).
+- **Endpoints Admin:**
+  - `DELETE /api/admin/analysis` — Apagar análise individual (ambos Supabase + arquivo local).
+  - `DELETE /api/admin/analysis/all` — Apagar todas as análises.
+  - `POST /api/admin/reprocess` — Reprocessar análise individual via `processBriefing()`.
+  - `GET /api/admin/history` — Listar análises completas do `ai_insights`.
+- **Limpeza Automática de Fila:** Jobs falhados com mais de 7 dias são removidos automaticamente (intervalo de 1 hora).
+- **Acesso Externo ao Admin:** Middleware `adminAuth` agora aceita IP externo configurável via `EXTERNAL_IP`.
+- **Enciclopédia v4.0:** Página `enciclopedia.html` reescrita com regras vigentes (Performance Index, Ranks, Fonte Única de Verdade).
+
+### Alterado (Changed)
+- **Ciclo de Vida da Fila:** Jobs completos agora são **DELETADOS** da `match_analysis_queue` em vez de marcados como `completed`. Fila contém apenas jobs ativos (pending/processing/failed).
+- **Fonte Única de Verdade:** Motor Python é o único avaliador. `ImpactAnalyzer.js` foi removido para eliminar contradições entre métricas e feedback.
+- **K/D Alvo dinâmico:** Obtido em tempo real via vStats.gg filtrado por agente/mapa/rank.
+- **Stats do Admin:** Endpoint `/api/admin/stats` não inclui mais contagem de `completed` (pois não existem na fila).
+
 ## [4.0.0] - Elite Tactical AI & Dual-Base Sync - 2026-03-28
 
 ### Adicionado (Added)

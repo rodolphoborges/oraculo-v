@@ -93,7 +93,8 @@ Retorna o estado atual de um processamento ou o resultado completo se finalizado
        "performance_L": 78.2,
        "performance_T": 1.5
     },
-    "badges": ["Entry Fragger", "Op King"]
+    "technical_rank": "Alpha",
+    "performance_index": 118.5
   }
 }
 ```
@@ -143,6 +144,105 @@ Retorna o estado da fila de processamento e métricas de sistema.
     "limit": 50
   },
   "jobs": [...]
+}
+```
+
+---
+
+### 6. Histórico de Análises Completas
+Retorna as análises concluídas armazenadas na tabela `ai_insights` do Protocolo-V.
+
+**Endpoint**: `GET /api/admin/history`
+
+**Headers**:
+- `x-api-key`: Chave administrativa mestra.
+
+**Response (200 OK)**:
+```json
+{
+  "total": 42,
+  "analyses": [
+    {
+      "id": "uuid",
+      "match_id": "uuid",
+      "agente_tag": "ousadia#013",
+      "impact_score": 112.5,
+      "created_at": "2026-03-30T10:00:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### 7. Apagar Análise Individual
+Remove uma análise específica de ambos os bancos Supabase (Oráculo e Protocolo) e o arquivo local correspondente.
+
+**Endpoint**: `DELETE /api/admin/analysis`
+
+**Headers**:
+- `x-api-key`: Chave administrativa mestra.
+
+**Request Payload**:
+```json
+{
+  "match_id": "uuid-da-partida",
+  "player_id": "Nick#Tag"
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "message": "Análise deletada com sucesso",
+  "match_id": "uuid",
+  "player_id": "Nick#Tag"
+}
+```
+
+---
+
+### 8. Apagar Todas as Análises
+Remove todas as análises de ambos os bancos e arquivos locais.
+
+**Endpoint**: `DELETE /api/admin/analysis/all`
+
+**Headers**:
+- `x-api-key`: Chave administrativa mestra.
+
+**Response (200 OK)**:
+```json
+{
+  "message": "Todas as análises foram deletadas",
+  "deleted_count": 42,
+  "local_files_deleted": 42
+}
+```
+
+---
+
+### 9. Reprocessar Análise
+Apaga a análise existente e re-executa `processBriefing()` para gerar uma nova análise com sync completo para Protocolo-V.
+
+**Endpoint**: `POST /api/admin/reprocess`
+
+**Headers**:
+- `x-api-key`: Chave administrativa mestra.
+
+**Request Payload**:
+```json
+{
+  "match_id": "uuid-da-partida",
+  "player_id": "Nick#Tag"
+}
+```
+
+**Response (200 OK)**:
+```json
+{
+  "message": "Reprocessamento concluído",
+  "rank": "Alpha",
+  "score": 118.5
 }
 ```
 

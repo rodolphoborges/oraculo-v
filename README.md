@@ -1,4 +1,4 @@
-# ORÁCULO V // NÚCLEO_TÁTICO v4.0
+# ORÁCULO V // NÚCLEO_TÁTICO v4.1
 
 O **Oráculo V** é um Motor de Análise Tática de Elite (Service Provider). Sua única responsabilidade é transformar dados brutos de combate em inteligência estratégica.
 
@@ -111,7 +111,7 @@ O Oráculo-V expõe endpoints para processamento assíncrono. O fluxo segue o co
 ```json
 {
   "insight_resumo": "Análise narrativa...",
-  "technical_report": { "impact_kernel": 8.5, "trend": "Holt-Winters" }
+  "technical_report": { "performance_index": 112.5, "technical_rank": "Omega", "trend": "Holt-Winters" }
 }
 ```
 
@@ -140,4 +140,4 @@ node analyze_match.js "Nick#Tag" "UUID-DA-PARTIDA-OU-CAMINHO-JSON"
 - `lib/supabase.js`: Cliente Supabase Dual-Connection.
 
 ---
-*(C) 2026 DEEPMIND ANTIGRAVITY // PROTOCOLO_V_OPERACAO_MAXIMA*
+*(C) 2026 DEEPMIND ANTIGRAVITY // NÚCLEO_TÁTICO_V4.1*
