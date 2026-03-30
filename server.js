@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 // Regex para validação de UUID
 const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(express.static('public'));
 
 import { processBriefing, startWorker } from './worker.js';
