@@ -33,50 +33,56 @@ async function updateStats() {
 
         if (!res.ok) throw new Error(data.error);
 
-        // Update Stats Cards
+        // Update Stats Cards (Always visible or relevant)
         document.getElementById('statTotal').textContent = data.stats.total;
-        document.getElementById('statPending').textContent = data.stats.pending + data.stats.processing;
+        document.getElementById('statPending').textContent = (data.stats.pending || 0) + (data.stats.processing || 0);
         document.getElementById('statFailed').textContent = data.stats.failed;
 
-        // Update Tables
-        const jobsList = document.getElementById('jobsList');
-        jobsList.innerHTML = '';
-
-        if (data.jobs.length === 0) {
-            jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center;">NENHUM_JOB_NA_FILA</td></tr>';
-            return;
+        // ONLY update the table if we are on the queue tab
+        if (currentTab === 'queue') {
+            renderQueueTable(data.jobs);
         }
-
-        data.jobs.forEach(job => {
-            const row = document.createElement('tr');
-            const date = new Date(job.created_at).toLocaleString('pt-BR');
-            const statusClass = `status-${job.status}`;
-
-            // Link para o relatório (Deep Link)
-            const openLink = job.status === 'completed'
-                ? `<a href="index.html?player=${encodeURIComponent(job.agente_tag)}&matchId=${job.match_id}" target="_blank" style="color:var(--green-ok);text-decoration:none;">[ ABRIR ]</a>`
-                : '';
-
-            // Botões de ação
-            const actionBtns = `
-                <button onclick="reprocessJob('${job.match_id}', '${job.agente_tag}')" style="background:none;border:none;color:#00ccff;cursor:pointer;font-size:0.8rem;margin-right:10px;" title="Reprocessar">♻️ REPROCESSAR</button>
-                <button onclick="deleteJob('${job.match_id}', '${job.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
-            `;
-
-            row.innerHTML = `
-                <td><code>${String(job.id).split('-')[0]}...</code></td>
-                <td><b>${job.agente_tag.toUpperCase()}</b></td>
-                <td><small>${job.match_id}</small></td>
-                <td><span class="status-pill ${statusClass}">${job.status}</span> ${openLink}</td>
-                <td>${date}</td>
-                <td style="font-size:0.75rem;">${actionBtns}</td>
-            `;
-            jobsList.appendChild(row);
-        });
 
     } catch (err) {
         console.error('Falha ao atualizar painel:', err);
     }
+}
+
+function renderQueueTable(jobs) {
+    const jobsList = document.getElementById('jobsList');
+    jobsList.innerHTML = '';
+
+    if (!jobs || jobs.length === 0) {
+        jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center;">NENHUM_JOB_NA_FILA</td></tr>';
+        return;
+    }
+
+    jobs.forEach(job => {
+        const row = document.createElement('tr');
+        const date = new Date(job.created_at).toLocaleString('pt-BR');
+        const statusClass = `status-${job.status}`;
+
+        // Link para o relatório (Deep Link)
+        const openLink = job.status === 'completed'
+            ? `<a href="index.html?player=${encodeURIComponent(job.agente_tag)}&matchId=${job.match_id}" target="_blank" style="color:var(--green-ok);text-decoration:none;">[ ABRIR ]</a>`
+            : '';
+
+        // Botões de ação
+        const actionBtns = `
+            <button onclick="reprocessJob('${job.match_id}', '${job.agente_tag}')" style="background:none;border:none;color:#00ccff;cursor:pointer;font-size:0.8rem;margin-right:10px;" title="Reprocessar">♻️ REPROCESSAR</button>
+            <button onclick="deleteJob('${job.match_id}', '${job.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
+        `;
+
+        row.innerHTML = `
+            <td><code>${String(job.id).split('-')[0]}...</code></td>
+            <td><b>${job.agente_tag.toUpperCase()}</b></td>
+            <td><small>${job.match_id}</small></td>
+            <td><span class="status-pill ${statusClass}">${job.status}</span> ${openLink}</td>
+            <td>${date}</td>
+            <td style="font-size:0.75rem;">${actionBtns}</td>
+        `;
+        jobsList.appendChild(row);
+    });
 }
 
 async function loadHistory() {
@@ -88,39 +94,45 @@ async function loadHistory() {
 
         document.getElementById('historyCount').textContent = data.total;
 
-        // Reutiliza a tabela para histórico
-        const jobsList = document.getElementById('jobsList');
-        jobsList.innerHTML = '';
-
-        if (data.analyses.length === 0) {
-            jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center;">NENHUMA_ANÁLISE_NO_HISTÓRICO</td></tr>';
-            return;
+        // ONLY update table if we are on the history tab
+        if (currentTab === 'history') {
+            renderHistoryTable(data.analyses);
         }
-
-        data.analyses.forEach(analysis => {
-            const row = document.createElement('tr');
-            const date = new Date(analysis.created_at).toLocaleString('pt-BR');
-
-            // Botões de ação
-            const actionBtns = `
-                <button onclick="reprocessJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#00ccff;cursor:pointer;font-size:0.8rem;margin-right:10px;" title="Reprocessar">♻️ REPROCESSAR</button>
-                <button onclick="deleteJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
-            `;
-
-            row.innerHTML = `
-                <td><code>${String(analysis.id).split('-')[0]}...</code></td>
-                <td><b>${analysis.agente_tag.toUpperCase()}</b></td>
-                <td><small>${analysis.match_id}</small></td>
-                <td style="color: var(--green-ok);">${analysis.impact_score}</td>
-                <td>${date}</td>
-                <td style="font-size:0.75rem;">${actionBtns}</td>
-            `;
-            jobsList.appendChild(row);
-        });
 
     } catch (err) {
         console.error('Falha ao carregar histórico:', err);
     }
+}
+
+function renderHistoryTable(analyses) {
+    const jobsList = document.getElementById('jobsList');
+    jobsList.innerHTML = '';
+
+    if (!analyses || analyses.length === 0) {
+        jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center;">NENHUMA_ANÁLISE_NO_HISTÓRICO</td></tr>';
+        return;
+    }
+
+    analyses.forEach(analysis => {
+        const row = document.createElement('tr');
+        const date = new Date(analysis.created_at).toLocaleString('pt-BR');
+
+        // Botões de ação
+        const actionBtns = `
+            <button onclick="reprocessJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#00ccff;cursor:pointer;font-size:0.8rem;margin-right:10px;" title="Reprocessar">♻️ REPROCESSAR</button>
+            <button onclick="deleteJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
+        `;
+
+        row.innerHTML = `
+            <td><code>${String(analysis.id).split('-')[0]}...</code></td>
+            <td><b>${analysis.agente_tag.toUpperCase()}</b></td>
+            <td><small>${analysis.match_id}</small></td>
+            <td style="color: var(--green-ok); font-weight: bold;">${analysis.impact_score || '--'}</td>
+            <td>${date}</td>
+            <td style="font-size:0.75rem;">${actionBtns}</td>
+        `;
+        jobsList.appendChild(row);
+    });
 }
 
 // Funções de Ação
@@ -214,7 +226,8 @@ async function deleteJob(matchId, playerId) {
         const data = await res.json();
         if (res.ok) {
             alert('✅ Análise apagada com sucesso!');
-            updateStats(); // Recarrega a tabela
+            if (currentTab === 'queue') updateStats();
+            else loadHistory();
         } else {
             alert('❌ Erro: ' + data.error);
         }
@@ -245,15 +258,28 @@ async function reprocessJob(matchId, playerId) {
         const data = await res.json();
         if (res.ok) {
             alert(`✅ Reprocessado!\nRank: ${data.rank}\nScore: ${data.score}`);
-            updateStats(); // Recarrega a tabela
+            if (currentTab === 'queue') updateStats();
+            else loadHistory();
         } else {
             alert('❌ Erro: ' + data.error);
         }
     } catch (err) {
         alert('❌ Erro na requisição: ' + err.message);
+    } finally {
+        // Garantir que os botões voltem ao normal após o reprocessamento ser enfileirado
+        if (currentTab === 'queue') updateStats();
+        else loadHistory();
     }
 }
 
 // Inicializa e agenda atualização a cada 10 segundos
-updateStats();
-setInterval(updateStats, 10000);
+function autoRefresh() {
+    updateStats(); // Sempre atualiza os cards de stats
+    if (currentTab === 'history') {
+        loadHistory();
+    }
+}
+
+autoRefresh();
+setInterval(autoRefresh, 10000);
+
