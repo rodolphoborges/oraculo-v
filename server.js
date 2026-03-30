@@ -538,7 +538,7 @@ app.post('/api/admin/reprocess', adminAuth, async (req, res) => {
       return res.status(400).json({ error: 'match_id e player_id são obrigatórios' });
     }
 
-    console.log(`♻️ [ADMIN] Reprocessando: ${player_id} | ${match_id}`);
+    // O processamento detalhado agora é logado apenas pelo worker.js
 
     // Apagar análise anterior
     if (supabase) {
