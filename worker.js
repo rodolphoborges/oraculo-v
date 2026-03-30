@@ -240,6 +240,7 @@ export async function processBriefing(briefing) {
                     player_id: player_id,
                     match_id: match_id,
                     insight_resumo: JSON.stringify(finalInsight),
+                    analysis_report: { ...result, conselho_kaio: finalInsight }, // Sincroniza o relatório completo para a UI
                     model_used: aiResponse?.model_used || "SYSTEM_FALLBACK",
                     classification: finalInsight.classification || impact.rank,
                     impact_score: impact.score,
@@ -247,7 +248,7 @@ export async function processBriefing(briefing) {
                 }], { onConflict: 'match_id, player_id' });
                 
                 if (syncErr) console.warn(`⚠️ [SYNC] Falha no Protocolo: ${syncErr.message}`);
-                else console.log(`✅ [SYNC] Insight espelhado com sucesso.`);
+                else console.log(`✅ [SYNC] Insight e Relatório espelhados com sucesso.`);
             }
 
             // 9. Sincronização de Arquivo Local (Analyses/)
