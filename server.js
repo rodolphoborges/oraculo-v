@@ -347,9 +347,7 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
     const { data: pending, error } = await supabaseProtocol.rpc('get_pending_tactical_analyses');
 
     if (error) {
-      // Fallback se o RPC não existir
-      console.warn('⚠️ RPC get_pending_tactical_analyses não encontrado, usando consulta manual.');
-      
+      // Fallback manual silencioso (o RPC é opcional para performance)
       const { data: ops, error: opsError } = await supabaseProtocol
         .from('operation_squads')
         .select(`

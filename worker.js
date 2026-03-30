@@ -304,25 +304,31 @@ export async function startWorker() {
                 const result = await processBriefing({ match_id, player_id, map_name: null, agent_name: null });
 
                 if (result.success) {
-                    // Remover da fila após sucesso (fila não deve acumular completadas)
+                    // Remover da fila após sucesso
                     await supabaseProtocol.from('match_analysis_queue')
                         .delete()
                         .eq('id', id);
-                    console.log(`✅ [QUEUE] Job removido da fila: ${player_id} | ${match_id}`);
+                    console.log(`✅ [QUEUE] Job concluído e removido: ${player_id}`);
                 } else {
-                    const retryCount = (queueItem.retry_count || 0) + 1;
-                    if (retryCount <= MAX_RETRIES) {
-                        const delayMs = RETRY_DELAYS_MS[retryCount - 1];
-                        const retryAfter = new Date(Date.now() + delayMs).toISOString();
-                        console.warn(`⏳ [RETRY] Job ${id} falhará — tentativa ${retryCount}/${MAX_RETRIES}. Próximo retry em ${delayMs / 60000}min.`);
-                        await supabaseProtocol.from('match_analysis_queue')
-                            .update({ status: 'failed', error_msg: result.error, retry_count: retryCount, retry_after: retryAfter })
-                            .eq('id', id);
+                    // Se o erro for de jogador não encontrado (deletado), removemos da fila para evitar loop infinito
+                    if (result.error && result.error.includes("não encontrado")) {
+                        console.warn(`🗑️ [QUEUE] Jogador não encontrado no sistema. Removendo Job obsoleto: ${player_id}`);
+                        await supabaseProtocol.from('match_analysis_queue').delete().eq('id', id);
                     } else {
-                        console.error(`❌ [QUEUE] Job ${id} esgotou ${MAX_RETRIES} tentativas. Marcando como permanentemente falho.`);
-                        await supabaseProtocol.from('match_analysis_queue')
-                            .update({ status: 'failed', error_msg: `[MAX_RETRIES] ${result.error}` })
-                            .eq('id', id);
+                        const retryCount = (queueItem.retry_count || 0) + 1;
+                        if (retryCount <= MAX_RETRIES) {
+                            const delayMs = RETRY_DELAYS_MS[retryCount - 1];
+                            const retryAfter = new Date(Date.now() + delayMs).toISOString();
+                            console.warn(`⏳ [RETRY] Job ${id} falhará — tentativa ${retryCount}/${MAX_RETRIES}. Próximo retry em ${delayMs / 60000}min.`);
+                            await supabaseProtocol.from('match_analysis_queue')
+                                .update({ status: 'failed', error_msg: result.error, retry_count: retryCount, retry_after: retryAfter })
+                                .eq('id', id);
+                        } else {
+                            console.error(`❌ [QUEUE] Job ${id} esgotou ${MAX_RETRIES} tentativas.`);
+                            await supabaseProtocol.from('match_analysis_queue')
+                                .update({ status: 'failed', error_msg: `[MAX_RETRIES] ${result.error}` })
+                                .eq('id', id);
+                        }
                     }
                 }
                 return; // Processou um job, aguarda o próximo tick
