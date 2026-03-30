@@ -585,16 +585,30 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         tone = f"O desempenho ficou aquém do esperado para {curr_agent} em {curr_map}. Seja direto sobre as deficiências táticas."
         conselhos.append(f"PERFORMANCE ABAIXO DA META: Você obteve {perf_idx:.1f}% da performance esperada. Revise seu posicionamento e timing.")
 
+    # --- DETECÇÃO DE ESQUADRÃO (Sinergia) ---
+    squad_stats = []
+    for s in segments:
+        if s['type'] == 'player-summary':
+            s_team = s.get('metadata', {}).get('teamId', 'Unknown')
+            if s_team == player_team:
+                s_pid = s.get('attributes', {}).get('platformUserIdentifier', '') or \
+                        s.get('metadata', {}).get('platformUserIdentifier', '')
+                if s_pid and s_pid.replace(" ", "").upper() != player_target_clean:
+                    squad_stats.append(s_pid)
+
     return {
         "player": target_player, "agent": agent_name, "role": role, "map": map_name, "map_details": map_details,
         "acs": acs, "adr": adr, "kd": actual_kd, "kast": kast, "performance_index": float(round(perf_idx, 1)),
+        "impact_score": float(round(perf_idx, 1)), # [MIGRAÇÃO v4.2] Alinha com o IntelligenceLayer
         "performance_status": perf_status,
         "technical_rank": technical_rank,
+        "squad_stats": squad_stats, # [SISTEMA DE SINERGIA] Habilita ranking de grupo
         "tone_instruction": tone,
         "kills": kills_total, "deaths": deaths_total, "clutches": total_clutches,
         "first_kills": first_kills_count,
         "first_deaths": first_deaths_count,
         "is_win": is_win,
+        "result": "VITÓRIA" if is_win else "DERROTA", # [UI SYNC]
         "matches_analyzed": strat_context.get('matchesAnalyzed', 0),
         "holt": holt_next, "conselho_kaio": conselhos[0], "all_conselhos": conselhos,
         "total_rounds": curr_rounds, "rounds": rounds_analysis
