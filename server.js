@@ -305,6 +305,119 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
   }
 });
 
+// DELETE - Apagar uma análise
+app.delete('/api/admin/analysis', adminAuth, async (req, res) => {
+  try {
+    const { match_id, player_id } = req.body;
+
+    if (!match_id || !player_id) {
+      return res.status(400).json({ error: 'match_id e player_id são obrigatórios' });
+    }
+
+    console.log(`🗑️ [ADMIN] Deletando análise: ${player_id} | ${match_id}`);
+
+    // Apagar de ai_insights (Oráculo)
+    if (supabase) {
+      await supabase
+        .from('ai_insights')
+        .delete()
+        .eq('match_id', match_id)
+        .ilike('player_id', player_id);
+    }
+
+    // Apagar de ai_insights (Protocolo-V)
+    if (supabaseProtocol) {
+      await supabaseProtocol
+        .from('ai_insights')
+        .delete()
+        .eq('match_id', match_id)
+        .ilike('player_id', player_id);
+    }
+
+    // Apagar arquivo local
+    const localPath = path.join(__dirname, 'analyses', `match_${match_id}_${player_id.replace('#', '_')}.json`);
+    if (fs.existsSync(localPath)) {
+      fs.unlinkSync(localPath);
+      console.log(`📂 Arquivo local deletado: ${localPath}`);
+    }
+
+    res.json({
+      success: true,
+      message: `Análise deletada: ${player_id} | ${match_id}`
+    });
+
+  } catch (err) {
+    console.error('[API ADMIN DELETE] Erro:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST - Reprocessar uma análise
+app.post('/api/admin/reprocess', adminAuth, async (req, res) => {
+  try {
+    const { match_id, player_id } = req.body;
+
+    if (!match_id || !player_id) {
+      return res.status(400).json({ error: 'match_id e player_id são obrigatórios' });
+    }
+
+    console.log(`♻️ [ADMIN] Reprocessando: ${player_id} | ${match_id}`);
+
+    // Apagar análise anterior
+    if (supabase) {
+      await supabase
+        .from('ai_insights')
+        .delete()
+        .eq('match_id', match_id)
+        .ilike('player_id', player_id);
+    }
+
+    if (supabaseProtocol) {
+      await supabaseProtocol
+        .from('ai_insights')
+        .delete()
+        .eq('match_id', match_id)
+        .ilike('player_id', player_id);
+    }
+
+    // Apagar arquivo local
+    const localPath = path.join(__dirname, 'analyses', `match_${match_id}_${player_id.replace('#', '_')}.json`);
+    if (fs.existsSync(localPath)) {
+      fs.unlinkSync(localPath);
+    }
+
+    // Reprocessar
+    const { processBriefing } = await import('./worker.js');
+    const result = await processBriefing({
+      match_id,
+      player_id,
+      map_name: null,
+      agent_name: null,
+      raw_data: null,
+      ability_context: [],
+      squad_stats: null
+    });
+
+    if (result.success) {
+      res.json({
+        success: true,
+        message: 'Análise reprocessada com sucesso',
+        rank: result.insight.rank,
+        score: result.insight.score
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: result.error
+      });
+    }
+
+  } catch (err) {
+    console.error('[API ADMIN REPROCESS] Erro:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
   // Em modo de teste, o supertest gerencia o servidor.
 } else {
