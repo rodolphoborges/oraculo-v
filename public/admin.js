@@ -13,16 +13,21 @@ function switchTab(tab) {
         el.style.color = isActive ? 'var(--green-ok)' : 'rgba(0,255,65,0.5)';
     });
 
+    const selectAllCheckbox = document.getElementById('selectAll');
     const headerCol4 = document.getElementById('headerCol4');
-    // Atualizar header da tabela
+
     if (tab === 'queue') {
         headerCol4.textContent = 'STATUS';
+        selectAllCheckbox.style.display = 'none';
         updateStats();
     } else if (tab === 'pending') {
         headerCol4.textContent = 'MAPA / AGENTE';
+        selectAllCheckbox.style.display = 'inline-block';
+        selectAllCheckbox.checked = false;
         loadPending();
     } else {
         headerCol4.textContent = 'PERFORMANCE';
+        selectAllCheckbox.style.display = 'none';
         loadHistory();
     }
 }
@@ -75,6 +80,7 @@ function renderQueueTable(jobs) {
         `;
 
         row.innerHTML = `
+            <td></td>
             <td><code>${String(job.id).split('-')[0]}...</code></td>
             <td><b>${job.agente_tag.toUpperCase()}</b></td>
             <td><small>${job.match_id}</small></td>
@@ -128,7 +134,8 @@ function renderHistoryTable(analyses) {
         const openLink = `<a href="/protocol/analise.html?match=${analysis.match_id}&player=${encodeURIComponent(analysis.agente_tag)}" target="_blank" style="color:#00ff88;text-decoration:none;margin-left:5px;">[ VER ]</a>`;
 
         row.innerHTML = `
-            <td><code>${String(analysis.id).split('-')[0]}...</code></td>
+            <td></td>
+            <td><code>${analysis.id ? String(analysis.id).split('-')[0] : '---'}...</code></td>
             <td><b>${analysis.agente_tag.toUpperCase()}</b></td>
             <td><small>${analysis.match_id}</small></td>
             <td style="color: var(--green-ok); font-weight: bold;">${analysis.impact_score || '--'} ${openLink}</td>
@@ -276,6 +283,8 @@ async function reprocessJob(matchId, playerId) {
     }
 }
 
+let currentPending = [];
+
 // Gaps Táticos (Pendências)
 async function loadPending() {
     try {
@@ -283,9 +292,10 @@ async function loadPending() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error);
 
+        currentPending = data.missing || [];
         document.getElementById('pendingCount').textContent = data.total;
         if (currentTab === 'pending') {
-            renderPendingTable(data.missing);
+            renderPendingTable(currentPending);
         }
     } catch (err) {
         console.error('Falha ao carregar pendências:', err);
@@ -295,17 +305,21 @@ async function loadPending() {
 function renderPendingTable(missing) {
     const jobsList = document.getElementById('jobsList');
     jobsList.innerHTML = '';
+    
+    // Atualizar visibilidade do botão de selecionados
+    updatePendingControls();
 
     if (!missing || missing.length === 0) {
-        jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px;">✅ TODAS AS OPERAÇÕES FORAM ANALISADAS!</td></tr>';
+        jobsList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px;">✅ TODAS AS OPERAÇÕES FORAM ANALISADAS!</td></tr>';
         return;
     }
 
-    missing.forEach(item => {
+    missing.forEach((item, index) => {
         const row = document.createElement('tr');
         const date = new Date(item.started_at).toLocaleString('pt-BR');
 
         row.innerHTML = `
+            <td><input type="checkbox" class="pending-check" data-index="${index}" onclick="updatePendingControls()" style="cursor:pointer;"></td>
             <td><code>GAP_TACTIC</code></td>
             <td><b>${item.player_tag.toUpperCase()}</b></td>
             <td><small>${item.match_id}</small></td>
@@ -317,6 +331,74 @@ function renderPendingTable(missing) {
         `;
         jobsList.appendChild(row);
     });
+}
+
+function toggleSelectAll(checked) {
+    const checks = document.querySelectorAll('.pending-check');
+    checks.forEach(c => c.checked = checked);
+    updatePendingControls();
+}
+
+function updatePendingControls() {
+    const checks = document.querySelectorAll('.pending-check:checked');
+    const btn = document.getElementById('btnAnalyzeSelected');
+    if (btn) {
+        btn.style.display = checks.length > 0 ? 'inline-block' : 'none';
+        btn.textContent = `🚀 ANALISAR SELECIONADOS (${checks.length})`;
+    }
+}
+
+async function analyzeSelected() {
+    const checks = document.querySelectorAll('.pending-check:checked');
+    const toAnalyze = Array.from(checks).map(c => currentPending[parseInt(c.dataset.index)]);
+    
+    if (!confirm(`🚀 Deseja ENFILEIRAR ${toAnalyze.length} análises para processamento?`)) return;
+
+    await batchReprocess(toAnalyze);
+}
+
+async function analyzeAllPending() {
+    if (currentPending.length === 0) return;
+    
+    if (!confirm(`🔥 ATENÇÃO: Deseja ENFILEIRAR TODAS as ${currentPending.length} análises pendentes?`)) return;
+
+    await batchReprocess(currentPending);
+}
+
+async function batchReprocess(items) {
+    const btnAll = document.getElementById('btnAnalyzeAll');
+    const btnSel = document.getElementById('btnAnalyzeSelected');
+    
+    btnAll.disabled = true;
+    if (btnSel) btnSel.disabled = true;
+
+    let success = 0;
+    let failed = 0;
+
+    for (const item of items) {
+        try {
+            // Envia para fila de processamento (endpoint reprocess já enfileira)
+            const res = await fetch('/api/admin/reprocess', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    match_id: item.match_id,
+                    player_id: item.player_tag
+                })
+            });
+            if (res.ok) success++;
+            else failed++;
+        } catch (err) {
+            failed++;
+        }
+    }
+
+    alert(`✅ Lote finalizado!\nSucesso: ${success} enfileirados\nFalhas: ${failed}`);
+    
+    btnAll.disabled = false;
+    if (btnSel) btnSel.disabled = false;
+    
+    loadPending();
 }
 
 // Inicializa e agenda atualização a cada 10 segundos

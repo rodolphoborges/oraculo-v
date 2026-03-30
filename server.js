@@ -22,8 +22,8 @@ app.use(express.static('public'));
 // Servir Protocolo-V docs (se existir) - permite acessar admin.html, analise.html, etc
 const protocolovDocsPath = path.join(__dirname, '../protocolov/docs');
 if (fs.existsSync(protocolovDocsPath)) {
-  app.use('/protocolo', express.static(protocolovDocsPath));
-  console.log('📁 Protocolo-V docs servindo em /protocolo');
+  app.use('/protocol', express.static(protocolovDocsPath));
+  console.log('📁 Protocolo-V docs servindo em /protocol');
 }
 
 import { processBriefing, startWorker } from './worker.js';
