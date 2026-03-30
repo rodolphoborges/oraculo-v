@@ -224,8 +224,8 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     segments = data['data']['segments']
     
     # Normalização para busca resiliente (remove espaços e ignora case)
-    player_target_clean = target_player.replace(" ", "").upper()
-    player_name_prefix = player_target_clean.split('#')[0]
+    player_target_upper = target_player.replace(" ", "").upper()
+    player_name_prefix = player_target_upper.split('#')[0]
     
     player_summary = None
     for s in segments:
@@ -241,7 +241,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         ident_clean = ident.replace(" ", "").upper()
         
         # 1. Tentativa de correspondência exata (NAME#TAG)
-        if ident_clean == player_target_clean:
+        if ident_clean == player_target_upper:
             player_summary = s
             break
         
@@ -593,7 +593,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             if s_team == player_team:
                 s_pid = s.get('attributes', {}).get('platformUserIdentifier', '') or \
                         s.get('metadata', {}).get('platformUserIdentifier', '')
-                if s_pid and s_pid.replace(" ", "").upper() != player_target_clean:
+                if s_pid and s_pid.replace(" ", "").upper() != player_target_upper:
                     squad_stats.append(s_pid)
 
     return {
