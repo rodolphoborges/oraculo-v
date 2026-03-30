@@ -227,6 +227,7 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
     // Adiciona informações de meta e predição no resultado
     analysisResult.meta_category = metaCategory;
     analysisResult.target_kd = targetKd;
+    analysisResult.technical_rank = estimatedRank; // [USER-REQ] Exibe Elo equivalente (DIAMANTE, OURO etc)
     analysisResult.estimated_rank = estimatedRank;
     analysisResult.player_rank = rankDisplay;
     analysisResult.hs_percent = playerSummary?.stats?.hsAccuracy?.value || 
