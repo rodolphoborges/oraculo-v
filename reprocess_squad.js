@@ -80,8 +80,11 @@ async function reprocess() {
                 }
                 
                 processedCount++;
+                // Delay para não fritar o Ollama ou ser bloqueado pelo Scraper
+                await new Promise(r => setTimeout(r, 2000));
             }
         }
+
 
         console.log('\n--- 🏁 REPROCESSAMENTO CONCLUÍDO ---');
         console.log(`Total de análises tentadas: ${processedCount}`);

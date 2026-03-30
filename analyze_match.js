@@ -28,14 +28,19 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
     matchJsonPath = path.join(matchesDir, `${inputPath}.json`);
     
     try {
-      await fs.promises.access(matchJsonPath);
-    } catch {
+      const stats = await fs.promises.stat(matchJsonPath);
+      if (stats.size === 0) throw new Error("Arquivo vazio");
+      console.log(`📊 [ANALYSIS] Usando cache local para partida ${inputPath}`);
+    } catch (err) {
       console.error(`Match ID detectado. Baixando dados para ${matchJsonPath}...`);
       try {
         const data = await fetchMatchJson(inputPath);
+        if (!data || Object.keys(data).length === 0) throw new Error('Dados da API vazios.');
         await fs.promises.writeFile(matchJsonPath, JSON.stringify(data, null, 2));
-      } catch (err) {
-        throw new Error(`Falha ao baixar dados da partida: ${err.message}`);
+      } catch (dlErr) {
+        // Limpa arquivo se foi criado vazio e propaga erro
+        if (fs.existsSync(matchJsonPath)) await fs.promises.unlink(matchJsonPath).catch(() => {});
+        throw new Error(`Falha ao baixar dados da partida: ${dlErr.message}`);
       }
     }
   }
