@@ -10,7 +10,7 @@ import path from 'path';
 
 export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', rank = 'ALL', holtPrev = {}, agentNameInput = 'ALL') {
   console.log(`🧠 [ANALYSIS] Iniciando motor tático para ${playerTag}...`);
-  let matchJsonPath = inputPath;
+  let matchJsonPathFinal = inputPath;
   let mapName = mapNameInput;
   let agentName = agentNameInput;
 
@@ -20,38 +20,60 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
   if (isUuid) {
     const matchesDir = './matches';
     try {
-      await fs.promises.access(matchesDir);
-    } catch {
-      await fs.promises.mkdir(matchesDir, { recursive: true });
-    }
+      if (!fs.existsSync(matchesDir)) {
+        await fs.promises.mkdir(matchesDir, { recursive: true });
+      }
+    } catch (e) { /* Ignora se já existe */ }
     
-    matchJsonPath = path.join(matchesDir, `${inputPath}.json`);
+    const matchJsonPath = path.join(matchesDir, `${inputPath}.json`);
+    const tempPath = path.join(matchesDir, `${inputPath}.tmp`);
     
     try {
+      // 1. Verificação de Cache
       const stats = await fs.promises.stat(matchJsonPath);
-      if (stats.size === 0) throw new Error("Arquivo vazio");
-      console.log(`📊 [ANALYSIS] Usando cache local para partida ${inputPath}`);
+      if (stats.size > 0) {
+        console.log(`📊 [ANALYSIS] Usando cache local para partida ${inputPath}`);
+      } else {
+        throw new Error("Arquivo vazio");
+      }
     } catch (err) {
+      // 2. Proteção de Concorrência: Se o .tmp existe, aguarda um pouco
+      try {
+        await fs.promises.access(tempPath);
+        console.warn(`⏳ [LOCK] Partida ${inputPath} já está sendo baixada. Aguardando...`);
+        await new Promise(r => setTimeout(r, 5000)); // Aguarda 5s
+        return await runAnalysis(playerTag, inputPath, mapNameInput, rank, holtPrev, agentNameInput);
+      } catch (lockErr) {
+        // Segue para o download
+      }
+
       console.error(`Match ID detectado. Baixando dados para ${matchJsonPath}...`);
       try {
         const data = await fetchMatchJson(inputPath);
         if (!data || Object.keys(data).length === 0) throw new Error('Dados da API vazios.');
-        await fs.promises.writeFile(matchJsonPath, JSON.stringify(data, null, 2));
+        
+        // Escreve em arquivo TEMP primeiro para garantir atomicidade
+        await fs.promises.writeFile(tempPath, JSON.stringify(data, null, 2));
+        await fs.promises.rename(tempPath, matchJsonPath);
+        
+        console.log(`✅ [CACHE] Dados da partida ${inputPath} persistidos com sucesso.`);
       } catch (dlErr) {
-        // Limpa arquivo se foi criado vazio e propaga erro
+        // Limpa arquivos residuais se houver falha
+        if (fs.existsSync(tempPath)) await fs.promises.unlink(tempPath).catch(() => {});
         if (fs.existsSync(matchJsonPath)) await fs.promises.unlink(matchJsonPath).catch(() => {});
         throw new Error(`Falha ao baixar dados da partida: ${dlErr.message}`);
       }
     }
+    matchJsonPathFinal = matchJsonPath;
   }
 
   // 3. Carrega o JSON da partida
   let matchData;
   try {
-    const content = await fs.promises.readFile(matchJsonPath, 'utf8');
+    const content = await fs.promises.readFile(matchJsonPathFinal, 'utf8');
     matchData = JSON.parse(content);
   } catch (err) {
-    throw new Error(`Erro ao ler arquivo ${matchJsonPath}: ${err.message}`);
+    throw new Error(`Erro ao ler arquivo ${matchJsonPathFinal}: ${err.message}`);
   }
   
   // 4. Identifica o agente, mapa e rank do jogador na partida
@@ -161,19 +183,29 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
       if (holtPrev.adr_l != null) pythonArgs.push('--a-l', holtPrev.adr_l.toString());
       if (holtPrev.adr_t != null) pythonArgs.push('--a-t', holtPrev.adr_t.toString());
 
-      const { spawnSync } = await import('child_process');
-      const child = spawnSync('python', pythonArgs, { 
-        encoding: 'utf8',
+      const { spawn } = await import('child_process');
+      const child = spawn('python', pythonArgs, { 
         env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
         timeout: 5 * 60 * 1000 
       });
-      
-      if (child.error) throw child.error;
-      const stdout = child.stdout;
-      const stderr = child.stderr;
 
-      if (stderr && !stdout) {
+      let stdout = '';
+      let stderr = '';
+
+      child.stdout.on('data', (data) => { stdout += data.toString(); });
+      child.stderr.on('data', (data) => { stderr += data.toString(); });
+
+      const exitCode = await new Promise((resolve) => {
+        child.on('close', resolve);
+        child.on('error', (err) => {
+          console.error("Erro ao iniciar processo Python:", err);
+          resolve(1);
+        });
+      });
+      
+      if (exitCode !== 0) {
           console.error("Python Stderr:", stderr);
+          throw new Error(`O processo de análise Python falhou com código ${exitCode}. Verifique os logs do servidor.`);
       }
     
       const analysisResult = JSON.parse(stdout);
