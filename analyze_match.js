@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config({ quiet: true });
 import { getAgentMeta, getRankBaselines } from './lib/meta_loader.js';
+import { getAgent } from './lib/tactical_knowledge.js';
 import { fetchMatchJson } from './lib/tracker_api.js';
 import { supabase } from './lib/supabase.js';
 import ImpactAnalyzer from './services/ImpactAnalyzer.js';
@@ -165,8 +166,9 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
       const totalRounds = matchData.data.metadata.rounds;
       const teamId = playerSummary?.metadata?.teamId || 'Unknown';
 
-      // Resolve role via ImpactAnalyzer para passar ao Python
-      const resolvedRole = ImpactAnalyzer.ROLE_MAPPING[agentName] || 'Duelista';
+      // Resolve role via Engine Central para passar ao Python
+      const agentData = getAgent(agentName);
+      const resolvedRole = agentData ? agentData.role : 'Duelista';
 
       const pythonArgs = [
         pythonScript,
