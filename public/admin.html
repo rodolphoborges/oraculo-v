@@ -82,6 +82,7 @@
         <!-- Abas -->
         <div style="margin: 20px 0; border-bottom: 2px solid rgba(0,255,65,0.2); display: flex; gap: 20px;">
             <button id="tabQueue" onclick="switchTab('queue')" style="background: none; border: none; padding: 10px 0; color: var(--green-ok); font-size: 0.9rem; font-weight: bold; cursor: pointer; border-bottom: 2px solid var(--green-ok);">📊 FILA</button>
+            <button id="tabPending" onclick="switchTab('pending')" style="background: none; border: none; padding: 10px 0; color: rgba(0,255,65,0.5); font-size: 0.9rem; font-weight: bold; cursor: pointer;">⚠️ PENDENTES TÁTICOS</button>
             <button id="tabHistory" onclick="switchTab('history')" style="background: none; border: none; padding: 10px 0; color: rgba(0,255,65,0.5); font-size: 0.9rem; font-weight: bold; cursor: pointer;">📜 HISTÓRICO</button>
         </div>
 
@@ -104,6 +105,14 @@
 
             <div style="margin-bottom: 15px; display: flex; gap: 10px;">
                 <button id="btnDeleteAll" onclick="deleteAllJobs()" style="background: var(--red); color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; font-family: inherit;">🗑️ APAGAR TODAS DA FILA</button>
+            </div>
+        </div>
+
+        <!-- PENDENTES TÁTICOS -->
+        <div id="pendingTab" style="display: none;">
+            <div style="margin-bottom: 20px; border-left: 4px solid #ffcc00; padding-left: 15px;">
+                <p style="font-size: 0.9rem; margin-bottom: 5px;">Gaps Táticos Detectados (Squad Operacional): <b id="pendingCount" style="color: #ffcc00;">-</b></p>
+                <small style="opacity: 0.6;">Operações realizadas em grupo que ainda não possuem relatório de impacto individual.</small>
             </div>
         </div>
 

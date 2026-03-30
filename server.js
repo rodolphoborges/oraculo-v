@@ -319,6 +319,73 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
   }
 });
 
+/**
+ * GET - Listar partidas em grupo sem análise pendente (Gap Tático)
+ */
+app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
+  if (!supabaseProtocol) return res.status(503).json({ error: 'Serviço Protocolo-V indisponível' });
+
+  try {
+    // 1. Buscar squads de operações competitivas
+    // 2. Filtrar as que não possuem insight na tabela ai_insights
+    const { data: pending, error } = await supabaseProtocol.rpc('get_pending_tactical_analyses');
+
+    if (error) {
+      // Fallback se o RPC não existir
+      console.warn('⚠️ RPC get_pending_tactical_analyses não encontrado, usando consulta manual.');
+      
+      const { data: ops, error: opsError } = await supabaseProtocol
+        .from('operation_squads')
+        .select(`
+          operation_id,
+          riot_id,
+          agent,
+          operations (
+            started_at,
+            map_name,
+            mode
+          )
+        `)
+        .eq('operations.mode', 'Competitive')
+        .order('operation_id', { ascending: false })
+        .limit(100);
+
+      if (opsError) throw opsError;
+
+      // Pegar todos os IDs de matches das ops encontradas
+      const matchIds = [...new Set(ops.map(o => o.operation_id))];
+      
+      // Buscar quais já tem insight
+      const { data: insights } = await supabaseProtocol
+        .from('ai_insights')
+        .select('match_id, player_id')
+        .in('match_id', matchIds);
+
+      const analyzedKeys = new Set(insights?.map(i => `${i.match_id}_${i.player_id.toLowerCase()}`) || []);
+
+      // Filtrar apenas o que falta
+      const missing = ops.filter(op => {
+        const key = `${op.operation_id}_${op.riot_id.toLowerCase()}`;
+        return !analyzedKeys.has(key);
+      }).map(m => ({
+        match_id: m.operation_id,
+        player_tag: m.riot_id,
+        agent: m.agent,
+        started_at: m.operations?.started_at,
+        map_name: m.operations?.map_name
+      })).slice(0, 50);
+
+      return res.json({ total: missing.length, missing });
+    }
+
+    res.json({ total: pending.length, missing: pending });
+
+  } catch (err) {
+    console.error('[API ADMIN PENDING] Erro:', err.message);
+    res.status(500).json({ error: 'Erro ao listar pendências: ' + err.message });
+  }
+});
+
 // GET - Histórico de todas as análises
 app.get('/api/admin/history', adminAuth, async (req, res) => {
   try {
