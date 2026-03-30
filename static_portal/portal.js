@@ -152,11 +152,27 @@ function showReport(playerTag, jobId) {
             </div>
         </div>
 
-        <div style="background: rgba(255, 70, 85, 0.05); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--accent); margin-bottom: 3rem;">
-            <h3 style="margin-bottom: 1rem; color: var(--accent)">DIRETRIZ K.A.I.O.</h3>
-            <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.9)">${data.conselho_kaio}</p>
+        <div style="background: rgba(255, 70, 85, 0.05); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--accent); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--accent)">DIAGNÓSTICO DO COACH</h3>
+            <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.9)">${data.diagnostico_principal}</p>
         </div>
 
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+            <div style="background: rgba(0, 255, 136, 0.05); padding: 2rem; border-radius: 12px; border-top: 2px solid var(--success);">
+                <h3 style="color: var(--success); margin-bottom: 1rem; font-size: 0.8rem; text-transform: uppercase;">PONTOS FORTES</h3>
+                <ul style="list-style: none; padding: 0;">
+                    ${(data.pontos_fortes || []).map(p => `<li style="margin-bottom: 0.75rem; display: flex; gap: 0.5rem;"><span style="color: var(--success)">✓</span> ${p}</li>`).join('')}
+                </ul>
+            </div>
+            <div style="background: rgba(255, 70, 85, 0.05); padding: 2rem; border-radius: 12px; border-top: 2px solid var(--accent);">
+                <h3 style="color: var(--accent); margin-bottom: 1rem; font-size: 0.8rem; text-transform: uppercase;">FALHAS CRÍTICAS</h3>
+                <ul style="list-style: none; padding: 0;">
+                    ${(data.pontos_fracos || []).map(p => `<li style="margin-bottom: 0.75rem; display: flex; gap: 0.5rem;"><span style="color: var(--accent)">✗</span> ${p}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+
+        ${data.rounds ? `
         <h3>Eventos de Impacto</h3>
         <div style="margin-top: 1.5rem;">
             ${data.rounds.map(r => `
@@ -169,6 +185,7 @@ function showReport(playerTag, jobId) {
                 </div>
             `).join('')}
         </div>
+        ` : ''}
     `;
 
     document.getElementById('report-overlay').style.display = 'block';

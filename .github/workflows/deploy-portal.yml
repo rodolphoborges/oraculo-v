@@ -1,0 +1,37 @@
+name: 🚀 Deploy Portal Estático (GH Pages)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Permite rodar manualmente no portal do GitHub
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 📊 Export Data from Supabase
+        run: npm run export
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+      - name: 🚀 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./static_portal
+          user_name: 'Oraculo-V Deploy Bot'
+          user_email: 'deploy@oraculo-v.ai'
+          commit_message: 'Dashboard Auto-Update'
