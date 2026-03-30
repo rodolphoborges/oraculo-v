@@ -110,9 +110,10 @@ export async function processBriefing(briefing) {
         
         // 5. Cálculo do Score de Impacto (ImpactAnalyzer)
         const impact = ImpactAnalyzer.calculate({
+            performance_index: result.performance_index, // Prioriza o índice técnico vStats
             adr: result.adr,
             kast: result.kast,
-            first_bloods: result.first_kills,
+            first_bloods: result.first_kills, // Unificação de nomes (kills -> bloods)
             clutches: result.clutches,
             acs: result.acs,
             agent: result.agent,

@@ -11,16 +11,22 @@ class ImpactAnalyzer {
      * Calcula o Score de Impacto (I) Normalizado (0-100)
      */
     static calculate(stats) {
-        let { adr = 0, kast = 0, first_bloods = 0, clutches = 0, acs = 0, agent = '', role = '' } = stats;
+        let { adr = 0, kast = 0, first_bloods = 0, clutches = 0, acs = 0, agent = '', role = '', performance_index = null } = stats;
 
         // 1. Identificação da Função (Role) via Engine Central
         const agentData = getAgent(agent);
         let resolvedRole = role || (agentData ? agentData.role : 'Default');
         
-        // 2. Cálculo via Engine Central (Normalização e Pesos Unificados)
-        const finalScore = calculatePerformanceScore({
-            adr, kast, first_bloods, clutches, acs
-        }, resolvedRole);
+        // 2. Cálculo do Score (Prioriza o Índice Pré-Calculado da Análise vStats)
+        let finalScore;
+        if (performance_index !== null && typeof performance_index === 'number') {
+            finalScore = Math.min(100, Math.max(0, performance_index));
+        } else {
+            // Fallback para cálculo interno se não houver índice prévio
+            finalScore = calculatePerformanceScore({
+                adr, kast, first_bloods, clutches, acs
+            }, resolvedRole);
+        }
 
         // 3. Classificação e Tom de Voz (Refinado - Narrativa Coach)
         let rank = 'Depósito de Torreta';
