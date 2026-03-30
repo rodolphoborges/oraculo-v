@@ -281,11 +281,11 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
     if (error) throw error;
 
     // Calcular estatísticas agregadas
+    // Nota: 'completed' é removido automaticamente da fila, então não deveria existir
     const stats = {
       total: jobs.length,
       pending: jobs.filter(j => j.status === 'pending').length,
       processing: jobs.filter(j => j.status === 'processing').length,
-      completed: jobs.filter(j => j.status === 'completed').length,
       failed: jobs.filter(j => j.status === 'failed').length
     };
 
