@@ -98,6 +98,16 @@ app.post('/api/queue', async (req, res) => {
   });
 });
 
+// Endpoint de Diagnóstico rápido para testar NAT/Firewall
+app.get('/api/ping', (req, res) => {
+    res.json({ 
+        status: 'online', 
+        service: 'Oráculo-V Bridge', 
+        timestamp: new Date(),
+        remote_ip: req.ip
+    });
+});
+
 /**
  * Endpoint Síncrono para Análise Imediata
  * Ideal para integrações diretas que aguardam o resultado (Protocolo-V)
@@ -263,9 +273,13 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
 if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
   // Em modo de teste, o supertest gerencia o servidor.
 } else {
-  app.listen(PORT, () => {
-    console.log(`Oráculo V Dashboard rodando em http://localhost:${PORT}`);
-    console.log('--- SUPABASE CLIENT STATUS ---');
+  // Explicitamente escutando em 0.0.0.0 para aceitar conexões externas (NAT)
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`\n🚀 Oráculo-V Bridge ATIVA em todas as interfaces na porta ${PORT}`);
+    console.log(`🔗 Verificação Local:   http://localhost:${PORT}/api/ping`);
+    console.log(`🔗 Verificação Externa: http://${process.env.EXTERNAL_IP || '191.180.122.186'}:${PORT}/api/ping`);
+    
+    console.log('\n--- SUPABASE CLIENT STATUS ---');
     console.log('Oráculo Client:', !!supabase);
     console.log('Protocol Client:', !!supabaseProtocol);
     if (!supabaseProtocol) {
