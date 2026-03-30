@@ -43,9 +43,10 @@ async function registerQueueJob(match_id, player_id, status = 'processing') {
 const adminAuth = (req, res, next) => {
   const apiKey = req.headers['x-api-key'];
   const masterKey = process.env.ADMIN_API_KEY;
+  const externalIp = process.env.EXTERNAL_IP || '191.180.122.186';
 
-  // Permitir acesso local (Dashboard) sem chave
-  const isLocal = req.hostname === 'localhost' || req.hostname === '127.0.0.1';
+  // Permitir acesso local e externo sem chave (Dashboard)
+  const isLocal = req.hostname === 'localhost' || req.hostname === '127.0.0.1' || req.hostname === externalIp;
   if (isLocal) return next();
 
   if (!masterKey) {
