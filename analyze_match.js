@@ -220,6 +220,8 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
     analysisResult.meta_category = metaCategory;
     analysisResult.target_kd = targetKd;
     analysisResult.estimated_rank = estimatedRank;
+    analysisResult.player_rank = rankDisplay;
+    analysisResult.hs_percent = playerSummary?.stats?.hsAccuracy?.value || 0;
 
     // Garante que a pasta analyses existe
     const analysesDir = './analyses';
