@@ -107,6 +107,34 @@ def resolve_role(agent_name, role_override=None):
         return AGENT_ROLE_MAP.get(agent_name.lower(), "Duelista")
     return "Duelista"
 
+def calculate_performance_index_improved(kd_actual, target_kd, adr, role, kast=None, first_bloods=0):
+    """
+    Calcula o índice de performance de forma realista e coerente com o Python.
+    Base: 100 = exatamente na meta do rank/agente/mapa
+    Weights variam por função tática.
+
+    Resultado em escala 0-150 (150 = 50% acima da meta, extremamente raro)
+    """
+    rt = ROLE_THRESHOLDS.get(role, ROLE_THRESHOLDS["Duelista"])
+
+    # KD Normalization: actual vs target
+    kd_perf = (kd_actual / target_kd) if target_kd > 0 else 1.0
+
+    # ADR Normalization: vs role baseline
+    adr_perf = adr / rt["adr_baseline"]
+
+    # KAST Normalization: vs 100%
+    kast_perf = (kast / 100.0) if kast is not None else 0.7
+
+    # Performance ponderado (apenas com métricas que fazem sentido para a função)
+    perf_idx = (
+        rt["kd_weight"] * kd_perf * 100 +
+        rt["adr_weight"] * adr_perf * 100 +
+        rt["kast_weight"] * kast_perf * 100
+    )
+
+    return round(perf_idx, 1)
+
 def clean_nan(obj):
     if isinstance(obj, dict):
         return {k: clean_nan(v) for k, v in obj.items()}
@@ -426,16 +454,8 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         })
 
     # --- Cálculo de Performance Ponderado (Role-Aware) ---
-    rt = ROLE_THRESHOLDS.get(role, ROLE_THRESHOLDS["Duelista"])
-    kd_perf = (actual_kd / target_kd) if target_kd > 0 else 1.0
-    adr_perf = adr / rt["adr_baseline"]
-    kast_perf = (kast / 100.0) if kast is not None else 0.7
-
-    perf_idx = (
-        rt["kd_weight"]   * kd_perf   * 100 +
-        rt["adr_weight"]  * adr_perf  * 100 +
-        rt["kast_weight"] * kast_perf * 100
-    )
+    # FONTE ÚNICA: Usa a mesma lógica em ambos Python e JS (eliminando dupla avaliação)
+    perf_idx = calculate_performance_index_improved(actual_kd, target_kd, adr, role, kast, first_kills_count)
     
     # --- HOLT'S DOUBLE EXPONENTIAL SMOOTHING ---
     α = 0.4 # Level smoothing
@@ -467,8 +487,9 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             holt_next[f"{m}_t"] = None
 
     # --- DIRETRIZES TÁTICAS K.A.I.O. (Upgrade Trend-Aware) ---
+    rt = ROLE_THRESHOLDS.get(role, ROLE_THRESHOLDS["Duelista"])
     conselhos = []
-    
+
     # Check trends if available
     perf_t = holt_next.get("performance_t")
     if perf_t is not None:
@@ -519,20 +540,33 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     if not conselhos:
         conselhos.append(tm.format("insight_recomendacao", "FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. O Oráculo segue monitorando sua evolução técnica."))
 
-    # Lore-friendly status
+    # --- DERIVAÇÃO ÚNICA DE RANK E TOM (Fonte: performance_index) ---
+    # Thresholds realistas para Silver-Diamond (não Radiant)
+    # 100 = exatamente na meta do rank/agente/mapa
+    # 115+ = 15% acima da meta
+    # <80 = 20% abaixo da meta
+
     if perf_idx >= 115:
         perf_status = "ELITE DO PROTOCOLO"
-        conselhos.append(tm.format("destaque_alta_performance", "VOCÊ ESTÁ VOANDO!"))
+        technical_rank = "Alpha"
+        tone = f"O jogador brilhou como {curr_agent}. Use termos táticos para elogiar domínio do mapa e sinergia perfeita."
+        conselhos.append("DESEMPENHO EXCEPCIONAL: Você está significativamente acima da média para seu elo. Mantenha este nível.")
     elif perf_idx >= 95:
         perf_status = "DENTRO DOS PARÂMETROS"
+        technical_rank = "Omega"
+        tone = f"Desempenho consistente e técnico. Aja como coach analítico — o jogador está no padrão esperado para seu nível."
     else:
         perf_status = "ABAIXO DO RADAR"
-        conselhos.append(tm.format("alerta_baixa_performance", "PRECISA MELHORAR O IMPACTO."))
+        technical_rank = "Depósito de Torreta"
+        tone = f"O desempenho ficou aquém do esperado para {curr_agent} em {curr_map}. Seja direto sobre as deficiências táticas."
+        conselhos.append(f"PERFORMANCE ABAIXO DA META: Você obteve {perf_idx:.1f}% da performance esperada. Revise seu posicionamento e timing.")
 
     return {
         "player": target_player, "agent": agent_name, "role": role, "map": map_name, "map_details": map_details,
         "acs": acs, "adr": adr, "kd": actual_kd, "kast": kast, "performance_index": float(round(perf_idx, 1)),
         "performance_status": perf_status,
+        "technical_rank": technical_rank,
+        "tone_instruction": tone,
         "kills": kills_total, "deaths": deaths_total, "clutches": total_clutches,
         "first_kills": first_kills_count,
         "first_deaths": first_deaths_count,
