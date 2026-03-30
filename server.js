@@ -352,6 +352,57 @@ app.delete('/api/admin/analysis', adminAuth, async (req, res) => {
   }
 });
 
+// DELETE - Apagar TODAS as análises
+app.delete('/api/admin/analysis/all', adminAuth, async (req, res) => {
+  try {
+    console.log(`🗑️ [ADMIN] APAGANDO TODAS AS ANÁLISES`);
+
+    let deletedCount = 0;
+
+    // Apagar de ai_insights (Oráculo)
+    if (supabase) {
+      const { count: oracCount } = await supabase
+        .from('ai_insights')
+        .delete({ count: 'exact' })
+        .neq('id', '00000000-0000-0000-0000-000000000000');
+      deletedCount += oracCount || 0;
+    }
+
+    // Apagar de ai_insights (Protocolo-V)
+    if (supabaseProtocol) {
+      const { count: protoCount } = await supabaseProtocol
+        .from('ai_insights')
+        .delete({ count: 'exact' })
+        .neq('id', '00000000-0000-0000-0000-000000000000');
+      deletedCount += protoCount || 0;
+    }
+
+    // Apagar todos os arquivos locais
+    const analysesDir = path.join(__dirname, 'analyses');
+    if (fs.existsSync(analysesDir)) {
+      const files = fs.readdirSync(analysesDir);
+      files.forEach(file => {
+        const filePath = path.join(analysesDir, file);
+        if (file.endsWith('.json')) {
+          fs.unlinkSync(filePath);
+        }
+      });
+      console.log(`📂 ${files.length} arquivos locais deletados`);
+    }
+
+    res.json({
+      success: true,
+      message: `Todas as análises foram apagadas`,
+      deleted_count: deletedCount,
+      local_files_deleted: fs.existsSync(analysesDir) ? fs.readdirSync(analysesDir).length : 0
+    });
+
+  } catch (err) {
+    console.error('[API ADMIN DELETE ALL] Erro:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST - Reprocessar uma análise
 app.post('/api/admin/reprocess', adminAuth, async (req, res) => {
   try {

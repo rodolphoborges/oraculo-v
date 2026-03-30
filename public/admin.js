@@ -52,6 +52,42 @@ async function updateStats() {
 }
 
 // Funções de Ação
+async function deleteAllJobs() {
+    if (!confirm(`⚠️ ATENÇÃO!\n\nIsso vai APAGAR TODAS as análises de forma permanente.\n\nDeseja continuar?`)) {
+        return;
+    }
+
+    if (!confirm(`🗑️ Confirmação final: Apagar TODAS as análises?`)) {
+        return;
+    }
+
+    try {
+        const btn = document.getElementById('btnDeleteAll');
+        btn.disabled = true;
+        btn.textContent = '⏳ APAGANDO...';
+
+        const res = await fetch('/api/admin/analysis/all', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert(`✅ Limpeza concluída!\n\nAnálises deletadas do banco: ${data.deleted_count}\nArquivos locais deletados: ${data.local_files_deleted}`);
+            updateStats(); // Recarrega a tabela
+        } else {
+            alert('❌ Erro: ' + data.error);
+        }
+
+        btn.disabled = false;
+        btn.textContent = '🗑️ APAGAR TODAS';
+    } catch (err) {
+        alert('❌ Erro na requisição: ' + err.message);
+        document.getElementById('btnDeleteAll').disabled = false;
+        document.getElementById('btnDeleteAll').textContent = '🗑️ APAGAR TODAS';
+    }
+}
+
 async function deleteJob(matchId, playerId) {
     if (!confirm(`⚠️ Tem certeza que deseja APAGAR a análise?\n${playerId} | ${matchId}`)) {
         return;
