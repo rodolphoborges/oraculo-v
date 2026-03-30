@@ -106,8 +106,15 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
   
   const segments = matchData.data.segments;
   const normalizedTarget = playerTag.replace(/\s/g, '').toUpperCase();
-  const playerSummary = segments.find(s => s.type === 'player-summary' && s.attributes.platformUserIdentifier.replace(/\s/g, '').toUpperCase() === normalizedTarget);
-  const playerRound = segments.find(s => s.type === 'player-round' && s.attributes.platformUserIdentifier.replace(/\s/g, '').toUpperCase() === normalizedTarget);
+  const playerSummary = segments.find(s => {
+    const ident = (s.attributes?.platformUserIdentifier || s.metadata?.platformUserIdentifier || "").replace(/\s/g, '').toUpperCase();
+    return s.type === 'player-summary' && (ident === normalizedTarget || ident.split('#')[0] === normalizedTarget.split('#')[0]);
+  });
+  const playerRound = segments.find(s => {
+    const ident = (s.attributes?.platformUserIdentifier || "").replace(/\s/g, '').toUpperCase();
+    return s.type === 'player-round' && ident === normalizedTarget;
+  });
+
   
   const rankDisplay = playerSummary?.stats?.rank?.displayValue || "ALL";
   
@@ -221,7 +228,10 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
     analysisResult.target_kd = targetKd;
     analysisResult.estimated_rank = estimatedRank;
     analysisResult.player_rank = rankDisplay;
-    analysisResult.hs_percent = playerSummary?.stats?.hsAccuracy?.value || 0;
+    analysisResult.hs_percent = playerSummary?.stats?.hsAccuracy?.value || 
+                                playerSummary?.stats?.headshotPercentage?.value || 
+                                playerRound?.stats?.hsAccuracy?.value || 0;
+
 
     // Garante que a pasta analyses existe
     const analysesDir = './analyses';
