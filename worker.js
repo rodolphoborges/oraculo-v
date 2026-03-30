@@ -6,8 +6,6 @@
  * Receives data directly from Protocolo-V via API.
  */
 import { supabase, supabaseProtocol } from './lib/supabase.js';
-import ImpactAnalyzer from './services/ImpactAnalyzer.js';
-import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import { generateInsights } from './lib/openrouter_engine.js';
@@ -107,21 +105,14 @@ export async function processBriefing(briefing) {
         }
 
         console.log("✅ Análise concluída com sucesso.");
-        
-        // 5. Cálculo do Score de Impacto (ImpactAnalyzer)
-        const impact = ImpactAnalyzer.calculate({
-            performance_index: result.performance_index, // Prioriza o índice técnico vStats
-            adr: result.adr,
-            kast: result.kast,
-            first_bloods: result.first_kills, // Unificação de nomes (kills -> bloods)
-            clutches: result.clutches,
-            acs: result.acs,
-            agent: result.agent,
-            role: result.role
-        });
+
+        // 5. FONTE ÚNICA: Usar performance_index do Python (elimina dupla avaliação)
+        const performanceIndex = result.performance_index || 0;
+        const technicalRank = result.technical_rank || 'Depósito de Torreta';
+        const toneInstruction = result.tone_instruction || '';
 
         // 6. Persistência Técnica (Oráculo-V)
-        // Guardamos o registro técnico antes da camada de IA
+        // Guardamos o registro técnico derivado do performance_index (Python)
         await supabase.from('match_stats').upsert([{
             match_id: match_id,
             player_id: player_id,
@@ -135,8 +126,8 @@ export async function processBriefing(briefing) {
             first_bloods: result.first_kills,
             clutches: result.clutches,
             is_win: result.is_win,
-            impact_score: impact.score,
-            impact_rank: impact.rank
+            impact_score: performanceIndex,
+            impact_rank: technicalRank
         }], { onConflict: 'match_id, player_id' });
 
         // 6.4. Buscar Tendências Reais/Insights anteriores para a LLM
@@ -153,24 +144,11 @@ export async function processBriefing(briefing) {
             console.warn("⚠️ [DB] Falha ao ler insights anteriores para a LLM:", queryErr.message);
         }
 
-        // 6.5. Buscar Template de Rank (Estilo de Comentário)
-        let rankTemplate = null;
-        try {
-            const { data: templates } = await supabase
-                .from('round_comment_templates')
-                .select('template')
-                .eq('event_type', impact.rank)
-                .limit(1);
-            if (templates && templates.length > 0) rankTemplate = templates[0].template;
-        } catch (templateErr) {
-            console.warn("⚠️ [DB] Falha ao ler templates de rank:", templateErr.message);
-        }
-
         const promptData = {
             match_data: {
-                perf: impact.score,
-                rank: impact.rank,
-                role: impact.role,           // Função tática resolvida pelo ImpactAnalyzer
+                perf: performanceIndex,
+                rank: technicalRank,
+                role: result.role,
                 agent: result.agent,
                 map: result.map,
                 kd: result.kd,
@@ -181,11 +159,10 @@ export async function processBriefing(briefing) {
                 clutches: result.clutches,
                 total_rounds: result.total_rounds,
                 conselhosBase: result.all_conselhos,
-                tone_instruction: impact.tone_instruction,
-                template_hint: rankTemplate,
+                tone_instruction: toneInstruction,
                 abilities: briefing.ability_context || []
             },
-            trend: null, // As tendências agora são baseadas no Holt local
+            trend: null,
             history: previousInsights,
             squad: briefing.squad_stats || null
         };
@@ -205,8 +182,8 @@ export async function processBriefing(briefing) {
                 diagnostico_principal: result.conselho_kaio || "Análise básica concluída (IA em manutenção).",
                 pontos_fortes: result.all_conselhos ? result.all_conselhos.filter(c => !c.includes('VIOLAÇÃO') && !c.includes('ALERTA')).slice(0, 2) : ["Consistência técnica baseline"],
                 pontos_fracos: result.all_conselhos ? result.all_conselhos.filter(c => c.includes('VIOLAÇÃO') || c.includes('ALERTA')).slice(0, 2) : ["Otimização de impacto pendente"],
-                nota_coach: (impact.score / 15).toFixed(1), // Nota proporcional simplificada
-                classification: impact.rank,
+                nota_coach: (performanceIndex / 15).toFixed(1), // Nota proporcional ao performance_index
+                classification: technicalRank,
                 is_fallback: true
             };
             if (finalInsight.pontos_fortes.length === 0) finalInsight.pontos_fortes = ["Posicionamento padrão"];
@@ -238,10 +215,10 @@ export async function processBriefing(briefing) {
             // 8. Espelhamento no Protocolo-V (Completo - Com Métricas Táticas)
             if (supabaseProtocol) {
                 // Prepara um objeto de relatório enriquecido para o frontend
-                const enrichedReport = { 
-                    ...result, 
-                    impact_score: impact.score,
-                    classification: finalInsight.classification || impact.rank,
+                const enrichedReport = {
+                    ...result,
+                    impact_score: performanceIndex,
+                    classification: finalInsight.classification || technicalRank,
                     conselho_kaio: finalInsight // Mantém o objeto completo, o frontend deve tratar
                 };
 
@@ -249,13 +226,13 @@ export async function processBriefing(briefing) {
                     player_id: player_id,
                     match_id: match_id,
                     insight_resumo: JSON.stringify(finalInsight),
-                    analysis_report: enrichedReport, 
+                    analysis_report: enrichedReport,
                     model_used: aiResponse?.model_used || "SYSTEM_FALLBACK",
                     classification: enrichedReport.classification,
-                    impact_score: impact.score,
+                    impact_score: performanceIndex,
                     created_at: new Date().toISOString()
                 }], { onConflict: 'match_id, player_id' });
-                
+
                 if (syncErr) console.warn(`⚠️ [SYNC] Falha no Protocolo: ${syncErr.message}`);
                 else console.log(`✅ [SYNC] Insight e Relatório espelhados com sucesso.`);
             }
@@ -277,13 +254,13 @@ export async function processBriefing(briefing) {
         }
 
         console.log(`🏁 [ENGINE] Match ${match_id} finalizado.`);
-        return { 
-            success: true, 
+        return {
+            success: true,
             result,
             insight: {
                 resumo: finalInsight.diagnostico_principal,
-                rank: impact.rank,
-                score: impact.score,
+                rank: technicalRank,
+                score: performanceIndex,
                 model_used: aiResponse?.model_used || "SYSTEM_FALLBACK"
             }
         };
