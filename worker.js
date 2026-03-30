@@ -2,9 +2,9 @@
  * worker.js
  * 
  * The execution engine for Oráculo V.
- * Refactored to be a service-based engine instead of a polling worker.
- * Receives data directly from Protocolo-V via API.
+ * [v4.2.1-STABLE] - Versionamento de Motor e Logs Táticos Integrados.
  */
+const ORACULO_ENGINE_VERSION = '4.2.1'; // Incrementing this forces re-analysis for older records
 import { supabase, supabaseProtocol } from './lib/supabase.js';
 import path from 'path';
 import fs from 'fs';
@@ -225,45 +225,45 @@ export async function processBriefing(briefing) {
 
             if (insErr) console.error(`   [❌] Falha no Oráculo: ${insErr.message}`);
 
-            // 8. Espelhamento no Protocolo-V (Completo - Com Métricas Táticas)
+            // 8. Espelhamento no Protocolo-V (Log de DNA para melhoria do Prompt)
             if (supabaseProtocol) {
-                // Prepara um objeto de relatório enriquecido para o frontend
-                const enrichedReport = {
-                    ...result,
-                    impact_score: performanceIndex,
-                    classification: finalInsight.classification || technicalRank,
-                    conselho_kaio: finalInsight // Mantém o objeto completo, o frontend deve tratar
+                const enrichedReport = { ...result, impact_score: performanceIndex };
+                
+                // DNA Minificado: Essencial para debugar o Ollama depois
+                const auditDNA = {
+                    v: ORACULO_ENGINE_VERSION,
+                    model: aiResponse?.model_used || "FALLBACK",
+                    tone: toneInstruction,
+                    ts: new Date().toISOString()
                 };
 
                 const { error: syncErr } = await supabaseProtocol.from('ai_insights').upsert([{
                     player_id: player_id,
                     match_id: match_id,
                     insight_resumo: JSON.stringify(finalInsight),
-                    analysis_report: enrichedReport,
-                    model_used: aiResponse?.model_used || "SYSTEM_FALLBACK",
-                    classification: enrichedReport.classification,
+                    analysis_report: { ...enrichedReport, _audit: auditDNA },
+                    model_used: auditDNA.model,
+                    classification: finalInsight.classification || technicalRank,
                     impact_score: performanceIndex,
+                    engine_version: ORACULO_ENGINE_VERSION,
                     created_at: new Date().toISOString()
                 }], { onConflict: 'match_id, player_id' });
 
                 if (syncErr) console.warn(`⚠️ [SYNC] Falha no Protocolo: ${syncErr.message}`);
-                else console.log(`✅ [SYNC] Insight e Relatório espelhados com sucesso.`);
+                else console.log(`✅ [SYNC] Insight v${ORACULO_ENGINE_VERSION} espelhado.`);
             }
 
             // 9. Sincronização de Arquivo Local (Analyses/)
-            // Garante que o Dashboard (que prefere o JSON local) receba o objeto estruturado
             const reportPath = path.join(process.cwd(), 'analyses', `match_${match_id}_${player_id.replace('#', '_')}.json`);
             try {
                 const fileContent = await fs.promises.readFile(reportPath, 'utf8');
                 const currentReport = JSON.parse(fileContent);
-                currentReport.conselho_kaio = finalInsight; // Atualiza com o Objeto JSON (ou Fallback)
+                currentReport.conselho_kaio = finalInsight; 
+                currentReport.engine_version = ORACULO_ENGINE_VERSION;
                 await fs.promises.writeFile(reportPath, JSON.stringify(currentReport, null, 2), 'utf8');
-                console.log(`📂 [FILE-SYNC] Arquivo local atualizado com Insight estruturado.`);
-            } catch (fileErr) {
-                console.warn(`⚠️ [FILE-SYNC] Falha ao atualizar arquivo local: ${fileErr.message}`);
-            }
+            } catch (fileErr) {}
         } catch (err) {
-            console.error(`❌ Erro na persistência do insight: ${err.message}`);
+            console.error(`❌ Erro na persistência: ${err.message}`);
         }
 
         console.log(`🏁 [ENGINE] Match ${match_id} finalizado.`);
