@@ -236,13 +236,21 @@ export async function processBriefing(briefing) {
 
             // 8. Espelhamento no Protocolo-V (Completo - Com Métricas Táticas)
             if (supabaseProtocol) {
+                // Prepara um objeto de relatório enriquecido para o frontend
+                const enrichedReport = { 
+                    ...result, 
+                    impact_score: impact.score,
+                    classification: finalInsight.classification || impact.rank,
+                    conselho_kaio: finalInsight // Mantém o objeto completo, o frontend deve tratar
+                };
+
                 const { error: syncErr } = await supabaseProtocol.from('ai_insights').upsert([{
                     player_id: player_id,
                     match_id: match_id,
                     insight_resumo: JSON.stringify(finalInsight),
-                    analysis_report: { ...result, conselho_kaio: finalInsight }, // Sincroniza o relatório completo para a UI
+                    analysis_report: enrichedReport, 
                     model_used: aiResponse?.model_used || "SYSTEM_FALLBACK",
-                    classification: finalInsight.classification || impact.rank,
+                    classification: enrichedReport.classification,
                     impact_score: impact.score,
                     created_at: new Date().toISOString()
                 }], { onConflict: 'match_id, player_id' });
