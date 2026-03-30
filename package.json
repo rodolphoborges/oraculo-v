@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "scrapers/main.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "radar-legacy": "node scripts/radar_deprecated.js",
@@ -31,9 +31,7 @@
     "@supabase/supabase-js": "^2.45.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "jsdom": "^25.0.0",
-    "node-fetch": "^3.3.2",
-    "puppeteer": "^23.3.0"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "jest": "^30.3.0",

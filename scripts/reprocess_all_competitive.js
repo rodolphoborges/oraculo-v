@@ -30,10 +30,9 @@ async function run() {
 
     if (pError) console.error("❌ Erro ao resetar jogadores:", pError.message);
 
-    // 4. Limpar e Re-popular a Fila
+    // 4. Limpar e Re-popular a Fila (Protocolo-V é o dono da fila)
     console.log("🧹 Esvaziando a fila de processamento...");
-    // Usamos um filtro que sempre retorna verdadeiro e é compatível com o tipo da coluna
-    await supabase.from('match_analysis_queue').delete().gt('id', 0);
+    await supabaseProtocol.from('match_analysis_queue').delete().gt('id', 0);
 
     // 5. Coletar match_ids competitivos locais
     console.log("📂 [SCANNER] Re-escaneando diretório './matches'...");
@@ -77,7 +76,7 @@ async function run() {
             if (playerTags.includes(normalizedPid)) {
                 pendingJobs.push({
                     match_id: data.matchId,
-                    agente_tag: pid,
+                    player_tag: pid,
                     status: 'pending',
                     metadata: { source: 'FULL_REPROCESS_V4' }
                 });
@@ -85,12 +84,12 @@ async function run() {
         }
     }
 
-    // 8. Inserir em lotes
+    // 8. Inserir em lotes (na fila do Protocolo-V, que o worker consome)
     console.log(`🔄 Re-enfileirando ${pendingJobs.length} tarefas globais...`);
     const chunkSize = 50;
     for (let i = 0; i < pendingJobs.length; i += chunkSize) {
         const chunk = pendingJobs.slice(i, i + chunkSize);
-        await supabase.from('match_analysis_queue').insert(chunk);
+        await supabaseProtocol.from('match_analysis_queue').insert(chunk);
     }
 
     console.log(`🏆 [SUCESSO] Base resetada e ${pendingJobs.length} jobs aguardando processamento ELITE.`);

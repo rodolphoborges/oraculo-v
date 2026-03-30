@@ -21,6 +21,24 @@ app.use(express.static('public'));
 
 import { processBriefing, startWorker } from './worker.js';
 
+/**
+ * Registra ou atualiza um job na match_analysis_queue do Protocolo-V.
+ * Evita duplicação de código entre /api/queue e /api/analyze.
+ */
+async function registerQueueJob(match_id, player_id, status = 'processing') {
+    if (!supabaseProtocol) return;
+    try {
+        await supabaseProtocol.from('match_analysis_queue').upsert([{
+            match_id,
+            player_tag: player_id,
+            status,
+            created_at: new Date().toISOString()
+        }], { onConflict: 'match_id, player_tag' });
+    } catch (err) {
+        console.warn(`⚠️ [QUEUE-SYNC] Falha ao registrar job (${player_id}/${match_id}): ${err.message}`);
+    }
+}
+
 // Middleware de Segurança para Rotas Administrativas
 const adminAuth = (req, res, next) => {
   const apiKey = req.headers['x-api-key'];
@@ -72,20 +90,8 @@ app.post('/api/queue', async (req, res) => {
 
   console.log(`[API] Briefing recebido (Async): ${player_id} - ${match_id}`);
 
-  // Registrar na fila do Protocolo-V para visibilidade no monitor Admin
-  if (supabaseProtocol) {
-    try {
-      await supabaseProtocol.from('match_analysis_queue').upsert([{
-        match_id,
-        player_tag: player_id,
-        status: 'processing',
-        created_at: new Date().toISOString()
-      }], { onConflict: 'match_id, player_tag' });
-      console.log(`📡 [QUEUE-SYNC] Job registrado no Admin: ${player_id}`);
-    } catch (err) {
-      console.warn(`⚠️ [QUEUE-SYNC] Falha ao registrar no Admin: ${err.message}`);
-    }
-  }
+  await registerQueueJob(match_id, player_id);
+  console.log(`📡 [QUEUE-SYNC] Job registrado no Admin: ${player_id}`);
 
   // Disparar processamento em background (202 Accepted)
   processBriefing(briefing)
@@ -100,12 +106,46 @@ app.post('/api/queue', async (req, res) => {
 
 // Endpoint de Diagnóstico rápido para testar NAT/Firewall
 app.get('/api/ping', (req, res) => {
-    res.json({ 
-        status: 'online', 
-        service: 'Oráculo-V Bridge', 
+    res.json({
+        status: 'online',
+        service: 'Oráculo-V Bridge',
         timestamp: new Date(),
         remote_ip: req.ip
     });
+});
+
+// Health Check completo com métricas de fila — ideal para monitoramento externo
+app.get('/api/health', async (req, res) => {
+    const health = {
+        status: 'ok',
+        service: 'Oráculo-V',
+        timestamp: new Date().toISOString(),
+        db: { oraculo: !!supabase, protocolo: !!supabaseProtocol },
+        queue: null
+    };
+
+    if (supabaseProtocol) {
+        try {
+            const { data: jobs, error } = await supabaseProtocol
+                .from('match_analysis_queue')
+                .select('status')
+                .order('created_at', { ascending: false })
+                .limit(200);
+
+            if (!error && jobs) {
+                const counts = { pending: 0, processing: 0, completed: 0, failed: 0 };
+                jobs.forEach(j => { if (counts[j.status] !== undefined) counts[j.status]++; });
+                health.queue = counts;
+                if (counts.failed > 10) health.status = 'degraded';
+            }
+        } catch (e) {
+            health.queue = { error: e.message };
+            health.status = 'degraded';
+        }
+    }
+
+    const httpStatus = health.status === 'ok' ? 200 : 503;
+    res.status(httpStatus).json(health);
 });
 
 /**
@@ -126,22 +166,9 @@ app.post('/api/analyze', async (req, res) => {
 
   console.log(`[API] Requisição Síncrona /analyze: Match ${match_id} (Player: ${player_id})`);
 
-  // Registrar na fila do Protocolo-V para visibilidade no monitor Admin
-  if (supabaseProtocol) {
-    try {
-      await supabaseProtocol.from('match_analysis_queue').upsert([{
-        match_id,
-        player_tag: player_id,
-        status: 'processing',
-        created_at: new Date().toISOString()
-      }], { onConflict: 'match_id, player_tag' });
-    } catch (err) {
-      console.warn(`⚠️ [QUEUE-SYNC] Falha ao registrar no Admin: ${err.message}`);
-    }
-  }
+  await registerQueueJob(match_id, player_id);
 
   try {
-    // Timeout de segurança no servidor express se desejar, mas vamos aguardar o processamento
     const outcome = await processBriefing(briefing);
 
     if (outcome.success) {
