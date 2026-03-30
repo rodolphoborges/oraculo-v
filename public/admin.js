@@ -1,8 +1,36 @@
+let currentTab = 'queue';
+
+function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('queueTab').style.display = tab === 'queue' ? 'block' : 'none';
+    document.getElementById('historyTab').style.display = tab === 'history' ? 'block' : 'none';
+
+    document.getElementById('tabQueue').style.borderBottom = tab === 'queue' ? '2px solid var(--green-ok)' : 'none';
+    document.getElementById('tabQueue').style.color = tab === 'queue' ? 'var(--green-ok)' : 'rgba(0,255,65,0.5)';
+
+    document.getElementById('tabHistory').style.borderBottom = tab === 'history' ? '2px solid var(--green-ok)' : 'none';
+    document.getElementById('tabHistory').style.color = tab === 'history' ? 'var(--green-ok)' : 'rgba(0,255,65,0.5)';
+
+    // Atualizar header da tabela
+    const headerCol4 = document.getElementById('headerCol4');
+    if (tab === 'queue') {
+        headerCol4.textContent = 'STATUS';
+    } else {
+        headerCol4.textContent = 'PERFORMANCE';
+    }
+
+    if (tab === 'history') {
+        loadHistory();
+    } else {
+        updateStats();
+    }
+}
+
 async function updateStats() {
     try {
         const res = await fetch('/api/admin/stats');
         const data = await res.json();
-        
+
         if (!res.ok) throw new Error(data.error);
 
         // Update Stats Cards
@@ -15,7 +43,7 @@ async function updateStats() {
         jobsList.innerHTML = '';
 
         if (data.jobs.length === 0) {
-            jobsList.innerHTML = '<tr><td colspan="5" style="text-align: center;">NENHUM_JOB_NA_FILA</td></tr>';
+            jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center;">NENHUM_JOB_NA_FILA</td></tr>';
             return;
         }
 
@@ -51,7 +79,87 @@ async function updateStats() {
     }
 }
 
+async function loadHistory() {
+    try {
+        const res = await fetch('/api/admin/history');
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error);
+
+        document.getElementById('historyCount').textContent = data.total;
+
+        // Reutiliza a tabela para histórico
+        const jobsList = document.getElementById('jobsList');
+        jobsList.innerHTML = '';
+
+        if (data.analyses.length === 0) {
+            jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center;">NENHUMA_ANÁLISE_NO_HISTÓRICO</td></tr>';
+            return;
+        }
+
+        data.analyses.forEach(analysis => {
+            const row = document.createElement('tr');
+            const date = new Date(analysis.created_at).toLocaleString('pt-BR');
+
+            // Botões de ação
+            const actionBtns = `
+                <button onclick="reprocessJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#00ccff;cursor:pointer;font-size:0.8rem;margin-right:10px;" title="Reprocessar">♻️ REPROCESSAR</button>
+                <button onclick="deleteJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
+            `;
+
+            row.innerHTML = `
+                <td><code>${String(analysis.id).split('-')[0]}...</code></td>
+                <td><b>${analysis.agente_tag.toUpperCase()}</b></td>
+                <td><small>${analysis.match_id}</small></td>
+                <td style="color: var(--green-ok);">${analysis.impact_score}</td>
+                <td>${date}</td>
+                <td style="font-size:0.75rem;">${actionBtns}</td>
+            `;
+            jobsList.appendChild(row);
+        });
+
+    } catch (err) {
+        console.error('Falha ao carregar histórico:', err);
+    }
+}
+
 // Funções de Ação
+async function deleteAllAnalyses() {
+    if (!confirm(`⚠️ ATENÇÃO!\n\nIsso vai APAGAR TODO o histórico de forma permanente.\n\nDeseja continuar?`)) {
+        return;
+    }
+
+    if (!confirm(`🗑️ Confirmação final: Apagar TODO o histórico?`)) {
+        return;
+    }
+
+    try {
+        const btn = document.getElementById('btnDeleteAllHistory');
+        btn.disabled = true;
+        btn.textContent = '⏳ APAGANDO...';
+
+        const res = await fetch('/api/admin/analysis/all', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert(`✅ Histórico apagado!\n\nAnálises deletadas: ${data.deleted_count}\nArquivos locais deletados: ${data.local_files_deleted}`);
+            loadHistory(); // Recarrega o histórico
+        } else {
+            alert('❌ Erro: ' + data.error);
+        }
+
+        btn.disabled = false;
+        btn.textContent = '🗑️ APAGAR TODO HISTÓRICO';
+    } catch (err) {
+        alert('❌ Erro na requisição: ' + err.message);
+        document.getElementById('btnDeleteAllHistory').disabled = false;
+        document.getElementById('btnDeleteAllHistory').textContent = '🗑️ APAGAR TODO HISTÓRICO';
+    }
+}
+
 async function deleteAllJobs() {
     if (!confirm(`⚠️ ATENÇÃO!\n\nIsso vai APAGAR TODAS as análises de forma permanente.\n\nDeseja continuar?`)) {
         return;
