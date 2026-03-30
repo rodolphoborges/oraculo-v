@@ -151,7 +151,7 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
     // 7. Chama o script Python
     try {
       const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
-      const normalizedMatchPath = path.resolve(matchJsonPath);
+      const normalizedMatchPath = path.resolve(matchJsonPathFinal);
       
       console.error(`Executando análise Python: ${pythonScript}`);
       
