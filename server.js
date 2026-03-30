@@ -362,7 +362,7 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
         `)
         .eq('operations.mode', 'Competitive')
         .order('operation_id', { ascending: false })
-        .limit(100);
+        .limit(1000); // Varrimento profundo
 
       if (opsError) throw opsError;
 
@@ -377,8 +377,8 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
 
       const analyzedKeys = new Set(insights?.map(i => `${i.match_id}_${i.player_id.toLowerCase()}`) || []);
 
-      // Filtrar apenas o que falta
-      const missing = ops.filter(op => {
+      // Filtrar apenas o que falta (Gaps reais)
+      const allMissing = ops.filter(op => {
         const key = `${op.operation_id}_${op.riot_id.toLowerCase()}`;
         return !analyzedKeys.has(key);
       }).map(m => ({
@@ -387,12 +387,13 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
         agent: m.agent,
         started_at: m.operations?.started_at,
         map_name: m.operations?.map_name
-      })).slice(0, 50);
+      }));
 
-      return res.json({ total: missing.length, missing });
+      // Retorna o total real encontrado, mas limita a lista de exibição para performance
+      return res.json({ total: allMissing.length, missing: allMissing.slice(0, 50) });
     }
 
-    res.json({ total: pending.length, missing: pending });
+    res.json({ total: pending.length, missing: pending.slice(0, 50) });
 
   } catch (err) {
     console.error('[API ADMIN PENDING] Erro:', err.message);
