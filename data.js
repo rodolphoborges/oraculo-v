@@ -6897,6 +6897,17 @@ const ORACULO_DATABASE = {
 };
 const ORACULO_OPERATIONS = [
   {
+    "id": "3ac8a58c-cf42-428b-bfca-752e95252446",
+    "match_id": "e8342d3a-166f-43b5-a127-76e8b7a8a9e7",
+    "agente_tag": "ALEGRIA#021",
+    "status": "processing",
+    "created_at": "2026-03-30T04:24:21.65859+00:00",
+    "processed_at": "2026-03-30T04:24:21.65859+00:00",
+    "metadata": {
+      "agent": "Omen"
+    }
+  },
+  {
     "id": "3d814784-f8f9-46ff-a84c-7662ad11ecf6",
     "match_id": "d610dc41-6235-4bcc-9201-3be3cf81033c",
     "agente_tag": "mwzeraDaShopee#s2s2",
