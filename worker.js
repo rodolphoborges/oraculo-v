@@ -304,9 +304,11 @@ export async function startWorker() {
                 const result = await processBriefing({ match_id, player_id, map_name: null, agent_name: null });
 
                 if (result.success) {
+                    // Remover da fila após sucesso (fila não deve acumular completadas)
                     await supabaseProtocol.from('match_analysis_queue')
-                        .update({ status: 'completed', retry_count: null, retry_after: null })
+                        .delete()
                         .eq('id', id);
+                    console.log(`✅ [QUEUE] Job removido da fila: ${player_id} | ${match_id}`);
                 } else {
                     const retryCount = (queueItem.retry_count || 0) + 1;
                     if (retryCount <= MAX_RETRIES) {
@@ -349,4 +351,22 @@ export async function startWorker() {
             console.error('❌ [QUEUE-ERROR] Falha no loop do worker:', err.message);
         }
     }, 5000); // Verifica a cada 5 segundos
+
+    // Limpeza periódica: remover jobs falhados com mais de 7 dias
+    setInterval(async () => {
+        try {
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+            const { count: deletedCount } = await supabaseProtocol
+                .from('match_analysis_queue')
+                .delete({ count: 'exact' })
+                .eq('status', 'failed')
+                .lt('created_at', sevenDaysAgo);
+
+            if (deletedCount > 0) {
+                console.log(`🗑️ [CLEANUP] ${deletedCount} jobs falhados antigos removidos da fila`);
+            }
+        } catch (err) {
+            console.error('[CLEANUP] Erro na limpeza:', err.message);
+        }
+    }, 60 * 60 * 1000); // A cada 1 hora
 }
