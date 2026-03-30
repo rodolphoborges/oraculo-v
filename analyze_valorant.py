@@ -20,6 +20,93 @@ import random
 import math
 import traceback
 
+# --- MAPEAMENTO DE AGENTE → FUNÇÃO (Ground Truth) ---
+AGENT_ROLE_MAP = {
+    # Duelistas
+    "jett": "Duelista", "raze": "Duelista", "phoenix": "Duelista",
+    "reyna": "Duelista", "yoru": "Duelista", "neon": "Duelista",
+    "iso": "Duelista", "waylay": "Duelista",
+    # Iniciadores
+    "sova": "Iniciador", "breach": "Iniciador", "skye": "Iniciador",
+    "kayo": "Iniciador", "kay/o": "Iniciador", "fade": "Iniciador",
+    "gekko": "Iniciador", "tejo": "Iniciador",
+    # Controladores
+    "brimstone": "Controlador", "viper": "Controlador", "omen": "Controlador",
+    "astra": "Controlador", "harbor": "Controlador", "clove": "Controlador",
+    "miks": "Controlador",
+    # Sentinelas
+    "sage": "Sentinela", "cypher": "Sentinela", "killjoy": "Sentinela",
+    "chamber": "Sentinela", "deadlock": "Sentinela", "vyse": "Sentinela",
+    "veto": "Sentinela",
+}
+
+# --- THRESHOLDS DINÂMICOS POR FUNÇÃO ---
+# Define expectativas e baselines diferentes para cada role.
+# Evita cobrar ADR de Sentinela ou KAST de Duelista.
+ROLE_THRESHOLDS = {
+    "Duelista": {
+        "adr_baseline": 150.0,   # ADR alvo para cálculo de perf_idx
+        "adr_min": 100,           # Abaixo disso = violação de função
+        "kast_min": 60,           # KAST mínimo aceitável
+        "fb_excellence": 3,       # Número de FB para "excelência em abertura"
+        "fb_min": 1,              # Duelista SEM FB = alerta de função
+        "kd_weight": 0.45,
+        "adr_weight": 0.55,
+        "kast_weight": 0.0,
+        "artigo_1_texto": "VIOLAÇÃO CRÍTICA: Duelista com ADR abaixo de 100. Abertura de espaço sem pressão de dano é uma contradição tática.",
+        "artigo_2_texto": "EXCELÊNCIA EM ABERTURA: {fb} First Bloods confirmam domínio de duelo e vantagem numérica garantida.",
+        "artigo_fb_miss": "ALERTA DE FUNÇÃO: Duelista com {fb} First Blood(s). Quem está abrindo o round se você não está?",
+    },
+    "Iniciador": {
+        "adr_baseline": 100.0,
+        "adr_min": 65,
+        "kast_min": 68,
+        "fb_excellence": 2,
+        "fb_min": 0,
+        "kd_weight": 0.20,
+        "adr_weight": 0.30,
+        "kast_weight": 0.50,
+        "artigo_1_texto": "ALERTA DE SUPORTE: Iniciador com ADR abaixo de 65. Você está facilitando entradas sem causar nenhum impacto próprio.",
+        "artigo_2_texto": "EXCELÊNCIA EM ABERTURA: {fb} First Bloods de um Iniciador confirma sinergia com o time e timing de entrada perfeito.",
+        "artigo_kast_miss": "VIOLAÇÃO DE FUNÇÃO: KAST abaixo de {kast_min}% para Iniciador. Suas utilidades devem mantê-lo vivo e ativo em trades.",
+    },
+    "Controlador": {
+        "adr_baseline": 85.0,
+        "adr_min": 55,
+        "kast_min": 72,
+        "fb_excellence": 1,
+        "fb_min": 0,
+        "kd_weight": 0.15,
+        "adr_weight": 0.20,
+        "kast_weight": 0.65,
+        "artigo_1_texto": "ALERTA: Controlador com ADR extremamente baixo. Mesmo sem ser fragger, sua presença deve criar impacto no mapa.",
+        "artigo_2_texto": "CONTROLE TOTAL: {fb} First Blood de Controlador indica excelente leitura de rotação e timing de smoke.",
+        "artigo_kast_miss": "VIOLAÇÃO PRIMÁRIA: KAST abaixo de {kast_min}% para Controlador. Suas smokes e utilitários devem manter o time VIVO.",
+    },
+    "Sentinela": {
+        "adr_baseline": 88.0,
+        "adr_min": 55,
+        "kast_min": 68,
+        "fb_excellence": 1,
+        "fb_min": 0,
+        "kd_weight": 0.15,
+        "adr_weight": 0.20,
+        "kast_weight": 0.65,
+        "artigo_1_texto": "ALERTA DEFENSIVO: Sentinela com ADR muito baixo. Revise suas posições de contenção — você não está causando nenhuma pressão.",
+        "artigo_2_texto": "EFICIÊNCIA SURPREENDENTE: Sentinela com First Blood indica excelente leitura de flanco e posicionamento proativo.",
+        "artigo_kast_miss": "VIOLAÇÃO DE FUNÇÃO: KAST abaixo de {kast_min}% para Sentinela. Sua função é sobreviver, informar e manter o flanco protegido.",
+        "artigo_fd_warning": "PADRÃO PREOCUPANTE: Sentinela com {fd} First Deaths indica saída de posição segura. Você está sendo punido por jogar agressivo?",
+    },
+}
+
+def resolve_role(agent_name, role_override=None):
+    """Resolve o role do jogador pelo nome do agente ou override explícito."""
+    if role_override and role_override.lower() != "unknown":
+        return role_override
+    if agent_name:
+        return AGENT_ROLE_MAP.get(agent_name.lower(), "Duelista")
+    return "Duelista"
+
 def clean_nan(obj):
     if isinstance(obj, dict):
         return {k: clean_nan(v) for k, v in obj.items()}
@@ -70,6 +157,11 @@ class TemplateManager:
         if not template:
             template = default
         
+        if isinstance(template, list):
+            template = random.choice(template)
+        
+        if not template:
+            return ""
         # Aliases for compatibility with the dump
         kwargs['local'] = kwargs.get('site', 'Desconhecido')
         kwargs['arma'] = kwargs.get('weapon', 'Desconhecida')
@@ -91,7 +183,7 @@ if hasattr(sys.stdout, 'reconfigure'):
         pass
 # Fallback removed for simplicity and compatibility
 
-def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None, holt_prev={}, strat_context={}, templates_json=None):
+def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_name=None, total_rounds=None, team_id=None, holt_prev={}, strat_context={}, templates_json=None, role_override=None):
     tm = TemplateManager(templates_json)
     data = json.loads(json_data)
     match_metadata = data['data']['metadata']
@@ -150,7 +242,8 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         is_win = team_summary['metadata'].get('result') == 'victory'
         
     kast = stats.get('kast', {}).get('value')
-    role = player_summary['metadata'].get('roleName')
+    role_raw = player_summary['metadata'].get('roleName')
+    role = resolve_role(curr_agent, role_override or role_raw)
     
     # Templates de Mensagem Principal (Fallbacks)
     POS_DEFAULT = [
@@ -228,12 +321,27 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             weapon = k_meta.get('weaponName', 'Unknown')
             damage = k.get('stats', {}).get('damage', {}).get('value', 0)
 
+            # Posicoes e Radians para o mapa tatico
+            victim_pos = k_meta.get('opponentLocation')
+            player_locations = k_meta.get('playerLocations', [])
+            
+            killer_data = next((p for p in player_locations if p['platformUserIdentifier'] == killer_id), None)
+            killer_pos = killer_data.get('location') if killer_data else None
+            killer_radians = killer_data.get('viewRadians') if killer_data else None
+            
+            victim_data = next((p for p in player_locations if p['platformUserIdentifier'] == victim_id), None)
+            victim_radians = victim_data.get('viewRadians') if victim_data else None
+
             event = {
                 "killer_agent": player_agents.get(killer_id.upper(), 'Unknown'),
                 "victim_agent": player_agents.get(victim_id.upper(), 'Unknown'),
                 "weapon": weapon, "time": time_str, "time_ms": rt_ms,
                 "is_player_killer": killer_id.upper() == player_target_upper,
-                "is_player_victim": victim_id.upper() == player_target_upper
+                "is_player_victim": victim_id.upper() == player_target_upper,
+                "killer_pos": killer_pos,
+                "killer_radians": killer_radians,
+                "victim_pos": victim_pos,
+                "victim_radians": victim_radians
             }
 
             if event["is_player_killer"] or event["is_player_victim"]:
@@ -317,10 +425,17 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             "died": round_died, "narrative": narrative_events, "eventos": narrative_events, "tactical_events": tactical_events
         })
 
-    # --- Cálculo de Performance Ponderado ---
+    # --- Cálculo de Performance Ponderado (Role-Aware) ---
+    rt = ROLE_THRESHOLDS.get(role, ROLE_THRESHOLDS["Duelista"])
     kd_perf = (actual_kd / target_kd) if target_kd > 0 else 1.0
-    adr_perf = (adr / 135.0)
-    perf_idx = (kd_perf * 0.4 + adr_perf * 0.6) * 100
+    adr_perf = adr / rt["adr_baseline"]
+    kast_perf = (kast / 100.0) if kast is not None else 0.7
+
+    perf_idx = (
+        rt["kd_weight"]   * kd_perf   * 100 +
+        rt["adr_weight"]  * adr_perf  * 100 +
+        rt["kast_weight"] * kast_perf * 100
+    )
     
     # --- HOLT'S DOUBLE EXPONENTIAL SMOOTHING ---
     α = 0.4 # Level smoothing
@@ -385,11 +500,21 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     if partners:
         conselhos.append(f"SINERGIA OPERACIONAL: Squad detectado com {', '.join(partners)}. A coordenação de grupo é a chave para a vitória no Protocolo V.")
 
-    # Static Fallbacks (Artigos Constitucionais)
-    if adr < 130:
-        conselhos.append("VIOLAÇÃO DO ARTIGO 1: ADR ABAIXO DO LIMITE TÁTICO. No Protocolo V, o DANO é a métrica absoluta. Sua presença no mapa não gera pressão real.")
-    if first_kills_count >= 3:
-        conselhos.append("CUMPRIMENTO DO ARTIGO 2: EXCELÊNCIA EM INICIATIVA. Você está garantindo a vantagem numérica inicial.")
+    # --- Artigos Constitucionais (Role-Aware) ---
+    if adr < rt["adr_min"]:
+        conselhos.append(rt["artigo_1_texto"])
+
+    if first_kills_count >= rt["fb_excellence"]:
+        conselhos.append(rt["artigo_2_texto"].format(fb=first_kills_count))
+    elif rt.get("fb_min") and first_kills_count < rt["fb_min"]:
+        conselhos.append(rt.get("artigo_fb_miss", "").format(fb=first_kills_count))
+
+    kast_val = kast if kast is not None else 0
+    if kast_val < rt["kast_min"] and rt.get("artigo_kast_miss"):
+        conselhos.append(rt["artigo_kast_miss"].format(kast_min=rt["kast_min"]))
+
+    if role == "Sentinela" and first_deaths_count >= 4 and rt.get("artigo_fd_warning"):
+        conselhos.append(rt["artigo_fd_warning"].format(fd=first_deaths_count))
     
     if not conselhos:
         conselhos.append(tm.format("insight_recomendacao", "FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. O Oráculo segue monitorando sua evolução técnica."))
@@ -423,6 +548,7 @@ if __name__ == "__main__":
     parser.add_argument("--player", required=True)
     parser.add_argument("--target-kd", type=float, default=1.0)
     parser.add_argument("--agent")
+    parser.add_argument("--role")
     parser.add_argument("--map")
     parser.add_argument("--rounds", type=int)
     parser.add_argument("--team")
@@ -457,7 +583,7 @@ if __name__ == "__main__":
             except:
                 pass
 
-        result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev, strat_context=strat_context, templates_json=args.templates)
+        result = analyze_match(content, args.player, args.target_kd, agent_name=args.agent, map_name=args.map, total_rounds=args.rounds, team_id=args.team, holt_prev=holt_prev, strat_context=strat_context, templates_json=args.templates, role_override=args.role)
         print(json.dumps(clean_nan(result), indent=2, ensure_ascii=False))
     except Exception as e:
         traceback.print_exc()

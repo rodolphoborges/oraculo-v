@@ -132,7 +132,7 @@ window.addEventListener('load', () => {
 function renderResults(data) {
     document.getElementById('resAgent').innerHTML = `<b>${data.agent.toUpperCase()}</b>`;
     document.getElementById('resMap').innerHTML   = `<b>${data.map.toUpperCase()}</b>`;
-    const above = data.performance_status === 'ABOVE_BASELINE';
+    const above = data.performance_index >= 100;
     const perfColor = above ? 'var(--green-ok)' : 'var(--red)';
     const perfLabel = above ? 'ACIMA DA MÉDIA' : 'ABAIXO DA MÉDIA';
     document.getElementById('resPerformance').innerHTML =
@@ -192,7 +192,7 @@ function renderResults(data) {
         return h;
     };
 
-    const makeMarker = (mi, pos, rad, agent, role, isPlayer) => {
+    const makeMarker = (mi, pos, rad, agent, role, isPlayer, seq, animClass) => {
         if (!pos) return '';
         const mx = (pos.y * mi.xMultiplier + mi.xScalarToAdd) * 100;
         const my = (pos.x * mi.yMultiplier + mi.yScalarToAdd) * 100;
@@ -200,18 +200,23 @@ function renderResults(data) {
         const uuid = agentIconMap[slug];
         const iconUrl = uuid ? `https://media.valorant-api.com/agents/${uuid}/displayiconsmall.png` : '';
         const initials = agent.slice(0, 2).toUpperCase();
-        const tooltip  = isPlayer ? `${agent.toUpperCase()} (VOCÊ)` : agent.toUpperCase();
+        const seqLabel = seq != null ? `#${seq}` : '';
+        const tooltip  = isPlayer
+            ? `${seqLabel} ${agent.toUpperCase()} (VOCÊ)`
+            : `${seqLabel} ${agent.toUpperCase()}`;
         const ok = rad !== null && rad !== undefined && !isNaN(rad);
         const deg = ok ? (rad * (180 / Math.PI) - 90) : 0;
         const cone = ok
             ? `<div class="vision-cone" style="transform:rotate(${deg}deg)"></div>
-               <div class="aim-point"  style="transform:translate(-50%,-50%) rotate(${deg}deg) translateY(-30px)"></div>`
+               ${isPlayer ? `<div class="aim-point" style="transform:translate(-50%,-50%) rotate(${deg}deg) translateY(-30px)"></div>` : ''}`
             : '';
+        const seqBadge = seq != null ? `<span class="marker-seq">${seq}</span>` : '';
         return `
-            <div class="map-point ${role}${isPlayer ? ' player' : ''}" style="left:${mx.toFixed(2)}%;top:${my.toFixed(2)}%">
+            <div class="map-point ${role}${isPlayer ? ' player' : ''} ${animClass || ''}" style="left:${mx.toFixed(2)}%;top:${my.toFixed(2)}%">
                 ${iconUrl ? `<img class="agent-icon" src="${iconUrl}"
                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="${agent}">` : ''}
                 <span class="agent-initials" style="display:${iconUrl ? 'none' : 'flex'}">${initials}</span>
+                ${seqBadge}
                 <div class="map-label">${tooltip}</div>
                 ${cone}
             </div>`;
@@ -221,20 +226,93 @@ function renderResults(data) {
         const mi = data.map_details;
         let mapHtml = '';
         if (r.tactical_events?.length && mi?.xMultiplier) {
+            // Calcular centro dos eventos para zoom
+            let sumX = 0, sumY = 0, count = 0;
+            r.tactical_events.forEach(ev => {
+                if (ev.killer_pos) { sumX += ev.killer_pos.y * mi.xMultiplier + mi.xScalarToAdd; sumY += ev.killer_pos.x * mi.yMultiplier + mi.yScalarToAdd; count++; }
+                if (ev.victim_pos) { sumX += ev.victim_pos.y * mi.xMultiplier + mi.xScalarToAdd; sumY += ev.victim_pos.x * mi.yMultiplier + mi.yScalarToAdd; count++; }
+            });
+            const avgX = count > 0 ? (sumX / count) * 100 : 50;
+            const avgY = count > 0 ? (sumY / count) * 100 : 50;
+            const zoom = 2.5;
+            const transform = `scale(${zoom}) translate(${(50 - avgX).toFixed(2)}%, ${(50 - avgY).toFixed(2)}%)`;
+
+            // ── Timing de cada evento (comprimido para janela legível) ──
+            const times = r.tactical_events.map(ev => ev.time_ms || 0);
+            const minT  = Math.min(...times);
+            const maxT  = Math.max(...times);
+            const span  = maxT - minT || 1;
+            const n     = r.tactical_events.length;
+            const ANIM_WINDOW   = Math.max(n * 1.8, 3.0);
+            const BASE_DELAY    = 0.4;
+            const VICTIM_OFFSET = 0.35;
+            const eventDelays = r.tactical_events.map(ev => {
+                const norm = (ev.time_ms - minT) / span;
+                const kd   = BASE_DELAY + norm * ANIM_WINDOW;
+                return { kd, vd: kd + VICTIM_OFFSET };
+            });
+
+            // ── Gerar keyframes únicos por round para permitir loop infinito ──
+            // O delay é codificado dentro do keyframe (não via animation-delay,
+            // que só aplica na 1ª iteração com infinite).
+            const KDUR = 0.6;
+            const VDUR = 1.6;
+            const lastVD    = Math.max(...eventDelays.map(d => d.vd));
+            const totalCycle = lastVD + VDUR + 1.0; // + pausa antes do loop
+            const tc = totalCycle.toFixed(2);
+            const uid = `rd${r.round}`;
+            const p = (t) => (t / totalCycle * 100).toFixed(2); // % dentro do ciclo
+
+            let styleRules = '';
+            const markersHtml = r.tactical_events.map((ev, i) => {
+                const { kd, vd } = eventDelays[i];
+                const ka = `k${uid}e${i}`;
+                const va = `v${uid}e${i}`;
+
+                // Killer desaparece ANTES do próximo evento começar (mira e posição limpas)
+                const nextKd     = i < n - 1 ? eventDelays[i + 1].kd : totalCycle - 0.4;
+                const kFadeStart = Math.max(kd + KDUR, nextKd - 0.25);
+                const kFadeEnd   = nextKd;
+
+                styleRules += `
+                @keyframes ${ka} {
+                    0%,${p(kd)}%               { opacity:0; transform:translate(-50%,-50%) scale(.12); filter:brightness(8); }
+                    ${p(kd+KDUR*.55)}%         { opacity:1; transform:translate(-50%,-50%) scale(1.28); filter:brightness(2.5); }
+                    ${p(kd+KDUR)}%,${p(kFadeStart)}% { opacity:1; transform:translate(-50%,-50%) scale(1); filter:brightness(1); }
+                    ${p(kFadeEnd)}%,100%        { opacity:0; transform:translate(-50%,-50%) scale(.6); filter:brightness(1); }
+                }
+                .${ka} { animation:${ka} ${tc}s linear 0s infinite; }`;
+
+                // Vítima: aparece com flash vermelho, encolhe e desaparece
+                // Some completamente no final do ciclo (opacity 0 em 100% para loop limpo)
+                const vFadeEnd = Math.min(vd + VDUR, nextKd - 0.1);
+                styleRules += `
+                @keyframes ${va} {
+                    0%,${p(vd)}%           { opacity:0; transform:translate(-50%,-50%) scale(.12); filter:brightness(8); }
+                    ${p(vd+VDUR*.20)}%     { opacity:1; transform:translate(-50%,-50%) scale(1.35); filter:brightness(3) saturate(2); }
+                    ${p(vd+VDUR*.45)}%     { opacity:1; transform:translate(-50%,-50%) scale(1);    filter:brightness(1); }
+                    ${p(vFadeEnd)}%        { opacity:.10; transform:translate(-50%,-50%) scale(.45); filter:grayscale(1) brightness(.2); }
+                    100%                   { opacity:0;   transform:translate(-50%,-50%) scale(.45); filter:grayscale(1) brightness(.2); }
+                }
+                .${va} { animation:${va} ${tc}s linear 0s infinite; }`;
+
+                return makeMarker(mi, ev.killer_pos, ev.killer_radians, ev.killer_agent, 'killer', ev.is_player_killer, i+1, ka) +
+                       makeMarker(mi, ev.victim_pos, ev.victim_radians, ev.victim_agent, 'victim', ev.is_player_victim, i+1, va);
+            }).join('');
+
             mapHtml = `
+                <style>${styleRules}</style>
                 <div class="tactical-container">
                     <div class="tactical-map">
-                        <img src="${mi.imageUrl}" class="map-bg">
-                        ${r.tactical_events.map(ev =>
-                            makeMarker(mi, ev.killer_pos, ev.killer_radians, ev.killer_agent, 'killer', ev.is_player_killer) +
-                            makeMarker(mi, ev.victim_pos, ev.victim_radians, ev.victim_agent, 'victim', ev.is_player_victim)
-                        ).join('')}
+                        <div class="map-zoom-layer" style="transform: ${transform}">
+                            <img src="${mi.imageUrl}" class="map-bg">
+                            ${markersHtml}
+                        </div>
                     </div>
                     <div class="map-legend">
                         <div class="map-legend-item"><div class="legend-dot killer"></div> MATADOR</div>
                         <div class="map-legend-item"><div class="legend-dot victim"></div> VÍTIMA</div>
                         <div class="map-legend-item"><div class="legend-dot aim"></div> MIRA</div>
-                        <div class="map-legend-item" style="opacity:0.4">[ HOVER — AGENTE ]</div>
                     </div>
                 </div>`;
         }
@@ -263,8 +341,8 @@ function renderResults(data) {
 
         const ev0  = r.tactical_events?.[0];
         const sub  = ev0 ? ` · ${ev0.time} · ${ev0.weapon.toUpperCase()}` : '';
-        const snap = r.pos || r.neg || 'SEM EVENTOS';
-        const cls  = r.pos ? 'pos' : r.neg ? 'neg' : 'neutral';
+        const snap = r.comment || (r.narrative?.[0]?.text) || 'SEM EVENTOS';
+        const cls  = r.impacto === 'Positivo' ? 'pos' : r.impacto === 'Negativo' ? 'neg' : 'neutral';
         const rd   = r.round.toString().padStart(2, '0');
 
         item.innerHTML = `
@@ -277,10 +355,16 @@ function renderResults(data) {
 
         let built = false;
         item.querySelector('.round-summary').addEventListener('click', () => {
+            const isOpen = item.classList.contains('open');
             item.classList.toggle('open');
-            if (item.classList.contains('open') && !built) {
+            if (!isOpen && !built) {
+                // Abrindo: constrói e dispara a animação
                 built = true;
                 item.querySelector('.round-detail').innerHTML = buildDetail(r);
+            } else if (isOpen) {
+                // Fechando: reseta para replay na próxima abertura
+                built = false;
+                item.querySelector('.round-detail').innerHTML = '';
             }
         });
 

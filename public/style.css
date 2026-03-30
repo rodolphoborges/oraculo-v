@@ -411,6 +411,19 @@ footer {
     border: 1.5px solid var(--grey-lo);
     box-shadow: inset 0 0 30px rgba(0,0,0,0.7), 0 0 8px rgba(255,70,85,0.05);
     animation: map-static 90s steps(1) infinite;
+    cursor: crosshair;
+}
+
+.map-zoom-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Anéis de grade, muito discretos */
@@ -494,6 +507,26 @@ footer {
     color: currentColor;
     background: rgba(6,6,9,0.9);
     border-radius: 50%;
+}
+
+.marker-seq {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid currentColor;
+    font-size: 5px;
+    font-weight: bold;
+    color: currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 25;
 }
 
 .map-point .map-label {
