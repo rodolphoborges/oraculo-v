@@ -3,26 +3,27 @@ let currentTab = 'queue';
 function switchTab(tab) {
     currentTab = tab;
     document.getElementById('queueTab').style.display = tab === 'queue' ? 'block' : 'none';
+    document.getElementById('pendingTab').style.display = tab === 'pending' ? 'block' : 'none';
     document.getElementById('historyTab').style.display = tab === 'history' ? 'block' : 'none';
 
-    document.getElementById('tabQueue').style.borderBottom = tab === 'queue' ? '2px solid var(--green-ok)' : 'none';
-    document.getElementById('tabQueue').style.color = tab === 'queue' ? 'var(--green-ok)' : 'rgba(0,255,65,0.5)';
+    ['tabQueue', 'tabPending', 'tabHistory'].forEach(t => {
+        const el = document.getElementById(t);
+        const isActive = t.toLowerCase().includes(tab);
+        el.style.borderBottom = isActive ? '2px solid var(--green-ok)' : 'none';
+        el.style.color = isActive ? 'var(--green-ok)' : 'rgba(0,255,65,0.5)';
+    });
 
-    document.getElementById('tabHistory').style.borderBottom = tab === 'history' ? '2px solid var(--green-ok)' : 'none';
-    document.getElementById('tabHistory').style.color = tab === 'history' ? 'var(--green-ok)' : 'rgba(0,255,65,0.5)';
-
-    // Atualizar header da tabela
     const headerCol4 = document.getElementById('headerCol4');
+    // Atualizar header da tabela
     if (tab === 'queue') {
         headerCol4.textContent = 'STATUS';
+        updateStats();
+    } else if (tab === 'pending') {
+        headerCol4.textContent = 'MAPA / AGENTE';
+        loadPending();
     } else {
         headerCol4.textContent = 'PERFORMANCE';
-    }
-
-    if (tab === 'history') {
         loadHistory();
-    } else {
-        updateStats();
     }
 }
 
@@ -62,9 +63,9 @@ function renderQueueTable(jobs) {
         const date = new Date(job.created_at).toLocaleString('pt-BR');
         const statusClass = `status-${job.status}`;
 
-        // Link para o relatório (Deep Link)
+        // Deep Link para o Protocolo-V
         const openLink = job.status === 'completed'
-            ? `<a href="index.html?player=${encodeURIComponent(job.agente_tag)}&matchId=${job.match_id}" target="_blank" style="color:var(--green-ok);text-decoration:none;">[ ABRIR ]</a>`
+            ? `<a href="/protocol/analise.html?match=${job.match_id}&player=${encodeURIComponent(job.agente_tag)}" target="_blank" style="color:#00ff88;text-decoration:none;font-weight:bold;">[ VER ]</a>`
             : '';
 
         // Botões de ação
@@ -123,11 +124,14 @@ function renderHistoryTable(analyses) {
             <button onclick="deleteJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
         `;
 
+        // Link para análise direto no histórico
+        const openLink = `<a href="/protocol/analise.html?match=${analysis.match_id}&player=${encodeURIComponent(analysis.agente_tag)}" target="_blank" style="color:#00ff88;text-decoration:none;margin-left:5px;">[ VER ]</a>`;
+
         row.innerHTML = `
             <td><code>${String(analysis.id).split('-')[0]}...</code></td>
             <td><b>${analysis.agente_tag.toUpperCase()}</b></td>
             <td><small>${analysis.match_id}</small></td>
-            <td style="color: var(--green-ok); font-weight: bold;">${analysis.impact_score || '--'}</td>
+            <td style="color: var(--green-ok); font-weight: bold;">${analysis.impact_score || '--'} ${openLink}</td>
             <td>${date}</td>
             <td style="font-size:0.75rem;">${actionBtns}</td>
         `;
@@ -272,11 +276,56 @@ async function reprocessJob(matchId, playerId) {
     }
 }
 
+// Gaps Táticos (Pendências)
+async function loadPending() {
+    try {
+        const res = await fetch('/api/admin/pending-squads');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        document.getElementById('pendingCount').textContent = data.total;
+        if (currentTab === 'pending') {
+            renderPendingTable(data.missing);
+        }
+    } catch (err) {
+        console.error('Falha ao carregar pendências:', err);
+    }
+}
+
+function renderPendingTable(missing) {
+    const jobsList = document.getElementById('jobsList');
+    jobsList.innerHTML = '';
+
+    if (!missing || missing.length === 0) {
+        jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px;">✅ TODAS AS OPERAÇÕES FORAM ANALISADAS!</td></tr>';
+        return;
+    }
+
+    missing.forEach(item => {
+        const row = document.createElement('tr');
+        const date = new Date(item.started_at).toLocaleString('pt-BR');
+
+        row.innerHTML = `
+            <td><code>GAP_TACTIC</code></td>
+            <td><b>${item.player_tag.toUpperCase()}</b></td>
+            <td><small>${item.match_id}</small></td>
+            <td><span style="opacity:0.8;">${item.map_name.toUpperCase()} / ${item.agent.toUpperCase()}</span></td>
+            <td>${date}</td>
+            <td>
+                <button onclick="reprocessJob('${item.match_id}', '${item.player_tag}')" style="background:var(--green-ok); border:none; color:black; padding:4px 8px; font-size:0.7rem; cursor:pointer; font-weight:bold;">🚀 ANALISAR_AGORA</button>
+            </td>
+        `;
+        jobsList.appendChild(row);
+    });
+}
+
 // Inicializa e agenda atualização a cada 10 segundos
 function autoRefresh() {
     updateStats(); // Sempre atualiza os cards de stats
     if (currentTab === 'history') {
         loadHistory();
+    } else if (currentTab === 'pending') {
+        loadPending();
     }
 }
 
