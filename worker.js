@@ -278,21 +278,10 @@ export async function processBriefing(briefing) {
             }
         };
 
-        console.log(`🏁 [ENGINE] Match ${match_id} finalizado.`);
-        return { 
-            success: true, 
-            result,
-            insight: {
-                resumo: aiResponse.insight.diagnostico_principal || aiResponse.insight,
-                rank: impact.rank,
-                score: impact.score,
-                model_used: aiResponse.model_used
-            }
-        };
 
     } catch (err) {
-        console.error("❌ Erro no Processamento:", err.message);
-        return { success: false, error: err.message };
+        console.error("❌ Erro no Processamento:", err.message || err);
+        return { success: false, error: err.message || String(err) || "Erro interno desconhecido no worker." };
     }
 }
 
