@@ -19,6 +19,13 @@ const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}
 app.use(express.json({ limit: '50mb' }));
 app.use(express.static('public'));
 
+// Servir Protocolo-V docs (se existir) - permite acessar admin.html, analise.html, etc
+const protocolovDocsPath = path.join(__dirname, '../protocolov/docs');
+if (fs.existsSync(protocolovDocsPath)) {
+  app.use('/protocolo', express.static(protocolovDocsPath));
+  console.log('📁 Protocolo-V docs servindo em /protocolo');
+}
+
 import { processBriefing, startWorker } from './worker.js';
 
 /**
