@@ -2,15 +2,41 @@
 
 Este documento aprofunda as mecânicas de análise do `analyze_valorant.py`, evidenciando a base de cálculo técnico para gerar narrativa ("Lexicon of Impact").
 
-## 1. Índice de Performance Ponderada
+## 1. Performance Index — Cálculo Contextual por Classe (v4.1)
 
-Não usamos apenas a taxa de abates pura do jogador. O Oráculo utiliza a equação a seguir calcada na média *Target*:
+O Oráculo V avalia o desempenho de forma **contextual**, ponderando K/D, ADR e KAST com pesos diferentes por classe de agente:
 
-`Índice de Performance (perf_idx) = (K/D_Real / Target_KD) * 0.4 + (ADR / 135.0) * 0.6`
+```
+Performance Index = (KD_Weight × KD% + ADR_Weight × ADR% + KAST_Weight × KAST%) × 100
+```
 
-- **O ADR (Average Damage per Round)** representa 60% do impacto. Entregando a filosofia do Oráculo: *Morte vazia tem peso menor que dano garantido capaz de pressionar espaço térreo*.
-- Uma `perf_idx` > 115 aciona a heurística textual **"ELITE DO PROTOCOLO"**.
-- Abaixo de 95, ocorre acionamento do conselho K.A.I.O. de alerta.
+Onde:
+- `KD%` = K/D Real / K/D Alvo (vStats.gg por agente/mapa/rank)
+- `ADR%` = ADR / ADR Baseline (definido por classe)
+- `KAST%` = KAST / 100
+
+### Pesos por Classe (Role-Aware Thresholds)
+
+| Classe       | KD Peso | ADR Peso | KAST Peso | ADR Baseline | KAST Mín. |
+|-------------|---------|----------|-----------|-------------|-----------|
+| **Duelista**    | 40%     | 40%      | 20%       | 160         | 65%       |
+| **Iniciador**   | 35%     | 35%      | 30%       | 140         | 68%       |
+| **Controlador** | 30%     | 30%      | 40%       | 120         | 72%       |
+| **Sentinela**   | 30%     | 30%      | 40%       | 110         | 72%       |
+
+- **100** = desempenho exatamente na meta. Acima = superou, abaixo = ficou aquém.
+- O **K/D Alvo** é obtido em tempo real via **vStats.gg**, filtrado por agente, mapa e rank.
+
+### Os Três Níveis Técnicos
+
+| Rank                    | Performance Index | Significado                                   |
+|------------------------|-------------------|-----------------------------------------------|
+| **Alpha**            | ≥ 115             | Performance excepcional acima da meta          |
+| **Omega**            | 95 – 114          | Desempenho consistente dentro do esperado      |
+| **Depósito de Torreta** | < 95              | Desempenho abaixo da meta para o contexto      |
+
+### Fonte Única de Verdade (Python)
+O motor Python é a **única fonte de avaliação**. O `ImpactAnalyzer.js` foi eliminado na v4.0 para resolver contradições onde métricas e feedback divergiam (ex: K/D 15% abaixo da meta com feedback positivo).
 
 ## 2. Holt-Winters Double Exponential Smoothing (Tendências)
 
