@@ -28,19 +28,33 @@ if (fs.existsSync(protocolovDocsPath)) {
 
 import { processBriefing, startWorker } from './worker.js';
 
-/**
- * Registra ou atualiza um job na match_analysis_queue do Protocolo-V.
- * Evita duplicação de código entre /api/queue e /api/analyze.
- */
-async function registerQueueJob(match_id, player_id, status = 'processing') {
+async function registerQueueJob(match_id, player_id, status = 'pending') {
     if (!supabaseProtocol) return;
     try {
-        await supabaseProtocol.from('match_analysis_queue').upsert([{
+        // Verificar se já existe na fila (Resiliente a falta de constraint)
+        const { data: existing } = await supabaseProtocol
+            .from('match_analysis_queue')
+            .select('id')
+            .eq('match_id', match_id)
+            .eq('player_tag', player_id)
+            .limit(1);
+
+        if (existing && existing.length > 0) {
+            // Se já existe e está falhado, podemos resetar para pending
+            if (status === 'pending') {
+              await supabaseProtocol.from('match_analysis_queue')
+                  .update({ status, created_at: new Date().toISOString(), retry_count: 0 })
+                  .eq('id', existing[0].id);
+            }
+            return;
+        }
+
+        await supabaseProtocol.from('match_analysis_queue').insert([{
             match_id,
             player_tag: player_id,
             status,
             created_at: new Date().toISOString()
-        }], { onConflict: 'match_id, player_tag' });
+        }]);
     } catch (err) {
         console.warn(`⚠️ [QUEUE-SYNC] Falha ao registrar job (${player_id}/${match_id}): ${err.message}`);
     }
