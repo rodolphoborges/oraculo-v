@@ -9,10 +9,18 @@ class ImpactAnalyzer {
      * Mapeamento de Agentes para Funções (Roles)
      */
     static ROLE_MAPPING = {
-        'Jett': 'Duelista', 'Raze': 'Duelista', 'Phoenix': 'Duelista', 'Reyna': 'Duelista', 'Yoru': 'Duelista', 'Neon': 'Duelista', 'Iso': 'Duelista',
-        'Sova': 'Iniciador', 'Skye': 'Iniciador', 'Breach': 'Iniciador', 'KAY/O': 'Iniciador', 'Fade': 'Iniciador', 'Gekko': 'Iniciador',
-        'Omen': 'Controlador', 'Brimstone': 'Controlador', 'Viper': 'Controlador', 'Astra': 'Controlador', 'Harbor': 'Controlador', 'Clove': 'Controlador',
-        'Killjoy': 'Sentinela', 'Sage': 'Sentinela', 'Cypher': 'Sentinela', 'Chamber': 'Sentinela', 'Deadlock': 'Sentinela', 'Vyse': 'Sentinela'
+        // Duelistas
+        'Jett': 'Duelista', 'Raze': 'Duelista', 'Phoenix': 'Duelista', 'Reyna': 'Duelista',
+        'Yoru': 'Duelista', 'Neon': 'Duelista', 'Iso': 'Duelista', 'Waylay': 'Duelista',
+        // Iniciadores
+        'Sova': 'Iniciador', 'Skye': 'Iniciador', 'Breach': 'Iniciador', 'KAY/O': 'Iniciador',
+        'Fade': 'Iniciador', 'Gekko': 'Iniciador', 'Tejo': 'Iniciador',
+        // Controladores
+        'Omen': 'Controlador', 'Brimstone': 'Controlador', 'Viper': 'Controlador',
+        'Astra': 'Controlador', 'Harbor': 'Controlador', 'Clove': 'Controlador', 'Miks': 'Controlador',
+        // Sentinelas
+        'Killjoy': 'Sentinela', 'Sage': 'Sentinela', 'Cypher': 'Sentinela',
+        'Chamber': 'Sentinela', 'Deadlock': 'Sentinela', 'Vyse': 'Sentinela', 'Veto': 'Sentinela'
     };
 
     /**

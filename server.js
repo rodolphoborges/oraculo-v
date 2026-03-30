@@ -49,13 +49,30 @@ app.post('/api/queue', async (req, res) => {
     return res.status(400).json({ error: 'O match_id fornecido não é um UUID válido.' });
   }
 
+  // Idempotência: evita re-análise se já existe resultado completo
+  const reportPath = path.join(__dirname, 'analyses', `match_${match_id}_${player_id.replace('#', '_')}.json`);
+  try {
+    const content = await fs.promises.readFile(reportPath, 'utf8');
+    const report = JSON.parse(content);
+    if (report && report.conselho_kaio) {
+      console.log(`[API] ♻️ Análise já concluída para ${match_id}. Ignorando re-processamento.`);
+      return res.status(202).json({
+        message: 'Análise já existente. Nenhum re-processamento necessário.',
+        matchId: match_id,
+        player: player_id
+      });
+    }
+  } catch (_) {
+    // Arquivo não existe ou inválido — segue para processar
+  }
+
   console.log(`[API] Briefing recebido (Async): ${player_id} - ${match_id}`);
 
   // Disparar processamento em background (202 Accepted)
   processBriefing(briefing)
     .catch(err => console.error(`[ENGINE] Falha crítica no processamento de ${match_id}:`, err.message));
 
-  res.status(202).json({ 
+  res.status(202).json({
     message: 'Briefing aceito e processamento iniciado em background.',
     matchId: match_id,
     player: player_id

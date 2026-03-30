@@ -3,6 +3,7 @@ dotenv.config({ quiet: true });
 import { getAgentMeta, getRankBaselines } from './lib/meta_loader.js';
 import { fetchMatchJson } from './lib/tracker_api.js';
 import { supabase } from './lib/supabase.js';
+import ImpactAnalyzer from './services/ImpactAnalyzer.js';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -49,9 +50,11 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
   }
   
   // 4. Identifica o agente, mapa e rank do jogador na partida
-  const playerSegment = matchData.data.segments.find(s => 
-    s.type === 'player-summary' && 
-    (s.attributes?.platformUserIdentifier === playerTag || s.metadata?.platformUserIdentifier === playerTag)
+  const playerTagUpper = playerTag.replace(/\s/g, '').toUpperCase();
+  const playerSegment = matchData.data.segments.find(s =>
+    s.type === 'player-summary' &&
+    (s.attributes?.platformUserIdentifier?.replace(/\s/g, '').toUpperCase() === playerTagUpper ||
+     s.metadata?.platformUserIdentifier?.replace(/\s/g, '').toUpperCase() === playerTagUpper)
   );
   
   if (agentName === 'ALL') {
@@ -128,12 +131,16 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
       const totalRounds = matchData.data.metadata.rounds;
       const teamId = playerSummary?.metadata?.teamId || 'Unknown';
 
+      // Resolve role via ImpactAnalyzer para passar ao Python
+      const resolvedRole = ImpactAnalyzer.ROLE_MAPPING[agentName] || 'Duelista';
+
       const pythonArgs = [
-        pythonScript, 
-        '--json', normalizedMatchPath, 
-        '--player', playerTag, 
+        pythonScript,
+        '--json', normalizedMatchPath,
+        '--player', playerTag,
         '--target-kd', targetKd.toString(),
         '--agent', agentName,
+        '--role', resolvedRole,
         '--map', mapDetected,
         '--rounds', totalRounds.toString(),
         '--team', teamId,
@@ -185,9 +192,20 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
       await fs.promises.mkdir(analysesDir, { recursive: true });
     }
 
-    // Salva o relatório local enriquecido (com rank estimado e meta)
+    // [NOVO - Idempotência UI] Preserva o insight da IA se já existir no arquivo local
+    // Isso evita que o Dashboard "pisque" e esconda os Prós/Contras durante o re-processamento
     const matchId = isUuid ? inputPath : (analysisResult.match_id || 'unknown');
     const finalReportPath = path.join(analysesDir, `match_${matchId}_${playerTag.replace('#', '_')}.json`);
+    
+    try {
+        const existingRaw = await fs.promises.readFile(finalReportPath, 'utf8');
+        const existingData = JSON.parse(existingRaw);
+        if (existingData.conselho_kaio && typeof existingData.conselho_kaio === 'object') {
+            console.error(`♻️ [IDEMPOTENCY] Mesclando Insight IA existente para evitar interrupção na UI.`);
+            analysisResult.conselho_kaio = existingData.conselho_kaio;
+        }
+    } catch (e) { /* Arquivo não existe ou é inválido, segue normal */ }
+
     await fs.promises.writeFile(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
     
     return analysisResult;

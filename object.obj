@@ -1,0 +1,2483 @@
+{
+    "status": "completed",
+    "result": {
+        "player": "ousadia#013",
+        "agent": "Combatente",
+        "role": null,
+        "map": "Breeze",
+        "map_details": {
+            "imageUrl": "https://titles.trackercdn.com/valorant-api/maps/2fb9a4fd-47b8-4e7d-a969-74b4046ebd53/displayicon.png",
+            "yMultiplier": -0.00007,
+            "xMultiplier": 0.00007,
+            "yScalarToAdd": 0.833078,
+            "xScalarToAdd": 0.465123
+        },
+        "acs": 309.56666666666666,
+        "adr": 195.23333333333332,
+        "kd": 1.4761904761904763,
+        "kast": 77,
+        "performance_index": 145.8,
+        "performance_status": "ELITE DO PROTOCOLO",
+        "kills": 31,
+        "deaths": 21,
+        "clutches": 0,
+        "first_kills": 5,
+        "first_deaths": 6,
+        "is_win": false,
+        "matches_analyzed": 0,
+        "holt": {
+            "performance_l": null,
+            "performance_t": null,
+            "kd_l": null,
+            "kd_t": null,
+            "adr_l": null,
+            "adr_t": null
+        },
+        "conselho_kaio": "SINERGIA OPERACIONAL: Squad detectado com Vduart#MEE, OUSADIA#013. A coordenação de grupo é a chave para a vitória no Protocolo V.",
+        "all_conselhos": [
+            "SINERGIA OPERACIONAL: Squad detectado com Vduart#MEE, OUSADIA#013. A coordenação de grupo é a chave para a vitória no Protocolo V.",
+            "CUMPRIMENTO DO ARTIGO 2: EXCELÊNCIA EM INICIATIVA. Você está garantindo a vantagem numérica inicial.",
+            "Jogador em destaque com plays insanas no Desconhecido!"
+        ],
+        "total_rounds": 30,
+        "rounds": [
+            {
+                "round": 1,
+                "comment": "Segurou o rush inimigo aos 0:41 com Ghost.",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "ECO",
+                        "type": "pos",
+                        "text": "Fez estrago no Round Eco (Gasto: $700)",
+                        "ms": -1,
+                        "texto": "Fez estrago no Round Eco (Gasto: $700)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:41",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Viper (Ghost)",
+                        "ms": 41003,
+                        "texto": "Garantiu o frag no Viper (Ghost)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:41",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Ghost)",
+                        "ms": 41631,
+                        "texto": "Foi de base para Chamber (Ghost)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "ECO",
+                        "type": "pos",
+                        "text": "Fez estrago no Round Eco (Gasto: $700)",
+                        "ms": -1,
+                        "texto": "Fez estrago no Round Eco (Gasto: $700)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:41",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Viper (Ghost)",
+                        "ms": 41003,
+                        "texto": "Garantiu o frag no Viper (Ghost)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:41",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Ghost)",
+                        "ms": 41631,
+                        "texto": "Foi de base para Chamber (Ghost)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Viper",
+                        "weapon": "Ghost",
+                        "time": "0:41",
+                        "time_ms": 41003,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6288,
+                            "y": 6285
+                        },
+                        "killer_radians": 2.8599155,
+                        "victim_pos": {
+                            "x": 5113,
+                            "y": 6613
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Chamber",
+                        "victim_agent": "Jett",
+                        "weapon": "Ghost",
+                        "time": "0:41",
+                        "time_ms": 41631,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 5321,
+                            "y": 6744
+                        },
+                        "killer_radians": 5.686275,
+                        "victim_pos": {
+                            "x": 6229,
+                            "y": 6110
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 2,
+                "comment": "Multi kill que mudou o rumo do round inteiro.",
+                "impacto": "Positivo",
+                "kills": 2,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "ECO",
+                        "type": "pos",
+                        "text": "Fez estrago no Round Eco (Gasto: $500)",
+                        "ms": -1,
+                        "texto": "Fez estrago no Round Eco (Gasto: $500)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:45",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Ghost)",
+                        "ms": 45528,
+                        "texto": "Garantiu o frag no Clove (Ghost)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:08",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Jett",
+                        "ms": 68432,
+                        "texto": "MULTI-KILL (2x) no Jett",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "ECO",
+                        "type": "pos",
+                        "text": "Fez estrago no Round Eco (Gasto: $500)",
+                        "ms": -1,
+                        "texto": "Fez estrago no Round Eco (Gasto: $500)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:45",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Ghost)",
+                        "ms": 45528,
+                        "texto": "Garantiu o frag no Clove (Ghost)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:08",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Jett",
+                        "ms": 68432,
+                        "texto": "MULTI-KILL (2x) no Jett",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Ghost",
+                        "time": "0:45",
+                        "time_ms": 45528,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5908,
+                            "y": -1475
+                        },
+                        "killer_radians": 0.40669665,
+                        "victim_pos": {
+                            "x": 8515,
+                            "y": -336
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Bomb",
+                        "time": "1:08",
+                        "time_ms": 68432,
+                        "is_player_killer": true,
+                        "is_player_victim": true,
+                        "killer_pos": null,
+                        "killer_radians": null,
+                        "victim_pos": {
+                            "x": 7318,
+                            "y": -4837
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 3,
+                "comment": "Trocou a morte do aliado perfeitamente em Desconhecido!",
+                "impacto": "Positivo",
+                "kills": 3,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:23",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Clove (Phantom)",
+                        "ms": 23870,
+                        "texto": "FIRST BLOOD no Clove (Phantom)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:04",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Sova",
+                        "ms": 64014,
+                        "texto": "MULTI-KILL (2x) no Sova",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:04",
+                        "type": "pos",
+                        "text": "TRADE no Chamber (Phantom)",
+                        "ms": 64371,
+                        "texto": "TRADE no Chamber (Phantom)",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:23",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Clove (Phantom)",
+                        "ms": 23870,
+                        "texto": "FIRST BLOOD no Clove (Phantom)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:04",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Sova",
+                        "ms": 64014,
+                        "texto": "MULTI-KILL (2x) no Sova",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:04",
+                        "type": "pos",
+                        "text": "TRADE no Chamber (Phantom)",
+                        "ms": 64371,
+                        "texto": "TRADE no Chamber (Phantom)",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Phantom",
+                        "time": "0:23",
+                        "time_ms": 23870,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 3021,
+                            "y": 5858
+                        },
+                        "killer_radians": 3.9370575,
+                        "victim_pos": {
+                            "x": 2392,
+                            "y": 5200
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Sova",
+                        "weapon": "Phantom",
+                        "time": "1:04",
+                        "time_ms": 64014,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 4320,
+                            "y": 4912
+                        },
+                        "killer_radians": 1.2976519,
+                        "victim_pos": {
+                            "x": 4724,
+                            "y": 6360
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Phantom",
+                        "time": "1:04",
+                        "time_ms": 64371,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 4320,
+                            "y": 4912
+                        },
+                        "killer_radians": 1.3040754,
+                        "victim_pos": {
+                            "x": 4801,
+                            "y": 6660
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 4,
+                "comment": "Amassou 3 inimigos de uma vez só!",
+                "impacto": "Positivo",
+                "kills": 3,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:10",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Clove (Phantom)",
+                        "ms": 10115,
+                        "texto": "FIRST BLOOD no Clove (Phantom)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:19",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 19959,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:31",
+                        "type": "pos",
+                        "text": "MULTI-KILL (3x) no Jett",
+                        "ms": 31091,
+                        "texto": "MULTI-KILL (3x) no Jett",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:10",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Clove (Phantom)",
+                        "ms": 10115,
+                        "texto": "FIRST BLOOD no Clove (Phantom)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:19",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 19959,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:31",
+                        "type": "pos",
+                        "text": "MULTI-KILL (3x) no Jett",
+                        "ms": 31091,
+                        "texto": "MULTI-KILL (3x) no Jett",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Phantom",
+                        "time": "0:10",
+                        "time_ms": 10115,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 4994,
+                            "y": 1510
+                        },
+                        "killer_radians": 4.235417,
+                        "victim_pos": {
+                            "x": 4851,
+                            "y": 1174
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Phantom",
+                        "time": "0:19",
+                        "time_ms": 19959,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6269,
+                            "y": -817
+                        },
+                        "killer_radians": 4.43656,
+                        "victim_pos": {
+                            "x": 5902,
+                            "y": -2160
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Phantom",
+                        "time": "0:31",
+                        "time_ms": 31091,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 2997,
+                            "y": 9
+                        },
+                        "killer_radians": 3.6642966,
+                        "victim_pos": {
+                            "x": 1535,
+                            "y": -849
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 5,
+                "comment": "Tomou um sacode de Chamber (Tour De Force) aos 0:14.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:14",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Tour De Force)",
+                        "ms": 14501,
+                        "texto": "Foi de base para Chamber (Tour De Force)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:14",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Tour De Force)",
+                        "ms": 14501,
+                        "texto": "Foi de base para Chamber (Tour De Force)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Chamber",
+                        "victim_agent": "Jett",
+                        "weapon": "Tour De Force",
+                        "time": "0:14",
+                        "time_ms": 14501,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 2137,
+                            "y": -701
+                        },
+                        "killer_radians": 0.67063725,
+                        "victim_pos": {
+                            "x": 5537,
+                            "y": 2028
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 6,
+                "comment": "Multi kill que mudou o rumo do round inteiro.",
+                "impacto": "Positivo",
+                "kills": 2,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:32",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Jett (Operator)",
+                        "ms": 32170,
+                        "texto": "Garantiu o frag no Jett (Operator)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:44",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 44843,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:32",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Jett (Operator)",
+                        "ms": 32170,
+                        "texto": "Garantiu o frag no Jett (Operator)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:44",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 44843,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Operator",
+                        "time": "0:32",
+                        "time_ms": 32170,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6285,
+                            "y": 3145
+                        },
+                        "killer_radians": 1.7311932,
+                        "victim_pos": {
+                            "x": 5698,
+                            "y": 6831
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Operator",
+                        "time": "0:44",
+                        "time_ms": 44843,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5200,
+                            "y": 3633
+                        },
+                        "killer_radians": 2.2125754,
+                        "victim_pos": {
+                            "x": 4201,
+                            "y": 4988
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 7,
+                "comment": "Foi de base pra Sova (Vandal) no contrapé aos 0:11.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:11",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 11090,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:11",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 11090,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:11",
+                        "time_ms": 11090,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 4045,
+                            "y": -477
+                        },
+                        "killer_radians": 1.1402271,
+                        "victim_pos": {
+                            "x": 5597,
+                            "y": 2907
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 8,
+                "comment": "Segurou o rush inimigo aos 0:44 com Operator.",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:44",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Chamber (Operator)",
+                        "ms": 44407,
+                        "texto": "Garantiu o frag no Chamber (Operator)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:55",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Phantom)",
+                        "ms": 55073,
+                        "texto": "Foi de base para Sova (Phantom)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:44",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Chamber (Operator)",
+                        "ms": 44407,
+                        "texto": "Garantiu o frag no Chamber (Operator)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:55",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Phantom)",
+                        "ms": 55073,
+                        "texto": "Foi de base para Sova (Phantom)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Operator",
+                        "time": "0:44",
+                        "time_ms": 44407,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 7981,
+                            "y": 3797
+                        },
+                        "killer_radians": 2.2766192,
+                        "victim_pos": {
+                            "x": 5404,
+                            "y": 6795
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Phantom",
+                        "time": "0:55",
+                        "time_ms": 55073,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 4980,
+                            "y": 5020
+                        },
+                        "killer_radians": 6.1965156,
+                        "victim_pos": {
+                            "x": 7278,
+                            "y": 4823
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 9,
+                "comment": "Mandou Jett de arrasta com Operator aos 1:38.",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "1:38",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Jett (Operator)",
+                        "ms": 98613,
+                        "texto": "Garantiu o frag no Jett (Operator)",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "1:38",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Jett (Operator)",
+                        "ms": 98613,
+                        "texto": "Garantiu o frag no Jett (Operator)",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Operator",
+                        "time": "1:38",
+                        "time_ms": 98613,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6310,
+                            "y": -5938
+                        },
+                        "killer_radians": 1.1476094,
+                        "victim_pos": {
+                            "x": 7819,
+                            "y": -2658
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 10,
+                "comment": "Perdeu a troca direta contra Sova (Dano: 152).",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:40",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Phantom)",
+                        "ms": 40226,
+                        "texto": "Foi de base para Sova (Phantom)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:40",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Phantom)",
+                        "ms": 40226,
+                        "texto": "Foi de base para Sova (Phantom)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Phantom",
+                        "time": "0:40",
+                        "time_ms": 40226,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 8649,
+                            "y": 4096
+                        },
+                        "killer_radians": 5.3007665,
+                        "victim_pos": {
+                            "x": 9666,
+                            "y": 2565
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 11,
+                "comment": "Tomou um sacode de Jett (Vandal) aos 0:28.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:28",
+                        "type": "neg",
+                        "text": "Foi de base para Jett (Vandal)",
+                        "ms": 28625,
+                        "texto": "Foi de base para Jett (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:28",
+                        "type": "neg",
+                        "text": "Foi de base para Jett (Vandal)",
+                        "ms": 28625,
+                        "texto": "Foi de base para Jett (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:28",
+                        "time_ms": 28625,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 9236,
+                            "y": -2890
+                        },
+                        "killer_radians": 4.686407,
+                        "victim_pos": {
+                            "x": 9257,
+                            "y": -5803
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 12,
+                "comment": "Trocou a morte do aliado perfeitamente em Desconhecido!",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:03",
+                        "type": "pos",
+                        "text": "TRADE no Viper (Spectre)",
+                        "ms": 3914,
+                        "texto": "TRADE no Viper (Spectre)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:24",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Vandal)",
+                        "ms": 24302,
+                        "texto": "Foi de base para Chamber (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:03",
+                        "type": "pos",
+                        "text": "TRADE no Viper (Spectre)",
+                        "ms": 3914,
+                        "texto": "TRADE no Viper (Spectre)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:24",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Vandal)",
+                        "ms": 24302,
+                        "texto": "Foi de base para Chamber (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Viper",
+                        "weapon": "Spectre",
+                        "time": "0:03",
+                        "time_ms": 3914,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 3081,
+                            "y": 5620
+                        },
+                        "killer_radians": 4.62361,
+                        "victim_pos": {
+                            "x": 2927,
+                            "y": 4005
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Chamber",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:24",
+                        "time_ms": 24302,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 5604,
+                            "y": 2447
+                        },
+                        "killer_radians": 2.1245635,
+                        "victim_pos": {
+                            "x": 4441,
+                            "y": 4307
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 13,
+                "comment": "Perdeu a troca direta contra Chamber (Dano: 219).",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:13",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Headhunter)",
+                        "ms": 13931,
+                        "texto": "Foi de base para Chamber (Headhunter)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:13",
+                        "type": "neg",
+                        "text": "Foi de base para Chamber (Headhunter)",
+                        "ms": 13931,
+                        "texto": "Foi de base para Chamber (Headhunter)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Chamber",
+                        "victim_agent": "Jett",
+                        "weapon": "Headhunter",
+                        "time": "0:13",
+                        "time_ms": 13931,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 9186,
+                            "y": -5581
+                        },
+                        "killer_radians": 1.8146034,
+                        "victim_pos": {
+                            "x": 8829,
+                            "y": -4135
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 14,
+                "comment": "First blood no Clove com peek agressivo em Desconhecido!",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:08",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Clove (Bulldog)",
+                        "ms": 8796,
+                        "texto": "FIRST BLOOD no Clove (Bulldog)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:25",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Classic)",
+                        "ms": 25942,
+                        "texto": "Foi de base para Sova (Classic)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:08",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Clove (Bulldog)",
+                        "ms": 8796,
+                        "texto": "FIRST BLOOD no Clove (Bulldog)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:25",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Classic)",
+                        "ms": 25942,
+                        "texto": "Foi de base para Sova (Classic)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Bulldog",
+                        "time": "0:08",
+                        "time_ms": 8796,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5909,
+                            "y": -1889
+                        },
+                        "killer_radians": 1.114437,
+                        "victim_pos": {
+                            "x": 6320,
+                            "y": -1027
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Classic",
+                        "time": "0:25",
+                        "time_ms": 25942,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 9714,
+                            "y": -1629
+                        },
+                        "killer_radians": 5.4383454,
+                        "victim_pos": {
+                            "x": 10366,
+                            "y": -2393
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 15,
+                "comment": "Tomou um sacode de Clove (Vandal) aos 0:35.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:35",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Vandal)",
+                        "ms": 35451,
+                        "texto": "Foi de base para Clove (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (30 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (30 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:35",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Vandal)",
+                        "ms": 35451,
+                        "texto": "Foi de base para Clove (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (30 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (30 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Clove",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:35",
+                        "time_ms": 35451,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 4419,
+                            "y": 1212
+                        },
+                        "killer_radians": 4.5562105,
+                        "victim_pos": {
+                            "x": 4155,
+                            "y": -480
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 16,
+                "comment": "Não trocou a kill, round escapou de vez.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:18",
+                        "type": "neg",
+                        "text": "Foi de base para Jett (Vandal)",
+                        "ms": 18170,
+                        "texto": "Foi de base para Jett (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:18",
+                        "type": "neg",
+                        "text": "Foi de base para Jett (Vandal)",
+                        "ms": 18170,
+                        "texto": "Foi de base para Jett (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:18",
+                        "time_ms": 18170,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 6894,
+                            "y": -5997
+                        },
+                        "killer_radians": 2.5535028,
+                        "victim_pos": {
+                            "x": 6158,
+                            "y": -5524
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 17,
+                "comment": "Ace quase com 4 kills seguidas!",
+                "impacto": "Positivo",
+                "kills": 4,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:30",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Guardian)",
+                        "ms": 30350,
+                        "texto": "Garantiu o frag no Clove (Guardian)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:33",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 33473,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:54",
+                        "type": "pos",
+                        "text": "MULTI-KILL (3x) no Sova",
+                        "ms": 54254,
+                        "texto": "MULTI-KILL (3x) no Sova",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "PLAN",
+                        "type": "pos",
+                        "text": "Dominou o site B e garantiu o plant",
+                        "ms": 99064,
+                        "texto": "Dominou o site B e garantiu o plant",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "2:04",
+                        "type": "pos",
+                        "text": "MULTI-KILL (4x) no Viper",
+                        "ms": 124967,
+                        "texto": "MULTI-KILL (4x) no Viper",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:30",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Guardian)",
+                        "ms": 30350,
+                        "texto": "Garantiu o frag no Clove (Guardian)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:33",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 33473,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:54",
+                        "type": "pos",
+                        "text": "MULTI-KILL (3x) no Sova",
+                        "ms": 54254,
+                        "texto": "MULTI-KILL (3x) no Sova",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "PLAN",
+                        "type": "pos",
+                        "text": "Dominou o site B e garantiu o plant",
+                        "ms": 99064,
+                        "texto": "Dominou o site B e garantiu o plant",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "2:04",
+                        "type": "pos",
+                        "text": "MULTI-KILL (4x) no Viper",
+                        "ms": 124967,
+                        "texto": "MULTI-KILL (4x) no Viper",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Guardian",
+                        "time": "0:30",
+                        "time_ms": 30350,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 3822,
+                            "y": 2049
+                        },
+                        "killer_radians": 4.990423,
+                        "victim_pos": {
+                            "x": 3957,
+                            "y": 1590
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Guardian",
+                        "time": "0:33",
+                        "time_ms": 33473,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 4067,
+                            "y": 1408
+                        },
+                        "killer_radians": 5.6335444,
+                        "victim_pos": {
+                            "x": 6986,
+                            "y": -793
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Sova",
+                        "weapon": "Vandal",
+                        "time": "0:54",
+                        "time_ms": 54254,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 7467,
+                            "y": -5309
+                        },
+                        "killer_radians": 0.82192606,
+                        "victim_pos": {
+                            "x": 10462,
+                            "y": -2066
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Viper",
+                        "weapon": "Vandal",
+                        "time": "2:04",
+                        "time_ms": 124967,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 8790,
+                            "y": -3752
+                        },
+                        "killer_radians": 4.6998296,
+                        "victim_pos": {
+                            "x": 8770,
+                            "y": -4928
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 18,
+                "comment": "Ace quase com 4 kills seguidas!",
+                "impacto": "Positivo",
+                "kills": 4,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:41",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Chamber (Vandal)",
+                        "ms": 41808,
+                        "texto": "Garantiu o frag no Chamber (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:43",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Clove",
+                        "ms": 43061,
+                        "texto": "MULTI-KILL (2x) no Clove",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:54",
+                        "type": "pos",
+                        "text": "MULTI-KILL (3x) no Sova",
+                        "ms": 54332,
+                        "texto": "MULTI-KILL (3x) no Sova",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:55",
+                        "type": "pos",
+                        "text": "MULTI-KILL (4x) no Jett",
+                        "ms": 55470,
+                        "texto": "MULTI-KILL (4x) no Jett",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:41",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Chamber (Vandal)",
+                        "ms": 41808,
+                        "texto": "Garantiu o frag no Chamber (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:43",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Clove",
+                        "ms": 43061,
+                        "texto": "MULTI-KILL (2x) no Clove",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:54",
+                        "type": "pos",
+                        "text": "MULTI-KILL (3x) no Sova",
+                        "ms": 54332,
+                        "texto": "MULTI-KILL (3x) no Sova",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:55",
+                        "type": "pos",
+                        "text": "MULTI-KILL (4x) no Jett",
+                        "ms": 55470,
+                        "texto": "MULTI-KILL (4x) no Jett",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Vandal",
+                        "time": "0:41",
+                        "time_ms": 41808,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6415,
+                            "y": 6358
+                        },
+                        "killer_radians": 3.770429,
+                        "victim_pos": {
+                            "x": 6138,
+                            "y": 6177
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Vandal",
+                        "time": "0:43",
+                        "time_ms": 43061,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6344,
+                            "y": 6639
+                        },
+                        "killer_radians": 3.148975,
+                        "victim_pos": {
+                            "x": 5000,
+                            "y": 6631
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Sova",
+                        "weapon": "Vandal",
+                        "time": "0:54",
+                        "time_ms": 54332,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 4835,
+                            "y": 3646
+                        },
+                        "killer_radians": 1.6497964,
+                        "victim_pos": {
+                            "x": 4598,
+                            "y": 6621
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:55",
+                        "time_ms": 55470,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5135,
+                            "y": 3704
+                        },
+                        "killer_radians": 2.1664603,
+                        "victim_pos": {
+                            "x": 3972,
+                            "y": 5388
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 19,
+                "comment": "Mandou Viper de arrasta com Vandal aos 0:45.",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:45",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Viper (Vandal)",
+                        "ms": 45348,
+                        "texto": "Garantiu o frag no Viper (Vandal)",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:45",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Viper (Vandal)",
+                        "ms": 45348,
+                        "texto": "Garantiu o frag no Viper (Vandal)",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Viper",
+                        "weapon": "Vandal",
+                        "time": "0:45",
+                        "time_ms": 45348,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 7793,
+                            "y": -5427
+                        },
+                        "killer_radians": 1.0099345,
+                        "victim_pos": {
+                            "x": 10758,
+                            "y": -709
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 20,
+                "comment": "Tomou um sacode de Clove (Bandit) aos 0:23.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:23",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Bandit)",
+                        "ms": 23442,
+                        "texto": "Foi de base para Clove (Bandit)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:23",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Bandit)",
+                        "ms": 23442,
+                        "texto": "Foi de base para Clove (Bandit)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Clove",
+                        "victim_agent": "Jett",
+                        "weapon": "Bandit",
+                        "time": "0:23",
+                        "time_ms": 23442,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 4654,
+                            "y": 3376
+                        },
+                        "killer_radians": 2.234914,
+                        "victim_pos": {
+                            "x": 4343,
+                            "y": 3790
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 21,
+                "comment": "Ace quase com 2 kills seguidas!",
+                "impacto": "Positivo",
+                "kills": 2,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:45",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Vandal)",
+                        "ms": 45179,
+                        "texto": "Garantiu o frag no Clove (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "PLAN",
+                        "type": "pos",
+                        "text": "Dominou o site B e garantiu o plant",
+                        "ms": 73664,
+                        "texto": "Dominou o site B e garantiu o plant",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:50",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 110442,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:45",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Vandal)",
+                        "ms": 45179,
+                        "texto": "Garantiu o frag no Clove (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "PLAN",
+                        "type": "pos",
+                        "text": "Dominou o site B e garantiu o plant",
+                        "ms": 73664,
+                        "texto": "Dominou o site B e garantiu o plant",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "1:50",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Chamber",
+                        "ms": 110442,
+                        "texto": "MULTI-KILL (2x) no Chamber",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Vandal",
+                        "time": "0:45",
+                        "time_ms": 45179,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5887,
+                            "y": -1179
+                        },
+                        "killer_radians": 6.2435894,
+                        "victim_pos": {
+                            "x": 7784,
+                            "y": -1263
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Vandal",
+                        "time": "1:50",
+                        "time_ms": 110442,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5830,
+                            "y": -3254
+                        },
+                        "killer_radians": 1.3708994,
+                        "victim_pos": {
+                            "x": 6308,
+                            "y": -915
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 22,
+                "comment": "Trade perdido, pagou mico pro time inteiro.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:18",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 18813,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "0:40",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Vandal)",
+                        "ms": 40787,
+                        "texto": "Foi de base para Clove (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:18",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 18813,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "0:40",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Vandal)",
+                        "ms": 40787,
+                        "texto": "Foi de base para Clove (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:18",
+                        "time_ms": 18813,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 6496,
+                            "y": 6301
+                        },
+                        "killer_radians": 1.8012769,
+                        "victim_pos": {
+                            "x": 6378,
+                            "y": 6753
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Clove",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:40",
+                        "time_ms": 40787,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 7421,
+                            "y": 4565
+                        },
+                        "killer_radians": 2.8607783,
+                        "victim_pos": {
+                            "x": 3631,
+                            "y": 5663
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 23,
+                "comment": "Tomou um sacode de Sova (Vandal) aos 0:10.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:10",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 10572,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:10",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 10572,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:10",
+                        "time_ms": 10572,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 4546,
+                            "y": 4073
+                        },
+                        "killer_radians": 5.327995,
+                        "victim_pos": {
+                            "x": 5630,
+                            "y": 2526
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 24,
+                "comment": "Trocou a morte do aliado perfeitamente em Desconhecido!",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:31",
+                        "type": "pos",
+                        "text": "TRADE no Sova (Vandal)",
+                        "ms": 31940,
+                        "texto": "TRADE no Sova (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:55",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Vandal)",
+                        "ms": 55527,
+                        "texto": "Foi de base para Clove (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:31",
+                        "type": "pos",
+                        "text": "TRADE no Sova (Vandal)",
+                        "ms": 31940,
+                        "texto": "TRADE no Sova (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:55",
+                        "type": "neg",
+                        "text": "Foi de base para Clove (Vandal)",
+                        "ms": 55527,
+                        "texto": "Foi de base para Clove (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Sova",
+                        "weapon": "Vandal",
+                        "time": "0:31",
+                        "time_ms": 31940,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5780,
+                            "y": 6560
+                        },
+                        "killer_radians": 4.792827,
+                        "victim_pos": {
+                            "x": 5823,
+                            "y": 5984
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Clove",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:55",
+                        "time_ms": 55527,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 6960,
+                            "y": 2626
+                        },
+                        "killer_radians": 6.1705337,
+                        "victim_pos": {
+                            "x": 7494,
+                            "y": 2546
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 25,
+                "comment": "2K insano em Desconhecido com Operator!",
+                "impacto": "Positivo",
+                "kills": 2,
+                "died": false,
+                "narrative": [
+                    {
+                        "time": "0:17",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Jett (Operator)",
+                        "ms": 17281,
+                        "texto": "FIRST BLOOD no Jett (Operator)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:23",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Viper",
+                        "ms": 23597,
+                        "texto": "MULTI-KILL (2x) no Viper",
+                        "tipo": "pos"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:17",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Jett (Operator)",
+                        "ms": 17281,
+                        "texto": "FIRST BLOOD no Jett (Operator)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:23",
+                        "type": "pos",
+                        "text": "MULTI-KILL (2x) no Viper",
+                        "ms": 23597,
+                        "texto": "MULTI-KILL (2x) no Viper",
+                        "tipo": "pos"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Jett",
+                        "weapon": "Operator",
+                        "time": "0:17",
+                        "time_ms": 17281,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6067,
+                            "y": 7018
+                        },
+                        "killer_radians": 3.6477103,
+                        "victim_pos": {
+                            "x": 2848,
+                            "y": 5220
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Viper",
+                        "weapon": "Operator",
+                        "time": "0:23",
+                        "time_ms": 23597,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 6393,
+                            "y": 5605
+                        },
+                        "killer_radians": 3.1889544,
+                        "victim_pos": {
+                            "x": 2393,
+                            "y": 5431
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 26,
+                "comment": "Não trocou a kill, round escapou de vez.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:09",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 9514,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:09",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Vandal)",
+                        "ms": 9514,
+                        "texto": "Foi de base para Sova (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:09",
+                        "time_ms": 9514,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 4596,
+                            "y": 4871
+                        },
+                        "killer_radians": 2.7529204,
+                        "victim_pos": {
+                            "x": 2691,
+                            "y": 5649
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 27,
+                "comment": "Não conseguiu trocar o aliado, deu ruim pro time.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:49",
+                        "type": "neg",
+                        "text": "Foi de base para Viper (Phantom)",
+                        "ms": 49527,
+                        "texto": "Foi de base para Viper (Phantom)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:49",
+                        "type": "neg",
+                        "text": "Foi de base para Viper (Phantom)",
+                        "ms": 49527,
+                        "texto": "Foi de base para Viper (Phantom)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (0 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (0 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Viper",
+                        "victim_agent": "Jett",
+                        "weapon": "Phantom",
+                        "time": "0:49",
+                        "time_ms": 49527,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 9416,
+                            "y": 1742
+                        },
+                        "killer_radians": 4.96377,
+                        "victim_pos": {
+                            "x": 10557,
+                            "y": -2685
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 28,
+                "comment": "Fez o trade e manteve o round vivo!",
+                "impacto": "Positivo",
+                "kills": 2,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:02",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Chamber (Vandal)",
+                        "ms": 2315,
+                        "texto": "FIRST BLOOD no Chamber (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:17",
+                        "type": "pos",
+                        "text": "TRADE no Clove (Vandal)",
+                        "ms": 17427,
+                        "texto": "TRADE no Clove (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:25",
+                        "type": "neg",
+                        "text": "Foi de base para Viper (Vandal)",
+                        "ms": 25543,
+                        "texto": "Foi de base para Viper (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:02",
+                        "type": "pos",
+                        "text": "FIRST BLOOD no Chamber (Vandal)",
+                        "ms": 2315,
+                        "texto": "FIRST BLOOD no Chamber (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:17",
+                        "type": "pos",
+                        "text": "TRADE no Clove (Vandal)",
+                        "ms": 17427,
+                        "texto": "TRADE no Clove (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:25",
+                        "type": "neg",
+                        "text": "Foi de base para Viper (Vandal)",
+                        "ms": 25543,
+                        "texto": "Foi de base para Viper (Vandal)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Chamber",
+                        "weapon": "Vandal",
+                        "time": "0:02",
+                        "time_ms": 2315,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 2465,
+                            "y": 3988
+                        },
+                        "killer_radians": 1.0231652,
+                        "victim_pos": {
+                            "x": 3464,
+                            "y": 5794
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Vandal",
+                        "time": "0:17",
+                        "time_ms": 17427,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5335,
+                            "y": 6567
+                        },
+                        "killer_radians": 5.875434,
+                        "victim_pos": {
+                            "x": 6288,
+                            "y": 6149
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Viper",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:25",
+                        "time_ms": 25543,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 5740,
+                            "y": 3561
+                        },
+                        "killer_radians": 1.3928546,
+                        "victim_pos": {
+                            "x": 6303,
+                            "y": 6628
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 29,
+                "comment": "Tomou um sacode de Viper (Vandal) aos 0:24.",
+                "impacto": "Negativo",
+                "kills": 0,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:24",
+                        "type": "neg",
+                        "text": "Foi de base para Viper (Vandal)",
+                        "ms": 24064,
+                        "texto": "Foi de base para Viper (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (5 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (5 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:24",
+                        "type": "neg",
+                        "text": "Foi de base para Viper (Vandal)",
+                        "ms": 24064,
+                        "texto": "Foi de base para Viper (Vandal)",
+                        "tipo": "neg"
+                    },
+                    {
+                        "time": "OUT",
+                        "type": "neg",
+                        "text": "Morreu seco sem causar impacto (5 dmg)",
+                        "ms": 999999,
+                        "texto": "Morreu seco sem causar impacto (5 dmg)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Viper",
+                        "victim_agent": "Jett",
+                        "weapon": "Vandal",
+                        "time": "0:24",
+                        "time_ms": 24064,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 8006,
+                            "y": -3284
+                        },
+                        "killer_radians": 4.2242,
+                        "victim_pos": {
+                            "x": 7338,
+                            "y": -4520
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            },
+            {
+                "round": 30,
+                "comment": "Amassou no domínio de espaço com Vandal contra Clove.",
+                "impacto": "Positivo",
+                "kills": 1,
+                "died": true,
+                "narrative": [
+                    {
+                        "time": "0:22",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Vandal)",
+                        "ms": 22528,
+                        "texto": "Garantiu o frag no Clove (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:46",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Phantom)",
+                        "ms": 46584,
+                        "texto": "Foi de base para Sova (Phantom)",
+                        "tipo": "neg"
+                    }
+                ],
+                "eventos": [
+                    {
+                        "time": "0:22",
+                        "type": "pos",
+                        "text": "Garantiu o frag no Clove (Vandal)",
+                        "ms": 22528,
+                        "texto": "Garantiu o frag no Clove (Vandal)",
+                        "tipo": "pos"
+                    },
+                    {
+                        "time": "0:46",
+                        "type": "neg",
+                        "text": "Foi de base para Sova (Phantom)",
+                        "ms": 46584,
+                        "texto": "Foi de base para Sova (Phantom)",
+                        "tipo": "neg"
+                    }
+                ],
+                "tactical_events": [
+                    {
+                        "killer_agent": "Jett",
+                        "victim_agent": "Clove",
+                        "weapon": "Vandal",
+                        "time": "0:22",
+                        "time_ms": 22528,
+                        "is_player_killer": true,
+                        "is_player_victim": false,
+                        "killer_pos": {
+                            "x": 5869,
+                            "y": -1237
+                        },
+                        "killer_radians": 0.28369057,
+                        "victim_pos": {
+                            "x": 8872,
+                            "y": -326
+                        },
+                        "victim_radians": null
+                    },
+                    {
+                        "killer_agent": "Sova",
+                        "victim_agent": "Jett",
+                        "weapon": "Phantom",
+                        "time": "0:46",
+                        "time_ms": 46584,
+                        "is_player_killer": false,
+                        "is_player_victim": true,
+                        "killer_pos": {
+                            "x": 6301,
+                            "y": 4977
+                        },
+                        "killer_radians": 3.1090915,
+                        "victim_pos": {
+                            "x": 5120,
+                            "y": 5000
+                        },
+                        "victim_radians": null
+                    }
+                ]
+            }
+        ],
+        "meta_category": "BASELINE_AVG",
+        "target_kd": 1,
+        "estimated_rank": "RADIANTE"
+    }
+}

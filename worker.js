@@ -169,15 +169,20 @@ export async function processBriefing(briefing) {
             match_data: {
                 perf: impact.score,
                 rank: impact.rank,
+                role: impact.role,           // Função tática resolvida pelo ImpactAnalyzer
                 agent: result.agent,
                 map: result.map,
-                kd: result.kd, 
+                kd: result.kd,
+                adr: result.adr,
+                kast: result.kast,
                 acs: result.acs,
+                first_kills: result.first_kills,
+                clutches: result.clutches,
                 total_rounds: result.total_rounds,
                 conselhosBase: result.all_conselhos,
                 tone_instruction: impact.tone_instruction,
                 template_hint: rankTemplate,
-                abilities: briefing.ability_context || [] // [NOVO] Keywords técnicas
+                abilities: briefing.ability_context || []
             },
             trend: null, // As tendências agora são baseadas no Holt local
             history: previousInsights,
