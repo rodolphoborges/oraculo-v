@@ -280,8 +280,8 @@ export async function startWorker() {
     // Loop infinito de monitoramento
     setInterval(async () => {
         try {
-            // Busca o próximo item pendente na fila
-            const { data: queueItem, error } = await supabase
+            // Busca o próximo item pendente na fila (no Protocolo-V)
+            const { data: queueItem, error } = await supabaseProtocol
                 .from('match_analysis_queue')
                 .select('*')
                 .eq('status', 'pending')
@@ -291,10 +291,10 @@ export async function startWorker() {
 
             if (error || !queueItem) return; // Nada para processar
 
-            const { id, player_id, match_id } = queueItem;
+            const { id, player_id: player_id, match_id } = queueItem;
 
-            // Marca como processando imediatamente
-            await supabase.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
+            // Marca como processando imediatamente no Protocolo-V
+            await supabaseProtocol.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
 
             console.log(`📡 [QUEUE] Iniciando análise de ${player_id} - Partida ${match_id}`);
 
@@ -307,11 +307,11 @@ export async function startWorker() {
                 agent_name: null
             });
 
-            // Atualiza o status final
+            // Atualiza o status final no Protocolo-V
             if (result.success) {
-                await supabase.from('match_analysis_queue').update({ status: 'completed' }).eq('id', id);
+                await supabaseProtocol.from('match_analysis_queue').update({ status: 'completed' }).eq('id', id);
             } else {
-                await supabase.from('match_analysis_queue').update({ status: 'failed', error: result.error }).eq('id', id);
+                await supabaseProtocol.from('match_analysis_queue').update({ status: 'failed', error_msg: result.error }).eq('id', id);
             }
 
         } catch (err) {
