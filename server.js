@@ -366,21 +366,31 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
 
       if (opsError) throw opsError;
 
-      // Pegar todos os IDs de matches das ops encontradas
+      // 1. Buscar IDs de matches únicos nas últimas 1000 operações
       const matchIds = [...new Set(ops.map(o => o.operation_id))];
       
-      // Buscar quais já tem insight
+      // 2. Buscar quem já tem Insight pronto
       const { data: insights } = await supabaseProtocol
         .from('ai_insights')
         .select('match_id, player_id')
         .in('match_id', matchIds);
 
-      const analyzedKeys = new Set(insights?.map(i => `${i.match_id}_${i.player_id.toLowerCase()}`) || []);
+      // 3. Buscar quem já está na Fila de Processamento
+      const { data: queue } = await supabaseProtocol
+        .from('match_analysis_queue')
+        .select('match_id, player_tag')
+        .in('match_id', matchIds);
 
-      // Filtrar apenas o que falta (Gaps reais)
-      const allMissing = ops.filter(op => {
-        const key = `${op.operation_id}_${op.riot_id.toLowerCase()}`;
-        return !analyzedKeys.has(key);
+      // Criar set de chaves "match_player" para exclusão rápida
+      const excludeKeys = new Set([
+          ...(insights?.map(i => `${i.match_id}_${i.player_id.toLowerCase().trim()}`) || []),
+          ...(queue?.map(q => `${q.match_id}_${q.player_tag.toLowerCase().trim()}`) || [])
+      ]);
+
+      // Filtrar apenas o que falta de VERDADE (sem insight e fora da fila)
+      const allTrueMissing = ops.filter(op => {
+        const key = `${op.operation_id}_${op.riot_id.toLowerCase().trim()}`;
+        return !excludeKeys.has(key);
       }).map(m => ({
         match_id: m.operation_id,
         player_tag: m.riot_id,
@@ -390,7 +400,7 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
       }));
 
       // Retorna o total real encontrado, mas limita a lista de exibição para performance
-      return res.json({ total: allMissing.length, missing: allMissing.slice(0, 50) });
+      return res.json({ total: allTrueMissing.length, missing: allTrueMissing.slice(0, 50) });
     }
 
     res.json({ total: pending.length, missing: pending.slice(0, 50) });
@@ -642,6 +652,41 @@ app.post('/api/admin/reprocess', adminAuth, async (req, res) => {
   } catch (err) {
     console.error('[API ADMIN REPROCESS] Erro:', err.message);
     res.status(500).json({ error: err.message });
+  }
+});
+
+// POST - Reprocessar em LOTE (Bulk Enqueue)
+app.post('/api/admin/reprocess/bulk', adminAuth, async (req, res) => {
+  try {
+    const { items } = req.body;
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({ error: 'Lista de items é obrigatória.' });
+    }
+
+    console.log(`🚀 [ADMIN] Enfileirando LOTE de ${items.length} análises.`);
+
+    const queueItems = items.map(item => ({
+      match_id: item.match_id,
+      player_tag: item.player_tag,
+      status: 'pending',
+      created_at: new Date().toISOString()
+    }));
+
+    if (supabaseProtocol) {
+      const { error } = await supabaseProtocol
+        .from('match_analysis_queue')
+        .upsert(queueItems, { onConflict: 'match_id, player_tag' });
+
+      if (error) throw error;
+    }
+
+    res.json({
+      success: true,
+      message: `${items.length} análises enviadas para a fila de processamento.`,
+    });
+  } catch (err) {
+    console.error('[API ADMIN BULK] Erro:', err.message);
+    res.status(500).json({ error: 'Erro ao processar lote: ' + err.message });
   }
 });
 

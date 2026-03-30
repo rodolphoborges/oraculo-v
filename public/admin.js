@@ -383,33 +383,26 @@ async function batchReprocess(items) {
     btnAll.disabled = true;
     if (btnSel) btnSel.disabled = true;
 
-    let success = 0;
-    let failed = 0;
-
-    for (const item of items) {
-        try {
-            // Envia para fila de processamento (endpoint reprocess já enfileira)
-            const res = await fetch('/api/admin/reprocess', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    match_id: item.match_id,
-                    player_id: item.player_tag
-                })
-            });
-            if (res.ok) success++;
-            else failed++;
-        } catch (err) {
-            failed++;
+    try {
+        const res = await fetch('/api/admin/reprocess/bulk', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items })
+        });
+        
+        const data = await res.json();
+        if (res.ok) {
+            alert(`🚀 Missão Aceita!\n${items.length} análises enviadas para o motor de processamento.`);
+        } else {
+            alert(`⚠️ Falha no enfileiramento: ${data.error}`);
         }
+    } catch (err) {
+        alert(`❌ Erro de conexão: ${err.message}`);
+    } finally {
+        btnAll.disabled = false;
+        if (btnSel) btnSel.disabled = false;
+        loadPending();
     }
-
-    alert(`✅ Lote finalizado!\nSucesso: ${success} enfileirados\nFalhas: ${failed}`);
-    
-    btnAll.disabled = false;
-    if (btnSel) btnSel.disabled = false;
-    
-    loadPending();
 }
 
 // Inicializa e agenda atualização a cada 10 segundos
