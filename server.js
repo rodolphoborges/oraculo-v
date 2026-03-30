@@ -308,13 +308,17 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
 // GET - Histórico de todas as análises
 app.get('/api/admin/history', adminAuth, async (req, res) => {
   try {
-    const { data: analyses, error } = await supabase
+    // Buscar de Protocolo-V (onde as análises são sincronizadas)
+    const { data: analyses, error } = await supabaseProtocol
       .from('ai_insights')
-      .select('id, player_id, match_id, created_at, impact_score: analysis_report->impact_score')
+      .select('id, player_id, match_id, created_at, impact_score')
       .order('created_at', { ascending: false })
       .limit(100);
 
-    if (error) throw error;
+    if (error) {
+      console.error('[API ADMIN HISTORY] Erro na query:', error);
+      throw error;
+    }
 
     res.json({
       total: analyses.length,
