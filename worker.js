@@ -73,6 +73,19 @@ export async function processBriefing(briefing) {
     console.log(`👷 Processando Briefing: Match ${match_id} (Player: ${player_id})`);
 
     try {
+        // 1. Validar existência do jogador no banco de dados (Segurança contra deletados)
+        if (supabaseProtocol) {
+            const { data: exists, error: checkErr } = await supabaseProtocol
+                .from('players')
+                .select('riot_id')
+                .eq('riot_id', player_id)
+                .maybeSingle();
+
+            if (!exists || checkErr) {
+                console.warn(`🛑 [ABORT] Operacional ${player_id} não localizado no Vanguard_DB. Abortando análise de missão.`);
+                return { success: false, error: "não encontrado" }; // Retorna string chave para limpeza automática
+            }
+        }
 
         // 3. Buscar Estado Holt Anterior
         const holtPrev = await getPlayerHoltState(player_id);
