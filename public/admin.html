@@ -86,25 +86,26 @@
             <button id="tabHistory" onclick="switchTab('history')" style="background: none; border: none; padding: 10px 0; color: rgba(0,255,65,0.5); font-size: 0.9rem; font-weight: bold; cursor: pointer;">📜 HISTÓRICO</button>
         </div>
 
+        <!-- ESTATÍSTICAS GLOBAIS -->
+        <section class="admin-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-label">Total de Registros</div>
+                <div class="stat-value" id="statTotal">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Em Fila (Pendentes/Processando)</div>
+                <div class="stat-value" id="statPending">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Falhas Críticas</div>
+                <div class="stat-value" id="statFailed" style="color: var(--red);">-</div>
+            </div>
+        </section>
+
         <!-- FILA -->
         <div id="queueTab">
-            <section class="admin-grid" id="statsGrid">
-                <div class="stat-card">
-                    <div class="stat-label">Total de Análises</div>
-                    <div class="stat-value" id="statTotal">-</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Pendentes</div>
-                    <div class="stat-value" id="statPending">-</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Falhas</div>
-                    <div class="stat-value" id="statFailed" style="color: var(--red);">-</div>
-                </div>
-            </section>
-
             <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-                <button id="btnDeleteAll" onclick="deleteAllJobs()" style="background: var(--red); color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; font-family: inherit;">🗑️ APAGAR TODAS DA FILA</button>
+                <button id="btnDeleteAll" onclick="deleteAllJobs()" style="background: var(--red); color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; font-family: inherit;">🗑️ LIMPAR FILA</button>
             </div>
         </div>
 

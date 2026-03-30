@@ -285,22 +285,38 @@ app.get('/api/status/:matchId', async (req, res) => {
 
 app.get('/api/admin/stats', adminAuth, async (req, res) => {
   try {
-    // Busca os últimos 50 itens da fila (match_analysis_queue) no Protocolo-V
-    const { data: jobs, error } = await supabaseProtocol
+    // 1. Busca as estatísticas REAIS de todos os registros (sem limite de 50)
+    const { data: allJobs, error: countError } = await supabaseProtocol
+      .from('match_analysis_queue')
+      .select('status');
+
+    if (countError) throw countError;
+
+    // 2. Busca apenas os últimos 50 jobs para exibição na tabela (performance)
+    const { data: jobs, error: jobsError } = await supabaseProtocol
       .from('match_analysis_queue')
       .select('*')
       .order('created_at', { ascending: false })
       .limit(50);
 
-    if (error) throw error;
+    if (jobsError) throw jobsError;
 
-    // Calcular estatísticas agregadas
-    // Nota: 'completed' é removido automaticamente da fila, então não deveria existir
+    // 3. Busca o Total de Análises Concluídas no Histórico para o contador global
+    const { count: historyCount, error: historyError } = await supabaseProtocol
+      .from('ai_insights')
+      .select('*', { count: 'exact', head: true });
+
+    // 4. Busca contagem de Pendentes Táticos (Gaps de Squad)
+    const { data: pendingSquads, error: pendingError } = await supabaseProtocol.rpc('get_pending_tactical_analyses');
+    const pendingSquadsCount = pendingError ? 0 : (pendingSquads?.length || 0);
+
     const stats = {
-      total: jobs.length,
-      pending: jobs.filter(j => j.status === 'pending').length,
-      processing: jobs.filter(j => j.status === 'processing').length,
-      failed: jobs.filter(j => j.status === 'failed').length
+      total: (historyCount || 0) + allJobs.length,
+      pending: allJobs.filter(j => j.status === 'pending').length,
+      processing: allJobs.filter(j => j.status === 'processing').length,
+      failed: allJobs.filter(j => j.status === 'failed').length,
+      pending_squads: pendingSquadsCount,
+      queue_total: allJobs.length
     };
 
     res.json({

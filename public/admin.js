@@ -34,34 +34,45 @@ function switchTab(tab) {
 
 async function updateStats() {
     try {
+        console.log('[DEBUG] Atualizando estatísticas globais...');
         const res = await fetch('/api/admin/stats');
         const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error);
+        if (!res.ok) throw new Error(data.error || 'Erro desconhecido no servidor');
 
-        // Update Stats Cards (Always visible or relevant)
-        document.getElementById('statTotal').textContent = data.stats.total;
-        document.getElementById('statPending').textContent = (data.stats.pending || 0) + (data.stats.processing || 0);
-        document.getElementById('statFailed').textContent = data.stats.failed;
+        // Update Stats Cards (Sempre visíveis no topo)
+        if (data.stats) {
+            document.getElementById('statTotal').textContent = data.stats.total;
+            document.getElementById('statPending').textContent = (data.stats.pending || 0) + (data.stats.processing || 0);
+            document.getElementById('statFailed').textContent = data.stats.failed;
+            
+            // Se houver contador de pendentes na aba pendente (Squad Gaps)
+            const pendLabel = document.getElementById('pendingCount');
+            if (pendLabel && data.stats.pending_squads !== undefined) {
+                pendLabel.textContent = data.stats.pending_squads;
+            }
+        }
 
-        // ONLY update the table if we are on the queue tab
+        // Se estivermos na aba de Fila, renderizamos a tabela imediatamente com os 50 jobs do stats
         if (currentTab === 'queue') {
+            console.log(`[DEBUG] Renderizando ${data.jobs?.length || 0} jobs na aba Fila.`);
             renderQueueTable(data.jobs);
         }
 
     } catch (err) {
-        console.error('Falha ao atualizar painel:', err);
+        console.error('❌ Falha ao atualizar painel Admin:', err);
     }
 }
 
 function renderQueueTable(jobs) {
     const jobsList = document.getElementById('jobsList');
-    jobsList.innerHTML = '';
-
+    
     if (!jobs || jobs.length === 0) {
-        jobsList.innerHTML = '<tr><td colspan="6" style="text-align: center;">NENHUM_JOB_NA_FILA</td></tr>';
+        jobsList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: rgba(0,255,65,0.5);">[ SILÊNCIO_OPERACIONAL ] // NENHUM_JOB_NA_FILA</td></tr>';
         return;
     }
+
+    jobsList.innerHTML = '';
 
     jobs.forEach(job => {
         const row = document.createElement('tr');
@@ -403,7 +414,9 @@ async function batchReprocess(items) {
 
 // Inicializa e agenda atualização a cada 10 segundos
 function autoRefresh() {
-    updateStats(); // Sempre atualiza os cards de stats
+    updateStats(); // Sempre atualiza os cards de topo e a tabela se for queue
+    
+    // Atualiza dados secundários baseados na aba ativa
     if (currentTab === 'history') {
         loadHistory();
     } else if (currentTab === 'pending') {
