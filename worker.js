@@ -296,15 +296,21 @@ export async function processBriefing(briefing) {
 
 /**
  * Loop principal que monitora a fila de análise no Supabase.
+ * - Processa jobs com status 'pending'
+ * - Reenfileira jobs 'failed' com backoff exponencial (máx 3 tentativas):
+ *     tentativa 1 → aguarda 5min, tentativa 2 → 15min, tentativa 3 → 60min
  */
 export async function startWorker() {
     console.log('🤖 [ORACULO-V] Motor de análise em background iniciado.');
-    
-    // Loop infinito de monitoramento
+
+    const RETRY_DELAYS_MS = [5 * 60 * 1000, 15 * 60 * 1000, 60 * 60 * 1000];
+    const MAX_RETRIES = RETRY_DELAYS_MS.length;
+
     setInterval(async () => {
+        if (!supabaseProtocol) return;
         try {
-            // Busca o próximo item pendente na fila (no Protocolo-V)
-            const { data: queueItem, error } = await supabaseProtocol
+            // 1. Tentar processar o próximo job pendente
+            const { data: queueItem } = await supabaseProtocol
                 .from('match_analysis_queue')
                 .select('*')
                 .eq('status', 'pending')
@@ -312,29 +318,53 @@ export async function startWorker() {
                 .limit(1)
                 .single();
 
-            if (error || !queueItem) return; // Nada para processar
+            if (queueItem) {
+                const { id, player_tag: player_id, match_id } = queueItem;
+                await supabaseProtocol.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
+                console.log(`📡 [QUEUE] Iniciando análise de ${player_id} - Partida ${match_id}`);
 
-            const { id, player_tag: player_id, match_id } = queueItem;
+                const result = await processBriefing({ match_id, player_id, map_name: null, agent_name: null });
 
-            // Marca como processando imediatamente no Protocolo-V
-            await supabaseProtocol.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
+                if (result.success) {
+                    await supabaseProtocol.from('match_analysis_queue')
+                        .update({ status: 'completed', retry_count: null, retry_after: null })
+                        .eq('id', id);
+                } else {
+                    const retryCount = (queueItem.retry_count || 0) + 1;
+                    if (retryCount <= MAX_RETRIES) {
+                        const delayMs = RETRY_DELAYS_MS[retryCount - 1];
+                        const retryAfter = new Date(Date.now() + delayMs).toISOString();
+                        console.warn(`⏳ [RETRY] Job ${id} falhará — tentativa ${retryCount}/${MAX_RETRIES}. Próximo retry em ${delayMs / 60000}min.`);
+                        await supabaseProtocol.from('match_analysis_queue')
+                            .update({ status: 'failed', error_msg: result.error, retry_count: retryCount, retry_after: retryAfter })
+                            .eq('id', id);
+                    } else {
+                        console.error(`❌ [QUEUE] Job ${id} esgotou ${MAX_RETRIES} tentativas. Marcando como permanentemente falho.`);
+                        await supabaseProtocol.from('match_analysis_queue')
+                            .update({ status: 'failed', error_msg: `[MAX_RETRIES] ${result.error}` })
+                            .eq('id', id);
+                    }
+                }
+                return; // Processou um job, aguarda o próximo tick
+            }
 
-            console.log(`📡 [QUEUE] Iniciando análise de ${player_id} - Partida ${match_id}`);
+            // 2. Verificar jobs 'failed' elegíveis para retry (retry_after no passado)
+            const now = new Date().toISOString();
+            const { data: retryItem } = await supabaseProtocol
+                .from('match_analysis_queue')
+                .select('*')
+                .eq('status', 'failed')
+                .not('retry_after', 'is', null)
+                .lte('retry_after', now)
+                .order('retry_after', { ascending: true })
+                .limit(1)
+                .single();
 
-            // Executa o processamento
-            const result = await processBriefing({
-                match_id,
-                player_id,
-                // O Oráculo-V busca os metadados restantes no Banco do Protocolo-V
-                map_name: null,
-                agent_name: null
-            });
-
-            // Atualiza o status final no Protocolo-V
-            if (result.success) {
-                await supabaseProtocol.from('match_analysis_queue').update({ status: 'completed' }).eq('id', id);
-            } else {
-                await supabaseProtocol.from('match_analysis_queue').update({ status: 'failed', error_msg: result.error }).eq('id', id);
+            if (retryItem) {
+                console.log(`🔁 [RETRY] Reenfileirando job ${retryItem.id} (tentativa ${retryItem.retry_count || 1}).`);
+                await supabaseProtocol.from('match_analysis_queue')
+                    .update({ status: 'pending', retry_after: null })
+                    .eq('id', retryItem.id);
             }
 
         } catch (err) {
