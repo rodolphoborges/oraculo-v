@@ -400,6 +400,55 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
   }
 });
 
+// GET - Estatísticas Consolidadas para o Dashboard Admin
+app.get('/api/admin/stats', adminAuth, async (req, res) => {
+  try {
+    const stats = { pending: 0, processing: 0, completed: 0, failed: 0 };
+    let jobs = [];
+
+    if (supabaseProtocol) {
+      // 1. Contagem rápida por status
+      const { data: counts } = await supabaseProtocol
+        .from('match_analysis_queue')
+        .select('status');
+      
+      if (counts) {
+        counts.forEach(c => { if (stats[c.status] !== undefined) stats[c.status]++; });
+      }
+
+      // 2. Contagem de concluídos no Protocolo-V
+      const { count: completedCount } = await supabaseProtocol
+        .from('ai_insights')
+        .select('*', { count: 'exact', head: true });
+      stats.completed = completedCount || 0;
+
+      // 3. Buscar os jobs mais recentes (Últimos 50)
+      const { data: queueJobs } = await supabaseProtocol
+        .from('match_analysis_queue')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50);
+      
+      jobs = queueJobs || [];
+    }
+
+    res.json({
+      success: true,
+      stats,
+      jobs: jobs.map(j => ({
+        player_tag: j.player_tag,
+        match_id: j.match_id,
+        status: j.status,
+        retry_count: j.retry_count,
+        created_at: j.created_at
+      }))
+    });
+  } catch (err) {
+    console.error('[API ADMIN STATS] Erro:', err.message);
+    res.status(500).json({ error: 'Erro ao consolidar estatísticas.' });
+  }
+});
+
 // GET - Histórico de todas as análises
 app.get('/api/admin/history', adminAuth, async (req, res) => {
   try {
