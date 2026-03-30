@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Core Database Connection
-import { supabase } from './lib/supabase.js';
+import { supabase, supabaseProtocol } from './lib/supabase.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,6 +26,10 @@ const adminAuth = (req, res, next) => {
   const apiKey = req.headers['x-api-key'];
   const masterKey = process.env.ADMIN_API_KEY;
 
+  // Permitir acesso local (Dashboard) sem chave
+  const isLocal = req.hostname === 'localhost' || req.hostname === '127.0.0.1';
+  if (isLocal) return next();
+
   if (!masterKey) {
     console.error('[SECURITY] ADMIN_API_KEY não configurada no servidor.');
     return res.status(500).json({ error: 'Configuração de segurança pendente no servidor.' });
@@ -39,7 +43,7 @@ const adminAuth = (req, res, next) => {
 
 app.post('/api/queue', async (req, res) => {
   const briefing = req.body;
-  const { player_id, match_id } = briefing;
+  const { player_tag: player_id, match_id } = briefing;
 
   if (!player_id || !match_id) {
     return res.status(400).json({ error: 'Player ID e Match ID são obrigatórios no briefing.' });
@@ -68,6 +72,21 @@ app.post('/api/queue', async (req, res) => {
 
   console.log(`[API] Briefing recebido (Async): ${player_id} - ${match_id}`);
 
+  // Registrar na fila do Protocolo-V para visibilidade no monitor Admin
+  if (supabaseProtocol) {
+    try {
+      await supabaseProtocol.from('match_analysis_queue').upsert([{
+        match_id,
+        player_tag: player_id,
+        status: 'processing',
+        created_at: new Date().toISOString()
+      }], { onConflict: 'match_id, player_tag' });
+      console.log(`📡 [QUEUE-SYNC] Job registrado no Admin: ${player_id}`);
+    } catch (err) {
+      console.warn(`⚠️ [QUEUE-SYNC] Falha ao registrar no Admin: ${err.message}`);
+    }
+  }
+
   // Disparar processamento em background (202 Accepted)
   processBriefing(briefing)
     .catch(err => console.error(`[ENGINE] Falha crítica no processamento de ${match_id}:`, err.message));
@@ -85,7 +104,7 @@ app.post('/api/queue', async (req, res) => {
  */
 app.post('/api/analyze', async (req, res) => {
   const briefing = req.body;
-  const { player_id, match_id } = briefing;
+  const { player_tag: player_id, match_id } = briefing;
 
   if (!player_id || !match_id) {
     return res.status(400).json({ error: 'Player ID e Match ID são obrigatórios.' });
@@ -96,6 +115,20 @@ app.post('/api/analyze', async (req, res) => {
   }
 
   console.log(`[API] Requisição Síncrona /analyze: Match ${match_id} (Player: ${player_id})`);
+
+  // Registrar na fila do Protocolo-V para visibilidade no monitor Admin
+  if (supabaseProtocol) {
+    try {
+      await supabaseProtocol.from('match_analysis_queue').upsert([{
+        match_id,
+        player_tag: player_id,
+        status: 'processing',
+        created_at: new Date().toISOString()
+      }], { onConflict: 'match_id, player_tag' });
+    } catch (err) {
+      console.warn(`⚠️ [QUEUE-SYNC] Falha ao registrar no Admin: ${err.message}`);
+    }
+  }
 
   try {
     // Timeout de segurança no servidor express se desejar, mas vamos aguardar o processamento
@@ -128,23 +161,7 @@ app.get('/api/status/:matchId', async (req, res) => {
   if (!player) return res.status(400).json({ error: 'Player ID é obrigatório via query string (?player=...)' });
 
   try {
-    // Busca diretamente na tabela de insights (usamos limit 1 para evitar erro de duplicidade)
-    const { data: insights, error } = await supabase
-      .from('ai_insights')
-      .select('*')
-      .eq('match_id', matchId)
-      .eq('player_id', player)
-      .order('created_at', { ascending: false })
-      .limit(1);
-
-    const data = insights && insights.length > 0 ? insights[0] : null;
-
-    if (error || !data) {
-      if (error && error.code !== 'PGRST116') throw error;
-      return res.status(404).json({ status: 'pending', message: 'Insight ainda não gerado ou partida não enviada.' });
-    }
-
-    // Se encontramos no banco, verificamos se temos o JSON local para o relatório completo
+    // 1. Tentar primeiro o arquivo local (mais rápido e ignora discrepâncias de case no Windows)
     const reportPath = path.join(__dirname, 'analyses', `match_${matchId}_${player.replace('#', '_')}.json`);
     try {
       await fs.promises.access(reportPath); 
@@ -152,6 +169,25 @@ app.get('/api/status/:matchId', async (req, res) => {
       const result = JSON.parse(content);
       return res.json({ status: 'completed', result });
     } catch (pErr) {
+      // Se o arquivo não existe, tenta o banco (pode ter sido gerado via Cloud/API sem arquivo local)
+      
+      // Busca diretamente na tabela de insights (usamos limit 1 para evitar erro de duplicidade)
+      // ilike para lidar com OUSADIA#013 vs ousadia#013
+      const { data: insights, error } = await supabase
+        .from('ai_insights')
+        .select('*')
+        .eq('match_id', matchId)
+        .ilike('player_id', player.replace('#', '%')) 
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      const data = insights && insights.length > 0 ? insights[0] : null;
+
+      if (error || !data) {
+        if (error && error.code !== 'PGRST116') throw error;
+        return res.status(404).json({ status: 'pending', message: 'Insight ainda não gerado ou partida não enviada.' });
+      }
+
       // Tenta parsear o insight se ele for uma string JSON
       let tacticalInsight = data.insight_resumo;
       try {
@@ -165,15 +201,15 @@ app.get('/api/status/:matchId', async (req, res) => {
       return res.json({ 
         status: 'completed', 
         result: { 
-          agent: stats?.agent || 'DESCONHECIDO',
-          map: stats?.map || 'TODOS',
-          performance_index: stats?.impact_score || 0,
-          performance_status: (stats?.impact_score || 0) >= 100 ? 'ABOVE_BASELINE' : 'BELOW_BASELINE',
-          estimated_rank: data.classification || stats?.impact_rank || 'N/A',
-          kd: stats?.deaths > 0 ? stats.kills / stats.deaths : stats?.kills || 0,
+          agent: 'AGENTE',
+          map: 'VALORANT',
+          performance_index: data.impact_score || 0,
+          performance_status: (data.impact_score || 0) >= 100 ? 'ABOVE_BASELINE' : 'BELOW_BASELINE',
+          estimated_rank: data.classification || 'N/A',
+          kd: 0,
           target_kd: 1.0,
-          acs: stats?.acs || 0,
-          adr: stats?.adr || 0,
+          acs: 0,
+          adr: 0,
           conselho_kaio: tacticalInsight,
           rounds: [] // Fallback sem timeline
         }
@@ -188,17 +224,33 @@ app.get('/api/status/:matchId', async (req, res) => {
 
 app.get('/api/admin/stats', adminAuth, async (req, res) => {
   try {
-    const { data: insights, error, count } = await supabase
-      .from('ai_insights')
-      .select('*', { count: 'exact' })
+    // Busca os últimos 50 itens da fila (match_analysis_queue) no Protocolo-V
+    const { data: jobs, error } = await supabaseProtocol
+      .from('match_analysis_queue')
+      .select('*')
       .order('created_at', { ascending: false })
-      .range(0, 49);
+      .limit(50);
 
     if (error) throw error;
 
+    // Calcular estatísticas agregadas
+    const stats = {
+      total: jobs.length,
+      pending: jobs.filter(j => j.status === 'pending').length,
+      processing: jobs.filter(j => j.status === 'processing').length,
+      completed: jobs.filter(j => j.status === 'completed').length,
+      failed: jobs.filter(j => j.status === 'failed').length
+    };
+
     res.json({ 
-        total_records: count,
-        last_insights: insights 
+        stats, 
+        jobs: jobs.map(j => ({
+            id: j.id,
+            agente_tag: j.player_tag,
+            match_id: j.match_id,
+            status: j.status,
+            created_at: j.created_at
+        }))
     });
   } catch (err) {
     console.error('[API ADMIN] Erro:', err.message);
@@ -211,6 +263,14 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
 } else {
   app.listen(PORT, () => {
     console.log(`Oráculo V Dashboard rodando em http://localhost:${PORT}`);
+    console.log('--- SUPABASE CLIENT STATUS ---');
+    console.log('Oráculo Client:', !!supabase);
+    console.log('Protocol Client:', !!supabaseProtocol);
+    if (!supabaseProtocol) {
+      console.warn('⚠️ supabaseProtocol is NULL in server.js');
+    }
+    console.log('------------------------------');
+
     // Inicia o motor de processamento da fila em background
     startWorker().catch(err => console.error('[WORKER] Erro na inicialização:', err.message));
   });
