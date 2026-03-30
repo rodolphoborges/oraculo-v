@@ -79,33 +79,50 @@
             <p class="subtitle">> MONITORAMENTO_DE_FILA_EM_TEMPO_REAL</p>
         </header>
 
-        <section class="admin-grid" id="statsGrid">
-            <div class="stat-card">
-                <div class="stat-label">Total de Análises</div>
-                <div class="stat-value" id="statTotal">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Pendentes</div>
-                <div class="stat-value" id="statPending">-</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Falhas</div>
-                <div class="stat-value" id="statFailed" style="color: var(--red);">-</div>
-            </div>
-        </section>
+        <!-- Abas -->
+        <div style="margin: 20px 0; border-bottom: 2px solid rgba(0,255,65,0.2); display: flex; gap: 20px;">
+            <button id="tabQueue" onclick="switchTab('queue')" style="background: none; border: none; padding: 10px 0; color: var(--green-ok); font-size: 0.9rem; font-weight: bold; cursor: pointer; border-bottom: 2px solid var(--green-ok);">📊 FILA</button>
+            <button id="tabHistory" onclick="switchTab('history')" style="background: none; border: none; padding: 10px 0; color: rgba(0,255,65,0.5); font-size: 0.9rem; font-weight: bold; cursor: pointer;">📜 HISTÓRICO</button>
+        </div>
 
-        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-            <button id="btnDeleteAll" onclick="deleteAllJobs()" style="background: var(--red); color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; font-family: inherit;">🗑️ APAGAR TODAS</button>
+        <!-- FILA -->
+        <div id="queueTab">
+            <section class="admin-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-label">Total de Análises</div>
+                    <div class="stat-value" id="statTotal">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pendentes</div>
+                    <div class="stat-value" id="statPending">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Falhas</div>
+                    <div class="stat-value" id="statFailed" style="color: var(--red);">-</div>
+                </div>
+            </section>
+
+            <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+                <button id="btnDeleteAll" onclick="deleteAllJobs()" style="background: var(--red); color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; font-family: inherit;">🗑️ APAGAR TODAS DA FILA</button>
+            </div>
+        </div>
+
+        <!-- HISTÓRICO -->
+        <div id="historyTab" style="display: none;">
+            <div style="margin-bottom: 15px;">
+                <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Total de análises no histórico: <b id="historyCount">-</b></p>
+                <button id="btnDeleteAllHistory" onclick="deleteAllAnalyses()" style="background: var(--red); color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; font-family: inherit;">🗑️ APAGAR TODO HISTÓRICO</button>
+            </div>
         </div>
 
         <section class="admin-table-container">
             <table id="jobsTable">
-                <thead>
+                <thead id="tableHead">
                     <tr>
                         <th>ID_CONTRATO</th>
                         <th>AGENTE_TAG</th>
                         <th>MATCH_ID</th>
-                        <th>STATUS</th>
+                        <th id="headerCol4">STATUS</th>
                         <th>DATA_SOLICITAÇÃO</th>
                         <th>AÇÕES</th>
                     </tr>

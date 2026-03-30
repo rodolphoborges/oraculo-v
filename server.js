@@ -289,8 +289,8 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
       failed: jobs.filter(j => j.status === 'failed').length
     };
 
-    res.json({ 
-        stats, 
+    res.json({
+        stats,
         jobs: jobs.map(j => ({
             id: j.id,
             agente_tag: j.player_tag,
@@ -302,6 +302,33 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
   } catch (err) {
     console.error('[API ADMIN] Erro:', err.message);
     res.status(500).json({ error: 'Erro interno ao recuperar estatísticas administrativas.' });
+  }
+});
+
+// GET - Histórico de todas as análises
+app.get('/api/admin/history', adminAuth, async (req, res) => {
+  try {
+    const { data: analyses, error } = await supabase
+      .from('ai_insights')
+      .select('id, player_id, match_id, created_at, impact_score: analysis_report->impact_score')
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (error) throw error;
+
+    res.json({
+      total: analyses.length,
+      analyses: analyses.map(a => ({
+        id: a.id,
+        agente_tag: a.player_id,
+        match_id: a.match_id,
+        created_at: a.created_at,
+        impact_score: a.impact_score || '--'
+      }))
+    });
+  } catch (err) {
+    console.error('[API ADMIN HISTORY] Erro:', err.message);
+    res.status(500).json({ error: 'Erro interno ao recuperar histórico.' });
   }
 });
 
