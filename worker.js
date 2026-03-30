@@ -297,6 +297,23 @@ export async function startWorker() {
     const RETRY_DELAYS_MS = [5 * 60 * 1000, 15 * 60 * 1000, 60 * 60 * 1000];
     const MAX_RETRIES = RETRY_DELAYS_MS.length;
 
+    // --- [ESTIMADOR TÁTICO v4.2] ---
+    let jobTimeSamples = [];
+    const MAX_SAMPLES = 5; 
+    let totalProcessedThisSession = 0;
+
+    function getETA(pendingCount) {
+        if (jobTimeSamples.length === 0) return "CALCULANDO...";
+        const avg = jobTimeSamples.reduce((a, b) => a + b, 0) / jobTimeSamples.length;
+        const totalRemainingSeconds = (avg * pendingCount) / 1000;
+        
+        if (totalRemainingSeconds < 60) return `${Math.ceil(totalRemainingSeconds)}s`;
+        const mins = Math.floor(totalRemainingSeconds / 60);
+        const secs = Math.ceil(totalRemainingSeconds % 60);
+        return `${mins}m ${secs}s`;
+    }
+    // -------------------------------
+
     setInterval(async () => {
         if (!supabaseProtocol) return;
         try {
@@ -311,17 +328,33 @@ export async function startWorker() {
 
             if (queueItem) {
                 const { id, player_tag: player_id, match_id } = queueItem;
-                await supabaseProtocol.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
-                console.log(`📡 [QUEUE] Iniciando análise de ${player_id} - Partida ${match_id}`);
+                
+                // 1.1 Consultar total pendente para o estimador
+                const { count: pendingCount } = await supabaseProtocol
+                    .from('match_analysis_queue')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('status', 'pending');
 
+                await supabaseProtocol.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
+                
+                const eta = getETA(pendingCount || 0);
+                console.log(`\n📡 [QUEUE] Analisando: ${player_id} | Restantes: ${pendingCount} | ETA: ${eta}`);
+                
+                const startTime = Date.now();
                 const result = await processBriefing({ match_id, player_id, map_name: null, agent_name: null });
+                const duration = Date.now() - startTime;
 
                 if (result.success) {
+                    // Atualiza métricas de tempo
+                    jobTimeSamples.push(duration);
+                    if (jobTimeSamples.length > MAX_SAMPLES) jobTimeSamples.shift();
+                    totalProcessedThisSession++;
+
                     // Remover da fila após sucesso
                     await supabaseProtocol.from('match_analysis_queue')
                         .delete()
                         .eq('id', id);
-                    console.log(`✅ [QUEUE] Job concluído e removido: ${player_id}`);
+                    console.log(`✅ [QUEUE] Concluído em ${(duration/1000).toFixed(1)}s (Total: ${totalProcessedThisSession})`);
                 } else {
                     // Se o erro for de jogador não encontrado (deletado), removemos da fila para evitar loop infinito
                     if (result.error && result.error.includes("não encontrado")) {
