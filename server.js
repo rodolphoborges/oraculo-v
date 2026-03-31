@@ -458,22 +458,28 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
 
     // Filtro por Busca (Player ID ou Match ID)
     if (search) {
-      query = query.or(`player_id.ilike.%${search}%,match_id.ilike.%${search}%`);
+      if (UUID_REGEX.test(search)) {
+        query = query.or(`player_id.ilike.%${search}%,match_id.eq.${search}`);
+      } else {
+        query = query.ilike('player_id', `%${search}%`);
+      }
     }
 
     // Filtro por Data Real da Partida (started_at é BigInt/Number Epoch MS no banco)
     if (date) {
-      const startOfDay = new Date(`${date}T00:00:00`).getTime();
-      const endOfDay = new Date(`${date}T23:59:59.999`).getTime();
+      // Definir início e fim do dia em UTC para comparação numérica
+      const startOfDay = new Date(`${date}T00:00:00Z`).getTime();
+      const endOfDay = new Date(`${date}T23:59:59.999Z`).getTime();
+      
+      console.log(`[API] Filtrando partidas entre: ${startOfDay} e ${endOfDay} (Data: ${date})`);
       
       // Filtrando no JOIN (com !inner acima)
       query = query.gte('operations.started_at', startOfDay).lte('operations.started_at', endOfDay);
     }
 
     // Ordenação
-    // Se a ordenação for por data, usamos a data da PARTIDA se disponível
     const sortCol = sortBy === 'score' ? 'impact_score' : 'created_at';
-    const sortOrder = order === 'asc' ? true : false;
+    const sortOrder = order === 'asc';
     query = query.order(sortCol, { ascending: sortOrder });
 
     // Limite de performance
@@ -484,15 +490,18 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
       throw error;
     }
 
+    // Processar resultados
+    const results = (analyses || []).map(a => ({
+      id: a.id,
+      agente_tag: a.player_id,
+      match_id: a.match_id,
+      created_at: a.operations?.started_at || a.created_at,
+      impact_score: a.impact_score || '--'
+    }));
+
     res.json({
-      total: totalCount || 0,
-      analyses: (analyses || []).map(a => ({
-        id: a.id,
-        agente_tag: a.player_id,
-        match_id: a.match_id,
-        created_at: a.operations?.started_at || a.created_at, // Retornamos a data da partida para o frontend
-        impact_score: a.impact_score || '--'
-      }))
+      total: totalCount || results.length,
+      analyses: results
     });
   } catch (err) {
     console.error('[API ADMIN HISTORY] Erro:', err.message);
