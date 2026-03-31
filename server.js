@@ -616,43 +616,80 @@ app.post('/api/admin/reprocess', adminAuth, async (req, res) => {
   }
 });
 
-// POST - Reprocessar em LOTE (Bulk Enqueue)
-app.post('/api/admin/reprocess/bulk', adminAuth, async (req, res) => {
+// POST - Sincronizar TODAS as pendências (Gap Tático) diretamente no servidor
+app.post('/api/admin/queue/sync-all', adminAuth, async (req, res) => {
+  if (!supabaseProtocol) return res.status(503).json({ error: 'Serviço Protocolo-V indisponível' });
+
   try {
-    const { items } = req.body;
-    if (!items || !Array.isArray(items)) {
-      return res.status(400).json({ error: 'Lista de items é obrigatória.' });
+    console.log('🚀 [ADMIN] Iniciando sincronização GLOBAL de pendências...');
+
+    // 1. Buscar a lista real de quem falta ser analisado (sem limite de 50)
+    let pendingItems = [];
+    const { data: rpcPending, error: rpcError } = await supabaseProtocol.rpc('get_pending_tactical_analyses');
+
+    if (rpcError) {
+      console.warn('⚠️ RPC falhou, usando fallback manual para busca global...');
+      const { data: ops } = await supabaseProtocol
+        .from('operation_squads')
+        .select('operation_id, riot_id, operations(started_at)')
+        .eq('operations.mode', 'Competitive');
+
+      const { data: insights } = await supabaseProtocol.from('ai_insights').select('match_id, player_id');
+      const { data: queue } = await supabaseProtocol.from('match_analysis_queue').select('match_id, player_tag');
+
+      const excludeKeys = new Set([
+        ...(insights?.map(i => `${i.match_id}_${i.player_id.toLowerCase().trim()}`) || []),
+        ...(queue?.map(q => `${q.match_id}_${q.player_tag.toLowerCase().trim()}`) || [])
+      ]);
+
+      pendingItems = ops.filter(op => {
+        const key = `${op.operation_id}_${op.riot_id.toLowerCase().trim()}`;
+        return !excludeKeys.has(key);
+      }).map(m => ({ match_id: m.operation_id, player_tag: m.riot_id, started_at: m.operations?.started_at }));
+    } else {
+      pendingItems = rpcPending || [];
     }
 
-    console.log(`🚀 [ADMIN] Enfileirando LOTE de ${items.length} análises.`);
+    if (pendingItems.length === 0) {
+      return res.json({ success: true, message: 'Nenhuma nova pendência encontrada.', added: 0 });
+    }
 
-    // Ordenar itens por data (started_at) para garantir cronologia
-    const sortedItems = [...items].sort((a, b) => new Date(a.started_at) - new Date(b.started_at));
+    console.log(`📦 Encontradas ${pendingItems.length} pendências. Enfileirando cronologicamente...`);
+
+    // 2. Ordenar por data para processar da mais antiga para a mais nova
+    const sorted = pendingItems.sort((a, b) => new Date(a.started_at) - new Date(b.started_at));
 
     const startTime = Date.now();
-    const queueItems = sortedItems.map((item, index) => ({
+    const queueItems = sorted.map((item, index) => ({
       match_id: item.match_id,
       player_tag: item.player_tag,
       status: 'pending',
-      // Adiciona 1ms de distância para garantir a ordem cronológica no "ORDER BY created_at ASC" do worker
-      created_at: new Date(startTime + index).toISOString()
+      created_at: new Date(startTime + index).toISOString() // microssegundos de diferença para preservar ordem
     }));
 
-    if (supabaseProtocol) {
+    // 3. Inserir em lotes de 100 para evitar timeout do Supabase
+    const BATCH_SIZE = 100;
+    let addedCount = 0;
+    for (let i = 0; i < queueItems.length; i += BATCH_SIZE) {
+      const batch = queueItems.slice(i, i + BATCH_SIZE);
       const { error } = await supabaseProtocol
         .from('match_analysis_queue')
-        .upsert(queueItems, { onConflict: 'match_id, player_tag' });
-
+        .upsert(batch, { onConflict: 'match_id, player_tag' });
+      
       if (error) throw error;
+      addedCount += batch.length;
+      console.log(`✅ Lote enfileirado: ${addedCount}/${queueItems.length}`);
     }
 
     res.json({
       success: true,
-      message: `${items.length} análises enviadas para a fila de processamento.`,
+      message: `${addedCount} análises enfileiradas com sucesso.`,
+      total_in_queue: addedCount
     });
+
   } catch (err) {
-    console.error('[API ADMIN BULK] Erro:', err.message);
-    res.status(500).json({ error: 'Erro ao processar lote: ' + err.message });
+    console.error('[API ADMIN SYNC-ALL] Erro:', err.message);
+    res.status(500).json({ error: 'Erro ao sincronizar pendências: ' + err.message });
   }
 });
 

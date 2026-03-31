@@ -369,11 +369,32 @@ async function analyzeSelected() {
 }
 
 async function analyzeAllPending() {
-    if (currentPending.length === 0) return;
-    
-    if (!confirm(`🔥 ATENÇÃO: Deseja ENFILEIRAR TODAS as ${currentPending.length} análises pendentes?`)) return;
+    if (!confirm(`🔥 ATENÇÃO: Deseja ENFILEIRAR TODAS as análises pendentes (Gap Tático)?`)) return;
 
-    await batchReprocess(currentPending);
+    const btnAll = document.getElementById('btnAnalyzeAll');
+    btnAll.disabled = true;
+    btnAll.textContent = '⏳ SINCRONIZANDO COM SERVIDOR...';
+
+    try {
+        const res = await fetch('/api/admin/queue/sync-all', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const data = await res.json();
+        if (res.ok) {
+            alert(`🚀 Missão Aceita!\n${data.total_in_queue} análises enfileiradas diretamente no servidor.`);
+            updateStats();
+        } else {
+            alert(`⚠️ Falha na sincronização: ${data.error}`);
+        }
+    } catch (err) {
+        alert(`❌ Erro de conexão: ${err.message}`);
+    } finally {
+        btnAll.disabled = false;
+        btnAll.textContent = '🔥 ANALISAR TODAS AS PENDÊNCIAS';
+        loadPending();
+    }
 }
 
 async function batchReprocess(items) {
