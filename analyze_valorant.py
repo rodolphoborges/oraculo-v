@@ -529,9 +529,9 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     perf_t = holt_next.get("performance_t")
     if perf_t is not None:
         if perf_t > 0.5:
-            conselhos.append(tm.format("insight_consistencia_alta", f"EVOLUÇÃO DETECTADA: Tendência de melhora robusta (+{perf_t:.1f}% por partida). O Oráculo prevê performance superior no próximo combate ({holt_next['performance_forecast']:.1f}%). Mantenha o ritmo."))
+            conselhos.append(f"TENDÊNCIA POSITIVA: Performance Index cresceu +{perf_t:.1f} ponto(s)/partida. Projeção Holt-Winters para a próxima: {holt_next['performance_forecast']:.0f}%.")
         elif perf_t < -0.5:
-            conselhos.append(tm.format("insight_consistencia_baixa", f"ALERTA DE QUEDA: Tendência de performance negativa identificada ({perf_t:.1f}%). Seu nível técnico está oscilando para baixo. Reavalie sua postura tática antes da próxima partida."))
+            conselhos.append(f"TENDÊNCIA NEGATIVA: Performance Index caiu {abs(perf_t):.1f} ponto(s)/partida. Projeção para a próxima: {holt_next['performance_forecast']:.0f}%. Identifique a causa antes do próximo combate.")
         
         kd_t = holt_next.get("kd_t")
         adr_t = holt_next.get("adr_t")
@@ -573,7 +573,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         conselhos.append(rt["artigo_fd_warning"].format(fd=first_deaths_count))
     
     if not conselhos:
-        conselhos.append(tm.format("insight_recomendacao", "FOCO_OPERACIONAL: DESEMPENHO DENTRO DOS PARÂMETROS CONSTITUCIONAIS. O Oráculo segue monitorando sua evolução técnica."))
+        conselhos.append(f"PARÂMETROS OK — K/D {actual_kd:.2f} | ADR {adr:.0f} | KAST {kast_val}% dentro do esperado para {role}. Sem violações de doutrina.")
 
     # --- DERIVAÇÃO ÚNICA DE RANK E TOM (Fonte: performance_index) ---
     # Thresholds realistas para Silver-Diamond (não Radiant)
@@ -585,7 +585,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         perf_status = "ELITE DO PROTOCOLO"
         technical_rank = "Alpha"
         tone = f"O jogador brilhou como {curr_agent}. Use termos táticos para elogiar domínio do mapa e sinergia perfeita."
-        conselhos.append("DESEMPENHO EXCEPCIONAL: Você está significativamente acima da média para seu elo. Mantenha este nível.")
+        conselhos.append(f"ELITE DO PROTOCOLO: Performance Index {perf_idx:.0f}% acima do baseline. ADR {adr:.0f} e {first_kills_count} first blood(s) sustentaram esse resultado.")
     elif perf_idx >= 95:
         perf_status = "DENTRO DOS PARÂMETROS"
         technical_rank = "Omega"
@@ -594,7 +594,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         perf_status = "ABAIXO DO RADAR"
         technical_rank = "Depósito de Torreta"
         tone = f"O desempenho ficou aquém do esperado para {curr_agent} em {curr_map}. Seja direto sobre as deficiências táticas."
-        conselhos.append(f"PERFORMANCE ABAIXO DA META: Você obteve {perf_idx:.1f}% da performance esperada. Revise seu posicionamento e timing.")
+        conselhos.append(f"ABAIXO DO BASELINE: Performance Index {perf_idx:.0f}% (meta: 95%). ADR {adr:.0f} (mín: {rt['adr_min']}) | KAST {kast_val}% (mín: {rt['kast_min']}%). Identifique o ponto de falha para {role}.")
 
     # --- DETECÇÃO DE ESQUADRÃO (Sinergia) ---
     squad_stats = []

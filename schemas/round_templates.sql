@@ -1,4 +1,9 @@
 -- Tabela de Templates de Comentários Dinâmicos
+-- ATENÇÃO: event_types de insight estratégico (insight_consistencia_alta,
+-- insight_consistencia_baixa, insight_recomendacao) NÃO devem ter entradas aqui.
+-- Essas mensagens são geradas diretamente com f-strings em analyze_valorant.py
+-- para garantir que os valores reais (K/D, ADR, KAST, perf_t) apareçam no texto.
+-- Entradas no banco para esses tipos seriam ignoradas.
 CREATE TABLE IF NOT EXISTS round_comment_templates (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   event_type text NOT NULL, -- 'pos_generic', 'neg_generic', 'first_blood', 'bomb_planted', 'bomb_defused', 'eco_kill', 'low_impact_death'
