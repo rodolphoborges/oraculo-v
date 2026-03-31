@@ -388,6 +388,7 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
       ]);
 
       // Filtrar apenas o que falta de VERDADE (sem insight e fora da fila)
+      // Ordena por data (started_at) ASC para que as análises sejam feitas na ordem cronológica correta
       const allTrueMissing = ops.filter(op => {
         const key = `${op.operation_id}_${op.riot_id.toLowerCase().trim()}`;
         return !excludeKeys.has(key);
@@ -397,68 +398,21 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
         agent: m.agent,
         started_at: m.operations?.started_at,
         map_name: m.operations?.map_name
-      }));
+      })).sort((a, b) => new Date(a.started_at) - new Date(b.started_at));
 
-      // Retorna o total real encontrado, mas limita a lista de exibição para performance
       return res.json({ total: allTrueMissing.length, missing: allTrueMissing.slice(0, 50) });
     }
 
-    res.json({ total: pending.length, missing: pending.slice(0, 50) });
-
+    // Se o RPC retornou dados, garantir que respeitamos o limite de exibição e ordem cronológica
+    const sortedPending = (pending || []).sort((a, b) => new Date(a.started_at) - new Date(b.started_at));
+    res.json({ total: sortedPending.length, missing: sortedPending.slice(0, 50) });
   } catch (err) {
     console.error('[API ADMIN PENDING] Erro:', err.message);
     res.status(500).json({ error: 'Erro ao listar pendências: ' + err.message });
   }
 });
 
-// GET - Estatísticas Consolidadas para o Dashboard Admin
-app.get('/api/admin/stats', adminAuth, async (req, res) => {
-  try {
-    const stats = { pending: 0, processing: 0, completed: 0, failed: 0 };
-    let jobs = [];
 
-    if (supabaseProtocol) {
-      // 1. Contagem rápida por status
-      const { data: counts } = await supabaseProtocol
-        .from('match_analysis_queue')
-        .select('status');
-      
-      if (counts) {
-        counts.forEach(c => { if (stats[c.status] !== undefined) stats[c.status]++; });
-      }
-
-      // 2. Contagem de concluídos no Protocolo-V
-      const { count: completedCount } = await supabaseProtocol
-        .from('ai_insights')
-        .select('*', { count: 'exact', head: true });
-      stats.completed = completedCount || 0;
-
-      // 3. Buscar os jobs mais recentes (Últimos 50)
-      const { data: queueJobs } = await supabaseProtocol
-        .from('match_analysis_queue')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(50);
-      
-      jobs = queueJobs || [];
-    }
-
-    res.json({
-      success: true,
-      stats,
-      jobs: jobs.map(j => ({
-        player_tag: j.player_tag,
-        match_id: j.match_id,
-        status: j.status,
-        retry_count: j.retry_count,
-        created_at: j.created_at
-      }))
-    });
-  } catch (err) {
-    console.error('[API ADMIN STATS] Erro:', err.message);
-    res.status(500).json({ error: 'Erro ao consolidar estatísticas.' });
-  }
-});
 
 // GET - Histórico de todas as análises
 app.get('/api/admin/history', adminAuth, async (req, res) => {
@@ -672,11 +626,16 @@ app.post('/api/admin/reprocess/bulk', adminAuth, async (req, res) => {
 
     console.log(`🚀 [ADMIN] Enfileirando LOTE de ${items.length} análises.`);
 
-    const queueItems = items.map(item => ({
+    // Ordenar itens por data (started_at) para garantir cronologia
+    const sortedItems = [...items].sort((a, b) => new Date(a.started_at) - new Date(b.started_at));
+
+    const startTime = Date.now();
+    const queueItems = sortedItems.map((item, index) => ({
       match_id: item.match_id,
       player_tag: item.player_tag,
       status: 'pending',
-      created_at: new Date().toISOString()
+      // Adiciona 1ms de distância para garantir a ordem cronológica no "ORDER BY created_at ASC" do worker
+      created_at: new Date(startTime + index).toISOString()
     }));
 
     if (supabaseProtocol) {
