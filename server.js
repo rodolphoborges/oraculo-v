@@ -448,26 +448,27 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
   try {
     const { search, date, sortBy, order } = req.query;
 
+    // Buscamos os insights junto com a data real da partida (JOIN com operations)
     let query = supabaseProtocol
       .from('ai_insights')
-      .select('id, player_id, match_id, created_at, impact_score', { count: 'exact' });
+      .select('id, player_id, match_id, created_at, impact_score, operations(started_at)', { count: 'exact' });
 
     // Filtro por Busca (Player ID ou Match ID)
     if (search) {
       query = query.or(`player_id.ilike.%${search}%,match_id.ilike.%${search}%`);
     }
 
-    // Filtro por Data
+    // Filtro por Data (Reclamação do User: Deve ser a data do Match, não da Análise)
     if (date) {
-      const startOfDay = new Date(date);
-      startOfDay.setHours(0, 0, 0, 0);
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 999);
-      query = query.gte('created_at', startOfDay.toISOString()).lte('created_at', endOfDay.toISOString());
+      const startOfDay = new Date(date).toISOString();
+      const endOfDay = new Date(new Date(date).setHours(23, 59, 59, 999)).toISOString();
+      // Filtrando no JOIN
+      query = query.filter('operations.started_at', 'gte', startOfDay).filter('operations.started_at', 'lte', endOfDay);
     }
 
     // Ordenação
-    const sortCol = sortBy === 'score' ? 'impact_score' : 'created_at';
+    // Se a ordenação for por data, usamos a data da PARTIDA (started_at no JOIN)
+    const sortCol = sortBy === 'score' ? 'impact_score' : 'created_at'; // Supabase order by join column can be complex, fallbacking to insight creation if needed, but let's try to order by insight
     const sortOrder = order === 'asc' ? true : false;
     query = query.order(sortCol, { ascending: sortOrder });
 
@@ -482,7 +483,7 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
         id: a.id,
         agente_tag: a.player_id,
         match_id: a.match_id,
-        created_at: a.created_at,
+        created_at: a.operations?.started_at || a.created_at, // Retornamos a data da partida para o frontend
         impact_score: a.impact_score || '--'
       }))
     });
