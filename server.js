@@ -288,7 +288,7 @@ app.get('/api/status/:matchId', async (req, res) => {
  * Endpoint de Chat Direto com o Oráculo-V (Gemma3-Oraculo)
  * Utilizado para conversas táticas livres.
  */
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', adminAuth, async (req, res) => {
     const { messages, context } = req.body;
     
     if (!messages || !Array.isArray(messages)) {
