@@ -32,13 +32,26 @@ function switchTab(tab) {
     }
 }
 
+// Versão melhorada do Fetch para evitar erros de JSON quando o servidor retorna HTML (404/500)
+async function safeFetch(url, options = {}) {
+    const res = await fetch(url, options);
+    const contentType = res.headers.get('content-type');
+    
+    if (contentType && contentType.includes('application/json')) {
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `Erro ${res.status}`);
+        return data;
+    } else {
+        const text = await res.text();
+        if (!res.ok) throw new Error(`Erro ${res.status}: Servidor retornou conteúdo não-JSON.`);
+        return text;
+    }
+}
+
 async function updateStats() {
     try {
         console.log('[DEBUG] Atualizando estatísticas globais...');
-        const res = await fetch('/api/admin/stats');
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || 'Erro desconhecido no servidor');
+        const data = await safeFetch('/api/admin/stats');
 
         // Update Stats Cards (Sempre visíveis no topo)
         if (data.stats) {
@@ -105,11 +118,7 @@ function renderQueueTable(jobs) {
 
 async function loadHistory() {
     try {
-        const res = await fetch('/api/admin/history');
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error);
-
+        const data = await safeFetch('/api/admin/history');
         document.getElementById('historyCount').textContent = data.total;
 
         // ONLY update table if we are on the history tab
@@ -376,23 +385,18 @@ async function analyzeAllPending() {
     btnAll.textContent = '⏳ SINCRONIZANDO COM SERVIDOR...';
 
     try {
-        const res = await fetch('/api/admin/queue/sync-all', {
+        const data = await safeFetch('/api/admin/queue/sync-all', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
         
-        const data = await res.json();
-        if (res.ok) {
-            alert(`🚀 Missão Aceita!\n${data.total_in_queue} análises enfileiradas diretamente no servidor.`);
-            updateStats();
-        } else {
-            alert(`⚠️ Falha na sincronização: ${data.error}`);
-        }
+        alert(`🚀 Missão Aceita!\n${data.total_in_queue || data.added} análises enfileiradas diretamente no servidor.`);
+        updateStats();
     } catch (err) {
         alert(`❌ Erro de conexão: ${err.message}`);
     } finally {
         btnAll.disabled = false;
-        btnAll.textContent = '🔥 ANALISAR TODAS AS PENDÊNCIAS';
+        btnAll.textContent = '🔥 ANALISAR TODOS (FILA)';
         loadPending();
     }
 }
@@ -405,18 +409,13 @@ async function batchReprocess(items) {
     if (btnSel) btnSel.disabled = true;
 
     try {
-        const res = await fetch('/api/admin/reprocess/bulk', {
+        const data = await safeFetch('/api/admin/reprocess/bulk', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ items })
         });
         
-        const data = await res.json();
-        if (res.ok) {
-            alert(`🚀 Missão Aceita!\n${items.length} análises enviadas para o motor de processamento.`);
-        } else {
-            alert(`⚠️ Falha no enfileiramento: ${data.error}`);
-        }
+        alert(`🚀 Missão Aceita!\n${items.length} análises enviadas para o motor de processamento.`);
     } catch (err) {
         alert(`❌ Erro de conexão: ${err.message}`);
     } finally {
