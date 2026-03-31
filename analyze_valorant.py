@@ -245,8 +245,13 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             player_summary = s
             break
         
-        # 2. Tentativa de correspondência parcial (Apenas NAME) se ainda não encontrou
-        if not player_summary and ident_clean.split('#')[0] == player_name_prefix:
+        # 2. Tentativa de correspondência por prefixo exato (Apenas NAME)
+        if ident_clean.split('#')[0] == player_name_prefix:
+            player_summary = s
+            break
+
+        # 3. Tentativa de correspondência por sub-string (Fuzzy)
+        if player_name_prefix in ident_clean:
             player_summary = s
 
     if not player_summary:
