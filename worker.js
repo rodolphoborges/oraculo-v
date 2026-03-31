@@ -297,6 +297,25 @@ export async function startWorker() {
     const RETRY_DELAYS_MS = [5 * 60 * 1000, 15 * 60 * 1000, 60 * 60 * 1000];
     const MAX_RETRIES = RETRY_DELAYS_MS.length;
 
+    // --- [ORPHAN RECOVERY] ---
+    try {
+        const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+        const { data: orphans, error: orphanErr } = await supabaseProtocol
+            .from('match_analysis_queue')
+            .update({ status: 'pending', error_msg: '[AUTO-RECOVERY] Job estava travado em processing.' })
+            .eq('status', 'processing')
+            .lt('created_at', fifteenMinutesAgo)
+            .select();
+        
+        if (orphans && orphans.length > 0) {
+            console.log(`🛠️ [RECOVERY] ${orphans.length} jobs órfãos/travados retornados para a fila.`);
+        }
+    } catch (err) {
+        console.warn('⚠️ [RECOVERY] Erro na recuperação inicial:', err.message);
+    }
+    // -------------------------
+
+
     // --- [ESTIMADOR TÁTICO v4.2] ---
     let jobTimeSamples = [];
     const MAX_SAMPLES = 5; 

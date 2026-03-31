@@ -1,7 +1,11 @@
-import { supabase } from '../lib/supabase.js';
+import { supabaseProtocol } from '../lib/supabase.js';
 
 async function checkQueue() {
-  const { data, error } = await supabase
+  if (!supabaseProtocol) {
+    console.error('❌ Cliente Protocolo-V (supabaseProtocol) não está configurado.');
+    return;
+  }
+  const { data, error } = await supabaseProtocol
     .from('match_analysis_queue')
     .select('status');
 
@@ -18,9 +22,9 @@ async function checkQueue() {
   console.log('Queue Status Summary:');
   console.log(JSON.stringify(summary, null, 2));
 
-  const { data: latest, error: latestError } = await supabase
+  const { data: latest, error: latestError } = await supabaseProtocol
     .from('match_analysis_queue')
-    .select('id, status, match_id, agente_tag, created_at, error_message')
+    .select('id, status, match_id, player_tag, created_at, error_msg')
     .order('created_at', { ascending: false })
     .limit(5);
 
@@ -32,8 +36,8 @@ async function checkQueue() {
   console.log('--- Últimos 5 Jobs ---');
   latest.forEach(job => {
     const time = new Date(job.created_at).toLocaleString();
-    const error = job.error_message ? ` | Error: ${job.error_message.slice(0, 50)}...` : '';
-    console.log(`[${job.status.toUpperCase()}] ${job.agente_tag} (${job.match_id}) em ${time}${error}`);
+    const error = job.error_msg ? ` | Error: ${job.error_msg.slice(0, 50)}...` : '';
+    console.log(`[${job.status.toUpperCase()}] ${job.player_tag} (${job.match_id}) em ${time}${error}`);
   });
 }
 
