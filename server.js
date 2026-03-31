@@ -414,6 +414,35 @@ app.get('/api/admin/pending-squads', adminAuth, async (req, res) => {
 
 
 
+// POST - Reprocessar em Lote (Bulk)
+app.post('/api/admin/reprocess/bulk', adminAuth, async (req, res) => {
+  try {
+    const { items } = req.body;
+
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({ error: 'Lista de items inválida para reprocessamento.' });
+    }
+
+    console.log(`🚀 [ADMIN] Enfileirando ${items.length} análises para processamento síncrono...`);
+
+    // Fazemos o processamento de forma sequencial ou paralela (com limite se necessário)
+    // Para simplificar, vamos disparar em background e retornar 202
+    for (const item of items) {
+       registerQueueJob(item.match_id, item.player_tag, 'pending');
+    }
+
+    res.json({
+      success: true,
+      message: `${items.length} análises foram adicionadas à fila de processamento.`,
+      added: items.length
+    });
+
+  } catch (err) {
+    console.error('[API ADMIN BULK] Erro:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // GET - Histórico de todas as análises
 app.get('/api/admin/history', adminAuth, async (req, res) => {
   try {
@@ -714,5 +743,10 @@ if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
     startWorker().catch(err => console.error('[WORKER] Erro na inicialização:', err.message));
   });
 }
+
+// Fallback para rotas não encontradas - importante para evitar "Unexpected token <" no frontend
+app.use((req, res) => {
+    res.status(404).json({ error: `Rota não encontrada: ${req.method} ${req.url}` });
+});
 
 export default app;
