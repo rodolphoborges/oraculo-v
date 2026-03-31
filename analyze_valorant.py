@@ -590,6 +590,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         perf_status = "DENTRO DOS PARÂMETROS"
         technical_rank = "Omega"
         tone = f"Desempenho consistente e técnico. Aja como coach analítico — o jogador está no padrão esperado para seu nível."
+        conselhos.append(f"DENTRO DOS PARÂMETROS: Performance Index {perf_idx:.0f}% | ADR {adr:.0f} | KAST {kast_val}% — nível técnico estável para {role}.")
     else:
         perf_status = "ABAIXO DO RADAR"
         technical_rank = "Depósito de Torreta"
