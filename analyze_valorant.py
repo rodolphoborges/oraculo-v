@@ -101,10 +101,12 @@ ROLE_THRESHOLDS = {
 
 def resolve_role(agent_name, role_override=None):
     """Resolve o role do jogador pelo nome do agente ou override explícito."""
-    if role_override and role_override.lower() != "unknown":
-        return role_override
     if agent_name:
-        return AGENT_ROLE_MAP.get(agent_name.lower(), "Duelista")
+        role_from_agent = AGENT_ROLE_MAP.get(agent_name.lower())
+        if role_from_agent:
+            return role_from_agent
+    if role_override and role_override.lower() not in ("unknown", ""):
+        return role_override.capitalize()
     return "Duelista"
 
 def calculate_performance_index_improved(kd_actual, target_kd, adr, role, kast=None, first_bloods=0):
