@@ -94,23 +94,27 @@ function renderQueueTable(jobs) {
 
         // Deep Link para o Protocolo-V
         const openLink = job.status === 'completed'
-            ? `<a href="/protocol/analise.html?match=${job.match_id}&player=${encodeURIComponent(job.agente_tag)}" target="_blank" style="color:#00ff88;text-decoration:none;font-weight:bold;">[ VER ]</a>`
+            ? `<a href="/protocol/analise.html?match=${job.match_id}&player=${encodeURIComponent(job.agente_tag)}" target="_blank" class="btn-view">[ VER ]</a>`
             : '';
 
         // Botões de ação
         const actionBtns = `
-            <button onclick="reprocessJob('${job.match_id}', '${job.agente_tag}')" style="background:none;border:none;color:#00ccff;cursor:pointer;font-size:0.8rem;margin-right:10px;" title="Reprocessar">♻️ REPROCESSAR</button>
-            <button onclick="deleteJob('${job.match_id}', '${job.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
+            <div class="action-cell">
+                <button class="btn-action btn-reprocess" onclick="reprocessJob('${job.match_id}', '${job.agente_tag}')" title="Reprocessar">♻️ REPROCESSAR</button>
+                <button class="btn-action btn-delete" onclick="deleteJob('${job.match_id}', '${job.agente_tag}')" title="Apagar">🗑️ APAGAR</button>
+            </div>
         `;
+
+        const matchIdShort = job.match_id ? `${job.match_id.substring(0, 8)}...` : '---';
 
         row.innerHTML = `
             <td></td>
-            <td><code>${String(job.id).split('-')[0]}...</code></td>
+            <td><code>${String(job.id).split('-')[0]}</code></td>
             <td><b>${job.agente_tag.toUpperCase()}</b></td>
-            <td><small>${job.match_id}</small></td>
-            <td><span class="status-pill ${statusClass}">${job.status}</span> ${openLink}</td>
-            <td>${date}</td>
-            <td style="font-size:0.75rem;">${actionBtns}</td>
+            <td><span class="match-id-short" title="${job.match_id}">${matchIdShort}</span></td>
+            <td><div class="score-box"><span class="status-pill status-${job.status}">${job.status}</span> ${openLink}</div></td>
+            <td style="opacity: 0.7;">${date}</td>
+            <td>${actionBtns}</td>
         `;
         jobsList.appendChild(row);
     });
@@ -146,21 +150,31 @@ function renderHistoryTable(analyses) {
 
         // Botões de ação
         const actionBtns = `
-            <button onclick="reprocessJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#00ccff;cursor:pointer;font-size:0.8rem;margin-right:10px;" title="Reprocessar">♻️ REPROCESSAR</button>
-            <button onclick="deleteJob('${analysis.match_id}', '${analysis.agente_tag}')" style="background:none;border:none;color:#ff4655;cursor:pointer;font-size:0.8rem;" title="Apagar">🗑️ APAGAR</button>
+            <div class="action-cell">
+                <button class="btn-action btn-reprocess" onclick="reprocessJob('${analysis.match_id}', '${analysis.agente_tag}')" title="Reprocessar">♻️ REPROCESSAR</button>
+                <button class="btn-action btn-delete" onclick="deleteJob('${analysis.match_id}', '${analysis.agente_tag}')" title="Apagar">🗑️ APAGAR</button>
+            </div>
         `;
 
         // Link para análise direto no histórico
-        const openLink = `<a href="/protocol/analise.html?match=${analysis.match_id}&player=${encodeURIComponent(analysis.agente_tag)}" target="_blank" style="color:#00ff88;text-decoration:none;margin-left:5px;">[ VER ]</a>`;
+        const openLink = `<a href="/protocol/analise.html?match=${analysis.match_id}&player=${encodeURIComponent(analysis.agente_tag)}" target="_blank" class="btn-view">[ VER ]</a>`;
+        
+        const matchIdShort = analysis.match_id ? `${analysis.match_id.substring(0, 8)}...` : '---';
+        const formattedScore = analysis.impact_score ? parseFloat(analysis.impact_score).toFixed(1) : '--';
 
         row.innerHTML = `
             <td></td>
-            <td><code>${analysis.id ? String(analysis.id).split('-')[0] : '---'}...</code></td>
+            <td><code>${analysis.id ? String(analysis.id).split('-')[0] : '---'}</code></td>
             <td><b>${analysis.agente_tag.toUpperCase()}</b></td>
-            <td><small>${analysis.match_id}</small></td>
-            <td style="color: var(--green-ok); font-weight: bold;">${analysis.impact_score || '--'} ${openLink}</td>
-            <td>${date}</td>
-            <td style="font-size:0.75rem;">${actionBtns}</td>
+            <td><span class="match-id-short" title="${analysis.match_id}">${matchIdShort}</span></td>
+            <td>
+                <div class="score-box">
+                    <span class="score-value">${formattedScore}</span>
+                    ${openLink}
+                </div>
+            </td>
+            <td style="opacity: 0.7;">${date}</td>
+            <td>${actionBtns}</td>
         `;
         jobsList.appendChild(row);
     });
@@ -337,16 +351,17 @@ function renderPendingTable(missing) {
     missing.forEach((item, index) => {
         const row = document.createElement('tr');
         const date = new Date(item.started_at).toLocaleString('pt-BR');
+        const matchIdShort = item.match_id ? `${item.match_id.substring(0, 8)}...` : '---';
 
         row.innerHTML = `
             <td><input type="checkbox" class="pending-check" data-index="${index}" onclick="updatePendingControls()" style="cursor:pointer;"></td>
             <td><code>GAP_TACTIC</code></td>
             <td><b>${item.player_tag.toUpperCase()}</b></td>
-            <td><small>${item.match_id}</small></td>
-            <td><span style="opacity:0.8;">${item.map_name.toUpperCase()} / ${item.agent.toUpperCase()}</span></td>
-            <td>${date}</td>
+            <td><span class="match-id-short" title="${item.match_id}">${matchIdShort}</span></td>
+            <td style="font-size: 0.75rem;"><span style="color: var(--green-ok); opacity:0.8;">${item.map_name.toUpperCase()}</span> / <span style="opacity: 0.7;">${item.agent.toUpperCase()}</span></td>
+            <td style="opacity: 0.7;">${date}</td>
             <td>
-                <button onclick="reprocessJob('${item.match_id}', '${item.player_tag}')" style="background:var(--green-ok); border:none; color:black; padding:4px 8px; font-size:0.7rem; cursor:pointer; font-weight:bold;">🚀 ANALISAR_AGORA</button>
+                <button class="btn-view" onclick="reprocessJob('${item.match_id}', '${item.player_tag}')" style="background:var(--green-ok); color:black; border:none; padding:4px 10px; cursor:pointer;">🚀 ANALISAR_AGORA</button>
             </td>
         `;
         jobsList.appendChild(row);

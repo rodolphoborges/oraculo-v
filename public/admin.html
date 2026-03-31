@@ -30,43 +30,105 @@
             text-transform: uppercase;
         }
         .admin-table-container {
-            border: 1px solid rgba(0, 255, 65, 0.3);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            background: rgba(10, 10, 15, 0.4);
+            border-radius: 4px;
             overflow-x: auto;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            white-space: nowrap;
         }
         th, td {
-            padding: 12px;
+            padding: 10px 15px;
             text-align: left;
-            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.05);
         }
         th {
-            background: rgba(0, 255, 65, 0.1);
+            background: rgba(0, 255, 65, 0.08);
             color: var(--green-ok);
             text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
         }
+        tr:hover { background: rgba(0, 255, 65, 0.03); }
+
+        .score-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .score-value {
+            font-weight: bold;
+            color: var(--green-ok);
+            min-width: 40px;
+        }
+        .btn-view {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.7rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 2px 6px;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+        .btn-view:hover {
+            background: #00ff88;
+            color: black;
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 12px;
+        }
+        .btn-action {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-action:hover { opacity: 1; }
+        .btn-reprocess { color: #00ccff; }
+        .btn-delete { color: #ff4655; }
+
         .status-pill {
             padding: 2px 8px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             border: 1px solid;
             text-transform: uppercase;
+            border-radius: 2px;
+            letter-spacing: 1px;
         }
-        .status-pending { color: #ffcc00; border-color: #ffcc00; }
-        .status-processing { color: #00ccff; border-color: #00ccff; }
-        .status-completed { color: var(--green-ok); border-color: var(--green-ok); }
-        .status-failed { color: var(--red); border-color: var(--red); }
-        
+        .status-pending { color: #ffcc00; border-color: rgba(255, 204, 0, 0.4); background: rgba(255, 204, 0, 0.05); }
+        .status-processing { color: #00ccff; border-color: rgba(0, 204, 255, 0.4); background: rgba(0, 204, 255, 0.05); }
+        .status-completed { color: var(--green-ok); border-color: rgba(0, 255, 109, 0.4); background: rgba(0, 255, 109, 0.05); }
+        .status-failed { color: var(--red); border-color: rgba(255, 70, 85, 0.4); background: rgba(255, 70, 85, 0.05); }
+
+        .match-id-short {
+            cursor: help;
+            border-bottom: 1px dotted rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
         .nav-back {
             display: inline-block;
             margin-bottom: 20px;
             color: var(--green-ok);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            transition: color 0.2s;
         }
-        .nav-back:hover { text-decoration: underline; }
+        .nav-back:hover { color: #00ff88; text-decoration: underline; }
     </style>
 </head>
 <body class="terminal-mode">
