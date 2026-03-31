@@ -463,7 +463,14 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
 // GET - Histórico de todas as análises
 app.get('/api/admin/history', adminAuth, async (req, res) => {
   try {
-    // Buscar de Protocolo-V (onde as análises são sincronizadas)
+    // Buscar o total exato primeiro (HEAD query para performance)
+    const { count: totalCount, error: countErr } = await supabaseProtocol
+      .from('ai_insights')
+      .select('*', { count: 'exact', head: true });
+
+    if (countErr) throw countErr;
+
+    // Buscar os últimos 100 registros para a tabela
     const { data: analyses, error } = await supabaseProtocol
       .from('ai_insights')
       .select('id, player_id, match_id, created_at, impact_score')
@@ -476,7 +483,7 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
     }
 
     res.json({
-      total: analyses.length,
+      total: totalCount || 0,
       analyses: analyses.map(a => ({
         id: a.id,
         agente_tag: a.player_id,
