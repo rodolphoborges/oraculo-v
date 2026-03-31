@@ -173,7 +173,9 @@ export async function processBriefing(briefing) {
                 total_rounds: result.total_rounds,
                 conselhosBase: result.all_conselhos,
                 tone_instruction: toneInstruction,
-                abilities: briefing.ability_context || []
+                abilities: briefing.ability_context || [],
+                cross_round: result.cross_round || null,
+                round_narrative: result.round_narrative || null
             },
             trend: null,
             history: previousInsights,
