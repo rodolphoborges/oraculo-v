@@ -820,5 +820,4 @@ if __name__ == "__main__":
         traceback.print_exc()
         print(json.dumps(clean_nan({"error": str(e)})))
 
-if __name__ == "__main__":
-    main()
+
