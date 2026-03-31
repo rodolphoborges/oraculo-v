@@ -449,37 +449,44 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
     const { search, date, sortBy, order } = req.query;
 
     // Buscamos os insights junto com a data real da partida (JOIN com operations)
+    // Usamos !inner se houver filtro de data para garantir que o filtro remova a linha do insight
+    const joinType = date ? 'operations!inner(started_at)' : 'operations(started_at)';
+    
     let query = supabaseProtocol
       .from('ai_insights')
-      .select('id, player_id, match_id, created_at, impact_score, operations(started_at)', { count: 'exact' });
+      .select(`id, player_id, match_id, created_at, impact_score, ${joinType}`, { count: 'exact' });
 
     // Filtro por Busca (Player ID ou Match ID)
     if (search) {
       query = query.or(`player_id.ilike.%${search}%,match_id.ilike.%${search}%`);
     }
 
-    // Filtro por Data (Reclamação do User: Deve ser a data do Match, não da Análise)
+    // Filtro por Data Real da Partida (started_at é BigInt/Number Epoch MS no banco)
     if (date) {
-      const startOfDay = new Date(date).toISOString();
-      const endOfDay = new Date(new Date(date).setHours(23, 59, 59, 999)).toISOString();
-      // Filtrando no JOIN
-      query = query.filter('operations.started_at', 'gte', startOfDay).filter('operations.started_at', 'lte', endOfDay);
+      const startOfDay = new Date(`${date}T00:00:00`).getTime();
+      const endOfDay = new Date(`${date}T23:59:59.999`).getTime();
+      
+      // Filtrando no JOIN (com !inner acima)
+      query = query.gte('operations.started_at', startOfDay).lte('operations.started_at', endOfDay);
     }
 
     // Ordenação
-    // Se a ordenação for por data, usamos a data da PARTIDA (started_at no JOIN)
-    const sortCol = sortBy === 'score' ? 'impact_score' : 'created_at'; // Supabase order by join column can be complex, fallbacking to insight creation if needed, but let's try to order by insight
+    // Se a ordenação for por data, usamos a data da PARTIDA se disponível
+    const sortCol = sortBy === 'score' ? 'impact_score' : 'created_at';
     const sortOrder = order === 'asc' ? true : false;
     query = query.order(sortCol, { ascending: sortOrder });
 
     // Limite de performance
     const { data: analyses, error, count: totalCount } = await query.limit(200);
 
-    if (error) throw error;
+    if (error) {
+      console.error('[API ADMIN HISTORY] Query Error:', error);
+      throw error;
+    }
 
     res.json({
       total: totalCount || 0,
-      analyses: analyses.map(a => ({
+      analyses: (analyses || []).map(a => ({
         id: a.id,
         agente_tag: a.player_id,
         match_id: a.match_id,
