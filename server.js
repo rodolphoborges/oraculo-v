@@ -879,6 +879,107 @@ app.post('/api/admin/config/global', adminAuth, async (req, res) => {
     }
 });
 
+// ─── TRIBUNAL TÁTICO — Endpoints Admin ──────────────────────────────────────
+
+// GET /api/admin/tribunal/knowledge — Lista padrões aprendidos pelo Árbitro
+app.get('/api/admin/tribunal/knowledge', adminAuth, async (req, res) => {
+    try {
+        const { pattern_type, min_confidence, limit: queryLimit } = req.query;
+        let query = supabase
+            .from('arbiter_knowledge')
+            .select('*')
+            .order('confidence', { ascending: false })
+            .limit(parseInt(queryLimit) || 50);
+
+        if (pattern_type) query = query.eq('pattern_type', pattern_type);
+        if (min_confidence) query = query.gte('confidence', parseFloat(min_confidence));
+
+        const { data, error } = await query;
+        if (error) throw error;
+
+        // Estatísticas agregadas
+        const stats = {
+            total_patterns: data.length,
+            by_type: {},
+            avg_confidence: 0
+        };
+        for (const p of data) {
+            stats.by_type[p.pattern_type] = (stats.by_type[p.pattern_type] || 0) + 1;
+            stats.avg_confidence += p.confidence;
+        }
+        stats.avg_confidence = data.length > 0 ? Math.round((stats.avg_confidence / data.length) * 100) / 100 : 0;
+
+        res.json({ stats, patterns: data });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/admin/tribunal/verdicts — Histórico de vereditos
+app.get('/api/admin/tribunal/verdicts', adminAuth, async (req, res) => {
+    try {
+        const { player_id, limit: queryLimit } = req.query;
+        let query = supabase
+            .from('tribunal_verdicts')
+            .select('id, match_id, player_id, winning_persona, advocate_model, prosecutor_model, arbiter_model, patterns_learned, created_at')
+            .order('created_at', { ascending: false })
+            .limit(parseInt(queryLimit) || 30);
+
+        if (player_id) query = query.ilike('player_id', `%${player_id}%`);
+
+        const { data, error } = await query;
+        if (error) throw error;
+
+        res.json({ count: data.length, verdicts: data });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/admin/tribunal/verdict/:matchId — Veredito completo de uma partida
+app.get('/api/admin/tribunal/verdict/:matchId', adminAuth, async (req, res) => {
+    try {
+        const { matchId } = req.params;
+        const { player_id } = req.query;
+
+        let query = supabase
+            .from('tribunal_verdicts')
+            .select('*')
+            .eq('match_id', matchId);
+
+        if (player_id) query = query.ilike('player_id', `%${player_id}%`);
+
+        const { data, error } = await query;
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ error: 'Veredito não encontrado.' });
+        }
+
+        res.json(data.length === 1 ? data[0] : data);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// DELETE /api/admin/tribunal/knowledge/:id — Remove um padrão da base
+app.delete('/api/admin/tribunal/knowledge/:id', adminAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { error } = await supabase
+            .from('arbiter_knowledge')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
+        res.json({ success: true, message: 'Padrão removido.' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ─── FIM — TRIBUNAL ──────────────────────────────────────────────────────────
+
 if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
   // Em modo de teste, o supertest gerencia o servidor.
 } else {

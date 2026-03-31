@@ -4,11 +4,12 @@
  * The execution engine for Oráculo V.
  * [v4.2.1-STABLE] - Versionamento de Motor e Logs Táticos Integrados.
  */
-const ORACULO_ENGINE_VERSION = '4.2.1'; // Incrementing this forces re-analysis for older records
+const ORACULO_ENGINE_VERSION = '5.0.0'; // v5.0 — Tribunal Tático (Adversarial Analysis)
 import { supabase, supabaseProtocol } from './lib/supabase.js';
 import path from 'path';
 import fs from 'fs';
 import { generateInsights } from './lib/openrouter_engine.js';
+import { runTribunal } from './lib/tribunal_engine.js';
 
 /**
  * worker.js 
@@ -182,22 +183,45 @@ export async function processBriefing(briefing) {
             squad: briefing.squad_stats || null
         };
 
-        // 6.7. Geração Resiliente: Timeout longo e Fallback Automático Elite
-        const aiResponse = await generateInsights(promptData);
+        // 6.7. TRIBUNAL TÁTICO (v5.0) — Análise Adversarial com Árbitro Evolutivo
+        // Tenta carregar o match JSON para o tribunal (necessário para dados de ambos os times)
+        let aiResponse = null;
+        let tribunalMeta = null;
+
+        try {
+            const matchJsonPath = path.join(process.cwd(), 'matches', `${match_id}.json`);
+            const matchRaw = await fs.promises.readFile(matchJsonPath, 'utf8');
+            const matchData = JSON.parse(matchRaw);
+
+            const tribunalResult = await runTribunal(matchData, result, player_id, match_id);
+
+            if (tribunalResult) {
+                aiResponse = { insight: tribunalResult.insight, model_used: tribunalResult.model_used };
+                tribunalMeta = tribunalResult.tribunal_meta;
+                console.log(`⚖️ [TRIBUNAL] Veredito emitido com sucesso.`);
+            }
+        } catch (tribunalErr) {
+            console.warn(`⚠️ [TRIBUNAL] Falha no tribunal: ${tribunalErr.message}. Fallback para pipeline original.`);
+        }
+
+        // Fallback: Pipeline original (single-persona) se o tribunal falhar
+        if (!aiResponse) {
+            console.log(`🔄 [FALLBACK] Usando pipeline original (single-persona)...`);
+            aiResponse = await generateInsights(promptData);
+        }
 
         // 6.8. Tratamento de Falha da IA — Fallback Estruturado para manter a UI estável
         let finalInsight = null;
         if (aiResponse && typeof aiResponse.insight === 'object') {
-            console.log(`🤖 Insight LLM (${aiResponse.model_used}) Recebido.`);
+            console.log(`🤖 Insight (${aiResponse.model_used}) Recebido.`);
             finalInsight = aiResponse.insight;
         } else {
             console.warn(`⚠️ [AI-FAILURE] Nenhuma IA respondeu. Gerando Fallback Estruturado.`);
-            // Fallback baseado nos conselhos base do Python, mas estruturado para a UI
             finalInsight = {
                 diagnostico_principal: result.conselho_kaio || "Análise básica concluída (IA em manutenção).",
                 pontos_fortes: result.all_conselhos ? result.all_conselhos.filter(c => !c.includes('VIOLAÇÃO') && !c.includes('ALERTA')).slice(0, 2) : ["Consistência técnica baseline"],
                 pontos_fracos: result.all_conselhos ? result.all_conselhos.filter(c => c.includes('VIOLAÇÃO') || c.includes('ALERTA')).slice(0, 2) : ["Otimização de impacto pendente"],
-                nota_coach: (performanceIndex / 15).toFixed(1), // Nota proporcional ao performance_index
+                nota_coach: (performanceIndex / 15).toFixed(1),
                 classification: technicalRank,
                 is_fallback: true
             };
@@ -231,11 +255,16 @@ export async function processBriefing(briefing) {
             if (supabaseProtocol) {
                 const enrichedReport = { ...result, impact_score: performanceIndex };
                 
-                // DNA Minificado: Essencial para debugar o Ollama depois
+                // DNA Minificado: Essencial para debugar o Ollama e Tribunal depois
                 const auditDNA = {
                     v: ORACULO_ENGINE_VERSION,
                     model: aiResponse?.model_used || "FALLBACK",
                     tone: toneInstruction,
+                    tribunal: tribunalMeta ? {
+                        winner: finalInsight.analise_vencedora || null,
+                        patterns: tribunalMeta.patterns_learned || 0,
+                        kb_size: tribunalMeta.knowledge_count || 0
+                    } : null,
                     ts: new Date().toISOString()
                 };
 
