@@ -301,16 +301,20 @@ app.post('/api/chat', async (req, res) => {
     console.log(`💬 [CHAT] Iniciando sessão com ${localModel} para: ${context?.player_id || 'Visitante'}`);
 
     try {
-        const tacticalDatabase = getGlobalStrategicSummary(); // Paga o banco completo (Agentes, Meta de Mapas e Sinergias)
+        const tacticalDatabase = getGlobalStrategicSummary();
         
         // Construir System Prompt Dinâmico se houver contexto do jogador
         let systemPrompt = "VOCÊ É O K.A.I.O. (Kinetic Anti-Infrastructure Orchestrator), o mentor tático do Protocolo V.\n" +
-                          "Seu tom é analítico, direto e profissional. Use termos de Valorant (entry, trade, lurk, etc).\n" +
-                          "VOCÊ TEM ACESSO TOTAL À BASE ESTRATÉGICA DO PROTOCOLO V:\n\n" + tacticalDatabase + "\n\n" +
-                          "DIRETRIZ DE RESPOSTA:\n" +
-                          "1. Se o usuário fizer uma pergunta sobre agentes, consulte a base acima.\n" +
-                          "2. Responda de forma natural e educativa, sem JSON (a menos que pedido).\n" +
-                          "3. Seja curto e direto, como um Coach de Elite.";
+                          "SEU MUNDO É O VALORANT, MAS O SEU CONHECIMENTO VEM EXCLUSIVAMENTE DA BASE ABAIXO.\n\n" +
+                          "=== REGRA DE OURO ===\n" +
+                          "1. SE O SEU CONHECIMENTO EXTRERNO CONFLITAR COM A BASE ABAIXO, VOCÊ DEVE IGNORAR O SEU CONHECIMENTO E USAR A BASE.\n" +
+                          "2. EXEMPLO: SE O HARBOR ESTIVER COMO 'CONTROLADOR' NA BASE, ELE É UM CONTROLADOR. NUNCA O CHAME DE DUELISTA.\n" +
+                          "3. AGENTES COMO Waylay, Veto, Tejo e Miks SÃO REAIS E FAZEM PARTE DO NOSSO PROTOCOLO.\n\n" +
+                          "=== BASE DE DADOS ESTRATÉGICA ===\n\n" + tacticalDatabase + "\n\n" +
+                          "=== DIRETRIZES DE RESPOSTA ===\n" +
+                          "- Responda em Português-BR de forma clara, tática e sem clichês de IA.\n" +
+                          "- NÃO responda em JSON no chat. Fale como um Professor ou Coach.\n" +
+                          "- Seja curto, direto e focado em melhorar o jogo do recruta.";
         
         if (context) {
             systemPrompt += `\n\nCONTEXTO DO JOGADOR ATUAL:
