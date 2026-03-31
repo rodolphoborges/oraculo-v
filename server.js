@@ -295,7 +295,7 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
     // 2. Busca apenas os últimos 50 jobs para exibição na tabela (performance)
     const { data: jobs, error: jobsError } = await supabaseProtocol
       .from('match_analysis_queue')
-      .select('*')
+      .select('*, operations(started_at)')
       .order('created_at', { ascending: false })
       .limit(50);
 
@@ -326,7 +326,8 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
             agente_tag: j.player_tag,
             match_id: j.match_id,
             status: j.status,
-            created_at: j.created_at
+            created_at: j.created_at,
+            match_date: j.operations?.started_at
         }))
     });
   } catch (err) {
