@@ -658,7 +658,21 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
 
     partners = strat_context.get('squadPartners', [])
     if partners:
-        conselhos.append(f"SINERGIA OPERACIONAL: Squad detectado com {', '.join(partners)}. A coordenação de grupo é a chave para a vitória no Protocolo V.")
+        squad_details = []
+        for p in partners:
+            if isinstance(p, dict):
+                p_name = p.get('riot_id', 'Parceiro')
+                p_agent = p.get('agent', 'Combatente')
+                p_kda = p.get('kda', '—')
+                p_role = resolve_role(p_agent)
+                squad_details.append(f"{p_name} ({p_agent}/{p_role} - {p_kda})")
+            else:
+                squad_details.append(str(p))
+        
+        partners_msg = ", ".join(squad_details)
+        prefix = "COMBO TÁTICO" if any(resolve_role(p.get('agent')) in ['Iniciador', 'Controlador'] for p in partners if isinstance(p, dict)) and role == 'Duelista' else "SINERGIA OPERACIONAL"
+        
+        conselhos.append(f"{prefix}: Squad detectado com {partners_msg}. A coordenação tática entre {role} e seus parceiros é o diferencial estratégico.")
 
     # --- Artigos Constitucionais (Role-Aware) ---
     if adr < rt["adr_min"]:
