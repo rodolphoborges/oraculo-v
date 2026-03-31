@@ -36,38 +36,57 @@ async function reprocessEverything() {
             }).neq('riot_id', 'SYSTEM'); // Reset all players
         }
 
-        // 3. Limpeza da Fila Atual (para evitar duplicidade)
-        if (supabaseProtocol) {
-            console.log("🧹 [QUEUE] Limpando fila de análise atual...");
-            await supabaseProtocol.from('match_analysis_queue').delete().neq('id', 0);
+        // 3. Limpeza da Fila Atual
+        console.log("🧹 [QUEUE] Limpando fila de análise atual...");
+        const queueClient = supabaseProtocol || supabase; // Tenta Protocolo primeiro, fallback Oráculo
+        
+        try {
+            const { error: delQueueErr } = await queueClient.from('match_analysis_queue').delete().neq('match_id', '00000000-0000-0000-0000-000000000000');
+            if (delQueueErr) console.warn("⚠️ Aviso na limpeza da fila (Protocolo):", delQueueErr.message);
+        } catch (e) {
+            console.warn("⚠️ Falha ao acessar fila no Protocolo, tentando Oráculo...");
+            await supabase.from('match_analysis_queue').delete().neq('match_id', '00000000-0000-0000-0000-000000000000');
         }
 
         // 4. Re-enfileiramento Cronológico
         console.log(`♻️ [REQUEUE] Enfileirando ${allMatches.length} partidas na ordem correta...`);
         
-        // Vamos inserir um por um ou em pequenos batches para garantir a ordem exata de processamento no worker (.order('created_at'))
-        // O worker usa 'created_at' do match_analysis_queue, então a ordem de inserção aqui define a ordem de processamento.
+        const activeQueueClient = (supabaseProtocol) ? supabaseProtocol : supabase;
         
         let successCount = 0;
         for (const match of allMatches) {
-            const { error: insErr } = await supabaseProtocol.from('match_analysis_queue').insert([{
+            // Tenta player_tag (v4.2) ou agente_tag (v4.0)
+            const payload = {
                 match_id: match.match_id,
-                player_tag: match.player_id,
                 status: 'pending',
                 error_message: null
-            }]);
+            };
 
-            if (!insErr) {
-                successCount++;
-                if (successCount % 10 === 0) {
-                    process.stdout.write(`\r🚀 Progresso: ${successCount}/${allMatches.length}`);
+            // Detecta qual coluna usar (baseado no que o worker.js v4.2 espera)
+            payload.player_tag = match.player_id; 
+
+            const { error: insErr } = await activeQueueClient.from('match_analysis_queue').insert([payload]);
+
+            if (insErr) {
+                // Tenta fallback para agente_tag se player_tag falhar
+                payload.agente_tag = match.player_id;
+                delete payload.player_tag;
+                const { error: insErr2 } = await activeQueueClient.from('match_analysis_queue').insert([payload]);
+                
+                if (!insErr2) {
+                    successCount++;
+                } else {
+                    console.error(`\n❌ Falha Match ${match.match_id}: ${insErr2.message}`);
                 }
             } else {
-                console.error(`\n❌ Falha ao enfileirar Match ${match.match_id} (Player: ${match.player_id}): ${insErr.message}`);
+                successCount++;
+            }
+
+            if (successCount % 10 === 0) {
+                process.stdout.write(`\r🚀 Progresso: ${successCount}/${allMatches.length}`);
             }
             
-            // Pequeno delay para garantir que os timestamps 'created_at' no banco sejam ligeiramente diferentes
-            await new Promise(r => setTimeout(r, 50)); 
+            await new Promise(r => setTimeout(r, 20)); 
         }
 
         console.log(`\n\n✅ [FINALIZADO] ${successCount} partidas re-enfileiradas cronologicamente.`);
