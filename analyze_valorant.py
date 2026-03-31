@@ -764,8 +764,37 @@ if __name__ == "__main__":
     parser.add_argument("--a-t", type=float, help="Prev ADR Trend")
     parser.add_argument("--strat", help="Strategic Context JSON")
     parser.add_argument("--templates", help="Dynamic Templates JSON")
+    parser.add_argument("--config", help="Parametrização tática (JSON string)")
     args = parser.parse_args()
     
+    # 0. SOBREPOSIÇÃO DE CONFIGURAÇÃO (PARAMETRIZAÇÃO DINÂMICA)
+    if args.config:
+        try:
+            ext_config = json.loads(args.config)
+            
+            # 1. Atualiza ROLE_THRESHOLDS
+            if 'roles' in ext_config and ext_config['roles']:
+                for rc in ext_config['roles']:
+                    role_name = rc.get('role')
+                    if not role_name: continue
+                    if role_name not in ROLE_THRESHOLDS:
+                        ROLE_THRESHOLDS[role_name] = {}
+                    
+                    map_fields = {
+                        'adr_baseline': 'adr_baseline', 'adr_min': 'adr_min',
+                        'kast_min': 'kast_min', 'fb_excellence': 'fb_excellence',
+                        'fb_min': 'fb_min', 'kd_weight': 'kd_weight',
+                        'adr_weight': 'adr_weight', 'kast_weight': 'kast_weight',
+                        'artigo_1_texto': 'artigo_1_texto', 'artigo_2_texto': 'artigo_2_texto',
+                        'artigo_kast_miss': 'artigo_kast_miss', 'artigo_fb_miss': 'artigo_fb_miss',
+                        'artigo_fd_warning': 'artigo_fd_warning'
+                    }
+                    for db_f, int_f in map_fields.items():
+                        if db_f in rc and rc[db_f] is not None:
+                            ROLE_THRESHOLDS[role_name][int_f] = rc[db_f]
+        except Exception as e:
+            print(f"ERRO: Falha ao carregar parametrização externa: {str(e)}", file=sys.stderr)
+
     try:
         with open(args.json, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -776,7 +805,6 @@ if __name__ == "__main__":
             "adr_l": args.a_l, "adr_t": args.a_t
         }
         
-        # Remove keys with None values
         holt_prev = {k: v for k, v in holt_prev.items() if v is not None}
 
         strat_context = {}
@@ -791,3 +819,6 @@ if __name__ == "__main__":
     except Exception as e:
         traceback.print_exc()
         print(json.dumps(clean_nan({"error": str(e)})))
+
+if __name__ == "__main__":
+    main()
