@@ -443,27 +443,38 @@ app.post('/api/admin/reprocess/bulk', adminAuth, async (req, res) => {
   }
 });
 
-// GET - Histórico de todas as análises
+// GET - Histórico de todas as análises (com suporte a filtro e busca)
 app.get('/api/admin/history', adminAuth, async (req, res) => {
   try {
-    // Buscar o total exato primeiro (HEAD query para performance)
-    const { count: totalCount, error: countErr } = await supabaseProtocol
+    const { search, date, sortBy, order } = req.query;
+
+    let query = supabaseProtocol
       .from('ai_insights')
-      .select('*', { count: 'exact', head: true });
+      .select('id, player_id, match_id, created_at, impact_score', { count: 'exact' });
 
-    if (countErr) throw countErr;
-
-    // Buscar os últimos 100 registros para a tabela
-    const { data: analyses, error } = await supabaseProtocol
-      .from('ai_insights')
-      .select('id, player_id, match_id, created_at, impact_score')
-      .order('created_at', { ascending: false })
-      .limit(100);
-
-    if (error) {
-      console.error('[API ADMIN HISTORY] Erro na query:', error);
-      throw error;
+    // Filtro por Busca (Player ID ou Match ID)
+    if (search) {
+      query = query.or(`player_id.ilike.%${search}%,match_id.ilike.%${search}%`);
     }
+
+    // Filtro por Data
+    if (date) {
+      const startOfDay = new Date(date);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(date);
+      endOfDay.setHours(23, 59, 59, 999);
+      query = query.gte('created_at', startOfDay.toISOString()).lte('created_at', endOfDay.toISOString());
+    }
+
+    // Ordenação
+    const sortCol = sortBy === 'score' ? 'impact_score' : 'created_at';
+    const sortOrder = order === 'asc' ? true : false;
+    query = query.order(sortCol, { ascending: sortOrder });
+
+    // Limite de performance
+    const { data: analyses, error, count: totalCount } = await query.limit(200);
+
+    if (error) throw error;
 
     res.json({
       total: totalCount || 0,
@@ -477,7 +488,7 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
     });
   } catch (err) {
     console.error('[API ADMIN HISTORY] Erro:', err.message);
-    res.status(500).json({ error: 'Erro interno ao recuperar histórico.' });
+    res.status(500).json({ error: 'Erro interno ao recuperar histórico: ' + err.message });
   }
 });
 

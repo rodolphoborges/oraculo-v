@@ -188,9 +188,35 @@
 
         <!-- HISTÓRICO -->
         <div id="historyTab" style="display: none;">
-            <div style="margin-bottom: 15px;">
-                <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Total de análises no histórico: <b id="historyCount">-</b></p>
-                <button id="btnDeleteAllHistory" onclick="deleteAllAnalyses()" style="background: var(--red); color: white; border: none; padding: 8px 16px; cursor: pointer; font-size: 0.85rem; font-family: inherit;">🗑️ APAGAR TODO HISTÓRICO</button>
+            <!-- BARRA DE FILTROS -->
+            <div style="background: rgba(0, 255, 65, 0.05); border: 1px solid rgba(0, 255, 65, 0.2); padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; align-items: flex-end;">
+                    <div>
+                        <label style="display: block; font-size: 0.65rem; color: var(--green-ok); margin-bottom: 5px;">BUSCAR (PLAYER/MATCH)</label>
+                        <input type="text" id="histSearch" placeholder="Ex: M4SNA ou UUID..." oninput="onFilterChange()" style="width: 100%; font-size: 0.75rem; border: 1px solid rgba(0, 255, 65, 0.3); padding: 4px 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.65rem; color: var(--green-ok); margin-bottom: 5px;">FILTRAR POR DATA</label>
+                        <input type="date" id="histDate" onchange="onFilterChange()" style="width: 100%; font-size: 0.75rem; border: 1px solid rgba(0, 255, 65, 0.3); padding: 3px 8px; color-scheme: dark;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.65rem; color: var(--green-ok); margin-bottom: 5px;">ORDEM</label>
+                        <select id="histSort" onchange="onFilterChange()" style="width: 100%; font-size: 0.75rem; background: transparent; border: 1px solid rgba(0, 255, 65, 0.3); padding: 4px 8px; color: white;">
+                            <option value="recent">MAIS RECENTES</option>
+                            <option value="oldest">MAIS ANTIGOS</option>
+                            <option value="highScore">SCORE (+) ALTO</option>
+                            <option value="lowScore">SCORE (+) BAIXO</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">Registros encontrados: <b id="historyCount">-</b></p>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="loadHistory()" style="background: rgba(0, 255, 65, 0.1); color: var(--green-ok); border: 1px solid var(--green-ok); padding: 4px 12px; cursor: pointer; font-size: 0.75rem;">🔄 RECARREGAR</button>
+                    <button id="btnDeleteAllHistory" onclick="deleteAllAnalyses()" style="background: var(--red); color: white; border: none; padding: 4px 12px; cursor: pointer; font-size: 0.75rem; font-family: inherit;">🗑️ APAGAR TUDO</button>
+                </div>
             </div>
         </div>
 
