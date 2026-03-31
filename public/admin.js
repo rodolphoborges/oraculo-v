@@ -120,9 +120,44 @@ function renderQueueTable(jobs) {
     });
 }
 
+let filterTimeout = null;
+
+function onFilterChange() {
+    if (filterTimeout) clearTimeout(filterTimeout);
+    filterTimeout = setTimeout(() => {
+        loadHistory();
+    }, 500);
+}
+
 async function loadHistory() {
     try {
-        const data = await safeFetch('/api/admin/history');
+        const search = document.getElementById('histSearch')?.value || '';
+        const date = document.getElementById('histDate')?.value || '';
+        const sortMode = document.getElementById('histSort')?.value || 'recent';
+
+        // Mapear opções do select para parâmetros da API
+        let sortBy = 'date';
+        let order = 'desc';
+
+        if (sortMode === 'oldest') {
+            sortBy = 'date';
+            order = 'asc';
+        } else if (sortMode === 'highScore') {
+            sortBy = 'score';
+            order = 'desc';
+        } else if (sortMode === 'lowScore') {
+            sortBy = 'score';
+            order = 'asc';
+        }
+
+        const params = new URLSearchParams({
+            search,
+            date,
+            sortBy,
+            order
+        });
+
+        const data = await safeFetch(`/api/admin/history?${params.toString()}`);
         document.getElementById('historyCount').textContent = data.total;
 
         // ONLY update table if we are on the history tab
