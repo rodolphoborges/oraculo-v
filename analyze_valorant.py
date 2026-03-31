@@ -252,6 +252,10 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     if not player_summary:
         return {"error": f"Jogador [{target_player}] não encontrado no resumo da partida."}
 
+    # 1. Identificação Resiliente do Jogador
+    target_id_full = (player_summary.get('attributes', {}).get('platformUserIdentifier', '') or \
+                     player_summary.get('metadata', {}).get('platformUserIdentifier', '')).upper()
+
     curr_agent = agent_name or player_summary['metadata']['agentName']
     stats = player_summary['stats']
     acs = stats['score']['value'] / curr_rounds
@@ -260,7 +264,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     kills_total = int(stats['kills']['value'])
     deaths_total = int(stats['deaths']['value'])
     
-    player_round_segs = [s for s in segments if s['type'] == 'player-round' and s['attributes']['platformUserIdentifier'].upper() == player_target_upper]
+    player_round_segs = [s for s in segments if s['type'] == 'player-round' and s['attributes']['platformUserIdentifier'].upper() == target_id_full]
     all_kill_segs = [s for s in segments if s['type'] == 'player-round-kills']
     round_summaries = {s['attributes']['round']: s['metadata'] for s in segments if s['type'] == 'round-summary'}
 
@@ -271,6 +275,8 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
             pid = seg['attributes']['platformUserIdentifier']
             agent = seg['metadata'].get('agentName', 'Unknown')
             player_agents[pid.upper()] = agent
+            if pid.upper() == target_id_full:
+                curr_agent = agent
 
     # Cálculo de First Bloods (FB) e First Deaths (FD)
     first_kills_count = 0
@@ -282,9 +288,9 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         )
         if round_kills:
             first_kill = round_kills[0]
-            if first_kill['attributes']['platformUserIdentifier'].upper() == player_target_upper:
+            if first_kill['attributes']['platformUserIdentifier'].upper() == target_id_full:
                 first_kills_count += 1
-            elif first_kill['attributes'].get('opponentPlatformUserIdentifier', '').upper() == player_target_upper:
+            elif first_kill['attributes'].get('opponentPlatformUserIdentifier', '').upper() == target_id_full:
                 first_deaths_count += 1
 
     # Detecção de Vitória (Match Outcome)
