@@ -330,6 +330,26 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
 
     rounds_analysis = []
     total_clutches = 0
+
+    # --- TRACKING CROSS-ROUND ---
+    half_kills   = [0, 0]
+    half_deaths  = [0, 0]
+    half_adr     = [0.0, 0.0]
+    half_rounds  = [0, 0]
+    type_stats = {
+        'pistol': {'rounds': 0, 'kills': 0, 'deaths': 0, 'won': 0},
+        'eco':    {'rounds': 0, 'kills': 0, 'deaths': 0, 'won': 0},
+        'force':  {'rounds': 0, 'kills': 0, 'deaths': 0, 'won': 0},
+        'full':   {'rounds': 0, 'kills': 0, 'deaths': 0, 'won': 0},
+    }
+    deaths_for_trade = 0
+    deaths_traded    = 0
+    narrative_snippets = []
+    consecutive_pos = 0
+    consecutive_neg = 0
+    max_pos_streak  = 0
+    max_neg_streak  = 0
+
     for r_num in range(1, curr_rounds + 1):
         round_seg = next((s for s in player_round_segs if s['attributes']['round'] == r_num), None)
         if not round_seg: continue
@@ -434,7 +454,9 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
                         narrative_events.append({"time": time_str, "type": "pos", "text": f"Garantiu o frag no {event['victim_agent']} ({weapon})", "ms": rt_ms})
                 else:
                     is_trade_neg = check_trade(idx, player_target_upper, False)
+                    deaths_for_trade += 1
                     if is_trade_neg:
+                        deaths_traded += 1
                         neg_label = tm.format("trade_negativo", NEG_DEFAULT, **ctx)
                     else:
                         neg_label = tm.format("neg_generic", NEG_DEFAULT, **ctx)
@@ -485,10 +507,90 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         round_comment = pos_label or neg_label or "Sem eventos críticos registrados."
         round_impacto = "Positivo" if pos_label else ("Negativo" if neg_label else "Neutro")
 
+        # --- CROSS-ROUND: acumular por metade ---
+        half_idx = 0 if r_num <= 12 else 1
+        half_kills[half_idx]  += round_kills_count
+        half_deaths[half_idx] += (1 if round_died else 0)
+        half_adr[half_idx]    += dmg
+        half_rounds[half_idx] += 1
+
+        # --- CROSS-ROUND: acumular por tipo de round ---
+        r_sum_ct = round_summaries.get(r_num)
+        round_won = (r_sum_ct.get('winningTeam') == player_team) if r_sum_ct else False
+        if r_num in [1, 13]:
+            rtype = 'pistol'
+        elif economy < 2500:
+            rtype = 'eco'
+        elif economy <= 3800:
+            rtype = 'force'
+        else:
+            rtype = 'full'
+        type_stats[rtype]['rounds']  += 1
+        type_stats[rtype]['kills']   += round_kills_count
+        type_stats[rtype]['deaths']  += (1 if round_died else 0)
+        if round_won:
+            type_stats[rtype]['won'] += 1
+
+        # --- CROSS-ROUND: momentum (sequências) ---
+        if round_impacto == "Positivo":
+            consecutive_pos += 1
+            consecutive_neg  = 0
+            max_pos_streak = max(max_pos_streak, consecutive_pos)
+        elif round_impacto == "Negativo":
+            consecutive_neg += 1
+            consecutive_pos  = 0
+            max_neg_streak = max(max_neg_streak, consecutive_neg)
+        else:
+            consecutive_pos = consecutive_neg = 0
+
+        # --- CROSS-ROUND: narrativa condensada (apenas rounds notáveis) ---
+        tags = []
+        for ev in narrative_events:
+            txt = ev.get('text', '')
+            t   = ev.get('time', '')
+            if 'FIRST BLOOD' in txt:            tags.insert(0, 'FB')
+            elif 'MULTI-KILL' in txt:           tags.append(f"{round_kills_count}K")
+            elif 'CLUTCH' in txt.upper():       tags.append('CLUTCH')
+            elif t == 'PLAN' or 'plant' in txt.lower():  tags.append('PLANT')
+            elif t == 'DEF'  or 'defuse' in txt.lower(): tags.append('DEF')
+            elif t == 'ECO'  and round_kills_count > 0:  tags.append('ECO-K')
+        if round_kills_count >= 3 and f"{round_kills_count}K" not in tags:
+            tags.insert(0, f"{round_kills_count}K")
+        if round_died and round_kills_count == 0 and not tags:
+            tags.append('FD' if any('FIRST' in e.get('text','') for e in narrative_events) else '0K')
+        if tags:
+            narrative_snippets.append(f"RD{r_num:02d}:{'+'.join(dict.fromkeys(tags))}")
+
         rounds_analysis.append({
             "round": r_num, "comment": round_comment, "impacto": round_impacto, "kills": round_kills_count, 
             "died": round_died, "narrative": narrative_events, "eventos": narrative_events, "tactical_events": tactical_events
         })
+
+    # --- DERIVAÇÃO CROSS-ROUND (pós-loop) ---
+    def _safe_kd(k, d): return round(k / max(d, 1), 2)
+
+    cross_round = {
+        "half_1": {
+            "rounds": half_rounds[0],
+            "kills":  half_kills[0],
+            "deaths": half_deaths[0],
+            "adr":    round(half_adr[0] / half_rounds[0]) if half_rounds[0] > 0 else 0,
+            "kd":     _safe_kd(half_kills[0], half_deaths[0]),
+        },
+        "half_2": {
+            "rounds": half_rounds[1],
+            "kills":  half_kills[1],
+            "deaths": half_deaths[1],
+            "adr":    round(half_adr[1] / half_rounds[1]) if half_rounds[1] > 0 else 0,
+            "kd":     _safe_kd(half_kills[1], half_deaths[1]),
+        },
+        "by_type":         type_stats,
+        "trade_rate":      round(deaths_traded / deaths_for_trade * 100) if deaths_for_trade > 0 else None,
+        "opening_duel_wr": round(first_kills_count / (first_kills_count + first_deaths_count) * 100) if (first_kills_count + first_deaths_count) > 0 else None,
+        "max_pos_streak":  max_pos_streak,
+        "max_neg_streak":  max_neg_streak,
+    }
+    round_narrative = " | ".join(narrative_snippets[:18]) if narrative_snippets else ""
 
     # --- Cálculo de Performance Ponderado (Role-Aware) ---
     # FONTE ÚNICA: Usa a mesma lógica em ambos Python e JS (eliminando dupla avaliação)
@@ -625,6 +727,7 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
         "result": "VITÓRIA" if is_win else "DERROTA", # [UI SYNC]
         "matches_analyzed": strat_context.get('matchesAnalyzed', 0),
         "holt": holt_next, "conselho_kaio": conselhos[0], "all_conselhos": conselhos,
+        "cross_round": cross_round, "round_narrative": round_narrative,
         "total_rounds": curr_rounds, "rounds": rounds_analysis
     }
 
