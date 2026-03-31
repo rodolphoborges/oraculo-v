@@ -283,6 +283,77 @@ app.get('/api/status/:matchId', async (req, res) => {
   }
 });
 
+/**
+ * Endpoint de Chat Direto com o Oráculo-V (Gemma3-Oraculo)
+ * Utilizado para conversas táticas livres.
+ */
+app.post('/api/chat', async (req, res) => {
+    const { messages, context } = req.body;
+    
+    if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ error: 'Histórico de mensagens é obrigatório.' });
+    }
+
+    const localUrl = process.env.LOCAL_LLM_URL || 'http://localhost:11434';
+    const localModel = process.env.LOCAL_LLM_MODEL || 'Gemma3-Oraculo';
+
+    console.log(`💬 [CHAT] Iniciando sessão com ${localModel} para: ${context?.player_id || 'Visitante'}`);
+
+    try {
+        // Construir System Prompt Dinâmico se houver contexto do jogador
+        let systemPrompt = "VOCÊ É O K.A.I.O. (Kinetic Anti-Infrastructure Orchestrator), o mentor tático do Protocolo V.\n" +
+                          "Seu tom é analítico, direto e profissional. Use termos de Valorant (entry, trade, lurk, etc).\n" +
+                          "Responda em Português-BR. Seja curto e direto, como um Coach de Elite.";
+        
+        if (context) {
+            systemPrompt += `\n\nCONTEXTO DO JOGADOR ATUAL:
+            Agente: ${context.agent || 'Versatilidade'}
+            Última Performance: ${context.impact_score || 'N/A'}/100
+            Riot ID: ${context.player_id}
+            Status Tático: ${context.rank || 'Em Avaliação'}`;
+        }
+
+        const ollamaMessages = [
+            { role: 'system', content: systemPrompt },
+            ...messages
+        ];
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+        const response = await fetch(`${localUrl}/api/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
+            body: JSON.stringify({
+                model: localModel,
+                messages: ollamaMessages,
+                stream: false,
+                options: {
+                    temperature: 0.7, // Um pouco mais criativo para chat
+                    num_ctx: 4096
+                }
+            })
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            throw new Error(`Erro no Ollama: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        res.json({
+            response: data.message?.content || "Desculpe, tive uma falha na rede neural.",
+            model: localModel
+        });
+
+    } catch (err) {
+        console.error('🔥 [CHAT-ERROR]:', err.message);
+        res.status(500).json({ error: 'Falha ao conectar com o motor Gemma3-Oraculo: ' + err.message });
+    }
+});
+
 app.get('/api/admin/stats', adminAuth, async (req, res) => {
   try {
     // 1. Busca as estatísticas REAIS de todos os registros (sem limite de 50)
