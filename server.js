@@ -3,6 +3,7 @@ import { runAnalysis } from './analyze_match.js';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { getKnownAgents, getGlobalStrategicSummary } from './lib/tactical_knowledge.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -300,10 +301,16 @@ app.post('/api/chat', async (req, res) => {
     console.log(`💬 [CHAT] Iniciando sessão com ${localModel} para: ${context?.player_id || 'Visitante'}`);
 
     try {
+        const tacticalDatabase = getGlobalStrategicSummary(); // Paga o banco completo (Agentes, Meta de Mapas e Sinergias)
+        
         // Construir System Prompt Dinâmico se houver contexto do jogador
         let systemPrompt = "VOCÊ É O K.A.I.O. (Kinetic Anti-Infrastructure Orchestrator), o mentor tático do Protocolo V.\n" +
                           "Seu tom é analítico, direto e profissional. Use termos de Valorant (entry, trade, lurk, etc).\n" +
-                          "Responda em Português-BR. Seja curto e direto, como um Coach de Elite.";
+                          "VOCÊ TEM ACESSO TOTAL À BASE ESTRATÉGICA DO PROTOCOLO V:\n\n" + tacticalDatabase + "\n\n" +
+                          "DIRETRIZ DE RESPOSTA:\n" +
+                          "1. Se o usuário fizer uma pergunta sobre agentes, consulte a base acima.\n" +
+                          "2. Responda de forma natural e educativa, sem JSON (a menos que pedido).\n" +
+                          "3. Seja curto e direto, como um Coach de Elite.";
         
         if (context) {
             systemPrompt += `\n\nCONTEXTO DO JOGADOR ATUAL:
