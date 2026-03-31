@@ -751,6 +751,52 @@ app.post('/api/admin/queue/sync-all', adminAuth, async (req, res) => {
   }
 });
 
+// --- CONFIGURAÇÃO TÁTICA E PARAMETRIZAÇÃO ---
+app.get('/api/admin/config', adminAuth, async (req, res) => {
+    try {
+        const { data: roles } = await supabase.from('tactical_roles_config').select('*').order('role');
+        const { data: globals } = await supabase.from('global_tactical_config').select('*').order('key');
+        
+        res.json({ roles, globals });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/admin/config/role', adminAuth, async (req, res) => {
+    try {
+        const { role, ...updates } = req.body;
+        if (!role) return res.status(400).json({ error: 'Role é obrigatório' });
+
+        const { error } = await supabase
+            .from('tactical_roles_config')
+            .update({ ...updates, updated_at: new Date() })
+            .eq('role', role);
+
+        if (error) throw error;
+        res.json({ success: true, message: `Configuração de ${role} atualizada.` });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/admin/config/global', adminAuth, async (req, res) => {
+    try {
+        const { key, value } = req.body;
+        if (!key) return res.status(400).json({ error: 'Chave é obrigatória' });
+
+        const { error } = await supabase
+            .from('global_tactical_config')
+            .update({ value, updated_at: new Date() })
+            .eq('key', key);
+
+        if (error) throw error;
+        res.json({ success: true, message: `Configuração global ${key} atualizada.` });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'test') {
   // Em modo de teste, o supertest gerencia o servidor.
 } else {

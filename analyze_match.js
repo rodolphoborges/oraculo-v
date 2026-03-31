@@ -166,6 +166,17 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
     }
     const templatesJson = JSON.stringify(templates);
 
+    // 6.3. Busca Parametrização Tática (Thresholds e Globais)
+    let configPayload = { roles: [], globals: [] };
+    if (supabase) {
+      console.error(`Buscando Parametrização Tática...`);
+      const { data: rolesConfig } = await supabase.from('tactical_roles_config').select('*');
+      const { data: globalConfig } = await supabase.from('global_tactical_config').select('*');
+      configPayload.roles = rolesConfig || [];
+      configPayload.globals = globalConfig || [];
+    }
+    const configJson = JSON.stringify(configPayload);
+
     // 7. Chama o script Python
     try {
       const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
@@ -191,7 +202,8 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
         '--rounds', totalRounds.toString(),
         '--team', teamId,
         '--strat', stratJson,
-        '--templates', templatesJson
+        '--templates', templatesJson,
+        '--config', configJson
       ];
 
       // Add Holt parameters if present
