@@ -1,4 +1,4 @@
-# Oráculo V | Regras de Negócio e Domínio Tático (v4.1)
+# Oráculo V | Regras de Negócio e Domínio Tático (v4.2)
 
 Este documento detalha o funcionamento interno do motor de análise do **Oráculo V**, explicando como as estatísticas brutas do Valorant são transformadas em inteligência tática interpretável.
 
@@ -23,10 +23,10 @@ Onde:
 
 | Classe       | KD Peso | ADR Peso | KAST Peso | ADR Baseline | KAST Mín. |
 |-------------|---------|----------|-----------|-------------|-----------|
-| **Duelista**    | 40%     | 40%      | 20%       | 160         | 65%       |
-| **Iniciador**   | 35%     | 35%      | 30%       | 140         | 68%       |
-| **Controlador** | 30%     | 30%      | 40%       | 120         | 72%       |
-| **Sentinela**   | 30%     | 30%      | 40%       | 110         | 72%       |
+| **Duelista**    | 45%     | 55%      | 0%        | 150         | 60%       |
+| **Iniciador**   | 20%     | 30%      | 50%       | 100         | 68%       |
+| **Controlador** | 15%     | 20%      | 65%       | 85          | 72%       |
+| **Sentinela**   | 15%     | 20%      | 65%       | 88          | 68%       |
 
 *   **Filosofia**: A classe do agente determina as expectativas. Um Duelista é avaliado mais por K/D e ADR, enquanto um Controlador é avaliado mais por sobrevivência (KAST).
 *   **Base**: O K/D Alvo é obtido em tempo real via **vStats.gg**, filtrado por agente, mapa e rank.

@@ -88,13 +88,20 @@ Retorna o estado atual de um processamento ou o resultado completo se finalizado
   "result": {
     "agent": "Jett",
     "map": "Ascent",
-    "performance_index": 82.5,
-    "holt": {
-       "performance_L": 78.2,
-       "performance_T": 1.5
+    "performance_index": 118.5,
+    "performance_status": "ELITE DO PROTOCOLO",
+    "estimated_rank": "Alpha",
+    "kd": 1.5,
+    "target_kd": 1.0,
+    "acs": 285,
+    "adr": 165.5,
+    "conselho_kaio": {
+      "diagnostico_principal": "Entry frag consistente com leitura de timing superior...",
+      "pontos_fortes": ["Conversao de trades em rounds de pistol", "Uso de clones para controle de area"],
+      "pontos_fracos": ["Posicionamento pos-plant expondo angulo desnecessario"],
+      "nota_coach": "8.5"
     },
-    "technical_rank": "Alpha",
-    "performance_index": 118.5
+    "rounds": []
   }
 }
 ```
