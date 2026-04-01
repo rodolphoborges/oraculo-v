@@ -115,8 +115,8 @@ app.post('/api/queue', async (req, res) => {
 
   // O processamento agora é feito EXCLUSIVAMENTE pelo startWorker() em background
   // para evitar o travamento do event loop do Node.js durante picos de requisições.
-  await registerQueueJob(match_id, player_id);
-  console.log(`📡 [QUEUE-SYNC] Job registrado no Admin: ${player_id}`);
+  registerQueueJob(match_id, player_id);
+  console.log(`📡 [QUEUE-SYNC] Job solicitado: ${player_id}`);
 
   res.status(202).json({
     message: 'Briefing aceito e processamento iniciado em background.',
