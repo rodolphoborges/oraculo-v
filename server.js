@@ -578,7 +578,8 @@ app.get('/api/admin/history', adminAuth, async (req, res) => {
       id: a.id,
       agente_tag: a.player_id,
       match_id: a.match_id,
-      created_at: a.operations?.started_at || a.created_at,
+      created_at: a.created_at,
+      match_date: a.operations?.started_at,
       impact_score: a.impact_score || '--'
     }));
 

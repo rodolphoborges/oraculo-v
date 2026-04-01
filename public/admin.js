@@ -89,7 +89,8 @@ function renderQueueTable(jobs) {
 
     jobs.forEach(job => {
         const row = document.createElement('tr');
-        const date = new Date(job.created_at).toLocaleString('pt-BR');
+        const displayDate = job.match_date || job.created_at;
+        const date = new Date(displayDate).toLocaleString('pt-BR');
         const statusClass = `status-${job.status}`;
 
         // Deep Link para o Protocolo-V
@@ -181,7 +182,8 @@ function renderHistoryTable(analyses) {
 
     analyses.forEach(analysis => {
         const row = document.createElement('tr');
-        const date = new Date(analysis.created_at).toLocaleString('pt-BR');
+        const displayDate = analysis.match_date || analysis.created_at;
+        const date = new Date(displayDate).toLocaleString('pt-BR');
 
         // Botões de ação
         const actionBtns = `
@@ -385,7 +387,8 @@ function renderPendingTable(missing) {
 
     missing.forEach((item, index) => {
         const row = document.createElement('tr');
-        const date = new Date(item.started_at).toLocaleString('pt-BR');
+        const displayDate = item.started_at || item.created_at;
+        const date = new Date(displayDate).toLocaleString('pt-BR');
         const matchIdShort = item.match_id ? `${item.match_id.substring(0, 8)}...` : '---';
 
         row.innerHTML = `
