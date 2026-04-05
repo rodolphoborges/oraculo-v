@@ -1,126 +1,20 @@
-# ORACULO V // MOTOR DE INTELIGENCIA TATICA v4.1
+# ORÁCULO V // MOTOR DE INTELIGÊNCIA TÁTICA v4.1
 
-> Motor de analise tatica independente para o ecossistema Protocolo V.
-> Transforma dados brutos de combate do Valorant em inteligencia estrategica via pipeline hibrido Node.js + Python + LLM.
+> Motor de análise tática independente para o ecossistema Protocolo V.
+> Transforma dados brutos de combate do Valorant em inteligência estratégica via pipeline Node.js e LLMs independentes.
+> O Oráculo-V atua como um humilde **Service Provider** sem reter os perfis duradouros dos jogadores.
 
----
-
-## Arquitetura
-
-O Oraculo V e um **Service Provider** stateless. Recebe briefings de combate, processa e devolve insights. Nao retona dados de jogadores a longo prazo.
-
-```mermaid
-graph TD
-    A["Protocolo V"] -->|"POST /api/queue"| B("Express API: server.js")
-    B -->|"Enfileira"| C["Supabase: match_analysis_queue"]
-    D("Worker: worker.js") -->|"Consome a cada 5s"| C
-    D -->|"Orquestra"| E("analyze_match.js")
-    E -->|"Motor Tatico"| G("analyze_valorant.py")
-    G -->|"Performance Index + Holt-Winters"| E
-    E -->|"Gera Insight"| J("openrouter_engine.js")
-    J -->|"LLM: Ollama / Groq / OpenRouter"| K["ai_insights"]
-    J -->|"Dual-Write"| L["Supabase Protocolo: ai_insights"]
-    D -->|"Alerta"| I("Telegram Bot")
-```
-
-### Dual-Database
-
-O sistema mantem duas conexoes Supabase simultaneas:
-- **Oraculo DB** (primario): `match_stats`, `ai_insights`, fila de processamento
-- **Protocolo DB** (espelho): `ai_insights` mirror para o frontend consumir sem depender do Oraculo
+Para compreender o fluxo de comunicação de Webhooks e como este motor atende clientes externos sem partilhar banco de dados, consulte nossa documentação global: [Relatório de Arquitetura Global](../ARCHITECTURE.md).
 
 ---
 
-## Motor de Analise
+## 🚀 Setup & Instalação
 
-### Performance Index (Role-Aware)
-
-```
-Performance Index = (KD_Peso x KD% + ADR_Peso x ADR% + KAST_Peso x KAST%) x 100
-```
-
-| Classe | KD Peso | ADR Peso | KAST Peso | ADR Baseline |
-|---|---|---|---|---|
-| **Duelista** | 40% | 40% | 20% | 160 |
-| **Iniciador** | 35% | 35% | 30% | 140 |
-| **Controlador** | 30% | 30% | 40% | 120 |
-| **Sentinela** | 30% | 30% | 40% | 110 |
-
-**K/D Alvo**: Obtido dinamicamente via vStats.gg filtrado por agente/mapa/rank.
-
-### Classificacao em 3 Tiers
-
-| Tier | Performance Index | Significado |
-|---|---|---|
-| **Alpha** | >= 115 | 15%+ acima da meta. Execucao de elite. |
-| **Omega** | 95 - 114 | Dentro do esperado para a funcao. |
-| **Deposito de Torreta** | < 95 | Abaixo da meta. Correcao necessaria. |
-
-### Holt-Winters Double Exponential Smoothing
-
-Rastreia evolucao temporal de 3 metricas (Performance Index, K/D, ADR):
-
-- **Level**: `L_t = 0.4 x y_t + 0.6 x (L_prev + T_prev)`
-- **Trend**: `T_t = 0.2 x (L_t - L_prev) + 0.8 x T_prev`
-- **Forecast**: `L_t + T_t`
-
-Estado persistido na tabela `players` do Protocolo V (`performance_l`, `performance_t`, `kd_l`, `kd_t`, `adr_l`, `adr_t`).
-
-### Deteccao Tatica
-
-- **Trade Kills**: Aliado morreu em ate 5000ms antes/depois do abate do jogador
-- **First Bloods**: Primeiro abate do round contextualizado por funcao
-- **Clutches**: Vitorias solo em situacao de desvantagem numerica
-- **Economia**: Kills em eco round, vitorias em force buy
-
-### Pipeline de LLM (3 Camadas de Fallback)
-
-```
-1. LOCAL (Ollama)     — Sem custo, baixa latencia, prioridade maxima
-2. GROQ (Cloud)       — Llama 3.3 70B, free tier, fallback rapido
-3. OPENROUTER (Cloud) — Gemini Flash / DeepSeek / Mistral / Phi-3 / Qwen (free)
-4. FALLBACK JSON      — Estrutura derivada do motor Python (sem LLM)
-```
-
-**Anti-Alucinacao**: Quality Guard valida habilidades do agente, callouts do mapa, termos banidos e caracteres nao-latinos antes de aceitar qualquer insight.
-
----
-
-## API Endpoints
-
-### Publicos
-
-| Metodo | Rota | Descricao |
-|---|---|---|
-| `POST` | `/api/queue` | Enfileira analise (retorna 202 imediato) |
-| `POST` | `/api/analyze` | Analise sincrona (bloqueia ate concluir) |
-| `GET` | `/api/status/:matchId?player=tag` | Consulta status/resultado |
-| `GET` | `/api/health` | Health check com metricas de fila |
-| `GET` | `/api/ping` | Verificacao de conectividade |
-
-### Admin (requer header `x-api-key`)
-
-| Metodo | Rota | Descricao |
-|---|---|---|
-| `GET` | `/api/admin/stats` | Estatisticas da fila + ultimos 50 jobs |
-| `GET` | `/api/admin/history` | Historico completo de analises |
-| `GET` | `/api/admin/pending-squads` | Squads com analises pendentes |
-| `POST` | `/api/admin/reprocess` | Forca re-analise de uma partida |
-| `POST` | `/api/admin/reprocess/bulk` | Re-analise em lote |
-| `DELETE` | `/api/admin/analysis` | Apaga analise individual |
-| `DELETE` | `/api/admin/analysis/all` | Purge total |
-
-Documentacao detalhada: [`API.md`](./API.md)
-
----
-
-## Setup
-
-### Pre-requisitos
+### Pré-requisitos
 - [Node.js](https://nodejs.org/) v18+
-- [Python](https://www.python.org/) 3.9+ (no PATH)
+- Docker & Docker Compose (opcional, para rodar integrado ao Protocolo-V).
 
-### Instalacao
+### Instalação Standalone
 
 ```bash
 git clone https://github.com/rodolphoborges/oraculo-v.git
@@ -129,109 +23,67 @@ npm install
 cp .env.example .env
 ```
 
-### Variaveis de Ambiente
+### Orquestração via Docker (Recomendado)
+Para carregar todo o ecossistema de uma só vez, utilize o ambiente Docker na raiz principal. O Oráculo-V e suas filas subirão paralelizados.
 
-> **SEGURANCA**: O `.env` contem chaves de servico Supabase, API keys de LLM e token Telegram. Nunca comite este arquivo.
+```bash
+cd .. # Direciona para a raiz de PROJETOS-V
+docker-compose up --build
+```
 
-| Variavel | Obrigatoria | Descricao |
+---
+
+## 🔑 Variáveis de Ambiente
+
+> **SEGURANÇA**: O `.env` contém chaves de serviço Supabase locais, chaves de API restritas e endpoints. Nunca partilhe (`commit`) este arquivo fora de *vaults* encriptados.
+
+| Variável | Obrigatoriedade | Descrição |
 |---|---|---|
-| `SUPABASE_URL` | Sim | URL do Supabase do Oraculo |
-| `SUPABASE_SERVICE_KEY` | Sim | Chave Service Role do Oraculo |
-| `PROTOCOL_SUPABASE_URL` | Sim | URL do Supabase do Protocolo (dual-write) |
-| `PROTOCOL_SUPABASE_KEY` | Sim | Chave do Protocolo (dual-write) |
-| `ADMIN_API_KEY` | Sim | Chave para rotas admin |
-| `OPENROUTER_API_KEY` | Nao | Chave OpenRouter (fallback cloud) |
-| `GROQ_API_KEY` | Nao | Chave Groq (fallback cloud) |
-| `LOCAL_LLM_URL` | Nao | URL do Ollama (ex: `http://localhost:11434`) |
-| `LOCAL_LLM_MODEL` | Nao | Modelo Ollama (ex: `qwen2.5:7b`) |
-| `TELEGRAM_BOT_TOKEN` | Nao | Token para alertas via Telegram |
-| `PORT` | Nao | Porta do Express (default: 3000) |
+| `SUPABASE_URL` | Obrigatório | URL da Box Supabase Local (Fila do Oráculo) |
+| `SUPABASE_SERVICE_KEY` | Obrigatório | Chave Service Role (Oráculo) |
+| `PROTOCOL_API_URL` | Obrigatório | Endpoint alvo para enviar o Callback do Webhook após processamento (`http://localhost:3000` se standalone, ou `http://protocolov:3000` via dock). |
+| `ADMIN_API_KEY` | Obrigatório | Chave Mestra partilhada com o Protocolo-V (Para acionar endpoint de callback do webhook/telemetria local) |
+| `OPENROUTER_API_KEY` | Opcional | Chave OpenRouter (fallback cloud free tier/pagos) |
+| `GROQ_API_KEY` | Opcional | Chave Groq (Llama 3 70B Fast inference) |
+| `LOCAL_LLM_URL` | Opcional | URL do Ollama (`http://localhost:11434`) |
+| `LOCAL_LLM_MODEL` | Opcional | Modelo Ollama (`qwen2.5:7b`) |
+| `PORT` | Opcional | Porta da Express API (Padrão: 3001) |
 
-### Execucao
+*(Nota: Referências diretas ao banco de dados `PROTOCOL_SUPABASE_URL` foram extintas na v4.0)*
 
-**Terminal 1 — API:**
+---
+
+## 💻 Execução Manual e Scripts (Standalone)
+
+Para operar perfeitamente sem orquestração com Docker/Concurrently, o serviço divide-se em 2 terminais.
+
+**Terminal 1 — Receptor HTTPS de Briefings (Endpoint API):**
 ```bash
 npm start
 ```
 
-**Terminal 2 — Worker:**
+**Terminal 2 — O Analítico Silencioso (Consumidor Assíncrono):**
 ```bash
 npm run worker
 ```
 
-**Standalone (sem fila):**
+**Injeção Clandestina (Bypass da fila para gerar relatório cru terminal):**
 ```bash
 node analyze_match.js "Nick#Tag" "UUID-DA-PARTIDA"
 ```
 
 ---
 
-## Worker — Ciclo de Vida da Fila
-
-```
-pending --> processing --> (sucesso: DELETE) ou (falha: failed)
-failed (apos delay) --> pending (retry)
-failed (apos 3 retries) --> permanece failed, removido apos 7 dias
-```
-
-**Retry com Backoff Exponencial:**
-- Retry 1: 5 minutos
-- Retry 2: 15 minutos
-- Retry 3: 60 minutos
-
-**Limpeza Automatica**: Jobs falhados com mais de 7 dias sao removidos a cada hora.
-
----
-
-## Estrutura de Diretorios
+## 🧪 Estrutura Simplificada (Overview)
 
 ```
 oraculo-v/
-  server.js              # API Express (rotas publicas + admin)
-  worker.js              # Consumidor de fila assincrono
-  analyze_match.js       # Orquestrador (tracker.gg + Python)
-  analyze_valorant.py    # Motor tatico (Perf Index, Holt-Winters, K.A.I.O.)
-  lib/
-    supabase.js          # Cliente Supabase dual-connection
-    openrouter_engine.js # LLM: Ollama / Groq / OpenRouter + quality guard
-    tactical_knowledge.js # Base de verdade: agentes, mapas, callouts, roles
-    valorant_api.js      # Habilidades dos agentes via valorant-api.com (PT-BR)
-    meta_loader.js       # Baselines via vStats.gg
-    tracker_api.js       # Puppeteer para tracker.gg
-  services/              # Servicos auxiliares
-  schemas/               # Schemas de validacao
-  sql/                   # Migrations e schemas de banco
-  scripts/               # Utilitarios (backfill, recover, check)
-  prompts/               # Modelfiles Ollama
-  public/                # Admin console (HTML)
-  analyses/              # Cache local de analises (JSON)
-  matches/               # Cache local de dados de partida
-  tests/                 # Suite de testes
+  server.js              # API Express Puxador (Porta de Entrada)
+  worker.js              # Engine Autônoma que Despacha os Webhooks
+  analyze_match.js       # Orquestrador Analítico Principal 
+  lib/                   # Módulos do Motor
+    analyze_valorant.js  # Táticas, Holt-Winters, Performance Index
+    openrouter_engine.js # Fallback Strategy LLMs + Dicionários
 ```
-
 ---
-
-## Scripts Utilitarios
-
-| Script | Descricao |
-|---|---|
-| `npm run check` | Verifica schema do banco |
-| `npm run queue` | Status da fila de processamento |
-| `npm run recover` | Recupera jobs travados |
-| `npm run trends` | Backfill de Holt-Winters retroativo |
-| `npm test` | Testes E2E |
-
----
-
-## Links
-
-- [Arquitetura Global do Ecossistema](../ARCHITECTURE.md)
-- [API Endpoints Detalhados](./API.md)
-- [Regras de Negocio e Matematica Tatica](./REGRAS_NEGOCIO.md)
-- [Changelog](./CHANGELOG.md)
-- [Guia de Testes](./TESTING.md)
-- [Guia de Contribuicao](./CONTRIBUTING.md)
-
----
-
-*Oraculo V: Dados entram. Inteligencia sai.*
+*Oráculo V: Dados entram. Inteligência sai.*
