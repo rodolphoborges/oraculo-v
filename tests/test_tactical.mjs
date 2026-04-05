@@ -5,7 +5,7 @@ import {
     normalize,
     getValidSites,
     getMapCallouts
-} from '../../lib/tactical_knowledge.js';
+} from '../lib/tactical_knowledge.js';
 
 console.log("--- STARTING VALIDATION ---");
 
