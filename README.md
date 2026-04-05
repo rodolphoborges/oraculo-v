@@ -4,7 +4,7 @@
 > Transforma dados brutos de combate do Valorant em inteligência estratégica via pipeline Node.js e LLMs independentes.
 > O Oráculo-V atua como um humilde **Service Provider** sem reter os perfis duradouros dos jogadores.
 
-Para compreender o fluxo de comunicação de Webhooks e como este motor atende clientes externos sem partilhar banco de dados, consulte nossa documentação global: [Relatório de Arquitetura Global](../ARCHITECTURE.md).
+Para compreender o fluxo de comunicação de Webhooks e como este motor atende clientes externos sem partilhar banco de dados, consulte nossa documentação global: [Relatório de Arquitetura Global](https://github.com/rodolphoborges/protocolov/blob/main/ARCHITECTURE.md).
 
 ---
 
