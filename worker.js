@@ -203,3 +203,9 @@ export async function startWorker() {
         }
     }, 5000); 
 }
+
+
+// CLI handler
+if (process.argv[1] && process.argv[1].endsWith('worker.js')) {
+    startWorker();
+}
