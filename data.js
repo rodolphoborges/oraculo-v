@@ -3965,12 +3965,12 @@ const ORACULO_DATABASE = {
           "600": "u",
           "601": "e",
           "602": "}",
-          "agent": "Waylay",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 99.3,
-          "kd": "0.88",
-          "adr": 162.61904761904762,
-          "acs": 239.66666666666666,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -395282,6 +395282,17 @@ const ORACULO_DATABASE = {
 };
 const ORACULO_OPERATIONS = [
   {
+    "id": "f5e9fc5c-31af-45db-a96e-96216338c99d",
+    "match_id": "984faa4f-a26c-4f1e-b5a8-5d212010bb2a",
+    "agente_tag": "MWZERADASHOPEE#S2S2",
+    "status": "processing",
+    "created_at": "2026-04-05T20:31:05.642571+00:00",
+    "processed_at": "2026-04-05T20:31:05.642571+00:00",
+    "metadata": {
+      "agent": "Jett"
+    }
+  },
+  {
     "id": "ce78da3f-2d55-46e2-aed9-3e0f20c03748",
     "match_id": "a7dcac44-573e-4332-8f15-7075f1bb9071",
     "agente_tag": "DefeitoDeFábrica#ZzZ",
@@ -396366,17 +396377,6 @@ const ORACULO_OPERATIONS = [
     "status": "completed",
     "created_at": "2026-04-02T04:20:44.204336+00:00",
     "processed_at": "2026-04-02T04:20:44.204336+00:00",
-    "metadata": {
-      "agent": "Waylay"
-    }
-  },
-  {
-    "id": "f1f12ca0-4f1c-4107-b6a7-0277840205fb",
-    "match_id": "a7dcac44-573e-4332-8f15-7075f1bb9071",
-    "agente_tag": "m4sna#chama",
-    "status": "completed",
-    "created_at": "2026-04-01T20:07:11.625318+00:00",
-    "processed_at": "2026-04-01T20:07:11.625318+00:00",
     "metadata": {
       "agent": "Waylay"
     }
