@@ -111,18 +111,41 @@ export async function processBriefing(briefing) {
             holt_state: result.holt // Novo estado calculado para o próximo job
         };
 
-        const response = await fetch(`${PROTOCOL_URL}/api/insights/callback`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'x-api-key': ADMIN_KEY
-            },
-            body: JSON.stringify(callbackPayload)
-        });
+        try {
+            const response = await fetch(`${PROTOCOL_URL}/api/insights/callback`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'x-api-key': ADMIN_KEY
+                },
+                body: JSON.stringify(callbackPayload)
+            });
 
-        if (!response.ok) {
-            const errTxt = await response.text();
-            throw new Error(`Falha no Callback (${response.status}): ${errTxt}`);
+            if (!response.ok) {
+                const errTxt = await response.text();
+                throw new Error(`Falha no Callback (${response.status}): ${errTxt}`);
+            }
+        } catch (fetchErr) {
+            console.warn(`⚠️ [WORKER] Webhook indisponível (${PROTOCOL_URL}). Tentando gravação direta no Protocolo...`);
+            const pUrl = process.env.PROTOCOL_SUPABASE_URL;
+            const pKey = process.env.PROTOCOL_SUPABASE_KEY;
+            
+            if (pUrl && pKey) {
+                const { createClient } = await import('@supabase/supabase-js');
+                const pSupabase = createClient(pUrl, pKey);
+                
+                await pSupabase.from('ai_insights').upsert({
+                    match_id, player_id,
+                    insight_resumo: finalInsight,
+                    analysis_report: callbackPayload.analysis_report,
+                    model_used: callbackPayload.model_used,
+                    classification: result.technical_rank
+                }, { onConflict: 'match_id,player_id' });
+                
+                console.log(`✅ [WORKER] Dados de ${player_id} gravados DIRETAMENTE com sucesso no Protocolo-V.`);
+            } else {
+                throw fetchErr;
+            }
         }
 
         console.log(`✅ [WORKER] Ciclo completo para ${player_id}.`);
