@@ -632,11 +632,8 @@ def analyze_match(json_data, target_player, target_kd=1.0, agent_name=None, map_
     # Check trends if available
     perf_t = holt_next.get("performance_t")
     if perf_t is not None:
-        if perf_t > 0.5:
-            conselhos.append(f"TENDÊNCIA POSITIVA: Performance Index cresceu +{perf_t:.1f} ponto(s)/partida. Projeção Holt-Winters para a próxima: {holt_next['performance_forecast']:.0f}%.")
-        elif perf_t < -0.5:
-            conselhos.append(f"TENDÊNCIA NEGATIVA: Performance Index caiu {abs(perf_t):.1f} ponto(s)/partida. Projeção para a próxima: {holt_next['performance_forecast']:.0f}%. Identifique a causa antes do próximo combate.")
-        
+        # TENDÊNCIA POSITIVA / NEGATIVA strings foram movidas pro LLM e removidas
+        # da lista estática para evitar repetição na interface gráfica de fallback.
         kd_t = holt_next.get("kd_t")
         adr_t = holt_next.get("adr_t")
         if kd_t is not None and adr_t is not None:
