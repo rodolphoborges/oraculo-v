@@ -177,115 +177,62 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
     }
     const configJson = JSON.stringify(configPayload);
 
-    // 7. Chama o script Python
+    // 7. Chama o Motor JS Nativo (Portado de Python v4.2)
     try {
-      const pythonScript = path.join(process.cwd(), 'analyze_valorant.py');
-      const normalizedMatchPath = path.resolve(matchJsonPathFinal);
+      console.error(`🚀 [ENGINE] Executando motor tático JS nativo...`);
+      const { resolveRole, calculatePerformanceIndex, processRounds, generateTacticalInsights } = await import('./lib/analyze_valorant.js');
       
-      console.error(`Executando análise Python: ${pythonScript}`);
-      
-      const totalRounds = matchData.data.metadata.rounds;
       const teamId = playerSummary?.metadata?.teamId || 'Unknown';
-
-      // Resolve role via Engine Central para passar ao Python
-      const agentData = getAgent(agentName);
-      const resolvedRole = agentData ? agentData.role : 'Duelista';
-
-      const pythonArgs = [
-        pythonScript,
-        '--json', normalizedMatchPath,
-        '--player', playerTag,
-        '--target-kd', targetKd.toString(),
-        '--agent', agentName,
-        '--role', resolvedRole,
-        '--map', mapDetected,
-        '--rounds', totalRounds.toString(),
-        '--team', teamId,
-        '--strat', stratJson,
-        '--templates', templatesJson,
-        '--config', configJson
-      ];
-
-      // Add Holt parameters if present
-      if (holtPrev.performance_l != null) pythonArgs.push('--p-l', holtPrev.performance_l.toString());
-      if (holtPrev.performance_t != null) pythonArgs.push('--p-t', holtPrev.performance_t.toString());
-      if (holtPrev.kd_l != null) pythonArgs.push('--k-l', holtPrev.kd_l.toString());
-      if (holtPrev.kd_t != null) pythonArgs.push('--k-t', holtPrev.kd_t.toString());
-      if (holtPrev.adr_l != null) pythonArgs.push('--a-l', holtPrev.adr_l.toString());
-      if (holtPrev.adr_t != null) pythonArgs.push('--a-t', holtPrev.adr_t.toString());
-
-      const { spawn } = await import('child_process');
-      const child = spawn('python', pythonArgs, { 
-        env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
-        timeout: 5 * 60 * 1000 
-      });
-
-      let stdout = '';
-      let stderr = '';
-
-      child.stdout.on('data', (data) => { stdout += data.toString(); });
-      child.stderr.on('data', (data) => { stderr += data.toString(); });
-
-      const exitCode = await new Promise((resolve) => {
-        child.on('close', resolve);
-        child.on('error', (err) => {
-          console.error("Erro ao iniciar processo Python:", err);
-          resolve(1);
-        });
-      });
+      const resolvedRole = resolveRole(agentName, playerSummary?.metadata?.roleName);
       
-      if (exitCode !== 0) {
-          console.error("Python Stderr:", stderr);
-          throw new Error(`O processo de análise Python falhou com código ${exitCode}. Verifique os logs do servidor.`);
-      }
-    
-      const analysisResult = JSON.parse(stdout);
+      const { roundsAnalysis, firstKills, firstDeaths } = processRounds(matchData, playerTag);
       
-      // Lógica de Predição Técnica Ponderada (vStats Impact Factor)
+      const stats = playerSummary.stats;
+      const totalRounds = matchData.data.metadata.rounds;
+      const adr = stats.damage.value / totalRounds;
+      const actualKd = stats.kills.value / Math.max(1, stats.deaths.value);
+      const kast = stats.kast?.value || 0;
+      const acs = stats.score.value / totalRounds;
+
+      const perfIdx = calculatePerformanceIndex(actualKd, targetKd, adr, resolvedRole, kast, firstKills);
+      const insights = generateTacticalInsights(perfIdx, resolvedRole, { adr, firstBloods: firstKills }, {});
+
+      const analysisResult = {
+        player: playerTag, agent: agentName, role: resolvedRole, map: mapDetected,
+        acs, adr, kd: actualKd, kast, performance_index: perfIdx, impact_score: perfIdx,
+        performance_status: insights.technicalRank === "Alpha" ? "ELITE DO PROTOCOLO" : "OMNICRÔNICA",
+        technical_rank: insights.technicalRank, squad_stats: [],
+        tone_instruction: "Coach analítico e direto.",
+        kills: stats.kills.value, deaths: stats.deaths.value,
+        clutches: stats.clutches?.value || 0,
+        first_kills: firstKills, first_deaths: firstDeaths,
+        is_win: playerSummary.metadata.result === 'victory',
+        result: playerSummary.metadata.result === 'victory' ? 'VITÓRIA' : 'DERROTA',
+        matches_analyzed: 1, holt: {},
+        conselho_kaio: insights.conselho, all_conselhos: insights.allConselhos,
+        total_rounds: totalRounds, rounds: roundsAnalysis
+      };
+      
       const { estimateTechnicalRank } = await import('./lib/ranking_service.js');
       const estimatedRank = estimateTechnicalRank(analysisResult.kd, analysisResult.adr, baselines);
       
-      console.error(`Debug Predicition - Final Estimated Rank:`, estimatedRank);
+      analysisResult.technical_rank_display = estimatedRank;
+      analysisResult.estimated_rank = estimatedRank;
+      analysisResult.player_rank = rankDisplay;
+      analysisResult.hs_percent = playerSummary.stats.hsAccuracy?.value || 0;
 
-    // Adiciona informações de meta e predição no resultado
-    analysisResult.meta_category = metaCategory;
-    analysisResult.target_kd = targetKd;
-    analysisResult.technical_rank = estimatedRank; // [USER-REQ] Exibe Elo equivalente (DIAMANTE, OURO etc)
-    analysisResult.estimated_rank = estimatedRank;
-    analysisResult.player_rank = rankDisplay;
-    analysisResult.hs_percent = playerSummary?.stats?.hsAccuracy?.value || 
-                                playerSummary?.stats?.headshotPercentage?.value || 
-                                playerRound?.stats?.hsAccuracy?.value || 0;
+      const analysesDir = './analyses';
+      try { await fs.promises.mkdir(analysesDir, { recursive: true }); } catch (e) {}
 
-
-    // Garante que a pasta analyses existe
-    const analysesDir = './analyses';
-    try {
-      await fs.promises.access(analysesDir);
-    } catch {
-      await fs.promises.mkdir(analysesDir, { recursive: true });
+      const matchId = isUuid ? inputPath : (analysisResult.match_id || 'unknown');
+      const finalReportPath = path.join(analysesDir, `match_${matchId}_${playerTag.trim().replace('#', '_')}.json`);
+      
+      await fs.promises.writeFile(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
+      return analysisResult;
+    } catch (err) {
+      console.error(`❌ [ENGINE ERROR] Falha no motor JS: ${err.message}`);
+      throw new Error(`Falha na análise tática: ${err.message}`);
     }
-
-    // [NOVO - Idempotência UI] Preserva o insight da IA se já existir no arquivo local
-    // Isso evita que o Dashboard "pisque" e esconda os Prós/Contras durante o re-processamento
-    const matchId = isUuid ? inputPath : (analysisResult.match_id || 'unknown');
-    const finalReportPath = path.join(analysesDir, `match_${matchId}_${playerTag.replace('#', '_')}.json`);
-    
-    try {
-        const existingRaw = await fs.promises.readFile(finalReportPath, 'utf8');
-        const existingData = JSON.parse(existingRaw);
-        if (existingData.conselho_kaio && typeof existingData.conselho_kaio === 'object') {
-            console.error(`♻️ [IDEMPOTENCY] Mesclando Insight IA existente para evitar interrupção na UI.`);
-            analysisResult.conselho_kaio = existingData.conselho_kaio;
-        }
-    } catch (e) { /* Arquivo não existe ou é inválido, segue normal */ }
-
-    await fs.promises.writeFile(finalReportPath, JSON.stringify(analysisResult, null, 2), 'utf8');
-    
-    return analysisResult;
-  } catch (err) {
-    throw new Error(`Erro ao executar análise Python: ${err.message}`);
-  }
 }
 
 // CLI handling - Only run if main
