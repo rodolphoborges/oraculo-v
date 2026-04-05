@@ -57,7 +57,7 @@ export async function processBriefing(briefing) {
         const holtPrev = metadata.holt_state || await getPlayerHoltState(player_id);
 
         // 2. Executar análise via Motor JS Nativo
-        const { runAnalysis } = await import('./analyze_match.js');
+        const { runAnalysis } = await import('./scripts/maintenance/analyze_match.js');
         const result = await runAnalysis(
             player_id, 
             match_id, 
