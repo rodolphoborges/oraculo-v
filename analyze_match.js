@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config({ quiet: true });
-import { getAgentMeta, getRankBaselines } from '../../lib/meta_loader.js';
-import { getAgent } from '../../lib/tactical_knowledge.js';
-import { fetchMatchJson } from '../../lib/tracker_api.js';
-import { supabase } from '../../lib/supabase.js';
+import { getAgentMeta, getRankBaselines } from './lib/meta_loader.js';
+import { getAgent } from './lib/tactical_knowledge.js';
+import { fetchMatchJson } from './lib/tracker_api.js';
+import { supabase } from './lib/supabase.js';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
