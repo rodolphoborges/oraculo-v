@@ -1,5 +1,5 @@
 
-import { supabase, supabaseProtocol } from './lib/supabase.js';
+import { supabase, supabaseProtocol } from '../../lib/supabase.js';
 
 async function reprocessEverything() {
     console.log("🧹 [PURGE] Iniciando limpeza total para reprocessamento cronológico...");

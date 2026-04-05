@@ -1,4 +1,4 @@
-import { supabaseProtocol } from './lib/supabase.js';
+import { supabaseProtocol } from '../../lib/supabase.js';
 
 async function recoverProcessingJobs() {
     if (!supabaseProtocol) {

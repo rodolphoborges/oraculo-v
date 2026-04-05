@@ -1,6 +1,6 @@
 
 import { exec } from 'child_process';
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../../lib/supabase.js';
 
 const PLAYER = 'OzWiX#4384';
 const MATCH_ID = '387e47a7-7a69-4d6e-a7eb-65ec00d2feb6';

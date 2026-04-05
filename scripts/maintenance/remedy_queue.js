@@ -1,4 +1,4 @@
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../../lib/supabase.js';
 
 async function remedy() {
     console.log("🛠️ [REMEDY] Iniciando correção da fila...");

@@ -1,4 +1,4 @@
-import { supabase, supabaseProtocol } from './lib/supabase.js';
+import { supabase, supabaseProtocol } from '../../lib/supabase.js';
 
 const BANNED_TERMS = ['menear', 'pratele', 'alinharmos', 'instâncias', 'croixhair', 'punkts', 'energia', 'estímulos', 'initiativa', 'group', 'positioning', 'missions'];
 
