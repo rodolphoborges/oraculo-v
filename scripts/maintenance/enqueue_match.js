@@ -1,4 +1,4 @@
-import { supabase } from './lib/supabase.js';
+import { supabase } from '../../lib/supabase.js';
 
 async function enqueue() {
     const matchId = 'b9bddd5e-350d-4b65-8735-12e995645767';

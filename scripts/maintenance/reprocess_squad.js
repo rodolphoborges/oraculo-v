@@ -6,8 +6,8 @@
  * Prioriza o modelo local (Ollama) para evitar custos de tokens.
  */
 
-import { supabaseProtocol } from './lib/supabase.js';
-import { processBriefing } from './worker.js';
+import { supabaseProtocol } from '../../lib/supabase.js';
+import { processBriefing } from '../../worker.js';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env', override: true, quiet: true });

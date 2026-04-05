@@ -8,7 +8,7 @@
  * 3. Persists insights to ai_insights (Oráculo).
  * 4. Syncs insights to Protocolo-V (Optional/If enabled).
  */
-import { processBriefing } from './worker.js';
+import { processBriefing } from '../../worker.js';
 
 const mockBriefing = {
     match_id: '0432591c-a709-44ec-8b90-2119c53b9012', // UUID existente para teste
