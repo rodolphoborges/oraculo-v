@@ -175,15 +175,15 @@ export async function startWorker() {
                 .maybeSingle();
 
             if (job) {
-                const { id, agente_tag, match_id, metadata } = job;
+                const { id, player_tag, match_id, metadata } = job;
                 
                 // Marcar como processando
                 await supabase.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
                 
-                console.log(`📡 [QUEUE] Processando: ${agente_tag} | Match: ${match_id}`);
+                console.log(`📡 [QUEUE] Processando: ${player_tag} | Match: ${match_id}`);
                 const result = await processBriefing({ 
                     match_id, 
-                    player_id: agente_tag, 
+                    player_id: player_tag, 
                     metadata 
                 });
 
