@@ -173346,12 +173346,12 @@ const ORACULO_DATABASE = {
           "788": "E",
           "789": "\"",
           "790": "}",
-          "agent": "Jett",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 87.6,
-          "kd": "0.94",
-          "adr": 132,
-          "acs": 212.5909090909091,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -239001,12 +239001,12 @@ const ORACULO_DATABASE = {
           "990": "E",
           "991": "\"",
           "992": "}",
-          "agent": "Astra",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 102.4,
-          "kd": "1.35",
-          "adr": 144.14285714285714,
-          "acs": 222.42857142857142,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -395282,6 +395282,28 @@ const ORACULO_DATABASE = {
 };
 const ORACULO_OPERATIONS = [
   {
+    "id": "41dd9298-06a2-4085-8fbf-67ddbc7b42aa",
+    "match_id": "f9af1f1b-0823-4a6b-947a-7eb4bc722e69",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-06T20:18:05.031426+00:00",
+    "processed_at": "2026-04-06T20:18:05.031426+00:00",
+    "metadata": {
+      "agent": "Waylay"
+    }
+  },
+  {
+    "id": "52628375-02f2-410c-a7f4-5e6a16dff012",
+    "match_id": "97b45b95-3457-4c2a-b5dd-829ff19619c4",
+    "agente_tag": "DefeitoDeFábrica#ZzZ",
+    "status": "processing",
+    "created_at": "2026-04-06T20:17:38.458864+00:00",
+    "processed_at": "2026-04-06T20:17:38.458864+00:00",
+    "metadata": {
+      "agent": "Miks"
+    }
+  },
+  {
     "id": "2995b8a0-7c75-4c50-8d2e-499915618fbe",
     "match_id": "97b45b95-3457-4c2a-b5dd-829ff19619c4",
     "agente_tag": "Camarada vituxo#1312",
@@ -396357,28 +396379,6 @@ const ORACULO_OPERATIONS = [
     "processed_at": "2026-04-05T07:38:23.527029+00:00",
     "metadata": {
       "agent": "Killjoy"
-    }
-  },
-  {
-    "id": "2a9926ec-0112-495a-a58d-801f3e80b8ca",
-    "match_id": "0cb0eaa6-8587-4d7f-b36f-eece424e3849",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:20.230169+00:00",
-    "processed_at": "2026-04-05T07:38:20.230169+00:00",
-    "metadata": {
-      "agent": "Astra"
-    }
-  },
-  {
-    "id": "85eb0c12-5fc9-40fd-a838-f13447d42746",
-    "match_id": "057779a2-c5c5-4bd1-89a3-a02b42ba1f40",
-    "agente_tag": "DefeitoDeFábrica#ZzZ",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:13.312426+00:00",
-    "processed_at": "2026-04-05T07:38:13.312426+00:00",
-    "metadata": {
-      "agent": "Jett"
     }
   }
 ];
