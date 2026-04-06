@@ -50,109 +50,114 @@ export async function processBriefing(briefing) {
     const PROTOCOL_URL = process.env.PROTOCOL_API_URL || 'http://localhost:3000';
     const ADMIN_KEY = process.env.ADMIN_API_KEY;
 
-    console.log(`👷 [WORKER] Iniciando Match ${match_id} | Player: ${player_id}`);
+    console.log(`\n👷 [WORKER] >>> INICIANDO: ${player_id} | Match: ${match_id}`);
+
+    // Global timeout of 5 minutes for the entire briefing process
+    const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('TIMEOUT_LIMIT_REACHED')), 300000)
+    );
 
     try {
-        // 1. Buscar Estado Holt (Prioriza o que veio no Job Metadata, fallback local)
-        const holtPrev = metadata.holt_state || await getPlayerHoltState(player_id);
+        const processPromise = (async () => {
+            // 1. Buscar Estado Holt
+            console.log(`   🔸 [1/5] Carregando estado Holt-Winters...`);
+            const holtPrev = metadata.holt_state || await getPlayerHoltState(player_id);
 
-        // 2. Executar análise via Motor JS Nativo
-        const { runAnalysis } = await import('./analyze_match.js');
-        const result = await runAnalysis(
-            player_id, 
-            match_id, 
-            map_name || 'ALL', 
-            'ALL', 
-            holtPrev || {},
-            agent_name || 'ALL'
-        );
+            // 2. Executar análise via Motor JS Nativo
+            console.log(`   🔸 [2/5] Executando Motor Tático (analyze_match.js)...`);
+            const { runAnalysis } = await import('./analyze_match.js');
+            const result = await runAnalysis(
+                player_id, 
+                match_id, 
+                map_name || 'ALL', 
+                'ALL', 
+                holtPrev || {},
+                agent_name || 'ALL'
+            );
 
-        if (result.error) throw new Error(result.error);
+            if (result.error) throw new Error(result.error);
 
-        // 3. Pipeline de IA (Tribunal ou OpenRouter)
-        let aiResponse = null;
-        try {
-            const matchJsonPath = path.join(process.cwd(), 'matches', `${match_id}.json`);
-            const matchRaw = await fs.promises.readFile(matchJsonPath, 'utf8');
-            const matchData = JSON.parse(matchRaw);
-            aiResponse = await runTribunal(matchData, result, player_id, match_id);
-        } catch (e) {
-            console.warn(`⚠️ [TRIBUNAL] Pulado ou falhou: ${e.message}`);
-            aiResponse = await generateInsights({ match_data: result });
-        }
-
-        const finalInsight = aiResponse?.insight || { 
-            diagnostico_principal: result.conselho_kaio || "Análise concluída.",
-            classification: result.technical_rank,
-            is_fallback: true 
-        };
-
-        // 4. Persistência Local (Oráculo-V - Soberania Técnica)
-        await supabase.from('match_stats').upsert([{
-            match_id, player_id, agent: result.agent, role: result.role,
-            kills: result.kills, deaths: result.deaths, acs: result.acs,
-            adr: result.adr, kast: result.kast, first_bloods: result.first_kills,
-            clutches: result.clutches, is_win: result.is_win,
-            impact_score: result.performance_index, impact_rank: result.technical_rank
-        }], { onConflict: 'match_id, player_id' });
-
-        // 5. CALLBACK: Devolução de dados ao Protocolo-V (Soberania de Dados)
-        console.log(`📤 [CALLBACK] Enviando resultados para ${PROTOCOL_URL}...`);
-        
-        const callbackPayload = {
-            match_id,
-            player_id,
-            insight_resumo: finalInsight,
-            analysis_report: { ...result, engine_version: ORACULO_ENGINE_VERSION },
-            model_used: aiResponse?.model_used || "SYSTEM_JS",
-            classification: result.technical_rank,
-            impact_score: result.performance_index,
-            engine_version: ORACULO_ENGINE_VERSION,
-            holt_state: result.holt // Novo estado calculado para o próximo job
-        };
-
-        try {
-            const response = await fetch(`${PROTOCOL_URL}/api/insights/callback`, {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'x-api-key': ADMIN_KEY
-                },
-                body: JSON.stringify(callbackPayload)
-            });
-
-            if (!response.ok) {
-                const errTxt = await response.text();
-                throw new Error(`Falha no Callback (${response.status}): ${errTxt}`);
+            // 3. Pipeline de IA
+            console.log(`   🔸 [3/5] Gerando Insights de IA (Tribunal)...`);
+            let aiResponse = null;
+            try {
+                const matchJsonPath = path.join(process.cwd(), 'matches', `${match_id}.json`);
+                if (fs.existsSync(matchJsonPath)) {
+                    const matchRaw = await fs.promises.readFile(matchJsonPath, 'utf8');
+                    const matchData = JSON.parse(matchRaw);
+                    aiResponse = await runTribunal(matchData, result, player_id, match_id);
+                } else {
+                    console.warn(`   ⚠️ [TRIBUNAL] JSON da partida não encontrado localmente. Usando fallback.`);
+                    aiResponse = await generateInsights({ match_data: result });
+                }
+            } catch (e) {
+                console.warn(`   ⚠️ [TRIBUNAL] Falhou: ${e.message}. Tentando fallback OpenRouter...`);
+                aiResponse = await generateInsights({ match_data: result });
             }
-        } catch (fetchErr) {
-            console.warn(`⚠️ [WORKER] Webhook indisponível (${PROTOCOL_URL}). Tentando gravação direta no Protocolo...`);
-            const pUrl = process.env.PROTOCOL_SUPABASE_URL;
-            const pKey = process.env.PROTOCOL_SUPABASE_KEY;
-            
-            if (pUrl && pKey) {
-                const { createClient } = await import('@supabase/supabase-js');
-                const pSupabase = createClient(pUrl, pKey);
-                
-                await pSupabase.from('ai_insights').upsert({
-                    match_id, player_id,
-                    insight_resumo: finalInsight,
-                    analysis_report: callbackPayload.analysis_report,
-                    model_used: callbackPayload.model_used,
-                    classification: result.technical_rank
-                }, { onConflict: 'match_id,player_id' });
-                
-                console.log(`✅ [WORKER] Dados de ${player_id} gravados DIRETAMENTE com sucesso no Protocolo-V.`);
-            } else {
-                throw fetchErr;
-            }
-        }
 
-        console.log(`✅ [WORKER] Ciclo completo para ${player_id}.`);
-        return { success: true };
+            const finalInsight = aiResponse?.insight || { 
+                diagnostico_principal: result.conselho_kaio || "Análise concluída.",
+                classification: result.technical_rank,
+                is_fallback: true 
+            };
+
+            // 4. Persistência Local
+            console.log(`   🔸 [4/5] Persistindo dados no Oráculo-V...`);
+            await supabase.from('match_stats').upsert([{
+                match_id, player_id, agent: result.agent, role: result.role,
+                kills: result.kills, deaths: result.deaths, acs: result.acs,
+                adr: result.adr, kast: result.kast, first_bloods: result.first_kills,
+                clutches: result.clutches, is_win: result.is_win,
+                impact_score: result.performance_index, impact_rank: result.technical_rank
+            }], { onConflict: 'match_id, player_id' });
+
+            // 5. CALLBACK
+            console.log(`   🔸 [5/5] Executando Callback para o Protocolo-V...`);
+            const callbackPayload = {
+                match_id,
+                player_id,
+                insight_resumo: finalInsight,
+                analysis_report: { ...result, engine_version: ORACULO_ENGINE_VERSION },
+                model_used: aiResponse?.model_used || "SYSTEM_JS",
+                classification: result.technical_rank,
+                impact_score: result.performance_index,
+                engine_version: ORACULO_ENGINE_VERSION,
+                holt_state: result.holt
+            };
+
+            try {
+                const response = await fetch(`${PROTOCOL_URL}/api/insights/callback`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-api-key': ADMIN_KEY },
+                    body: JSON.stringify(callbackPayload)
+                });
+                if (!response.ok) throw new Error(`Falha no Callback (${response.status})`);
+                console.log(`   ✅ [CALLBACK] Webhook finalizado.`);
+            } catch (fetchErr) {
+                console.warn(`   ⚠️ [CALLBACK] Webhook indisponível. Tentando persistência direta...`);
+                const pUrl = process.env.PROTOCOL_SUPABASE_URL;
+                const pKey = process.env.PROTOCOL_SUPABASE_KEY;
+                if (pUrl && pKey) {
+                    const { createClient } = await import('@supabase/supabase-js');
+                    const pSupabase = createClient(pUrl, pKey);
+                    await pSupabase.from('ai_insights').upsert({
+                        match_id, player_id,
+                        insight_resumo: finalInsight,
+                        analysis_report: callbackPayload.analysis_report,
+                        model_used: callbackPayload.model_used,
+                        classification: result.technical_rank
+                    }, { onConflict: 'match_id,player_id' });
+                    console.log(`   ✅ [DIRECT] Gravado no banco do Protocolo.`);
+                }
+            }
+
+            return { success: true };
+        })();
+
+        return await Promise.race([processPromise, timeoutPromise]);
 
     } catch (err) {
-        console.error(`❌ [WORKER ERROR] ${err.message}`);
+        console.error(`❌ [WORKER ERROR] ${player_id}: ${err.message}`);
         return { success: false, error: err.message };
     }
 }
