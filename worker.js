@@ -158,12 +158,12 @@ export async function processBriefing(briefing) {
 }
 
 /**
- * Loop do Worker - Consome APENAS sua própria base de dados.
+ * Loop do Worker - Consome APENAS sua própria base de dados de forma SEQUENCIAL.
  */
 export async function startWorker() {
     console.log(`🤖 [ORACULO-V] Worker v${ORACULO_ENGINE_VERSION} Ativo.`);
 
-    setInterval(async () => {
+    while (true) {
         try {
             // 1. Pega o próximo job da fila LOCAL
             const { data: job } = await supabase
@@ -190,18 +190,24 @@ export async function startWorker() {
                 if (result.success) {
                     // Deletar da fila local após sucesso
                     await supabase.from('match_analysis_queue').delete().eq('id', id);
+                    console.log(`✅ [QUEUE] Job ${id} removido após sucesso.`);
                 } else {
                     // Marcar falha e logar
                     await supabase.from('match_analysis_queue').update({ 
                         status: 'failed', 
-                        error_msg: result.error 
+                        error_message: result.error 
                     }).eq('id', id);
+                    console.error(`❌ [QUEUE] Job ${id} marcado como falha: ${result.error}`);
                 }
+            } else {
+                // Aguarda 5 segundos se a fila estiver vazia
+                await new Promise(r => setTimeout(r, 5000));
             }
         } catch (err) {
             console.error(`❌ [LOOP ERROR] ${err.message}`);
+            await new Promise(r => setTimeout(r, 5000));
         }
-    }, 5000); 
+    }
 }
 
 
