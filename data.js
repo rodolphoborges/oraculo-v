@@ -86515,12 +86515,12 @@ const ORACULO_DATABASE = {
           "554": "u",
           "555": "e",
           "556": "}",
-          "agent": "Waylay",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 96.2,
-          "kd": "1.00",
-          "adr": 139.5909090909091,
-          "acs": 232,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -91980,12 +91980,12 @@ const ORACULO_DATABASE = {
           "895": "E",
           "896": "\"",
           "897": "}",
-          "agent": "Waylay",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 124.6,
-          "kd": "1.35",
-          "adr": 174.07142857142858,
-          "acs": 258.85714285714283,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -171410,12 +171410,12 @@ const ORACULO_DATABASE = {
           "888": "E",
           "889": "\"",
           "890": "}",
-          "agent": "Skye",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 124.8,
-          "kd": "1.40",
-          "adr": 172.46428571428572,
-          "acs": 279.10714285714283,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -172209,12 +172209,12 @@ const ORACULO_DATABASE = {
           "782": "O",
           "783": "\"",
           "784": "}",
-          "agent": "Omen",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 86.1,
-          "kd": "1.06",
-          "adr": 145.27272727272728,
-          "acs": 234.9090909090909,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -172371,12 +172371,12 @@ const ORACULO_DATABASE = {
           "145": "O",
           "146": "\"",
           "147": "}",
-          "agent": "Iso",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 98.3,
-          "kd": "1.08",
-          "adr": 137.21052631578948,
-          "acs": 208.05263157894737,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -172541,12 +172541,12 @@ const ORACULO_DATABASE = {
           "153": "E",
           "154": "\"",
           "155": "}",
-          "agent": "Jett",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 80.2,
-          "kd": "0.84",
-          "adr": 122.91666666666667,
-          "acs": 185.41666666666666,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -228946,12 +228946,12 @@ const ORACULO_DATABASE = {
           "721": "u",
           "722": "e",
           "723": "}",
-          "agent": "Miks",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 75.1,
-          "kd": "0.64",
-          "adr": 110,
-          "acs": 175.33333333333334,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -234091,12 +234091,12 @@ const ORACULO_DATABASE = {
           "1017": "E",
           "1018": "\"",
           "1019": "}",
-          "agent": "Tejo",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 93.7,
-          "kd": "0.88",
-          "adr": 124.875,
-          "acs": 193.875,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -234257,12 +234257,12 @@ const ORACULO_DATABASE = {
           "149": "E",
           "150": "\"",
           "151": "}",
-          "agent": "Tejo",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 144.6,
-          "kd": "1.92",
-          "adr": 206.10526315789474,
-          "acs": 333.2631578947368,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -235251,12 +235251,12 @@ const ORACULO_DATABASE = {
           "977": "E",
           "978": "\"",
           "979": "}",
-          "agent": "Neon",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 41.6,
-          "kd": "0.29",
-          "adr": 77.70833333333333,
-          "acs": 102.41666666666667,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -236097,12 +236097,12 @@ const ORACULO_DATABASE = {
           "829": "E",
           "830": "\"",
           "831": "}",
-          "agent": "Fade",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 57.3,
-          "kd": "0.43",
-          "adr": 66.83333333333333,
-          "acs": 108.44444444444444,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -237030,12 +237030,12 @@ const ORACULO_DATABASE = {
           "916": "E",
           "917": "\"",
           "918": "}",
-          "agent": "Viper",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 113,
-          "kd": "1.29",
-          "adr": 183.5,
-          "acs": 290.6111111111111,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -237994,12 +237994,12 @@ const ORACULO_DATABASE = {
           "947": "E",
           "948": "\"",
           "949": "}",
-          "agent": "Tejo",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 100.8,
-          "kd": "1.17",
-          "adr": 138.34615384615384,
-          "acs": 219.19230769230768,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -255775,12 +255775,12 @@ const ORACULO_DATABASE = {
           "153": "E",
           "154": "\"",
           "155": "}",
-          "agent": "Chamber",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 81.1,
-          "kd": "0.64",
-          "adr": 106.84210526315789,
-          "acs": 138.3684210526316,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -256746,12 +256746,12 @@ const ORACULO_DATABASE = {
           "954": ".",
           "955": "\"",
           "956": "}",
-          "agent": "Chamber",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 93.6,
-          "kd": "0.78",
-          "adr": 162.70833333333334,
-          "acs": 212.29166666666666,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       }
@@ -321313,12 +321313,12 @@ const ORACULO_DATABASE = {
           "730": "u",
           "731": "e",
           "732": "}",
-          "agent": "Omen",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 109.2,
-          "kd": "1.26",
-          "adr": 185.625,
-          "acs": 276,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -323251,12 +323251,12 @@ const ORACULO_DATABASE = {
           "153": "E",
           "154": "\"",
           "155": "}",
-          "agent": "KAY/O",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 47.8,
-          "kd": "0.29",
-          "adr": 83.13333333333334,
-          "acs": 111.8,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -324107,12 +324107,12 @@ const ORACULO_DATABASE = {
           "839": "E",
           "840": "\"",
           "841": "}",
-          "agent": "Omen",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 88.4,
-          "kd": "1.00",
-          "adr": 114.41666666666667,
-          "acs": 170.91666666666666,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -325033,12 +325033,12 @@ const ORACULO_DATABASE = {
           "909": "E",
           "910": "\"",
           "911": "}",
-          "agent": "Omen",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 81.2,
-          "kd": "0.80",
-          "adr": 124.61111111111111,
-          "acs": 199.66666666666666,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -326026,12 +326026,12 @@ const ORACULO_DATABASE = {
           "976": "O",
           "977": "\"",
           "978": "}",
-          "agent": "Omen",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 96.2,
-          "kd": "1.30",
-          "adr": 120.05263157894737,
-          "acs": 191.1578947368421,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -326813,12 +326813,12 @@ const ORACULO_DATABASE = {
           "770": "E",
           "771": "\"",
           "772": "}",
-          "agent": "Omen",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 96.1,
-          "kd": "0.83",
-          "adr": 125.11111111111111,
-          "acs": 176.05555555555554,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -371864,12 +371864,12 @@ const ORACULO_DATABASE = {
           "731": "O",
           "732": "\"",
           "733": "}",
-          "agent": "Killjoy",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 91.7,
-          "kd": "1.13",
-          "adr": 120.46153846153847,
-          "acs": 200.57692307692307,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       },
@@ -395282,6 +395282,248 @@ const ORACULO_DATABASE = {
 };
 const ORACULO_OPERATIONS = [
   {
+    "id": "b3b72e30-2368-4af0-ad31-8c692592058b",
+    "match_id": "befa2fbb-59a8-4254-9416-5ef0cd434bf2",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:46.668759+00:00",
+    "processed_at": "2026-04-07T02:55:46.668759+00:00",
+    "metadata": {
+      "agent": "Miks"
+    }
+  },
+  {
+    "id": "dfdd3a64-4c7b-43d3-ad09-8b43f1a8aec2",
+    "match_id": "cf0ad8bd-ef66-4e6f-a2ed-53a2ff03a7e7",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:42.126332+00:00",
+    "processed_at": "2026-04-07T02:55:42.126332+00:00",
+    "metadata": {
+      "agent": "Waylay"
+    }
+  },
+  {
+    "id": "4cc8be32-6233-4579-9945-ceb7b5a59212",
+    "match_id": "cf0ad8bd-ef66-4e6f-a2ed-53a2ff03a7e7",
+    "agente_tag": "ALT4O#easy",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:37.822459+00:00",
+    "processed_at": "2026-04-07T02:55:37.822459+00:00",
+    "metadata": {
+      "agent": "Reyna"
+    }
+  },
+  {
+    "id": "94513de0-9840-42a1-90a3-d407925014fa",
+    "match_id": "402722ce-4d55-4b30-be68-6f6b350d9f79",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:34.646751+00:00",
+    "processed_at": "2026-04-07T02:55:34.646751+00:00",
+    "metadata": {
+      "agent": "Waylay"
+    }
+  },
+  {
+    "id": "0558644c-eb1f-4534-a39b-5b9eae53ca7b",
+    "match_id": "402722ce-4d55-4b30-be68-6f6b350d9f79",
+    "agente_tag": "ALT4O#easy",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:30.494277+00:00",
+    "processed_at": "2026-04-07T02:55:30.494277+00:00",
+    "metadata": {
+      "agent": "Reyna"
+    }
+  },
+  {
+    "id": "10ce8a8f-2b26-441f-90cd-497eca736e6b",
+    "match_id": "bded5def-305a-4f03-9d69-2e97783ee834",
+    "agente_tag": "DefeitoDeFábrica#ZzZ",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:25.121794+00:00",
+    "processed_at": "2026-04-07T02:55:25.121794+00:00",
+    "metadata": {
+      "agent": "Miks"
+    }
+  },
+  {
+    "id": "1f80481e-4b69-42d0-9e0d-8787cbdfec5f",
+    "match_id": "78605453-25be-43b9-8497-707ec051e062",
+    "agente_tag": "ALT4O#easy",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:22.134039+00:00",
+    "processed_at": "2026-04-07T02:55:22.134039+00:00",
+    "metadata": {
+      "agent": "Reyna"
+    }
+  },
+  {
+    "id": "b693348c-9fe9-4dc5-8504-77ba85a7bdf2",
+    "match_id": "bded5def-305a-4f03-9d69-2e97783ee834",
+    "agente_tag": "Vduart#MEE",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:16.596156+00:00",
+    "processed_at": "2026-04-07T02:55:16.596156+00:00",
+    "metadata": {
+      "agent": "Reyna"
+    }
+  },
+  {
+    "id": "289205f3-ab7e-499d-aebf-70522badbe6d",
+    "match_id": "78605453-25be-43b9-8497-707ec051e062",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:11.715127+00:00",
+    "processed_at": "2026-04-07T02:55:11.715127+00:00",
+    "metadata": {
+      "agent": "Waylay"
+    }
+  },
+  {
+    "id": "67fa9b64-030a-450c-97b1-7079458c0463",
+    "match_id": "bded5def-305a-4f03-9d69-2e97783ee834",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:05.671923+00:00",
+    "processed_at": "2026-04-07T02:55:05.671923+00:00",
+    "metadata": {
+      "agent": "Waylay"
+    }
+  },
+  {
+    "id": "ea304a26-50f5-454a-9aa5-0e06044d9f4d",
+    "match_id": "1bfafe09-a5f6-4f1f-b6d9-4edbbecf46c4",
+    "agente_tag": "Vduart#MEE",
+    "status": "processing",
+    "created_at": "2026-04-07T02:55:02.31102+00:00",
+    "processed_at": "2026-04-07T02:55:02.31102+00:00",
+    "metadata": {
+      "agent": "Reyna"
+    }
+  },
+  {
+    "id": "a4e3b83a-95c6-4ca3-9522-79c95fd8c59d",
+    "match_id": "02ef0126-55c2-4b55-a009-da1c31128e94",
+    "agente_tag": "Vduart#MEE",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:58.085578+00:00",
+    "processed_at": "2026-04-07T02:54:58.085578+00:00",
+    "metadata": {
+      "agent": "Reyna"
+    }
+  },
+  {
+    "id": "c24b33c2-5ea6-4cd7-a366-bb856f39eff9",
+    "match_id": "9b1e76b2-6365-42bf-8a2d-2d5e9898e50f",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:55.336463+00:00",
+    "processed_at": "2026-04-07T02:54:55.336463+00:00",
+    "metadata": {
+      "agent": "Sage"
+    }
+  },
+  {
+    "id": "50d06500-e46c-49dc-b656-df5a6c18ce6f",
+    "match_id": "1bfafe09-a5f6-4f1f-b6d9-4edbbecf46c4",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:51.078354+00:00",
+    "processed_at": "2026-04-07T02:54:51.078354+00:00",
+    "metadata": {
+      "agent": "Sova"
+    }
+  },
+  {
+    "id": "f0b00bd9-8c9c-4491-87c0-323b424f42ab",
+    "match_id": "befa2fbb-59a8-4254-9416-5ef0cd434bf2",
+    "agente_tag": "mwzeraDaShopee#s2s2",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:48.450137+00:00",
+    "processed_at": "2026-04-07T02:54:48.450137+00:00",
+    "metadata": {
+      "agent": "Jett"
+    }
+  },
+  {
+    "id": "62d87b36-c577-4d99-8efa-88aeb24a162c",
+    "match_id": "02ef0126-55c2-4b55-a009-da1c31128e94",
+    "agente_tag": "DefeitoDeFábrica#ZzZ",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:44.254687+00:00",
+    "processed_at": "2026-04-07T02:54:44.254687+00:00",
+    "metadata": {
+      "agent": "Miks"
+    }
+  },
+  {
+    "id": "de5d8ec1-3ef3-4a1d-9e6a-8d660498c5ac",
+    "match_id": "9b1e76b2-6365-42bf-8a2d-2d5e9898e50f",
+    "agente_tag": "mwzeraDaShopee#s2s2",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:41.878918+00:00",
+    "processed_at": "2026-04-07T02:54:41.878918+00:00",
+    "metadata": {
+      "agent": "Jett"
+    }
+  },
+  {
+    "id": "af7d5268-4f2d-4857-98f9-eb0a0b119008",
+    "match_id": "02ef0126-55c2-4b55-a009-da1c31128e94",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:37.906639+00:00",
+    "processed_at": "2026-04-07T02:54:37.906639+00:00",
+    "metadata": {
+      "agent": "Raze"
+    }
+  },
+  {
+    "id": "d7419e8d-acee-4df2-a6b5-4d5e460bdfed",
+    "match_id": "1bfafe09-a5f6-4f1f-b6d9-4edbbecf46c4",
+    "agente_tag": "DefeitoDeFábrica#ZzZ",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:34.346156+00:00",
+    "processed_at": "2026-04-07T02:54:34.346156+00:00",
+    "metadata": {
+      "agent": "Miks"
+    }
+  },
+  {
+    "id": "87ccd08b-5db8-4bdc-b214-c5ed9a25439f",
+    "match_id": "befa2fbb-59a8-4254-9416-5ef0cd434bf2",
+    "agente_tag": "Camarada vituxo#1312",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:28.87446+00:00",
+    "processed_at": "2026-04-07T02:54:28.87446+00:00",
+    "metadata": {
+      "agent": "Fade"
+    }
+  },
+  {
+    "id": "c30e5444-d19a-4047-9c4b-afe159021c6b",
+    "match_id": "9b1e76b2-6365-42bf-8a2d-2d5e9898e50f",
+    "agente_tag": "Camarada vituxo#1312",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:17.910108+00:00",
+    "processed_at": "2026-04-07T02:54:17.910108+00:00",
+    "metadata": {
+      "agent": "Fade"
+    }
+  },
+  {
+    "id": "ac685a22-7e42-4fbf-9599-dde21a1e8c2e",
+    "match_id": "d968bd6e-21b7-483b-ac5d-05c731a1e9ab",
+    "agente_tag": "DefeitoDeFábrica#ZzZ",
+    "status": "processing",
+    "created_at": "2026-04-07T02:54:09.654199+00:00",
+    "processed_at": "2026-04-07T02:54:09.654199+00:00",
+    "metadata": {
+      "agent": "Miks"
+    }
+  },
+  {
     "id": "808236e8-88d2-4988-9ec7-0c7400839dd9",
     "match_id": "d968bd6e-21b7-483b-ac5d-05c731a1e9ab",
     "agente_tag": "m4sna#chama",
@@ -396137,248 +396379,6 @@ const ORACULO_OPERATIONS = [
     "processed_at": "2026-04-05T07:40:21.826414+00:00",
     "metadata": {
       "agent": "Omen"
-    }
-  },
-  {
-    "id": "40a4c38b-6825-4921-aa88-730d234e28bb",
-    "match_id": "ad739d46-befb-4d1c-801c-929e6feb5a24",
-    "agente_tag": "DefeitoDeFábrica#ZzZ",
-    "status": "completed",
-    "created_at": "2026-04-05T07:40:15.921431+00:00",
-    "processed_at": "2026-04-05T07:40:15.921431+00:00",
-    "metadata": {
-      "agent": "Skye"
-    }
-  },
-  {
-    "id": "298696cd-edf4-4666-b5ea-d9f402e11729",
-    "match_id": "d4e866b7-36ec-4715-9a3a-994b80d5c148",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:40:08.466781+00:00",
-    "processed_at": "2026-04-05T07:40:08.466781+00:00",
-    "metadata": {
-      "agent": "Miks"
-    }
-  },
-  {
-    "id": "4b5f4de4-43f0-4bf4-a6c4-d4cfd841f319",
-    "match_id": "cafa75f5-e98f-408b-ad1c-1ec2d549b8ff",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:40:03.643725+00:00",
-    "processed_at": "2026-04-05T07:40:03.643725+00:00",
-    "metadata": {
-      "agent": "Tejo"
-    }
-  },
-  {
-    "id": "73460509-3722-4c10-ae76-fa3e20c7dced",
-    "match_id": "548c730a-a9f7-4e58-9809-91b72fb6f37a",
-    "agente_tag": "m4sna#chama",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:58.532502+00:00",
-    "processed_at": "2026-04-05T07:39:58.532502+00:00",
-    "metadata": {
-      "agent": "Waylay"
-    }
-  },
-  {
-    "id": "b657ca6c-0ff0-4e0f-a180-d45e045037fd",
-    "match_id": "d4e866b7-36ec-4715-9a3a-994b80d5c148",
-    "agente_tag": "ALEGRIA#021",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:55.448157+00:00",
-    "processed_at": "2026-04-05T07:39:55.448157+00:00",
-    "metadata": {
-      "agent": "KAY/O"
-    }
-  },
-  {
-    "id": "6984e2df-f5fb-4263-adf7-e78a7fbd4b2b",
-    "match_id": "cafa75f5-e98f-408b-ad1c-1ec2d549b8ff",
-    "agente_tag": "ALEGRIA#021",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:50.258089+00:00",
-    "processed_at": "2026-04-05T07:39:50.258089+00:00",
-    "metadata": {
-      "agent": "Omen"
-    }
-  },
-  {
-    "id": "c291479b-a33a-42e4-9aa2-6a86e2aa804d",
-    "match_id": "548c730a-a9f7-4e58-9809-91b72fb6f37a",
-    "agente_tag": "DefeitoDeFábrica#ZzZ",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:45.691522+00:00",
-    "processed_at": "2026-04-05T07:39:45.691522+00:00",
-    "metadata": {
-      "agent": "Omen"
-    }
-  },
-  {
-    "id": "98e1dbe6-514f-44ad-b8a4-d757390b6816",
-    "match_id": "7db43aea-1f29-44e7-b76c-6dc326786775",
-    "agente_tag": "Pilako#3186",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:38.495429+00:00",
-    "processed_at": "2026-04-05T07:39:38.495429+00:00",
-    "metadata": {
-      "agent": "Chamber"
-    }
-  },
-  {
-    "id": "626a119b-d7da-4079-ae0e-bbed4b6405c2",
-    "match_id": "6b242ebb-9830-4355-a9e6-1d091d57945e",
-    "agente_tag": "Pilako#3186",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:33.487008+00:00",
-    "processed_at": "2026-04-05T07:39:33.487008+00:00",
-    "metadata": {
-      "agent": "Chamber"
-    }
-  },
-  {
-    "id": "4ec2c6bd-0fb1-4fcf-9904-a97df3904d4c",
-    "match_id": "7db43aea-1f29-44e7-b76c-6dc326786775",
-    "agente_tag": "DefeitoDeFábrica#ZzZ",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:28.559196+00:00",
-    "processed_at": "2026-04-05T07:39:28.559196+00:00",
-    "metadata": {
-      "agent": "Iso"
-    }
-  },
-  {
-    "id": "9be7290e-f6e2-485e-b56e-37814308184b",
-    "match_id": "6b242ebb-9830-4355-a9e6-1d091d57945e",
-    "agente_tag": "DefeitoDeFábrica#ZzZ",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:23.550103+00:00",
-    "processed_at": "2026-04-05T07:39:23.550103+00:00",
-    "metadata": {
-      "agent": "Jett"
-    }
-  },
-  {
-    "id": "e15a77d0-8183-415b-82f0-fd1449ef2bd3",
-    "match_id": "7db43aea-1f29-44e7-b76c-6dc326786775",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:18.441456+00:00",
-    "processed_at": "2026-04-05T07:39:18.441456+00:00",
-    "metadata": {
-      "agent": "Tejo"
-    }
-  },
-  {
-    "id": "9291aff9-1496-4c9a-a676-22b592e20a66",
-    "match_id": "6b242ebb-9830-4355-a9e6-1d091d57945e",
-    "agente_tag": "ALEGRIA#021",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:13.56806+00:00",
-    "processed_at": "2026-04-05T07:39:13.56806+00:00",
-    "metadata": {
-      "agent": "Omen"
-    }
-  },
-  {
-    "id": "042368a8-6305-4dd4-8da3-4b863028fec5",
-    "match_id": "22f4ce02-206b-4444-ad08-be2a18edcaad",
-    "agente_tag": "ALEGRIA#021",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:08.471061+00:00",
-    "processed_at": "2026-04-05T07:39:08.471061+00:00",
-    "metadata": {
-      "agent": "Omen"
-    }
-  },
-  {
-    "id": "67f0f59d-595a-4b46-87fe-46912e44f86c",
-    "match_id": "7db43aea-1f29-44e7-b76c-6dc326786775",
-    "agente_tag": "ALEGRIA#021",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:05.962678+00:00",
-    "processed_at": "2026-04-05T07:39:05.962678+00:00",
-    "metadata": {
-      "agent": "Omen"
-    }
-  },
-  {
-    "id": "92d5a1d8-38c6-4df0-9c5b-7c30c616679f",
-    "match_id": "6b242ebb-9830-4355-a9e6-1d091d57945e",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:39:01.117995+00:00",
-    "processed_at": "2026-04-05T07:39:01.117995+00:00",
-    "metadata": {
-      "agent": "Neon"
-    }
-  },
-  {
-    "id": "0eca08a1-f4a8-47a7-9fc1-7764bc6e16aa",
-    "match_id": "22f4ce02-206b-4444-ad08-be2a18edcaad",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:55.898393+00:00",
-    "processed_at": "2026-04-05T07:38:55.898393+00:00",
-    "metadata": {
-      "agent": "Fade"
-    }
-  },
-  {
-    "id": "82213989-11e4-4b36-9a69-af1ddea93f10",
-    "match_id": "a72628c4-a3e9-4596-9417-cfd5ee7f5d9a",
-    "agente_tag": "ALEGRIA#021",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:48.360633+00:00",
-    "processed_at": "2026-04-05T07:38:48.360633+00:00",
-    "metadata": {
-      "agent": "Omen"
-    }
-  },
-  {
-    "id": "0ae22013-268d-44e3-91b6-0258008cd2ef",
-    "match_id": "a72628c4-a3e9-4596-9417-cfd5ee7f5d9a",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:45.202774+00:00",
-    "processed_at": "2026-04-05T07:38:45.202774+00:00",
-    "metadata": {
-      "agent": "Viper"
-    }
-  },
-  {
-    "id": "12b86f53-1576-4765-b573-4cfe7a191570",
-    "match_id": "6554db35-116d-4acd-a2a8-c719e31a16f7",
-    "agente_tag": "Camarada vituxo#1312",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:38.535051+00:00",
-    "processed_at": "2026-04-05T07:38:38.535051+00:00",
-    "metadata": {
-      "agent": "Killjoy"
-    }
-  },
-  {
-    "id": "e8f701ce-c4b3-4856-b780-68561d51876c",
-    "match_id": "6554db35-116d-4acd-a2a8-c719e31a16f7",
-    "agente_tag": "mwzeraDaShopee#s2s2",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:35.941009+00:00",
-    "processed_at": "2026-04-05T07:38:35.941009+00:00",
-    "metadata": {
-      "agent": "Tejo"
-    }
-  },
-  {
-    "id": "f2bdd1cc-fe96-4bad-a03a-7ff318fadf5d",
-    "match_id": "0cb0eaa6-8587-4d7f-b36f-eece424e3849",
-    "agente_tag": "m4sna#chama",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:28.473271+00:00",
-    "processed_at": "2026-04-05T07:38:28.473271+00:00",
-    "metadata": {
-      "agent": "Waylay"
     }
   }
 ];
