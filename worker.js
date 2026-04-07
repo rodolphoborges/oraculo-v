@@ -174,7 +174,7 @@ export async function startWorker() {
             const { data: job } = await supabase
                 .from('match_analysis_queue')
                 .select('*')
-                .eq('status', 'pending')
+                .eq('status', 'local_pending')
                 .order('created_at', { ascending: true })
                 .limit(1)
                 .maybeSingle();
