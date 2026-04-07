@@ -14,11 +14,12 @@ async function monitorQueue() {
         if (error) {
             console.error('❌ Erro Supabase:', error.message);
         } else {
-            const pending = data.filter(d => d.status === 'pending').length;
+            const pending = data.filter(d => d.status === 'local_pending').length;
             const processing = data.filter(d => d.status === 'processing');
+            const failed = data.filter(d => d.status === 'failed').length;
             const total = data.length;
             
-            console.log(`[${new Date().toLocaleTimeString()}] Pendentes: ${pending} | Processando: ${processing.length} | Total: ${total}`);
+            console.log(`[${new Date().toLocaleTimeString()}] Pendentes: ${pending} | Processando: ${processing.length} | Falhas: ${failed} | Total: ${total}`);
             
             if (processing.length > 0) {
                 console.log(`   🏃 Ativo: ${processing[0].player_tag} (ID: ${processing[0].id})`);
