@@ -14,7 +14,7 @@ async function monitorQueue() {
         if (error) {
             console.error('❌ Erro Supabase:', error.message);
         } else {
-            const pending = data.filter(d => d.status === 'local_pending').length;
+            const pending = data.filter(d => d.status === 'pending').length;
             const processing = data.filter(d => d.status === 'processing');
             const failed = data.filter(d => d.status === 'failed').length;
             const total = data.length;
