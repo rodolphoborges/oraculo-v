@@ -1,17 +1,17 @@
-# Oráculo V | Regras de Negócio e Domínio Tático (v4.2)
+# Oraculo V | Regras de Negocio e Dominio Tatico (v5.1)
 
-Este documento detalha o funcionamento interno do motor de análise do **Oráculo V**, explicando como as estatísticas brutas do Valorant são transformadas em inteligência tática interpretável.
+Este documento detalha o funcionamento interno do motor de analise do **Oraculo V**, explicando como as estatisticas brutas do Valorant sao transformadas em inteligencia tatica interpretavel.
 
 ---
 
-## 1. Performance Index (Fonte Única de Verdade)
+## 1. Performance Index (Fonte Unica de Verdade)
 
-### Cálculo Contextual por Classe de Agente
+### Calculo Contextual por Classe de Agente
 
-O **Performance Index** é a métrica central do Oráculo V. Ele avalia o desempenho do jogador de forma **contextual**, ponderando K/D, ADR e KAST com pesos diferentes por classe de agente:
+O **Performance Index** e a metrica central do Oraculo V. Ele avalia o desempenho do jogador de forma **contextual**, ponderando K/D, ADR e KAST com pesos diferentes por classe de agente:
 
 ```
-Performance Index = (KD_Weight × KD% + ADR_Weight × ADR% + KAST_Weight × KAST%) × 100
+Performance Index = (KD_Weight x KD% + ADR_Weight x ADR% + KAST_Weight x KAST%) x 100
 ```
 
 Onde:
@@ -19,99 +19,114 @@ Onde:
 - `ADR%` = ADR / ADR Baseline (definido por classe)
 - `KAST%` = KAST / 100
 
-### Pesos por Classe (Role-Aware Thresholds)
+### Pesos por Classe (Role-Aware Thresholds) — v4.2
 
-| Classe       | KD Peso | ADR Peso | KAST Peso | ADR Baseline | KAST Mín. |
+| Classe       | KD Peso | ADR Peso | KAST Peso | ADR Baseline | KAST Min. |
 |-------------|---------|----------|-----------|-------------|-----------|
 | **Duelista**    | 45%     | 55%      | 0%        | 150         | 60%       |
 | **Iniciador**   | 20%     | 30%      | 50%       | 100         | 68%       |
 | **Controlador** | 15%     | 20%      | 65%       | 85          | 72%       |
 | **Sentinela**   | 15%     | 20%      | 65%       | 88          | 68%       |
 
-*   **Filosofia**: A classe do agente determina as expectativas. Um Duelista é avaliado mais por K/D e ADR, enquanto um Controlador é avaliado mais por sobrevivência (KAST).
-*   **Base**: O K/D Alvo é obtido em tempo real via **vStats.gg**, filtrado por agente, mapa e rank.
-*   **100** = desempenho exatamente na meta. Acima = superou, abaixo = ficou aquém.
+> **Nota**: Estes sao os pesos implementados em `lib/analyze_valorant.js` (v4.2). A versao anterior (v4.1) usava pesos diferentes (Duelista 40/40/20, etc.) que foram descontinuados.
 
-### Os Três Níveis Técnicos
+*   **Filosofia**: A classe do agente determina as expectativas. Um Duelista e avaliado mais por K/D e ADR, enquanto um Controlador e avaliado mais por sobrevivencia (KAST).
+*   **Base**: O K/D Alvo e obtido em tempo real via **vStats.gg**, filtrado por agente, mapa e rank.
+*   **100** = desempenho exatamente na meta. Acima = superou, abaixo = ficou aquem.
+
+### Os Tres Niveis Tecnicos
 
 | Rank                    | Performance Index | Significado                                   |
 |------------------------|-------------------|-----------------------------------------------|
-| 🥇 **Alpha**            | ≥ 115             | Performance excepcional acima da meta          |
-| 🔷 **Omega**            | 95 – 114          | Desempenho consistente dentro do esperado      |
-| 💔 **Depósito de Torreta** | < 95              | Desempenho abaixo da meta para o contexto      |
+| **Alpha**            | >= 115             | Performance excepcional acima da meta          |
+| **Omega**            | 95 - 114          | Desempenho consistente dentro do esperado      |
+| **Deposito de Torreta** | < 95              | Desempenho abaixo da meta para o contexto      |
 
-Cada rank gera uma **tone_instruction** que orienta a LLM sobre como formular o feedback (elogio, neutralidade ou crítica).
+Cada rank gera uma **tone_instruction** que orienta a LLM sobre como formular o feedback (elogio, neutralidade ou critica).
 
-### Princípio Anti-Contradição
-Na v4.0 foi eliminada a **dupla avaliação**. Antes, dois sistemas independentes (Python e ImpactAnalyzer.js) geravam resultados que podiam se contradizer (ex: K/D 15% abaixo da meta com feedback positivo). Agora, o motor Python é a **única fonte de verdade**, garantindo coerência total entre métricas e conselhos.
+### Principio Anti-Contradicao
+
+Na v4.0 foi eliminada a **dupla avaliacao**. Antes, dois sistemas independentes (Python e ImpactAnalyzer.js) geravam resultados que podiam se contradizer. Agora, o motor JS nativo (`lib/analyze_valorant.js`) e a **unica fonte de verdade**, garantindo coerencia total entre metricas e conselhos.
+
+> **Historico**: O motor Python (`analyze_valorant.py`) foi a fonte de verdade ate a v4.1. Na v5.0, todo o calculo foi migrado para JavaScript nativo, eliminando o overhead de spawn de processos Python.
 
 ---
 
 ## 2. Modelo Preditivo (Holt-Winters)
 
-O Oráculo V utiliza o algoritmo **Double Exponential Smoothing (Holt-Winters)** para analisar a evolução do jogador ao longo do tempo. Os estados são persistidos na tabela `players` do Protocolo-V.
+O Oraculo V utiliza o algoritmo **Double Exponential Smoothing (Holt-Winters)** para analisar a evolucao do jogador ao longo do tempo. Os estados sao persistidos na tabela `match_stats` do Oraculo-V e devolvidos ao Protocolo-V via webhook.
 
-### Nível Atual (Level - L)
-Representa a base técnica estável do jogador. Ele "limpa" o ruído de partidas atípicas, mostrando o nível real de entrega no longo prazo.
+### Nivel Atual (Level - L)
+Representa a base tecnica estavel do jogador. Ele "limpa" o ruido de partidas atipicas, mostrando o nivel real de entrega no longo prazo.
 
-### Tendência (Trend - T)
-Mede a aceleração da performance.
-*   **T > 0**: Evolução técnica e melhora constante.
+### Tendencia (Trend - T)
+Mede a aceleracao da performance.
+*   **T > 0**: Evolucao tecnica e melhora constante.
 *   **T < 0**: Alerta para queda de rendimento ou perda de ritmo.
 
-### Próxima Partida (Forecast)
-Projeção matemática (`L + T`) da performance esperada no próximo combate.
+### Proxima Partida (Forecast)
+Projecao matematica (`L + T`) da performance esperada no proximo combate.
 
-### Parâmetros
-*   **α (Smoothing Level)**: 0.4
-*   **β (Smoothing Trend)**: 0.2
-*   **Inicialização**: Média das 3 primeiras partidas do jogador.
+### Parametros
+*   **alpha (Smoothing Level)**: 0.4
+*   **beta (Smoothing Trend)**: 0.2 (REGRAS_NEGOCIO) / 0.15 (implementacao Protocolo-V)
+*   **Inicializacao**: Baseada nas ultimas 3 partidas do jogador (via `match_stats`).
 
 ---
 
-## 3. Inteligência Tática K.A.I.O.
+## 3. Tribunal Engine (Motor de IA Adversarial)
 
-### Ponto de Foco (Focus Point)
-Identifica a principal fonte de impacto da partida baseado nos conselhos gerados pelo motor Python.
+A partir da v5.0, o Oraculo V utiliza o **Tribunal Engine** — um sistema de analise adversarial com tres personas LLM:
 
-### Sinergia Operacional
-Mede a coordenação com aliados registrados no Protocolo-V. O sistema identifica membros de squads e valida a performance em grupo.
+### As 3 Perspectivas
 
-### FK | FD (First Kills & First Deaths)
-*   **FK**: Abates de abertura. Definem a vantagem numérica.
-*   **FD**: Mortes de abertura. Indicam falha de posicionamento.
+1. **Perspectiva Aliada** — Analisa o suporte, sinergia e trades do time aliado. Defende o jogador mostrando contexto favoravel.
+2. **Perspectiva Rival** — Analisa como o time inimigo explorou fraquezas do jogador. Acusa falhas de posicionamento e decisao.
+3. **Mentor K.A.I.O.** — Sintetiza ambas as perspectivas num ensinamento final como Head Coach. Gera o conselho definitivo.
 
-### Violações de Classe
-O sistema detecta automaticamente quando métricas-chave ficam abaixo dos mínimos da classe:
-*   **KAST abaixo do mínimo** (ex: Controlador < 72%): Gera conselho `VIOLAÇÃO PRIMÁRIA`.
-*   **Performance abaixo da meta**: Gera conselho `PERFORMANCE ABAIXO DA META`.
+### Cadeia de Fallback por Persona
+
+| Prioridade | Provider | Modelo |
+|---|---|---|
+| 1 (Primario) | Groq | `llama-3.3-70b-versatile` |
+| 2 (Fallback) | OpenRouter | `gemini-2.0-flash-exp:free` / `llama-3.1-8b:free` |
+| 3 (Emergencia) | Ollama Local | Configuravel via `LOCAL_LLM_MODEL` |
+
+### Contexto Tatico
+Cada persona recebe como contexto:
+- Dados completos da partida (JSON do tracker.gg)
+- Stats de ambos os times (aliados e inimigos)
+- Base tatica completa (agentes, mapas, habilidades, sites validos)
+- Obrigacoes por role e missao do agente especifico
+
+### Validacao Anti-Alucinacao
+O sistema valida a qualidade dos insights gerados, expurgando:
+- Caracteres nao-latinos
+- Termos banidos ou sites inexistentes
+- Violacoes geograficas (ex: mencionar "Site C" em mapa com apenas A e B)
 
 ---
 
 ## 4. Fluxo de Fila (Queue)
 
 ### Ciclo de Vida do Job
-1. **Pendente**: Job enfileirado em `match_analysis_queue`.
-2. **Processando**: Worker captura o job e inicia a análise.
-3. **Concluído**: Job é **removido** da fila. Resultado persiste em `ai_insights`.
-4. **Falhado**: Job permanece na fila para retry (máx 3 tentativas com backoff exponencial).
+1. **Pendente**: Job enfileirado em `match_analysis_queue` com status `pending`.
+2. **Processando**: Worker captura o job e atualiza para `processing`.
+3. **Concluido**: Job e **DELETADO** da fila. Resultado persiste em `match_stats` e e enviado via webhook.
+4. **Falhado**: Job permanece na fila com status `failed` e mensagem de erro.
 
-### Backoff Exponencial
-*   Tentativa 1: aguarda 5 minutos.
-*   Tentativa 2: aguarda 15 minutos.
-*   Tentativa 3: aguarda 60 minutos.
-*   Após 3 falhas: marcado como permanentemente falhado.
+> **Importante**: Jobs concluidos NAO sao marcados como "completed" — sao removidos da fila. A fila contem apenas jobs ativos (pending/processing/failed).
 
-### Limpeza Automática
-Jobs falhados com mais de 7 dias são removidos automaticamente da fila.
+### Timeout Global
+Cada processamento tem um timeout maximo de **5 minutos** (300.000ms). Se excedido, o job e marcado como falha com erro `TIMEOUT_LIMIT_REACHED`.
 
 ---
 
-## 5. Identidade e Validação
+## 5. Identidade e Validacao
 
-### Soberania do Proprietário
+### Soberania do Proprietario
 *   **Dono do Projeto (Telegram)**: `1104821838`
-*   **Agente de Validação Principal**: `ousadia#013`
+*   **Agente de Validacao Principal**: `ousadia#013`
 
 ---
-*(C) 2026 DEEPMIND ANTIGRAVITY // NÚCLEO_TÁTICO_V4.1*
+*(C) 2026 DEEPMIND ANTIGRAVITY // NUCLEO_TATICO_V5.1*

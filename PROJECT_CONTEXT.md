@@ -1,49 +1,59 @@
-# Oráculo V | Contexto do Projeto
+# Oraculo V | Contexto do Projeto (v5.1)
 
-## Visão Geral do Domínio
+## Visao Geral do Dominio
 
-O **Oráculo V** é o componente de inteligência e análise tática do ecossistema **Protocolo V**. Enquanto o Protocolo V atua como a plataforma central de gerenciamento e recrutamento de talentos em Valorant, o Oráculo V funciona como o "cérebro" analítico, processando dados brutos de partidas para extrair insights profundos sobre o desempenho de jogadores.
+O **Oraculo V** e o componente de inteligencia e analise tatica do ecossistema **Protocolo V**. Enquanto o Protocolo V atua como a plataforma central de gerenciamento e recrutamento de talentos em Valorant, o Oraculo V funciona como o "cerebro" analitico, processando dados brutos de partidas para extrair insights profundos sobre o desempenho de jogadores.
 
-Sua principal missão é transformar estatísticas frias (KDA, ADR, Econ) em métricas táticas interpretáveis, como o **Performance Index** contextual por classe de agente, classificação em **três ranks técnicos** (Alpha, Omega, Depósito de Torreta) e tendências de evolução via modelo **Holt-Winters**.
+Sua principal missao e transformar estatisticas frias (KDA, ADR, Econ) em metricas taticas interpretaveis, como o **Performance Index** contextual por classe de agente, classificacao em **tres ranks tecnicos** (Alpha, Omega, Deposito de Torreta) e tendencias de evolucao via modelo **Holt-Winters**.
 
-## Decisões Arquiteturais
+## Decisoes Arquiteturais
 
-O sistema foi concebido sob princípios de microserviços, escalabilidade e separação clara de responsabilidades:
+O sistema foi concebido sob principios de microservicos, escalabilidade e separacao clara de responsabilidades:
 
 1.  **Arquitetura Baseada em Fila (Producer-Consumer)**:
-    -   As requisições de análise não são processadas de forma síncrona. A API (Producer) enfileira tarefas no Supabase, que são consumidas pelo Worker (Consumer) conforme a disponibilidade de recursos.
-2.  **Tecnologia Híbrida**:
-    -   **Node.js (Express)**: Utilizado para a API de alta performance e orquestração do Worker.
-    -   **Python**: Implementado para o motor de análise estatística pesada (`analyze_valorant.py`), aproveitando bibliotecas de ciência de dados para cálculos de tendências.
-3.  **Persistência em Supabase (Dual-Database)**:
-    -   O Oráculo mantém seu próprio estado de fila e cache de análises.
-    -   Ele consome dados de jogadores diretamente do banco de dados centralizado do Protocolo V para garantir a integridade da identidade dos agentes.
-4.  **Cache de Relatórios**:
-    -   Resultados de análises concluídas são persistidos tanto no Supabase quanto no sistema de arquivos local (`/analyses`) para entrega ultrarrápida.
-5.  **I/O Não-Bloqueante**:
-    -   Todo o core do sistema utiliza chamadas assíncronas (`fs.promises`), garantindo que o Event Loop nunca seja bloqueado durante operações de disco.
-6.  **Otimização de Recursos (Singleton)**:
-    -   Uso de instâncias únicas de Browser (Puppeteer) para maximizar o aproveitamento de RAM/CPU em alta carga.
+    -   As requisicoes de analise nao sao processadas de forma sincrona por padrao. A API (Producer) enfileira tarefas no Supabase, que sao consumidas pelo Worker (Consumer) que inicia automaticamente com o servidor.
 
-## Fluxo de Dados Macro (Pure Consumer)
+2.  **Motor 100% JavaScript Nativo (v5.0+)**:
+    -   Todo o calculo estatistico (Performance Index, Holt-Winters, classificacao por role) e feito em `lib/analyze_valorant.js`. O motor Python foi abandonado na v5.0 para eliminar o overhead de spawn de processos e unificar a codebase.
+
+3.  **Tribunal Engine (Motor LLM Adversarial)**:
+    -   O sistema de IA utiliza 3 personas (Perspectiva Aliada, Perspectiva Rival, Mentor K.A.I.O.) para gerar insights de coaching tatico com multiplas perspectivas. Utiliza cadeia de fallback: Groq -> OpenRouter -> Ollama local.
+
+4.  **Persistencia em Supabase (Banco Soberano)**:
+    -   O Oraculo mantem seu proprio banco com fila (`match_analysis_queue`) e stats (`match_stats`). Comunicacao com Protocolo-V e feita via Webhook (callback REST).
+    -   Fallback: se o webhook falhar, tenta persistencia direta no banco do Protocolo via `PROTOCOL_SUPABASE_URL` (se configurado).
+
+5.  **Cache de Relatorios**:
+    -   Resultados sao persistidos tanto no Supabase quanto no sistema de arquivos local (`/analyses` e `/matches`) para entrega ultrarrapida.
+
+6.  **Scraping via Puppeteer (Singleton)**:
+    -   Uso de instancia unica de Browser (Puppeteer) para obter dados do tracker.gg, maximizando o aproveitamento de RAM/CPU.
+
+## Fluxo de Dados Macro (v5.1)
 
 ```mermaid
 graph TD
     A[Protocolo V / Radar Externo] -- "POST /api/queue" --> B(API Express)
     B -- "Status: pending" --> C{Supabase Queue}
-    D[Worker Node.js] -- "Pull Job" --> C
-    D -- "Execute Analysis" --> F[Python Engine]
-    F -- "Calculate Badges & Trends" --> G[Report JSON]
-    G -- "Save & Cache" --> H[Supabase + Local Filesystem]
-    H -- "Notify" --> I[Telegram Bot]
-    I -- "Link" --> J[Frontend Dashboard]
+    D[Worker Node.js - auto-start] -- "Pull Job" --> C
+    D -- "1. Holt State" --> E[match_stats]
+    D -- "2. Motor JS" --> F[lib/analyze_valorant.js]
+    D -- "3. Tribunal" --> G[tribunal_engine.js - 3 Personas]
+    G -- "Groq/OpenRouter/Ollama" --> H[Insight Final]
+    D -- "4. Persist" --> I[Supabase match_stats]
+    D -- "5. Callback" --> J[POST Protocolo-V /api/insights/callback]
+    D -- "Job deletado" --> C
 ```
 
 ## Responsabilidades dos Componentes
 
--   `server.js`: Gateway de entrada protegida (Express), validação de inputs, consulta de status e painel admin (FILA/HISTÓRICO com endpoints de delete, reprocess e history). Oferece o modo `AUTO` para expansão de partidas.
--   `worker.js`: Gerenciador de ciclo de vida do job (Daemon assíncrono). Gerencia o estado **Holt-Winters** e integra com Telegram.
--   `analyze_match.js`: Orquestrador de análise que baixa dados da partida, consulta o meta (VStats) e coordena a execução do motor Python.
--   `analyze_valorant.py`: Motor de análise tática puro (Python). Fonte única de verdade — calcula Performance Index contextual, ranks técnicos e tendências Holt-Winters.
--   `lib/supabase.js`: Gerenciador centralizado de conectividade dual-database (Oráculo + Protocolo).
--   `/scripts`: Repositório de ferramentas de manutenção, auditoria e sanitização de dados.
+-   `server.js`: Gateway de entrada (Express) com validacao de inputs, consulta de status, chat com K.A.I.O. e health checks. Inicia o Worker automaticamente ao subir.
+-   `worker.js`: Consumer assincrono da fila (loop infinito). Gerencia o ciclo de vida dos jobs e orquestra a pipeline de analise + IA + callback.
+-   `analyze_match.js`: Orquestrador que baixa dados da partida (via Puppeteer/tracker.gg), consulta o meta (VStats) e coordena o motor JS.
+-   `lib/analyze_valorant.js`: Motor matematico puro (JS). Fonte unica de verdade — calcula Performance Index contextual, ranks tecnicos e tendencias Holt-Winters.
+-   `lib/tribunal_engine.js`: Motor LLM adversarial com 3 personas (Aliado, Rival, Mentor K.A.I.O.).
+-   `lib/openrouter_engine.js`: Motor LLM de fallback e validacao anti-alucinacao.
+-   `lib/tactical_knowledge.js`: Base tatica completa (agentes, mapas, arsenal, sites validos).
+-   `lib/supabase.js`: Conexao soberana ao banco do Oraculo (single database).
+-   `monitor_queue.js`: Script de monitoramento do estado da fila.
+-   `/scripts`: Ferramentas de manutencao, auditoria e sanitizacao de dados.
