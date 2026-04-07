@@ -372770,12 +372770,12 @@ const ORACULO_DATABASE = {
           "889": "E",
           "890": "\"",
           "891": "}",
-          "agent": "Killjoy",
+          "agent": "Combatente",
           "map": "Arena Desconhecida",
-          "performance_index": 72.7,
-          "kd": "0.48",
-          "adr": 114,
-          "acs": 141.57142857142858,
+          "performance_index": "N/A",
+          "kd": "---",
+          "adr": "---",
+          "acs": "---",
           "performance_status": "SIMPLIFICADO"
         }
       }
@@ -395282,6 +395282,17 @@ const ORACULO_DATABASE = {
 };
 const ORACULO_OPERATIONS = [
   {
+    "id": "808236e8-88d2-4988-9ec7-0c7400839dd9",
+    "match_id": "d968bd6e-21b7-483b-ac5d-05c731a1e9ab",
+    "agente_tag": "m4sna#chama",
+    "status": "processing",
+    "created_at": "2026-04-07T02:06:30.448227+00:00",
+    "processed_at": "2026-04-07T02:06:30.448227+00:00",
+    "metadata": {
+      "agent": "Waylay"
+    }
+  },
+  {
     "id": "41dd9298-06a2-4085-8fbf-67ddbc7b42aa",
     "match_id": "f9af1f1b-0823-4a6b-947a-7eb4bc722e69",
     "agente_tag": "m4sna#chama",
@@ -396368,17 +396379,6 @@ const ORACULO_OPERATIONS = [
     "processed_at": "2026-04-05T07:38:28.473271+00:00",
     "metadata": {
       "agent": "Waylay"
-    }
-  },
-  {
-    "id": "a42e12eb-5136-4756-a7d7-aca84490e6ba",
-    "match_id": "0cb0eaa6-8587-4d7f-b36f-eece424e3849",
-    "agente_tag": "Camarada vituxo#1312",
-    "status": "completed",
-    "created_at": "2026-04-05T07:38:23.527029+00:00",
-    "processed_at": "2026-04-05T07:38:23.527029+00:00",
-    "metadata": {
-      "agent": "Killjoy"
     }
   }
 ];
