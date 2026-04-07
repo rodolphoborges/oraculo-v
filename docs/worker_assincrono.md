@@ -1,55 +1,79 @@
-# Motor Tático Assíncrono (`worker.js`)
+# Motor Tatico Assincrono (`worker.js`) — v5.1
 
-Este documento detalha o funcionamento interno da camada NodeJS responsável pela gestão da resiliência de fila e escalonamento assíncrono do Oráculo-V.
+Este documento detalha o funcionamento interno do worker responsavel pela gestao da fila e processamento assincrono do Oraculo-V.
 
 ## 1. Topologia de Monitoramento (Loop Infinito)
 
-O script `worker.js` opera em um laço ininterrupto (`while(true)`), consumindo a tabela `match_analysis_queue` configurada no Servidor de Operações local (Supabase).
+O script `worker.js` opera em um laco ininterrupto (`while(true)`), consumindo a tabela `match_analysis_queue` do banco Supabase do Oraculo.
 
-> [!NOTE]
-> Durante a execução local ou conteinerizada, ele aguarda **10 segundos** em stand-by caso a fila esteja vazia. Se for ativado via *GitHub Actions* (`process.env.GITHUB_ACTIONS === 'true'`), o Worker encerra de forma harmoniosa se não detectar novos jobs (poupando minutos computacionais da nuvem).
+- **Intervalo de polling**: 5 segundos quando a fila esta vazia.
+- **Auto-start**: O worker inicia automaticamente com o `server.js` via `startWorker()`. Tambem pode ser executado isoladamente via `node worker.js`.
 
-## 2. Padrão "Self-Healing" e Jobs Travados
+## 2. Ciclo de Vida do Job (v5.1)
 
-Um dos grandes trunfos da arquitetura v4.0 é a capacidade de reanimar *Jobs* mortos ou zumbificação de rede. 
-A fila considera as seguintes marcações na coluna `status`: `pending`, `processing` ou `failed`. Jobs concluídos são **DELETADOS** da fila (não marcados como `completed`).
+1. **Pendente (`pending`)**: Job enfileirado em `match_analysis_queue`.
+2. **Processando (`processing`)**: Worker captura o job e atualiza o status.
+3. **Concluido**: Job e **DELETADO** da fila. Resultado persiste em `match_stats` e e enviado via webhook.
+4. **Falhado (`failed`)**: Job permanece na fila com status `failed` e mensagem de erro (`error_message`).
 
-### 2.1 Double Check de Concorrência
-Quando um Job é movido de `pending` para `processing`, o Worker realiza uma revalidação condicional na atualização do ID (transação de atualização e filtro estrito `eq('status', 'pending')`) para garantir que nenhum outro processo rodando em multi-thread capture o mesmo bloco.
+> **Importante**: Jobs concluidos NAO sao marcados como "completed" — sao removidos da fila. A fila contem apenas jobs ativos.
 
-### 2.2 Sistema de Trava Temporária
-Se o `worker.js` não encontrar um `pending` livre mas detectar o erro `PGRST116` (0 rows returned da fila pending), ocorre um **Fallback**:
-Ele verifica se não existe um registro alocado em `processing` com carimbo de tempo (na coluna `processed_at`) estagnado há mais de 30 minutos. Se sim, ele automaticamente reseta o estado deste ID para `pending` - assumindo que a instância NodeJS anterior caiu sem completar o fluxo.
+## 3. Pipeline de Processamento (`processBriefing`)
 
-## 3. Dinâmica de Expansão (Módulo `AUTO`)
+Cada job passa por 5 etapas sequenciais com timeout global de 5 minutos:
 
-A API expõe o comando `AUTO` no lugar do nome de jogador padrão.
-O Worker intercepta esta flag e suspende temporariamente a análise do Python. Ao invés disso, ele executa o módulo em lib de expansão tática, descobrindo no "Protocolo-V" todos os jogadores daquela partida atrelados sob o mesmo time cadastrado na Base. O motor então insere os demais Riot IDs em fila sob o mesmo `matchId`, multiplicando o output de análise de forma orgânica.
+```
+[1/5] Carregando estado Holt-Winters (match_stats, ultimas 3 partidas)
+[2/5] Executando Motor Tatico (analyze_match.js -> lib/analyze_valorant.js)
+[3/5] Gerando Insights de IA (Tribunal Engine ou fallback OpenRouter)
+[4/5] Persistindo dados no Oraculo-V (upsert em match_stats)
+[5/5] Executando Callback para o Protocolo-V (webhook REST)
+```
 
-## 4. Ciclo de Vida do Job (v4.1)
+### Etapa 1: Estado Holt-Winters
+Busca as ultimas 3 partidas do jogador em `match_stats` para obter o nivel (L) e tendencia (T) atuais. Se nao houver historico, inicializa com zeros.
 
-1. **Pendente**: Job enfileirado em `match_analysis_queue` com status `pending`.
-2. **Processando**: Worker captura o job, atualiza para `processing` e inicia análise.
-3. **Concluído**: Job é **REMOVIDO** da fila. Resultado persiste em `ai_insights` (ambos Supabase).
-4. **Falhado**: Job permanece na fila para retry (máx 3 tentativas com backoff exponencial).
+### Etapa 2: Motor Tatico (JS Nativo)
+Executa `runAnalysis()` que:
+- Baixa dados da partida via Puppeteer/tracker.gg
+- Consulta meta (vStats.gg) para K/D alvo
+- Calcula Performance Index, Holt-Winters, classificacao de rank
 
-### Backoff Exponencial
-- Tentativa 1: aguarda 5 minutos.
-- Tentativa 2: aguarda 15 minutos.
-- Tentativa 3: aguarda 60 minutos.
-- Após 3 falhas: marcado como permanentemente falhado.
+### Etapa 3: Insights de IA
+- **Caminho primario**: Tribunal Engine (`runTribunal`) — requer JSON da partida em `matches/{match_id}.json`
+- **Fallback**: `generateInsights()` via OpenRouter — usado se o JSON nao existir ou o Tribunal falhar
+- **Fallback final**: Insight baseado nos dados do motor JS (sem LLM)
 
-### Limpeza Automática
-Jobs falhados com mais de 7 dias são removidos automaticamente da fila (verificação a cada 1 hora).
+### Etapa 4: Persistencia Local
+Upsert dos stats em `match_stats` do banco do Oraculo:
+- `match_id`, `player_id`, `agent`, `role`
+- `kills`, `deaths`, `acs`, `adr`, `kast`
+- `first_bloods`, `clutches`, `is_win`
+- `impact_score` (Performance Index), `impact_rank` (Alpha/Omega/Deposito)
 
-## 5. Integrações Extras
-O script também trata dependências de API e feedback de notificação:
-- Executa inicialização das predições via Holt-Winters consultando o passado das últimas três partidas, gravando estado no Protocolo-V (Dual-Base).
-- Gera o *payload* final via API Bot Telegram (usando `TELEGRAM_BOT_TOKEN`) diretamente no *chat_id* do usuário com um laudo prévio e tendência.
+### Etapa 5: Callback Webhook
+Envia payload completo para `{PROTOCOL_API_URL}/api/insights/callback`:
+- Insight do Tribunal/OpenRouter
+- Report tecnico completo
+- Estado Holt-Winters atualizado
+- Versao do engine
 
-## 6. Inteligência de Nuvem (OpenRouter LLM)
-Na arquitetura v4.0, após o processamento da predição matemática estrita em Python, o `worker.js` executa uma etapa final mandatória de inteligência artificial:
-1. **Persistência Estruturada**: Grava os contadores técnicos na tabela `match_stats` (Kills, Deaths, ACS, ADR) e na tabela base `matches`.
-2. **Contexto Histórico**: Lê a View do Postgres `vw_player_trends` (Médias Móveis de 10 jogos) e faz uma consulta aos últimos 2 relatórios da Inteligência Artificial já gerados.
-3. **Invocação (Fallback Free-Tier)**: Envia a métrica de jogo + tendências para o `openrouter_engine.js`. Se o provedor principal (`Llama 3.3`) estiver congestionado (Rate Limited 429), o sistema automaticamente desliza e tenta os modelos substitutos (`Gemma 3` e `Qwen 3`).
-4. **Relatório**: O output em JSON do Head Coach é finalmente inserido na tabela `ai_insights` no banco de operações local (Oráculo) para que possa ser exibido pelo dashboard do Protocolo V de forma instantânea (via sincronismo **Double-Write** na base hospedada *Protocolo*).
+**Fallback de persistencia**: Se o webhook falhar e `PROTOCOL_SUPABASE_URL` estiver configurado, tenta upsert direto na tabela `ai_insights` do Protocolo-V.
+
+## 4. Integracao de Dados
+
+### Banco de Dados (Soberano)
+O worker opera exclusivamente sobre o banco do Oraculo-V:
+- **Leitura**: `match_analysis_queue` (fila), `match_stats` (historico)
+- **Escrita**: `match_stats` (upsert apos analise)
+- **Delete**: `match_analysis_queue` (remocao apos sucesso)
+
+### Comunicacao com Protocolo-V
+Exclusivamente via webhook REST. O acesso direto ao banco do Protocolo so ocorre como fallback de emergencia (se `PROTOCOL_SUPABASE_URL` estiver configurado).
+
+## 5. Versao do Engine
+
+O worker identifica-se como `v5.1.0-NATURAL-JS`, indicando:
+- Motor matematico 100% JavaScript (sem Python)
+- Tribunal Engine com LLM adversarial
+- Pipeline naturalizada (sem spawn de processos externos)

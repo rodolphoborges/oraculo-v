@@ -1,22 +1,22 @@
-# Oráculo V | Documentação da API
+# Oraculo V | Documentacao da API (v5.1)
 
-Esta documentação descreve os padrões de comunicação e endpoints do microsserviço Oráculo V.
+Esta documentacao descreve os endpoints implementados no microsservico Oraculo V.
 
-## Padrões de Comunicação
+## Padroes de Comunicacao
 
--   **Protocolo**: HTTPS
+-   **Protocolo**: HTTP/HTTPS
 -   **Formato**: JSON (Content-Type: `application/json`)
--   **Padrão**: RESTful
--   **Autenticação**:
-    -   **Público**: Sem autenticação necessária.
-    -   **Admin**: Exige header `x-api-key: <token>` para rotas de estatísticas e gestão.
+-   **Padrao**: RESTful
+-   **Autenticacao**: Header `x-api-key: <token>` para rotas protegidas. Requests de `localhost` sao aceitos sem chave.
 
-## Endpoints Principais
+## Endpoints Implementados
 
-### 1. Enviar Briefing de Partida (Push)
-Solicita que o Oráculo processe uma análise tática a partir de dados estruturados vindos do Protocolo-V.
+### 1. Enfileirar Briefing de Partida
+
+Solicita que o Oraculo processe uma analise tatica de forma assincrona.
 
 **Endpoint**: `POST /api/queue`
+**Auth**: `x-api-key`
 
 **Request Payload**:
 ```json
@@ -25,15 +25,16 @@ Solicita que o Oráculo processe uma análise tática a partir de dados estrutur
   "player_id": "Mahoraga#Chess",
   "map_name": "Ascent",
   "agent_name": "Jett",
-  "squad_stats": [...], 
-  "raw_data": { ... } 
+  "metadata": {
+    "holt_state": { "performance_l": 95.0, "performance_t": 2.1 }
+  }
 }
 ```
 
 **Response (202 Accepted)**:
 ```json
 {
-  "message": "Briefing aceito e processamento iniciado.",
+  "message": "Job enfileirado no Oraculo-V.",
   "matchId": "5660ca26-8e21-40bc-bfd6-8bd2a85c1409",
   "player": "Mahoraga#Chess"
 }
@@ -41,12 +42,14 @@ Solicita que o Oráculo processe uma análise tática a partir de dados estrutur
 
 ---
 
-### 1.5. Analisar Partida (Síncrono)
-Processa a análise e retorna o resultado **imediatamente** na resposta HTTP. Recomendado para o Protocolo-V receber o insight na hora.
+### 2. Analise Sincrona
+
+Processa a analise e retorna o resultado **imediatamente** na resposta HTTP. Recomendado para debug ou casos criticos.
 
 **Endpoint**: `POST /api/analyze`
+**Auth**: `x-api-key`
 
-**Request Payload**: O mesmo do endpoint `/api/queue` (Briefing).
+**Request Payload**: Mesmo formato do `/api/queue`.
 
 **Response (200 OK)**:
 ```json
@@ -55,31 +58,21 @@ Processa a análise e retorna o resultado **imediatamente** na resposta HTTP. Re
   "matchId": "5660ca26-8e21-40bc-bfd6-8bd2a85c1409",
   "player": "Mahoraga#Chess",
   "insight": {
-    "resumo": "Análise completa do comportamento tático...",
-    "model_used": "gpt-4o"
-  },
-  "technical_data": {
-    "performance_index": 82.5,
-    "kd": 1.5,
-    ...
+    "diagnostico_principal": "Analise completa do comportamento tatico...",
+    "classification": "Alpha",
+    "is_fallback": false
   }
 }
 ```
 
 ---
 
-### 2. Consultar Status/Resultado da Análise
-Retorna o estado atual de um processamento ou o resultado completo se finalizado.
+### 3. Consultar Status/Resultado
 
-**Endpoint**: `GET /api/status/{matchId}?player={playerTag}`
+Retorna o estado atual de um processamento ou o resultado completo se finalizado. Verifica primeiro o cache local (arquivo JSON) e depois o banco de dados.
 
-**Response (200 OK - Processing)**:
-```json
-{
-  "status": "processing",
-  "processed_at": "2026-03-23T21:00:00Z"
-}
-```
+**Endpoint**: `GET /api/status/:matchId?player={playerTag}`
+**Auth**: Publico
 
 **Response (200 OK - Completed)**:
 ```json
@@ -90,172 +83,128 @@ Retorna o estado atual de um processamento ou o resultado completo se finalizado
     "map": "Ascent",
     "performance_index": 118.5,
     "performance_status": "ELITE DO PROTOCOLO",
-    "estimated_rank": "Alpha",
+    "technical_rank": "Alpha",
     "kd": 1.5,
-    "target_kd": 1.0,
-    "acs": 285,
     "adr": 165.5,
-    "conselho_kaio": {
-      "diagnostico_principal": "Entry frag consistente com leitura de timing superior...",
-      "pontos_fortes": ["Conversao de trades em rounds de pistol", "Uso de clones para controle de area"],
-      "pontos_fracos": ["Posicionamento pos-plant expondo angulo desnecessario"],
-      "nota_coach": "8.5"
-    },
-    "rounds": []
+    "conselho_kaio": { "..." }
   }
 }
 ```
 
----
-
-### 3. Consultar Perfil do Jogador (Protocolo V)
-Retorna dados agregados e tendências de um jogador.
-
-**Endpoint**: `GET /api/v1/players/{id}`
-
-**Response (200 OK)**:
+**Response (404 - Pendente/Nao encontrado)**:
 ```json
 {
-  "riotId": "Mahoraga#Chess",
-  "rank": "Imortal 3",
-  "mains": ["Jett", "Raze"],
-  "stats": {
-    "overall_kda": 1.45,
-    "adr_trend": "+5.2%",
-    "last_performance_index": 88.0
-  }
+  "status": "pending"
 }
 ```
 
 ---
 
-### 5. Estatísticas Administrativas
-Retorna o estado da fila de processamento e métricas de sistema.
+### 4. Chat com K.A.I.O.
 
-**Endpoint**: `GET /api/admin/stats`
+Interacao direta com o mentor tatico K.A.I.O. via LLM local (Ollama). Utiliza a base tatica completa como contexto do sistema.
 
-**Headers**:
-- `x-api-key`: Chave administrativa mestra.
+**Endpoint**: `POST /api/chat`
+**Auth**: `x-api-key`
 
-**Query Parameters**:
-- `page`: Número da página (default: 1).
-- `limit`: Quantidade de registros (default: 50).
-
-**Response (200 OK)**:
+**Request Payload**:
 ```json
 {
-  "stats": {
-    "total_records": 1250,
-    "pending": 5,
-    "page": 1,
-    "limit": 50
-  },
-  "jobs": [...]
-}
-```
-
----
-
-### 6. Histórico de Análises Completas
-Retorna as análises concluídas armazenadas na tabela `ai_insights` do Protocolo-V.
-
-**Endpoint**: `GET /api/admin/history`
-
-**Headers**:
-- `x-api-key`: Chave administrativa mestra.
-
-**Response (200 OK)**:
-```json
-{
-  "total": 42,
-  "analyses": [
-    {
-      "id": "uuid",
-      "match_id": "uuid",
-      "agente_tag": "ousadia#013",
-      "impact_score": 112.5,
-      "created_at": "2026-03-30T10:00:00Z"
-    }
+  "messages": [
+    { "role": "user", "content": "Como melhorar meu entry frag como Jett?" }
   ]
 }
 ```
 
----
-
-### 7. Apagar Análise Individual
-Remove uma análise específica de ambos os bancos Supabase (Oráculo e Protocolo) e o arquivo local correspondente.
-
-**Endpoint**: `DELETE /api/admin/analysis`
-
-**Headers**:
-- `x-api-key`: Chave administrativa mestra.
-
-**Request Payload**:
-```json
-{
-  "match_id": "uuid-da-partida",
-  "player_id": "Nick#Tag"
-}
-```
-
 **Response (200 OK)**:
 ```json
 {
-  "message": "Análise deletada com sucesso",
+  "response": "Para melhorar seu entry frag...",
+  "model": "Gemma3-Oraculo"
+}
+```
+
+---
+
+### 5. Health Check
+
+**Endpoint**: `GET /api/ping`
+**Auth**: Publico
+
+**Response**:
+```json
+{
+  "status": "online",
+  "service": "Oraculo-V Bridge",
+  "timestamp": "2026-04-07T00:00:00.000Z"
+}
+```
+
+---
+
+### 6. Status Detalhado
+
+Retorna o estado da conexao com o banco e a contagem de jobs pendentes.
+
+**Endpoint**: `GET /api/health`
+**Auth**: Publico
+
+**Response**:
+```json
+{
+  "status": "ok",
+  "service": "Oraculo-V",
+  "db": { "connected": true },
+  "queue": { "pending": 3 }
+}
+```
+
+---
+
+## Webhook de Callback (Outbound)
+
+Apos concluir uma analise, o Worker envia automaticamente o resultado para o Protocolo-V:
+
+**Destino**: `POST {PROTOCOL_API_URL}/api/insights/callback`
+**Auth**: `x-api-key: {ADMIN_API_KEY}`
+
+**Payload enviado**:
+```json
+{
   "match_id": "uuid",
-  "player_id": "Nick#Tag"
+  "player_id": "Nick#Tag",
+  "insight_resumo": { "diagnostico_principal": "...", "classification": "Alpha" },
+  "analysis_report": { "agent": "Jett", "kd": 1.5, "adr": 165, "..." },
+  "model_used": "llama-3.3-70b-versatile",
+  "classification": "Alpha",
+  "impact_score": 118.5,
+  "engine_version": "5.1.0",
+  "holt_state": { "performance_l": 110, "performance_t": 3.2 }
 }
 ```
+
+Se o webhook falhar, o worker tenta persistencia direta no banco do Protocolo-V (via `PROTOCOL_SUPABASE_URL`/`PROTOCOL_SUPABASE_KEY`) como fallback.
 
 ---
 
-### 8. Apagar Todas as Análises
-Remove todas as análises de ambos os bancos e arquivos locais.
+## Codigos de Erro
 
-**Endpoint**: `DELETE /api/admin/analysis/all`
-
-**Headers**:
-- `x-api-key`: Chave administrativa mestra.
-
-**Response (200 OK)**:
-```json
-{
-  "message": "Todas as análises foram deletadas",
-  "deleted_count": 42,
-  "local_files_deleted": 42
-}
-```
+-   `400 Bad Request`: Parametros invalidos ou formatos (ex: Match ID nao e UUID valido).
+-   `401 Unauthorized`: API Key administrativa ausente ou invalida.
+-   `404 Not Found`: Analise nao localizada.
+-   `500 Internal Server Error`: Erro generico de servidor.
 
 ---
 
-### 9. Reprocessar Análise
-Apaga a análise existente e re-executa `processBriefing()` para gerar uma nova análise com sync completo para Protocolo-V.
+## Endpoints NAO Implementados (Removidos)
 
-**Endpoint**: `POST /api/admin/reprocess`
+Os seguintes endpoints constavam na documentacao anterior (v4.1) mas **nao possuem implementacao no backend**:
 
-**Headers**:
-- `x-api-key`: Chave administrativa mestra.
+- ~~`GET /api/v1/players/{id}`~~ — Perfil de jogador (nunca implementado no Oraculo)
+- ~~`GET /api/admin/stats`~~ — Estatisticas admin
+- ~~`GET /api/admin/history`~~ — Historico de analises
+- ~~`DELETE /api/admin/analysis`~~ — Apagar analise individual
+- ~~`DELETE /api/admin/analysis/all`~~ — Apagar todas as analises
+- ~~`POST /api/admin/reprocess`~~ — Reprocessar analise
 
-**Request Payload**:
-```json
-{
-  "match_id": "uuid-da-partida",
-  "player_id": "Nick#Tag"
-}
-```
-
-**Response (200 OK)**:
-```json
-{
-  "message": "Reprocessamento concluído",
-  "rank": "Alpha",
-  "score": 118.5
-}
-```
-
-## Códigos de Erro
-
--   `400 Bad Request`: Parâmetros inválidos ou formatos (ex: Nick#Tag fora do padrão).
--   `401 Unauthorized`: API Key administrativa ausente ou inválida.
--   `404 Not Found`: Análise não localizada na fila.
--   `500 Internal Server Error`: Erro genérico de servidor para proteger informações internas.
+> **Nota**: O frontend admin (`public/admin.html`) referencia estes endpoints mas eles nao funcionam. Implementacao futura pendente.

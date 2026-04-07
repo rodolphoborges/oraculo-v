@@ -1,58 +1,78 @@
-# Motor de Inteligência LLM (OpenRouter)
+# Motor de Inteligencia LLM — Tribunal Engine (v5.1)
 
-O Oráculo-V v4.0 eleva a barra analítica ao introduzir um motor **Generativo Nativo**, acoplado ao ecossistema assíncrono. Em vez de injetar dezenas de dados crús e arriscar limites de Tokens na infraestrutura de nuvem, desenhamos uma orquestração precisa entre o Math Engine e o OpenRouter.
+O Oraculo-V v5.1 utiliza o **Tribunal Engine**, um motor de IA adversarial com 3 personas, acoplado ao ecossistema assincrono.
 
 ## 1. O Problema Fundamental: "Token Overflow"
 
-A maioria dos sistemas falha ao tentar mandar o JSON inteiro de uma API (ex: Tracker) direto para a Inteligência Artificial. Isso é caro, ineficiente e disperso (Tokens estouram e a IA "alucina").
-O Oráculo **nunca** envia a partida bruta. Ele atua como um Afunilador:
+A maioria dos sistemas falha ao tentar mandar o JSON inteiro de uma API direto para a Inteligencia Artificial. Isso e caro, ineficiente e disperso (tokens estouram e a IA "alucina").
 
-1. A partida roda no Python (`analyze_valorant.py`).
-2. O Python decodifica a performance e joga for a o lixo, calculando matemáticas estritas (K/D, ACS, Holt-Winters).
-3. Essa matemática já polida se torna a `Prompt Foundation`. A IA não tem a obrigação de calcular nada, apenas agir como *Head Coach* verbalizando os sintomas encontrados pelo Python.
+O Oraculo **nunca** envia a partida bruta diretamente. Ele atua como um Afunilador:
 
-## 2. Visão Temporal (A Mágica da View SQL)
+1. A partida roda no motor JS nativo (`lib/analyze_valorant.js`).
+2. O JS decodifica a performance calculando metricas estritas (K/D, ACS, Holt-Winters, Performance Index).
+3. Essa matematica ja polida se torna a `Prompt Foundation`. A IA nao tem a obrigacao de calcular nada, apenas atuar como analista de coaching.
 
-Para que a LLM saiba não apenas da partida de agora, mas do estado sistêmico atual do jogador (Ele está evoluindo? Em decadência?), não mandamos TODAS as últimas dezenas de partidas para a IA.
-Em vez disso, utilizamos o próprio Banco de Dados para sumarizar essas "tendências" pesadas, lendo instantaneamente da View:
-`vw_player_trends` - Uma view atrelada a nova camada SQL do Oráculo que resume o ACS, KD Range, KAST das últimas 10 partidas numa fração de bytes.
+## 2. Tribunal Engine — 3 Personas
 
-## 3. Resiliência: Arquitetura de Fallback (Free-Tier & NAT)
+A partir da v5.1, o motor LLM utiliza um sistema de analise adversarial:
 
-O código engatilha chamadas API em cadeia via `lib/openrouter_engine.js`. Para não custar $0.01 de infraestrutura, usamos os modelos gratuitos de ponta cedidos pelas provedoras. Se o primeiro falhar por congestionamento (`HTTP 429`), ele tenta o próximo.
-1. `meta-llama/llama-3.3-70b-instruct:free` (Primário)
-2. `google/gemma-3-12b-it:free` (1° Fallback Nuvem)
-3. `qwen/qwen3-4b:free` (2° Fallback Nuvem)
+### Persona 1: Perspectiva Aliada
+- Analisa suporte, sinergia e trades do time aliado
+- Defende o jogador mostrando contexto favoravel
+- Modelo: Groq (`llama-3.3-70b-versatile`) -> OpenRouter (`gemini-2.0-flash-exp:free`)
 
-### 3.1 A "Saída de Emergência" (Física/Ollama)
-Se a nuvem inteira do OpenRouter colapsar, o sistema conta com uma última linha de defesa: a **Comunicação Direta com o seu Servidor Residencial**.
-Se as variáveis `LOCAL_LLM_URL` e `LOCAL_LLM_MODEL` estiverem preenchidas no `.env`, o motor dispara a predição para o seu host local (ex: via NAT/Port-Forwarding na porta `11434` do Ollama). 
-*Nota: O parser do Node já é polido para remover as tags XML `<think>` do modelo `deepseek-r1`, garantindo que apenas o conteúdo real seja interpretado como JSON!*
+### Persona 2: Perspectiva Rival
+- Analisa como o time inimigo explorou fraquezas
+- Acusa falhas de posicionamento e decisao
+- Modelo: Groq (`llama-3.3-70b-versatile`) -> OpenRouter (`llama-3.1-8b:free`)
 
-## 4. O Exemplo Prático de Prompt
+### Persona 3: Mentor K.A.I.O.
+- Sintetiza ambas as perspectivas no ensinamento final
+- Atua como Head Coach, gerando conselho definitivo
+- Modelo: Groq (`llama-3.3-70b-versatile`) -> OpenRouter (`gemini-2.0-flash-exp:free`)
 
-Abaixo temos um Log gerado diretamente do Worker, mostrando uma chamada real montada e enviada pela máquina para o Perfil "Ousadia#013":
+### Contexto Tatico por Persona
+Cada persona recebe:
+- Dados completos da partida (JSON do tracker.gg)
+- Stats detalhados de ambos os times (aliados e inimigos)
+- Base tatica completa (`tactical_knowledge.js`): agentes, mapas, habilidades, sites validos
+- Obrigacoes por role e missao do agente especifico (`getRoleObligations`, `getAgentMission`)
 
-```json
-{
-    "model": "meta-llama/llama-3.3-70b-instruct:free",
-    "messages": [
-        {
-            "role": "system",
-            "content": "Você é um bot JSON estrito."
-        },
-        {
-            "role": "user",
-            "content": "Atue como um Head Coach de Valorant Profissional, brutal e analítico.\nVocê receberá dados do motor tático 'Oráculo-V' (Supabase) sobre a partida atual e o histórico do atleta.\n\nDADOS DA PARTIDA: {\"agent\":\"Jett\",\"map\":\"Pearl\",\"perf\":46.2,\"kd\":0.47,\"acs\":167,\"total_rounds\":21,\"conselhosBase\":[\"[K.A.I.O] Agressão punida severamente. Taxa de isolamento comprometedora.\"]}\nTENDÊNCIAS HISTÓRICAS (Últimos 10 jogos): \"Histórico insuficiente\"\nFEEDBACKS PASSADOS RECENTES: Nenhum\n\nDIRETRIZES DE ANÁLISE:\n1. FOCO NO PAPEL: Avalie se a escolha cumpriu a métrica primária esperada (Duelista = Iniciativa/FB, Controlador = Sobrevivência/Trade).\n2. ANÁLISE DE MOMENTUM: Verifique as TENDÊNCIAS HISTÓRICAS.\n3. ECONOMIA E UTILIDADE: Puna verbalmente erros grotescos.\n4. PLANO DE AÇÃO DIRETO: Gere 1 conselho tático e 2 de mecânica.\n\nRESPOSTA OBRIGATÓRIA (Em JSON puro, chaves: 'diagnostico_principal', 'foco_treino', 'tatico', 'nota_coach')."
-        }
-    ]
-}
-```
+## 3. Resiliencia: Arquitetura de Fallback
 
-O resultado dessa requisição cai diretamente na base de dados `ai_insights`.
-O Worker realiza um espelhamento assíncrono (**Double-Write**) sincronizando os dados simultaneamente com a base do Oráculo (local) e a base do Protocolo-V (Dashboard Front-End).
+### Fallback do Tribunal
+Se o Tribunal Engine falhar (ex: JSON da partida nao disponivel localmente), o sistema recorre ao `generateInsights()` do `openrouter_engine.js`, que usa uma abordagem single-prompt mais simples.
 
-## 5. Historiador Tático (Backfill Massivo)
+### Cadeia de Fallback por Provider (OpenRouter Engine)
+1. `meta-llama/llama-3.3-70b-instruct:free` (Primario)
+2. `google/gemma-3-12b-it:free` (1o Fallback Nuvem)
+3. `qwen/qwen3-4b:free` (2o Fallback Nuvem)
 
-Devido ao processamento ser *retroativo* (passar dezenas de partidas que ocorreram antes da v4.0), a documentação prevê o uso focado no motor local (`Ollama` em rede) via `scripts/backfill_history.js`.
-O *Backfill* atua mapeando partidas na máquina do oráculo e identificando quais nunca receberam suporte de IA, recarregando assim centenas de relatórios na fila para análise retroativa total.
+### Saida de Emergencia (Ollama Local)
+Se a nuvem inteira colapsar, o sistema dispara para o host local via Ollama:
+- Variaveis: `LOCAL_LLM_URL` e `LOCAL_LLM_MODEL`
+- O parser do Node remove tags XML `<think>` do modelo `deepseek-r1`
+
+## 4. Validacao Anti-Alucinacao
+
+O `validateInsightQuality()` em `openrouter_engine.js` expurga insights que contenham:
+- Caracteres nao-latinos
+- Termos banidos
+- Sites inexistentes no mapa (ex: "Site C" em Breeze)
+- Violacoes geograficas e factuais
+
+## 5. Endpoint de Chat Direto
+
+Alem do Tribunal (usado na pipeline de analise), o Oraculo oferece o endpoint `POST /api/chat` para interacao direta com K.A.I.O.:
+- Usa exclusivamente Ollama local (modelo configuravel)
+- Recebe a base tatica completa como system prompt via `getGlobalStrategicSummary()`
+- Nao faz parte da pipeline de analise — e uma feature independente
+
+## 6. Historico de Evolucao do Motor LLM
+
+| Versao | Motor | Descricao |
+|---|---|---|
+| v4.0 | OpenRouter (single prompt) | Prompt unico com dados do Python |
+| v4.1 | OpenRouter + Ollama fallback | Adicionado fallback local |
+| v5.0 | OpenRouter + Groq | Dados agora vem do motor JS |
+| v5.1 | Tribunal Engine (3 personas) | Analise adversarial com Groq/OpenRouter/Ollama |
