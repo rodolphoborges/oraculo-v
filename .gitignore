@@ -1,5 +1,6 @@
 .env
 node_modules/
+.claude/
 matches/*.json
 analysis_*.json
 match_*.json
