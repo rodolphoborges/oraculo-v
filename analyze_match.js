@@ -37,26 +37,28 @@ export async function runAnalysis(playerTag, inputPath, mapNameInput = 'ALL', ra
         throw new Error("Arquivo vazio");
       }
     } catch (err) {
-      // 2. Proteção de Concorrência: Se o .tmp existe, aguarda um pouco
+      // 2. Proteção de Concorrência: Se o .tmp existe, algo deu errado na execução anterior
       try {
         await fs.promises.access(tempPath);
-        console.warn(`⏳ [LOCK] Partida ${inputPath} já está sendo baixada. Aguardando...`);
-        await new Promise(r => setTimeout(r, 5000)); // Aguarda 5s
-        return await runAnalysis(playerTag, inputPath, mapNameInput, rank, holtPrev, agentNameInput);
+        console.warn(`⚠️ [LOCK] Partida ${inputPath} tinha um arquivo temporário residual. Limpando...`);
+        await fs.promises.unlink(tempPath).catch(() => {});
       } catch (lockErr) {
         // Segue para o download
       }
 
-      console.error(`Match ID detectado. Baixando dados para ${matchJsonPath}...`);
+      console.log(`🌐 [NETWORK] Baixando dados via Tracker-GG para ${inputPath}...`);
+      const startTime = Date.now();
       try {
         const data = await fetchMatchJson(inputPath);
+        const duration = ((Date.now() - startTime) / 1000).toFixed(1);
+        
         if (!data || Object.keys(data).length === 0) throw new Error('Dados da API vazios.');
         
         // Escreve em arquivo TEMP primeiro para garantir atomicidade
         await fs.promises.writeFile(tempPath, JSON.stringify(data, null, 2));
         await fs.promises.rename(tempPath, matchJsonPath);
         
-        console.log(`✅ [CACHE] Dados da partida ${inputPath} persistidos com sucesso.`);
+        console.log(`✅ [CACHE] Dados da partida ${inputPath} persistidos em ${duration}s.`);
       } catch (dlErr) {
         // Limpa arquivos residuais se houver falha
         if (fs.existsSync(tempPath)) await fs.promises.unlink(tempPath).catch(() => {});
