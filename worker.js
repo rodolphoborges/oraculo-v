@@ -164,9 +164,17 @@ export async function processBriefing(briefing) {
 
 /**
  * Loop do Worker - Consome APENAS sua própria base de dados de forma SEQUENCIAL.
+ * @param {Object} options - Configurações de execução
+ * @param {boolean} options.loop - Se deve continuar rodando infinitamente (padrão: true)
+ * @param {number} options.maxJobs - Limite de jobs por execução (opcional)
  */
-export async function startWorker() {
-    console.log(`🤖 [ORACULO-V] Worker v${ORACULO_ENGINE_VERSION} Ativo.`);
+export async function startWorker(options = { loop: true, maxJobs: Infinity }) {
+    const isGitHubAction = !!process.env.GITHUB_ACTIONS;
+    const shouldLoop = isGitHubAction ? false : (options.loop !== false);
+    const maxJobs = options.maxJobs || Infinity;
+    let jobsProcessed = 0;
+
+    console.log(`🤖 [ORACULO-V] Worker v${ORACULO_ENGINE_VERSION} Ativo. (Modo: ${shouldLoop ? 'Loop' : 'Batch/One-off'})`);
 
     while (true) {
         try {
@@ -185,7 +193,7 @@ export async function startWorker() {
                 // Marcar como processando
                 await supabase.from('match_analysis_queue').update({ status: 'processing' }).eq('id', id);
                 
-                console.log(`📡 [QUEUE] Processando: ${player_tag} | Match: ${match_id}`);
+                console.log(`📡 [QUEUE] Processando: ${player_tag} | Match: ${match_id} (${jobsProcessed + 1}/${maxJobs})`);
                 const result = await processBriefing({ 
                     match_id, 
                     player_id: player_tag, 
@@ -204,12 +212,23 @@ export async function startWorker() {
                     }).eq('id', id);
                     console.error(`❌ [QUEUE] Job ${id} marcado como falha: ${result.error}`);
                 }
+
+                jobsProcessed++;
+                if (jobsProcessed >= maxJobs) {
+                    console.log(`🏁 [WORKER] Limite de jobs alcançado (${maxJobs}). Encerrando.`);
+                    break;
+                }
             } else {
+                if (!shouldLoop) {
+                    console.log(`🏁 [WORKER] Fila vazia e modo loop desativado. Encerrando.`);
+                    break;
+                }
                 // Aguarda 5 segundos se a fila estiver vazia
                 await new Promise(r => setTimeout(r, 5000));
             }
         } catch (err) {
             console.error(`❌ [LOOP ERROR] ${err.message}`);
+            if (!shouldLoop) break;
             await new Promise(r => setTimeout(r, 5000));
         }
     }
@@ -218,5 +237,6 @@ export async function startWorker() {
 
 // CLI handler
 if (process.argv[1] && process.argv[1].endsWith('worker.js')) {
-    startWorker();
+    const oneOff = process.argv.includes('--one-off');
+    startWorker({ loop: !oneOff });
 }

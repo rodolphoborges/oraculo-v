@@ -2,12 +2,18 @@ name: Oráculo V Cloud Worker
 
 on:
   schedule:
-    - cron: '15 * * * *' # Roda aos 15 minutos de cada hora (dá tempo do Sync rodar antes)
+    - cron: '15 * * * *' # Roda aos 15 minutos de cada hora
   workflow_dispatch: # Permite rodar manualmente
+
+# Evita que múltiplas execuções do worker rodem simultaneamente
+concurrency:
+  group: oraculo-worker
+  cancel-in-progress: false # Não cancela o atual, apenas impede o novo de "encavalar"
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
+    timeout-minutes: 45 # Limite de segurança para não rodar por horas
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -42,4 +48,4 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           PUPPETEER_CACHE_DIR: /home/runner/.cache/puppeteer
-        run: node worker.js
+        run: node worker.js --one-off
