@@ -32,6 +32,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-puppeteer-
 
+      - name: Cache Match Data
+        uses: actions/cache@v4
+        with:
+          path: oraculo-v/matches
+          key: ${{ runner.os }}-matches-${{ github.run_id }} # Cache por execução (curto prazo)
+          restore-keys: |
+            ${{ runner.os }}-matches-
+
       - name: Install Dependencies
         run: npm ci
 

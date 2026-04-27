@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs';
 import { generateInsights } from './lib/openrouter_engine.js';
 import { runTribunal } from './lib/tribunal_engine.js';
+import { closeBrowser } from './lib/tracker_api.js';
 
 const ORACULO_ENGINE_VERSION = '5.1.0';
 
@@ -232,6 +233,9 @@ export async function startWorker(options = { loop: true, maxJobs: Infinity }) {
             await new Promise(r => setTimeout(r, 5000));
         }
     }
+
+    // Limpeza final de recursos
+    await closeBrowser();
 }
 
 
