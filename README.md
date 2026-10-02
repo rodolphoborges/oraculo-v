@@ -1,5 +1,7 @@
 # ORACULO V // MOTOR DE INTELIGENCIA TATICA v5.1
 
+> **Aviso legal:** projeto independente de estudo, sem afiliação, endosso ou vínculo com Riot Games, Tracker.gg ou HenrikDev. `VALORANT` é marca da Riot Games. Use apenas dados públicos, respeite ToS e rate-limits das fontes (cache local, sem scraping agressivo), nunca publique chaves. Chaves vazadas no histórico devem ser rotacionadas.
+
 > Motor de analise tatica independente para o ecossistema Protocolo V.
 > Transforma dados brutos de combate do Valorant em inteligencia estrategica via pipeline **Node.js nativo** e LLMs independentes.
 > O Oraculo-V atua como um **Service Provider** sem reter os perfis duradouros dos jogadores.
